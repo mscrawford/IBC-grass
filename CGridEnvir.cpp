@@ -633,7 +633,7 @@ void CGridEnvir::Save(string ID) {
 			std::to_string(CEnvir::year) + "_" + std::to_string(CEnvir::week) + ".sav";
 //CGrid, CClonalGrid
 
-	((CGrid*) this)->Save(fname);
+	((CGrid*) this)->saveSpatialGrid(fname);
 
 } //Save
 //------------------------------------------------------------------------------

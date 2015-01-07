@@ -127,6 +127,7 @@ public:
    void DispersRamets(CPlant* plant); ///<initiate new ramets
    //service functions...
    void Save(string fname);  ///< file save of entire grid
+   void saveSpatialGrid(string fname); // MSC
    int GetNclonalPlants();   ///< number of living clonal plants
    int GetNPlants();         ///< number of living non-clonal plants
    int GetNMotherPlants();   ///< number of living genets

@@ -406,16 +406,11 @@ void CEnvir::WritePftComplete(bool allYears) {
 	long size = PftOutFile.tellp();
 	if (size == 0) {
 		PftOutFile << "Sim\tRun\tTime\tInds\tseeds\tcover\trootmass\tshootmass\tPFT\t";
-
-//		if (SRunPara::RunPara.Invasion == invasionCriteria) {
 		PftOutFile << "monoculture\tinvader\t";
-//		}
-
 		PftOutFile << "AllocSeed\tLMR\tm0\tMaxMass\tmSeed\tDist\tpEstab\tGmax\tSLA\tpalat\t" <<
 				"memo\tRAR\tgrowth\tmThres\tclonal\tpropSex\tmeanSpacerLength\t" <<
 				"sdSpacerLength\tResshare\tAllocSpacer\tmSpacer\t";
 		PftOutFile << endl;
-
 	}
 
 	vector<SPftOut>::size_type i = 0;

@@ -1,7 +1,7 @@
 1	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -11,7 +11,7 @@ Input/1_Community.txt
 2	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -21,7 +21,7 @@ Input/1_Community.txt
 3	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -31,7 +31,7 @@ Input/1_Community.txt
 4	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -41,7 +41,7 @@ Input/1_Community.txt
 5	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -51,7 +51,7 @@ Input/1_Community.txt
 6	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -61,7 +61,7 @@ Input/1_Community.txt
 7	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -71,7 +71,7 @@ Input/1_Community.txt
 8	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -81,7 +81,7 @@ Input/1_Community.txt
 9	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -91,7 +91,7 @@ Input/1_Community.txt
 10	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -101,7 +101,7 @@ Input/1_Community.txt
 11	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -111,7 +111,7 @@ Input/1_Community.txt
 12	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -121,7 +121,7 @@ Input/1_Community.txt
 13	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -131,7 +131,7 @@ Input/1_Community.txt
 14	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -141,7 +141,7 @@ Input/1_Community.txt
 15	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -151,7 +151,7 @@ Input/1_Community.txt
 16	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -161,7 +161,7 @@ Input/1_Community.txt
 17	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -171,7 +171,7 @@ Input/1_Community.txt
 18	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -181,7 +181,7 @@ Input/1_Community.txt
 19	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -191,7 +191,7 @@ Input/1_Community.txt
 20	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -201,7 +201,7 @@ Input/1_Community.txt
 21	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -211,7 +211,7 @@ Input/1_Community.txt
 22	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -221,7 +221,7 @@ Input/1_Community.txt
 23	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -231,7 +231,7 @@ Input/1_Community.txt
 24	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -241,7 +241,7 @@ Input/1_Community.txt
 25	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -251,7 +251,7 @@ Input/1_Community.txt
 26	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -261,7 +261,7 @@ Input/1_Community.txt
 27	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -271,7 +271,7 @@ Input/1_Community.txt
 28	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -281,7 +281,7 @@ Input/1_Community.txt
 29	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -291,7 +291,7 @@ Input/1_Community.txt
 30	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -301,7 +301,7 @@ Input/1_Community.txt
 31	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -311,7 +311,7 @@ Input/1_Community.txt
 32	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -321,7 +321,7 @@ Input/1_Community.txt
 33	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -331,7 +331,7 @@ Input/1_Community.txt
 34	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -341,7 +341,7 @@ Input/1_Community.txt
 35	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -351,7 +351,7 @@ Input/1_Community.txt
 36	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -361,7 +361,7 @@ Input/1_Community.txt
 37	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -371,7 +371,7 @@ Input/1_Community.txt
 38	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -381,7 +381,7 @@ Input/1_Community.txt
 39	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -391,7 +391,7 @@ Input/1_Community.txt
 40	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -401,7 +401,7 @@ Input/1_Community.txt
 41	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -411,7 +411,7 @@ Input/1_Community.txt
 42	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -421,7 +421,7 @@ Input/1_Community.txt
 43	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -431,7 +431,7 @@ Input/1_Community.txt
 44	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -441,7 +441,7 @@ Input/1_Community.txt
 45	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -451,7 +451,7 @@ Input/1_Community.txt
 46	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -461,7 +461,7 @@ Input/1_Community.txt
 47	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -471,7 +471,7 @@ Input/1_Community.txt
 48	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -481,7 +481,7 @@ Input/1_Community.txt
 49	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -491,7 +491,7 @@ Input/1_Community.txt
 50	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -501,7 +501,7 @@ Input/1_Community.txt
 51	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -511,7 +511,7 @@ Input/1_Community.txt
 52	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -521,7 +521,7 @@ Input/1_Community.txt
 53	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -531,7 +531,7 @@ Input/1_Community.txt
 54	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -541,7 +541,7 @@ Input/1_Community.txt
 55	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -551,7 +551,7 @@ Input/1_Community.txt
 56	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -561,7 +561,7 @@ Input/1_Community.txt
 57	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -571,7 +571,7 @@ Input/1_Community.txt
 58	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -581,7 +581,7 @@ Input/1_Community.txt
 59	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -591,7 +591,7 @@ Input/1_Community.txt
 60	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -601,7 +601,7 @@ Input/1_Community.txt
 61	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -611,7 +611,7 @@ Input/1_Community.txt
 62	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -621,7 +621,7 @@ Input/1_Community.txt
 63	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -631,7 +631,7 @@ Input/1_Community.txt
 64	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -641,7 +641,7 @@ Input/1_Community.txt
 65	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -651,7 +651,7 @@ Input/1_Community.txt
 66	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -661,7 +661,7 @@ Input/1_Community.txt
 67	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -671,7 +671,7 @@ Input/1_Community.txt
 68	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -681,7 +681,7 @@ Input/1_Community.txt
 69	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -691,7 +691,7 @@ Input/1_Community.txt
 70	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -701,7 +701,7 @@ Input/1_Community.txt
 71	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -711,7 +711,7 @@ Input/1_Community.txt
 72	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -721,7 +721,7 @@ Input/1_Community.txt
 73	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -731,7 +731,7 @@ Input/1_Community.txt
 74	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -741,7 +741,7 @@ Input/1_Community.txt
 75	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -751,7 +751,7 @@ Input/1_Community.txt
 76	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -761,7 +761,7 @@ Input/1_Community.txt
 77	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -771,7 +771,7 @@ Input/1_Community.txt
 78	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -781,7 +781,7 @@ Input/1_Community.txt
 79	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -791,7 +791,7 @@ Input/1_Community.txt
 80	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -801,7 +801,7 @@ Input/1_Community.txt
 81	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -811,7 +811,7 @@ Input/1_Community.txt
 82	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -821,7 +821,7 @@ Input/1_Community.txt
 83	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -831,7 +831,7 @@ Input/1_Community.txt
 84	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -841,7 +841,7 @@ Input/1_Community.txt
 85	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -851,7 +851,7 @@ Input/1_Community.txt
 86	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -861,7 +861,7 @@ Input/1_Community.txt
 87	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -871,7 +871,7 @@ Input/1_Community.txt
 88	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -881,7 +881,7 @@ Input/1_Community.txt
 89	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -891,7 +891,7 @@ Input/1_Community.txt
 90	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -901,7 +901,7 @@ Input/1_Community.txt
 91	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -911,7 +911,7 @@ Input/1_Community.txt
 92	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -921,7 +921,7 @@ Input/1_Community.txt
 93	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -931,7 +931,7 @@ Input/1_Community.txt
 94	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -941,7 +941,7 @@ Input/1_Community.txt
 95	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -951,7 +951,7 @@ Input/1_Community.txt
 96	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -961,7 +961,7 @@ Input/1_Community.txt
 97	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -971,7 +971,7 @@ Input/1_Community.txt
 98	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -981,7 +981,7 @@ Input/1_Community.txt
 99	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0
@@ -991,7 +991,9007 @@ Input/1_Community.txt
 100	31
 Input/1_Community.txt
 
-1	1	0	50	100	1	0.5	1	0.007	0.5	0.5
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+1	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+2	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+3	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+4	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+5	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+6	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+7	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+8	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+9	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+10	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+11	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+12	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+13	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+14	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+15	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+16	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+17	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+18	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+19	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+20	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+21	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+22	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+23	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+24	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+25	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+26	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+27	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+28	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+29	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+30	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+31	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+32	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+33	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+34	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+35	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+36	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+37	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+38	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+39	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+40	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+41	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+42	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+43	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+44	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+45	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+46	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+47	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+48	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+49	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+50	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+51	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+52	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+53	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+54	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+55	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+56	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+57	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+58	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+59	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+60	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+61	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+62	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+63	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+64	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+65	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+66	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+67	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+68	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+69	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+70	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+71	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+72	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+73	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+74	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+75	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+76	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+77	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+78	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+79	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+80	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+81	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+82	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+83	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+84	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+85	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+86	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+87	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+88	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+89	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+90	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+91	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+92	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+93	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+94	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+95	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+96	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+97	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+98	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+99	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+100	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+1	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+2	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+3	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+4	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+5	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+6	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+7	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+8	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+9	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+10	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+11	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+12	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+13	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+14	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+15	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+16	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+17	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+18	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+19	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+20	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+21	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+22	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+23	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+24	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+25	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+26	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+27	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+28	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+29	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+30	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+31	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+32	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+33	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+34	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+35	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+36	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+37	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+38	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+39	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+40	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+41	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+42	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+43	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+44	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+45	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+46	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+47	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+48	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+49	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+50	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+51	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+52	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+53	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+54	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+55	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+56	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+57	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+58	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+59	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+60	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+61	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+62	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+63	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+64	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+65	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+66	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+67	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+68	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+69	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+70	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+71	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+72	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+73	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+74	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+75	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+76	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+77	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+78	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+79	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+80	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+81	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+82	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+83	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+84	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+85	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+86	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+87	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+88	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+89	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+90	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+91	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+92	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+93	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+94	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+95	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+96	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+97	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+98	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+99	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+100	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+1	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+2	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+3	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+4	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+5	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+6	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+7	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+8	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+9	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+10	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+11	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+12	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+13	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+14	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+15	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+16	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+17	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+18	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+19	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+20	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+21	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+22	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+23	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+24	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+25	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+26	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+27	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+28	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+29	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+30	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+31	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+32	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+33	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+34	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+35	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+36	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+37	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+38	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+39	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+40	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+41	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+42	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+43	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+44	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+45	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+46	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+47	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+48	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+49	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+50	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+51	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+52	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+53	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+54	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+55	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+56	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+57	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+58	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+59	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+60	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+61	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+62	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+63	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+64	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+65	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+66	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+67	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+68	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+69	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+70	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+71	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+72	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+73	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+74	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+75	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+76	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+77	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+78	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+79	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+80	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+81	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+82	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+83	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+84	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+85	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+86	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+87	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+88	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+89	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+90	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+91	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+92	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+93	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+94	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+95	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+96	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+97	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+98	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+99	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+100	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+1	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+2	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+3	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+4	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+5	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+6	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+7	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+8	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+9	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+10	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+11	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+12	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+13	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+14	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+15	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+16	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+17	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+18	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+19	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+20	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+21	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+22	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+23	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+24	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+25	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+26	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+27	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+28	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+29	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+30	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+31	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+32	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+33	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+34	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+35	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+36	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+37	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+38	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+39	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+40	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+41	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+42	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+43	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+44	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+45	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+46	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+47	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+48	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+49	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+50	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+51	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+52	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+53	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+54	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+55	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+56	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+57	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+58	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+59	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+60	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+61	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+62	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+63	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+64	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+65	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+66	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+67	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+68	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+69	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+70	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+71	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+72	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+73	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+74	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+75	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+76	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+77	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+78	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+79	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+80	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+81	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+82	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+83	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+84	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+85	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+86	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+87	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+88	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+89	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+90	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+91	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+92	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+93	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+94	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+95	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+96	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+97	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+98	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+99	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+100	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+1	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+2	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+3	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+4	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+5	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+6	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+7	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+8	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+9	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+10	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+11	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+12	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+13	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+14	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+15	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+16	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+17	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+18	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+19	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+20	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+21	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+22	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+23	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+24	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+25	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+26	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+27	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+28	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+29	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+30	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+31	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+32	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+33	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+34	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+35	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+36	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+37	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+38	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+39	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+40	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+41	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+42	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+43	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+44	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+45	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+46	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+47	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+48	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+49	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+50	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+51	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+52	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+53	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+54	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+55	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+56	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+57	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+58	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+59	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+60	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+61	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+62	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+63	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+64	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+65	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+66	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+67	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+68	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+69	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+70	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+71	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+72	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+73	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+74	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+75	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+76	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+77	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+78	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+79	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+80	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+81	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+82	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+83	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+84	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+85	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+86	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+87	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+88	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+89	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+90	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+91	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+92	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+93	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+94	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+95	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+96	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+97	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+98	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+99	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+100	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+1	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+2	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+3	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+4	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+5	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+6	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+7	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+8	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+9	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+10	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+11	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+12	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+13	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+14	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+15	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+16	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+17	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+18	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+19	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+20	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+21	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+22	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+23	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+24	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+25	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+26	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+27	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+28	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+29	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+30	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+31	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+32	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+33	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+34	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+35	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+36	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+37	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+38	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+39	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+40	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+41	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+42	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+43	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+44	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+45	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+46	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+47	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+48	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+49	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+50	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+51	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+52	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+53	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+54	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+55	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+56	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+57	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+58	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+59	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+60	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+61	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+62	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+63	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+64	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+65	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+66	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+67	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+68	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+69	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+70	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+71	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+72	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+73	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+74	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+75	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+76	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+77	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+78	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+79	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+80	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+81	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+82	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+83	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+84	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+85	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+86	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+87	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+88	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+89	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+90	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+91	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+92	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+93	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+94	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+95	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+96	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+97	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+98	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+99	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+100	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+1	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+2	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+3	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+4	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+5	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+6	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+7	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+8	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+9	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+10	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+11	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+12	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+13	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+14	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+15	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+16	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+17	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+18	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+19	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+20	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+21	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+22	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+23	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+24	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+25	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+26	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+27	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+28	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+29	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+30	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+31	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+32	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+33	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+34	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+35	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+36	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+37	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+38	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+39	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+40	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+41	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+42	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+43	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+44	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+45	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+46	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+47	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+48	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+49	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+50	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+51	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+52	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+53	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+54	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+55	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+56	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+57	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+58	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+59	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+60	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+61	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+62	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+63	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+64	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+65	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+66	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+67	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+68	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+69	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+70	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+71	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+72	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+73	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+74	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+75	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+76	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+77	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+78	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+79	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+80	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+81	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+82	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+83	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+84	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+85	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+86	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+87	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+88	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+89	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+90	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+91	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+92	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+93	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+94	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+95	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+96	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+97	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+98	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+99	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+100	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+1	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+2	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+3	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+4	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+5	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+6	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+7	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+8	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+9	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+10	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+11	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+12	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+13	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+14	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+15	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+16	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+17	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+18	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+19	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+20	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+21	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+22	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+23	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+24	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+25	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+26	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+27	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+28	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+29	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+30	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+31	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+32	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+33	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+34	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+35	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+36	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+37	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+38	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+39	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+40	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+41	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+42	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+43	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+44	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+45	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+46	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+47	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+48	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+49	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+50	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+51	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+52	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+53	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+54	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+55	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+56	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+57	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+58	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+59	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+60	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+61	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+62	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+63	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+64	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+65	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+66	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+67	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+68	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+69	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+70	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+71	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+72	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+73	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+74	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+75	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+76	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+77	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+78	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+79	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+80	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+81	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+82	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+83	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+84	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+85	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+86	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+87	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+88	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+89	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+90	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+91	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+92	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+93	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+94	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+95	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+96	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+97	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+98	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+99	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+100	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+1	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+2	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+3	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+4	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+5	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+6	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+7	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+8	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+9	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+10	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+11	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+12	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+13	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+14	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+15	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+16	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+17	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+18	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+19	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+20	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+21	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+22	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+23	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+24	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+25	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+26	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+27	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+28	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+29	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+30	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+31	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+32	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+33	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+34	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+35	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+36	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+37	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+38	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+39	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+40	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+41	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+42	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+43	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+44	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+45	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+46	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+47	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+48	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+49	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+50	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+51	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+52	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+53	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+54	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+55	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+56	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+57	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+58	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+59	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+60	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+61	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+62	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+63	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+64	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+65	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+66	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+67	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+68	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+69	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+70	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+71	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+72	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+73	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+74	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+75	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+76	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+77	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+78	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+79	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+80	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+81	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+82	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+83	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+84	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+85	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+86	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+87	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+88	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+89	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+90	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+91	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+92	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+93	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+94	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+95	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+96	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+97	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+98	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+99	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
+Res: 	100	60
+Grazing:	0.2	0.5	0.5
+BGHerb:	0	0	0	1	0
+Cutting:	0	5000
+Trampling:	0	0.1	0	0.1
+Input/1_Community.txt
+100	31
+Input/1_Community.txt
+
+1	1	0	128	100	1	0.5	1	0.007	0.5	0.5
 Res: 	100	60
 Grazing:	0.2	0.5	0.5
 BGHerb:	0	0	0	1	0

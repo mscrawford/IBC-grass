@@ -111,12 +111,38 @@ CGrid::~CGrid()
   \date 120831
 */
 void CGrid::Save(string fname){
-
-	// MSC
 //open file..
+   ofstream SaveFile(fname.c_str());
+  if (!SaveFile.good()) {cerr<<("Fehler beim Öffnen InitFile");exit(3); }
+  cout<<"SaveFile: "<<fname<<endl;
+//write..
+
+//Cells (without Plants, with seeds)
+//  SaveFile<<"\nNumber of Cells\t"<<SRunPara::RunPara.GetSumCells() <<endl;
+  for (int i=0; i<SRunPara::RunPara.GetSumCells(); ++i)  //loop for all cells
+     SaveFile<<CellList[i]->asString();
+
+//Plants
+  SaveFile<<"\nNumber of Plants\t"<<this->PlantList.size();
+  for (int i=0; i<this->PlantList.size(); ++i)  //loop for all cells
+//    SaveFile<<"\nPlant "<<i;//Plant->asString()
+     SaveFile<<PlantList[i]->asString();
+//genet information
+  SaveFile<<"\nNumber of Genets\t"<<this->GetNMotherPlants();
+
+}  // file save of entire grid
+
+//-----------------------------------------------------------------------------
+
+/**
+MSC
+Record the entire spatial grid (every plant on it has a row)
+*/
+void CGrid::saveSpatialGrid(string fname){
+
   ofstream SaveFile(fname.c_str(), ios::app);
   if (!SaveFile.good()) {
-	  cerr << ("Fehler beim �ffnen InitFile");
+	  cerr << ("Fehler beim �ffnen SaveFile");
 	  exit(3);
   }
   cout<<"SaveFile: "<<fname<<endl;
@@ -125,25 +151,12 @@ void CGrid::Save(string fname){
 			  "memo\tRAR\tgrowth\tmThres\tclonal\tpropSex\tmeanSpacerLength\t" <<
 			  "sdSpacerLength\tResshare\tAllocSpacer\tmSpacer" << endl;
 
-
-
-//write..
-
-//Cells (without Plants, with seeds)
-//  SaveFile<<"\nNumber of Cells\t"<<SRunPara::RunPara.GetSumCells() <<endl;
-//  for (int i=0; i<SRunPara::RunPara.GetSumCells(); ++i)  //loop for all cells
-//     SaveFile<<CellList[i]->asString();
-
-//Plants
-//  SaveFile<<"\nNumber of Plants\t"<<this->PlantList.size();
-  for (int i=0; i<this->PlantList.size(); ++i)  //loop for all cells
-//    SaveFile<<"\nPlant "<<i;//Plant->asString()
+  for (int i=0; i<this->PlantList.size(); ++i)
      SaveFile<<PlantList[i]->asString()<<endl;
-//genet information
-//  SaveFile<<"\nNumber of Genets\t"<<this->GetNMotherPlants();
+}
 
-}  // file save of entire grid
 //-----------------------------------------------------------------------------
+
 /**
   The clonal version of PlantLoop additionally to the CGrid-version
   disperses and grows the clonal ramets
