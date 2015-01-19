@@ -37,7 +37,7 @@ protected:
 public:
    SPftTraits* Traits;///<PFT Traits
 
-   int Age;  //!< Variable that takes track of plant age 
+   int Age;  //!< Variable that takes track of plant age
    static int numPlants; // MSC
 
    int plantID;
@@ -74,7 +74,6 @@ public:
    double Spacerdirection;                      ///<spacer direction
    double SpacerlengthToGrow;                   ///<length to grow
    int Generation;                              ///<clonal generation
-
 
 //   int LimitRes;   //!< limiting resource: 1->above, 2->below 0->equal (not used)
 

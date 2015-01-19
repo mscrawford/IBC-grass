@@ -127,15 +127,13 @@ int CEnvir::GetSim(const int pos, string file) {
 	}
 	cout << "SimFile: " << SRunPara::NameSimFile << endl;
 	int lpos = pos;
-
 	if (pos == 0) {  //read header
-		string line, file_id; //file_id not used here
+		string line, file_id; // file_id not used here
 		getline(SimFile, line);
-		int SimNrMax; //dummi
+		int SimNrMax; // dummi
 		SimFile >> SimNrMax >> NRep >> file_id;
 //    file_id.erase (file_id.begin(), file_id.begin()+1);
 //    file_id.erase (file_id.end()-1, file_id.end());
-
 		getline(SimFile, line);
 		getline(SimFile, line);
 		lpos = SimFile.tellg();
@@ -147,11 +145,10 @@ int CEnvir::GetSim(const int pos, string file) {
 	if (!SimFile.good())
 		return -1;
 
-	int version, acomp, bcomp, invasionVersion;
-
+	int version, acomp, bcomp, invasionVersion, individualVariation;
 
 	SimFile >> SimNr
-			>> invasionVersion; // The only problem with this is that it is not backwards compatible...
+			>> invasionVersion; // MSC
 
 	// MSC:
 	switch (invasionVersion) {
@@ -171,7 +168,7 @@ int CEnvir::GetSim(const int pos, string file) {
 		break;
 	}
 
-//	>> dummi     //RunPara.Layer
+//	>> dummi     // RunPara.Layer
 //  >> version
 //	>> RunPara.Version - enum types cannot be read with >>
 //  >> acomp
@@ -181,6 +178,10 @@ int CEnvir::GetSim(const int pos, string file) {
 //  >> RunPara.BelGrazMode   //mode of belowground grazing   --> submodel with direct biomass removal, Katrins version
 //  >> RunPara.GridSize
 //  >> RunPara.CellNum
+
+	SimFile
+	>> individualVariation
+	>> SRunPara::RunPara.indivVariationSD;
 
 	if (SRunPara::RunPara.Invasion == invasionCriteria) {
 		SimFile >> SRunPara::RunPara.invasionTmax;
@@ -195,7 +196,7 @@ int CEnvir::GetSim(const int pos, string file) {
 	>> SRunPara::RunPara.meanBRes
 	>> SRunPara::RunPara.GrazProb
 	>> SRunPara::RunPara.PropRemove
-//	>> SRunPara::RunPara.MassUngraz //Residual Mass ungrazable
+//	>> SRunPara::RunPara.MassUngraz // Residual Mass ungrazable
 //	>> SRunPara::RunPara.BitSize           //Grazing bit size
 	>> SRunPara::RunPara.DistAreaYear      //Trampling
 	>> SRunPara::RunPara.AreaEvent         //Trampling
@@ -234,6 +235,17 @@ int CEnvir::GetSim(const int pos, string file) {
 		break;
 	case 2:
 		SRunPara::RunPara.Version = version3;
+		break;
+	default:
+		break;
+	}
+
+	switch (individualVariation) {
+	case 0:
+		SRunPara::RunPara.indivVariationVer = off;
+		break;
+	case 1:
+		SRunPara::RunPara.indivVariationVer = on;
 		break;
 	default:
 		break;

@@ -9,6 +9,7 @@
 #include <iostream>
 #include <map>
 #include <algorithm>
+#include <cassert>
 
 //---------------------------------------------------------------------------
 CGrid::CGrid():cutted_BM(0)
@@ -168,6 +169,8 @@ void CGrid::PlantLoop()
    for (plant_iter iplant=PlantList.begin(); iplant<PlantList.end(); ++iplant)
    {
       CPlant* plant = *iplant;
+      if (SRunPara::RunPara.indivVariationVer == on)
+    	  assert(plant->Traits->myTraitType == SPftTraits::individual); //MSC
       if (!plant->dead)
       {
          plant->Grow2();
@@ -233,6 +236,8 @@ void getTargetCell(int& xx,int& yy,const float mean,const float sd,double cellsc
   */
 int CGrid::DispersSeeds(CPlant* plant)
 {
+	if (SRunPara::RunPara.indivVariationVer == on)
+		assert(plant->Traits->myTraitType == SPftTraits::individual); //MSC
    int px=plant->getCell()->x, py=plant->getCell()->y;
    int NSeeds=0;
    double dist=0, direction=0;
@@ -328,55 +333,58 @@ void CGrid::DispersRamets(CPlant* plant)
   Let ZOI be defined by a list sorted after ascending distance to center instead
   of searching a square defined by maximum radius.
 */
-void CGrid::CoverCells()
-{
+void CGrid::CoverCells() {
 
-   int xmin, xmax, ymin, ymax;
-   int index;
-   double dist,Radius;
-   int xhelp, yhelp;
+	int xmin, xmax, ymin, ymax;
+	int index;
+	double dist, Radius;
+	int xhelp, yhelp;
 
-   double CellScale=SRunPara::RunPara.CellScale();
-   double CellArea=CellScale*CellScale;
-   //loop for all plants
-   for (plant_iter iplant=PlantList.begin(); iplant<PlantList.end(); ++iplant){
-        CPlant* plant = *iplant;
+	double CellScale = SRunPara::RunPara.CellScale();
+	double CellArea = CellScale * CellScale;
+	//loop for all plants
+	for (plant_iter iplant = PlantList.begin(); iplant < PlantList.end(); ++iplant)
+	{
+		CPlant* plant = *iplant;
 
-     double Ashoot=plant->Area_shoot()/CellArea;
-     plant->Ash_disc=floor(plant->Area_shoot())+1;
-     double Aroot=plant->Area_root()/CellArea;
-     plant->Art_disc=floor(plant->Area_root())+1;
-     double Amax=max(Ashoot,Aroot);
-     for (int a=0;a<Amax;a++){
-        //get current position: add plant pos with ZOIBase-pos
-        xhelp=plant->getCell()->x
-              +ZOIBase[a]/SRunPara::RunPara.CellNum
-              -SRunPara::RunPara.CellNum/2;//x;
-        yhelp=plant->getCell()->y
-              +ZOIBase[a]%SRunPara::RunPara.CellNum
-              -SRunPara::RunPara.CellNum/2;//y;
-        /// \todo change to absorbing bound for upscaling
-        Boundary(xhelp,yhelp);
-        index = xhelp*SRunPara::RunPara.CellNum+yhelp;
-        CCell* cell = CellList[index];
+		if (SRunPara::RunPara.indivVariationVer == on)
+			assert(plant->Traits->myTraitType == SPftTraits::individual); //MSC
 
-        //Aboveground****************************************************
-        if (a<Ashoot){
-            //dead plants still shade others
-            cell->AbovePlantList.push_back(plant);
-            cell->PftNIndA[plant->pft()]++;
-        }//for <ashoot //Ende if
-        //Belowground*****************************************************
-        if (a<Aroot){
-            //dead plants do not compete for below ground resource
-            if (!plant->dead){
-               cell->BelowPlantList.push_back(plant);
-               cell->PftNIndB[plant->pft()]++;
-            }
-        }//if <Aroot //Ende if
-     }// for <Amax
-   }//end of plant loop
+		double Ashoot = plant->Area_shoot() / CellArea;
+		plant->Ash_disc = floor(plant->Area_shoot()) + 1;
 
+		double Aroot = plant->Area_root() / CellArea;
+		plant->Art_disc = floor(plant->Area_root()) + 1;
+
+		double Amax = max(Ashoot, Aroot);
+
+		for (int a = 0; a < Amax; a++) {
+			//get current position: add plant pos with ZOIBase-pos
+			xhelp = plant->getCell()->x + ZOIBase[a] / SRunPara::RunPara.CellNum
+					- SRunPara::RunPara.CellNum / 2; //x;
+			yhelp = plant->getCell()->y + ZOIBase[a] % SRunPara::RunPara.CellNum
+					- SRunPara::RunPara.CellNum / 2; //y;
+					/// \todo change to absorbing bound for upscaling
+			Boundary(xhelp, yhelp);
+			index = xhelp * SRunPara::RunPara.CellNum + yhelp;
+			CCell* cell = CellList[index];
+
+			//Aboveground****************************************************
+			if (a < Ashoot) {
+				//dead plants still shade others
+				cell->AbovePlantList.push_back(plant);
+				cell->PftNIndA[plant->pft()]++;
+			}        //for <ashoot //Ende if
+					 //Belowground*****************************************************
+			if (a < Aroot) {
+				//dead plants do not compete for below ground resource
+				if (!plant->dead) {
+					cell->BelowPlantList.push_back(plant);
+					cell->PftNIndB[plant->pft()]++;
+				}
+			}        //if <Aroot //Ende if
+		}        // for <Amax
+	}        //end of plant loop
 }
 
 //---------------------------------------------------------------------------
@@ -475,6 +483,8 @@ void CGrid::Resshare() // resource sharing
          if (Genet->AllRametList.size()>1)//!Genet->AllRametList.empty())
          {
             CPlant* plant=Genet->AllRametList.front();
+        	if (SRunPara::RunPara.indivVariationVer == on)
+        		assert(plant->Traits->myTraitType == SPftTraits::individual); //MSC
             if (plant->Traits->clonal //type()=="CclonalPlant"
                  &&plant->Traits->Resshare==true)
             {//only betwen connected ramets
@@ -508,84 +518,75 @@ void CGrid::Resshare() // resource sharing
 
   \todo find a faster algorithm for choosing the winning seedling
 */
-void CGrid::EstabLottery()
-{
-  //Ramet establishment for all Plants
-   int PlantListsize=PlantList.size();
-   for (int z=0; z<PlantListsize;z++)  //for all Plants (befor Rametestab)
-   {
-      CPlant* plant=PlantList[z];
-      if ((plant->Traits->clonal) //>type() != "CPlant")
-    		  &&(!plant->dead))
-      {//only if its a clonal plant
-         RametEstab(plant);
-      }
-   }//for all plants
+void CGrid::EstabLottery() {
+	//Ramet establishment for all Plants
+	int PlantListsize = PlantList.size();
+	for (int z = 0; z < PlantListsize; z++) //for all Plants (before Rametestab)
+	{
+		CPlant* plant = PlantList[z];
+		if ((plant->Traits->clonal) && (!plant->dead)) { //only if its a clonal plant
+			RametEstab(plant);
+		}
+	}
 
-//for Seeds (for clonal and non-klonal plants)
-   map<string,double> PftEstabProb;//=map<string,int>(0);
-   map<string,int> PftNSeedling;
-   int gweek=CEnvir::week;
+	//for Seeds (for clonal and non-klonal plants)
+	map<string, double> PftEstabProb;
+	map<string, int> PftNSeedling;
+	int gweek = CEnvir::week;
 
-   if (((gweek>=1) && (gweek<4)) || ((gweek>21)&&(gweek<=25)))
-   { //establishment only between week 1-4 and 21-25
-     double sum=0;
-
-		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
-     {  //loop for all cells
-        CCell* cell = CellList[i];
-        if ((cell->AbovePlantList.empty())
-            && (!cell->SeedBankList.empty())
-            && (!cell->occupied))
-        {  //germination if cell is uncovered
-          sum=cell->Germinate();
-          if (sum>0){//if seeds germinated...
-//-----------------------------------------------------------------
-            typedef map<string,int> mapType;
-            for(mapType::const_iterator it = cell->PftNSeedling.begin();
-              it != cell->PftNSeedling.end(); ++it)
-            { //for all types              (diesen Teil in Germinate verschieben?)
-              string  pft =it->first;
-              map<string, int>::iterator itr = cell->PftNSeedling.find(pft);
-              if (itr != cell->PftNSeedling.end()) {
-                PftEstabProb[pft]=
-                  (double) itr->second
-                  *SPftTraits::getPftLink(pft)->SeedMass;
-                PftNSeedling[pft]=itr->second;//(cell->PftNSeedling[pft]);
-              }
-            }//for each type
-            //chose seedling that establishes at random
-            double rnum=CEnvir::rand01()*sum;  //random double between 0 and sum of seed mass
-            for(mapType::const_iterator it = cell->PftNSeedling.begin();
-                it != cell->PftNSeedling.end()&&(!cell->occupied); ++it)
-            { //for each type germinated
-              string pft =it->first;
-              if (rnum<PftEstabProb[pft])
-              {  //random number < current types' estab Probability?
-                //mische die Keimlinge des Gewinnertyps
-                random_shuffle(cell->SeedlingList.begin(),
-                   partition(cell->SeedlingList.begin(),cell->SeedlingList.end(),
-                   bind2nd(mem_fun(&CSeed::SeedOfType),pft)));
+	if (((gweek >= 1) && (gweek < 4)) || ((gweek > 21) && (gweek <= 25))) { // establishment only between week 1-4 and 21-25
+		double sum = 0;
+		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) { // loop for all cells
+			CCell* cell = CellList[i];
+			if ((cell->AbovePlantList.empty())
+					&& (!cell->SeedBankList.empty())
+					&& (!cell->occupied)) {  // germination if cell is uncovered
+				sum = cell->Germinate();
+				if (sum > 0) {  // if seeds germinated...
+					typedef map<string, int> mapType;
+					for (mapType::const_iterator it =
+							cell->PftNSeedling.begin();
+							it != cell->PftNSeedling.end(); ++it) { //for all types (diesen Teil in Germinate verschieben?)
+						string pft = it->first;
+						map<string, int>::iterator itr = cell->PftNSeedling.find(pft);
+						if (itr != cell->PftNSeedling.end()) {
+							PftEstabProb[pft] = (double) itr->second * SPftTraits::getPftLink(pft)->SeedMass;
+							PftNSeedling[pft] = itr->second; //(cell->PftNSeedling[pft]);
+						}
+					} // for each type
+					// chose seedling that establishes at random
+					double rnum = CEnvir::rand01() * sum; //random double between 0 and sum of seed mass
+					for (mapType::const_iterator it =
+							cell->PftNSeedling.begin();
+							it != cell->PftNSeedling.end() && (!cell->occupied);
+							++it) { // for each type germinated
+						string pft = it->first;
+						if (rnum < PftEstabProb[pft]) { //random number < current types' estab Probability?
+							random_shuffle(cell->SeedlingList.begin(),
+									partition(cell->SeedlingList.begin(),
+											cell->SeedlingList.end(),
+											bind2nd(mem_fun(&CSeed::SeedOfType),
+													pft)));
 //                   bind(SeedOfType,_1,pft)));
-                //Was, wenn keine Seedlings(typ==pft) gefunden werden (sollte nicht passieren)?
-                //etabliere jetzt das erste Element der Liste
-                CSeed* seed = cell->SeedlingList.front();
-                EstabLott_help(seed);
-                cell->PftNSeedling[pft]--;
-                continue; //if established, go to next cell
-              }//if rnum<
-              else{   //if not: subtrahiere   PftCumEstabProb[pft]
-                rnum-= PftEstabProb.find(pft)->second;
-              }   //und gehe zum n�chsten Typ
-            }//for all types in list
-            cell->RemoveSeedlings();
-         }//if seedlings in cell
-      }//seeds in cell
-    }//for all cells
-  }//if between week 1-4 and 21-25
-  PftEstabProb.clear();
-  PftNSeedling.clear();
-}//end CGridclonal::EstabLottery()
+							//Was, wenn keine Seedlings(typ==pft) gefunden werden (sollte nicht passieren)?
+							//etabliere jetzt das erste Element der Liste
+							CSeed* seed = cell->SeedlingList.front();
+							EstabLott_help(seed);
+							cell->PftNSeedling[pft]--;
+							continue; // if established, go to next cell
+						} //if rnum<
+						else {   //if not: subtrahiere   PftCumEstabProb[pft]
+							rnum -= PftEstabProb.find(pft)->second;
+						}   //und gehe zum n�chsten Typ
+					}   //for all types in list
+					cell->RemoveSeedlings();
+				}   //if seedlings in cell
+			}   //seeds in cell
+		}   //for all cells
+	}   //if between week 1-4 and 21-25
+	PftEstabProb.clear();
+	PftNSeedling.clear();
+}   //end CGridclonal::EstabLottery()
 
 /**
  * Establish new genet.
@@ -755,40 +756,41 @@ bool CGrid::Disturb()
 */
 void CGrid::Grazing()
 {
-   int    SumCells     =SRunPara::RunPara.GetSumCells();
-   double CellScale    =SRunPara::RunPara.CellScale();
-//   double ResidualMass =15300*SumCells*CellScale*CellScale*0.0001;
-   double ResidualMass =SRunPara::RunPara.MassUngraz*SumCells*CellScale*CellScale*0.0001;
-   double MaxMassRemove, TotalAboveMass, MassRemoved=0;
-   double grazprob;
+	int SumCells = SRunPara::RunPara.GetSumCells();
+	double CellScale = SRunPara::RunPara.CellScale();
+	double ResidualMass = SRunPara::RunPara.MassUngraz * SumCells * CellScale
+			* CellScale * 0.0001;
+	double MaxMassRemove, TotalAboveMass, MassRemoved = 0;
+	double grazprob;
+	double Max;   //,m;
 
-   double Max;//,m;
+	TotalAboveMass = GetTotalAboveMass();
 
-   TotalAboveMass=GetTotalAboveMass();
+	//maximal removal of biomass
+	MaxMassRemove = TotalAboveMass * SRunPara::RunPara.PropRemove;
+	MaxMassRemove = min(TotalAboveMass - ResidualMass, MaxMassRemove);
 
-  //maximal removal of biomass
-   MaxMassRemove=TotalAboveMass*SRunPara::RunPara.PropRemove;
-   MaxMassRemove=min(TotalAboveMass-ResidualMass,MaxMassRemove);
+	while (MassRemoved < MaxMassRemove) {
+		//calculate slope for individual grazing probability;
+		//sort PlantList descending after mshoot/LMR
+		sort(PlantList.begin(), PlantList.end(), CPlant::ComparePalat);
+		//plant with highest grazing susceptibility
+		CPlant* plant = *PlantList.begin();
+		Max = plant->mshoot * plant->Traits->GrazFac();
 
-   while(MassRemoved<MaxMassRemove){
-   //calculate slope for individual grazing probability;
-      //sort PlantList descending after mshoot/LMR
-      sort(PlantList.begin(),PlantList.end(),CPlant::ComparePalat);
-      //plant with highest grazing susceptibility
-      CPlant* plant = *PlantList.begin() ;
-      Max = plant->mshoot*plant->Traits->GrazFac();
-//      m=1.0/Max;
+		random_shuffle(PlantList.begin(), PlantList.end());
 
-      random_shuffle(PlantList.begin(),PlantList.end());
-
-      plant_size i=0;
-      while((i<PlantList.size())&&(MassRemoved<MaxMassRemove)){
-         CPlant* lplant=PlantList[i];
-         grazprob= (lplant->mshoot*lplant->Traits->GrazFac())/Max;
-         if (CEnvir::rand01()<grazprob) MassRemoved+=lplant->RemoveMass();
-         ++i;
-      }
-   }
+		plant_size i = 0;
+		while ((i < PlantList.size()) && (MassRemoved < MaxMassRemove)) {
+			CPlant* lplant = PlantList[i];
+			if (SRunPara::RunPara.indivVariationVer == on)
+				assert(lplant->Traits->myTraitType == SPftTraits::individual); //MSC
+			grazprob = (lplant->mshoot * lplant->Traits->GrazFac()) / Max;
+			if (CEnvir::rand01() < grazprob)
+				MassRemoved += lplant->RemoveMass();
+			++i;
+		}
+	}
 }//end CGrid::Grazing()
 //-----------------------------------------------------------------------------
 /**
@@ -800,22 +802,26 @@ void CGrid::Grazing()
   */
 void CGrid::Cutting()
 {
-   CPlant* pPlant;
+	CPlant* pPlant;
 
-   double mass_cut = SRunPara::RunPara.CutMass;
-   double mass_removed=0;
+	double mass_cut = SRunPara::RunPara.CutMass;
+	double mass_removed = 0;
 
-   for (plant_size i=0; i<PlantList.size();i++){
-         pPlant = PlantList[i];
-         if (pPlant->mshoot/(pPlant->Traits->LMR*pPlant->Traits->LMR) > mass_cut){
-            double to_leave= mass_cut*(pPlant->Traits->LMR*pPlant->Traits->LMR);
-            //doc biomass removed
-            mass_removed+= pPlant->mshoot-to_leave+pPlant->mRepro;
-            pPlant->mshoot = to_leave;
-            pPlant->mRepro = 0.0;
-         }
-   }
-   cutted_BM+= mass_removed;
+	for (plant_size i = 0; i < PlantList.size(); i++) {
+		pPlant = PlantList[i];
+		if (SRunPara::RunPara.indivVariationVer == on)
+			assert(pPlant->Traits->myTraitType == SPftTraits::individual); // MSC
+		if (pPlant->mshoot / (pPlant->Traits->LMR * pPlant->Traits->LMR)
+				> mass_cut) {
+			double to_leave = mass_cut
+					* (pPlant->Traits->LMR * pPlant->Traits->LMR);
+			//doc biomass removed
+			mass_removed += pPlant->mshoot - to_leave + pPlant->mRepro;
+			pPlant->mshoot = to_leave;
+			pPlant->mRepro = 0.0;
+		}
+	}
+	cutted_BM += mass_removed;
 } //end cutting
 
 //-----------------------------------------------------------------------------
@@ -1025,38 +1031,39 @@ void CGrid::Trampling()
       }//for all cells in patch
    }//for all patches
 }//end CGrid::Trampling()
+
 //-----------------------------------------------------------------------------
 void CGrid::RemovePlants()
 {
-   plant_iter irem = partition(PlantList.begin(),PlantList.end(),
-     mem_fun(&CPlant::GetPlantRemove));
-   for (plant_iter iplant=irem; iplant<PlantList.end(); ++iplant)
-   {
-      CPlant* plant = *iplant;
-      DeletePlant(plant);
-   }
-   PlantList.erase(irem,PlantList.end());
+	plant_iter irem = partition(PlantList.begin(), PlantList.end(),
+			mem_fun(&CPlant::GetPlantRemove));
+	for (plant_iter iplant = irem; iplant < PlantList.end(); ++iplant) {
+		CPlant* plant = *iplant;
+		DeletePlant(plant);
+	}
+	PlantList.erase(irem, PlantList.end());
 }
+
 //-----------------------------------------------------------------------------
 /**
   Delete a plant from the grid and it's references in genet list and grid cell.
 */
 void CGrid::DeletePlant(CPlant* plant1)
 {
-      CGenet *Genet=plant1->getGenet();
-      //search ramet in list and erase
-      for (unsigned int j=0;j<Genet->AllRametList.size();j++)
-      {
-        CPlant* Ramet;
-        Ramet=Genet->AllRametList[j];
-        if (plant1==Ramet)
-          Genet->AllRametList.erase(Genet->AllRametList.begin()+j);
-      }//for all ramets
-   plant1->getCell()->occupied=false;
-   plant1->getCell()->PlantInCell = NULL;
+	CGenet *Genet = plant1->getGenet();
+	//search ramet in list and erase
+	for (unsigned int j = 0; j < Genet->AllRametList.size(); j++) {
+		CPlant* Ramet;
+		Ramet = Genet->AllRametList[j];
+		if (plant1 == Ramet)
+			Genet->AllRametList.erase(Genet->AllRametList.begin() + j);
+	}   //for all ramets
+	plant1->getCell()->occupied = false;
+	plant1->getCell()->PlantInCell = NULL;
 
-   delete plant1;
+	delete plant1;
 } //end CGridclonal::DeletePlant
+
 //-----------------------------------------------------------------------------
 void CGrid::Winter()
 {
@@ -1092,40 +1099,34 @@ void CGrid::SeedMortWinter()
   \param cltraits SclonalTraits of the plants to be set
   \param n        number of Individuals to be set
 */
-void CGrid::InitClonalPlants(
-  SPftTraits* traits,const int n)
-//,SclonalTraits* cltraits
-{
-   //using CEnvir::nrand;using SRunPara::RunPara;
-   int  x, y;
-   int SideCells=SRunPara::RunPara.CellNum;
-   CCell* cell;
+void CGrid::InitClonalPlants(SPftTraits* traits, const int n) {
+	int x, y;
+	int SideCells = SRunPara::RunPara.CellNum;
+	CCell* cell;
 
-   for (int h=0; h<n; h++)
-   {
-      do{
-        x=CEnvir::nrand(SideCells);
-        y=CEnvir::nrand(SideCells);
-        cell = CellList[x*SideCells+y];
-      }while (cell->occupied);
-      if (!cell->occupied)
-      {
-         CPlant *myplant = new CPlant(
-              traits,cell);//,cltraits
+	for (int h = 0; h < n; h++) {
+		do {
+			x = CEnvir::nrand(SideCells);
+			y = CEnvir::nrand(SideCells);
+			cell = CellList[x * SideCells + y];
+		} while (cell->occupied);
 
-         CGenet *Genet= new CGenet();
-//         Genet->number=GenetList.size();
-         GenetList.push_back(Genet);
-         myplant->setGenet(Genet);
+		if (!cell->occupied) {
+			CPlant *myplant = new CPlant(traits, cell);
+			CGenet *Genet = new CGenet();
+//          Genet->number=GenetList.size();
+			GenetList.push_back(Genet);
+			myplant->setGenet(Genet);
 
 // MSC: Comment these two lines out because we want the plants to be "fresh" seedlings
 //         myplant->mshoot=myplant->Traits->MaxMass/2.0;
 //         myplant->mroot=myplant->Traits->MaxMass/2.0;
 
-         PlantList.push_back(myplant);
-      } //if cell not occupied
-   } //for all n
-}//end CGridclonal::clonalPlantsInit()
+			PlantList.push_back(myplant);
+		}
+	}
+}
+
 //-----------------------------------------------------------------------------
 /**
   Set a number of randomly distributed Plants (CPlant) of a specific
@@ -1136,22 +1137,21 @@ void CGrid::InitClonalPlants(
 */
 void CGrid::InitPlants(SPftTraits* traits,const int n)
 {
-//   using CEnvir::nrand;using SRunPara::RunPara;
    int  x, y;
    int SideCells=SRunPara::RunPara.CellNum;
 
    int counter=0;
-   while (counter<n){
+   while (counter<n) {
          x=CEnvir::nrand(SideCells);
          y=CEnvir::nrand(SideCells);
 
          CCell* cell = CellList[x*SideCells+y];
-         if (!cell->occupied){
+         if (!cell->occupied)
+         {
             CPlant* plant = new CPlant(traits,cell);
             PlantList.push_back(plant);
             plant->mshoot=plant->Traits->MaxMass/2;
             plant->mroot=plant->Traits->MaxMass/2;
-
             ++counter;
          }
    }

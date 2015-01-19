@@ -12,8 +12,8 @@
 //---------------------------------------------------------------------------
 //#pragma package(smart_init)
 //Input Files
-   std::string SRunPara::NamePftFile="Input/PftTraits.experiment.txt"; // trait file for experiment species
-   std::string SRunPara::NameSimFile = "Input/SimFile.txt";  //file with simulation scenarios
+std::string SRunPara::NamePftFile = "Input/PftTraits.experiment.txt"; // trait file for experiment species
+std::string SRunPara::NameSimFile = "Input/SimFile.txt"; //file with simulation scenarios
 
 SRunPara SRunPara::RunPara=SRunPara();
 //-------------------------------------------------------------------
@@ -91,8 +91,7 @@ void SRunPara::setRunPara(std::string def){
 std::string SRunPara::getFileID() {
 	std::stringstream mystream; unsigned pos = std::max(NamePftFile.find("/")+1,NamePftFile.find("\\")+2);
 	// ares bres graz SR file
-    mystream<<this->GridSize<<'_'<<this->meanARes<<'_'<<this->meanBRes<<'_'
-    		<<this->GrazProb<<'_'<<this->SeedInput<<'_'<<this->NamePftFile.substr(pos,NamePftFile.find(".txt")-pos);
+    mystream <<	this->NamePftFile.substr(pos,NamePftFile.find(".txt")-pos);
 	return mystream.str();
 }
 //eof  ---------------------------------------------------------------------

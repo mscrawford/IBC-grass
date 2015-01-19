@@ -143,26 +143,24 @@ void CGridEnvir::InitRun() {
  */
 void CGridEnvir::InitInds(string file, int n) {
 	const int no_init_seeds = 10;
-//PFT Traits are read in GetSim()
-	// initialization
+	// PFT Traits are read in GetSim()
 
-	if (SRunPara::RunPara.Invasion == normal) {
-		for (map<string, SPftTraits*>::iterator var = SPftTraits::PftLinkList.begin();
-				var != SPftTraits::PftLinkList.end(); ++var) {
-			SPftTraits* traits = var->second;
+	if (SRunPara::RunPara.Invasion == normal)
+	{
+		for (map<string, SPftTraits*>::iterator var =
+				SPftTraits::PftLinkList.begin();
+				var != SPftTraits::PftLinkList.end(); ++var)
+		{
+			SPftTraits* traits = var->second; // MSC you could vary the traits here...
 			InitClonalSeeds(traits, no_init_seeds); //cltraits,
-
 			PftInitList[traits->name] += no_init_seeds;
 			PftSurvTime[traits->name] = 0;
-			cout << " init " << no_init_seeds << " seeds of Pft: " << traits->name << endl;
+			cout << "init " << no_init_seeds << " seeds of Pft: " << traits->name << endl;
 			CEnvir::SeedRainGr.PftSeedRainList[traits->name] = SRunPara::RunPara.SeedInput;
-
-			if (n > -1) {
+			if (n > -1) { // Broken window
 				SRunPara::RunPara.NPft = PftInitList.size();
 				return;
 			}
-
-
 		}
 		this->SeedRainGr.GetNPftSeedsize();
 		this->SeedRainGr.GetNPftSeedClonal();
@@ -184,6 +182,7 @@ void CGridEnvir::InitInds(string file, int n) {
 		// container needs to be used. It's only relevant when invasion criterion is on.
 		string monocultureName = SPftTraits::pftInsertionOrder[0];
 		SPftTraits* traits = SPftTraits::PftLinkList.find(monocultureName)->second;
+		traits->varyTraits();
 		InitClonalSeeds(traits, no_init_seeds); // cltraits
 		PftInitList[traits->name] += no_init_seeds;
 		PftSurvTime[traits->name] = 0;
@@ -202,7 +201,7 @@ void CGridEnvir::InitInds(string file, int n) {
  \return did it work? (flag)
  \todo clonal plants are not yet restored correctly
  */
-bool CGridEnvir::InitInd(string def) {
+bool CGridEnvir::InitInd(string def) { // Breaks individual vary trais MSC
 	stringstream d(def);
 	//get cell
 	int x, y;
@@ -234,7 +233,7 @@ bool CGridEnvir::InitInd(string def) {
  \param type string naming the type to be set
  \param number number of seeds to set
  */
-void CGridEnvir::InitSeeds(string type, int number) {
+void CGridEnvir::InitSeeds(string type, int number) { // Breaks individual vary trais MSC
 	//searching the type
 	SPftTraits *pfttraits = SPftTraits::getPftLink(type); //=SclonalTraits::clonalTraits[Cltype];
 	//set seeds...
@@ -287,6 +286,7 @@ void CGridEnvir::OneRun() {
 
 		string invader = SPftTraits::pftInsertionOrder[1];
 		SPftTraits* traits = SPftTraits::getPftLink(invader);
+		traits->varyTraits();
 		InitClonalPlants(traits, no_init_plants);
 
 		PftInitList[traits->name] += no_init_plants;

@@ -180,7 +180,7 @@ double CCell::getCover(const string type) const{
     unsigned int nonodead = noplants;
     unsigned int notype   = 0;
     for (unsigned int i=0;i<noplants;i++){
-      //wenn  Pflanze tot, zähle sie nicht (oder als Streu)
+      //wenn  Pflanze tot, zï¿½hle sie nicht (oder als Streu)
       if (AbovePlantList.at(i)->dead) --nonodead;
       //sonst...
       if (AbovePlantList.at(i)->pft()==type) ++notype;

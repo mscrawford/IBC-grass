@@ -1,4 +1,7 @@
 SimNrMax  NRep  OutFile
-18	10	UPD2-SR
-SimNr InvasionVers Tmax ARes Bres GrazProb PropRemove DistAreaYear AreaEvent NCut CutMass SeedRainType SeedInput NameInitFile
-1 0 100 100 60 0.2 0.5 0 0.1 0 5000 0 2900 1_Community.txt
+18	1	UPD2-SR
+SimNr InvasionVers IndividualVariationVers IndivVariationSD Tmax ARes Bres GrazProb PropRemove DistAreaYear AreaEvent NCut CutMass SeedRainType SeedInput NameInitFile
+1 1 1 0.2 100 100 60 0.2 0.5 0 0.1 0 5000 0 2900 1_Community.txt
+13035 1 1 0.2 100 100 60 0.2 0.5 0 0.1 0 5000 0 2900 1_PFT_13035.txt
+2 1 1 0.2 100 100 60 0.2 0.5 0 0.1 0 5000 0 2900 2_Community.txt
+24923 1 1 0.2 100 100 60 0.2 0.5 0 0.1 0 5000 0 2900 2_PFT_24923.txt

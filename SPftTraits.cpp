@@ -9,8 +9,10 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <cassert>
 
 #include "SPftTraits.h"
+#include "CEnvir.h"
 
 SPftTraits::SPftTraits() :
 		TypeID(999), name("default"), MaxAge(100), AllocSeed(0.05), LMR(0), m0(
@@ -18,8 +20,22 @@ SPftTraits::SPftTraits() :
 				0), SLA(0), palat(0), RAR(1), growth(0.25), mThres(0.2), Dorm(
 				1), FlowerWeek(16), DispWeek(20), PropSex(0.1), meanSpacerlength(
 				17.5), sdSpacerlength(12.5), Resshare(true), mSpacer(70), AllocSpacer(
-				0.05), clonal(true) {
+				0.05), clonal(true), myTraitType(SPftTraits::species)
+{
+	myTraitType = SPftTraits::species;
 } //end constructor
+
+SPftTraits::SPftTraits(const SPftTraits& s) :
+		TypeID(s.TypeID), name(s.name), MaxAge(s.MaxAge), AllocSeed(s.AllocSeed), LMR(s.LMR),
+		m0(s.m0), MaxMass(s.MaxMass), SeedMass(s.SeedMass), Dist(s.Dist), pEstab(s.pEstab),
+		Gmax(s.Gmax), memory(s.memory), SLA(s.SLA), palat(s.palat), RAR(s.RAR), growth(s.growth),
+		mThres(s.mThres), Dorm(s.Dorm), FlowerWeek(s.FlowerWeek), DispWeek(s.DispWeek),
+		PropSex(s.PropSex), meanSpacerlength(s.meanSpacerlength),sdSpacerlength(s.sdSpacerlength),
+		Resshare(s.Resshare), mSpacer(s.mSpacer), AllocSpacer(s.AllocSpacer), clonal(s.clonal),
+		myTraitType(SPftTraits::species)
+{
+	myTraitType = SPftTraits::species;
+}
 
 SPftTraits::~SPftTraits() {
 	// TODO Auto-generated destructor stub
@@ -49,6 +65,28 @@ SPftTraits* SPftTraits::getPftLink(string type) {
 		cerr << "NULL-pointer error\n";
 	return traits;
 }
+
+/**
+ * Get - the instance (pass by value) of a specific PFT (as defined by its name)
+ * @param type PFT asked for
+ * @return Object instance defining a PFT.
+ */
+SPftTraits* SPftTraits::createPftInstanceFromPftType(string type) {
+	SPftTraits* traits = NULL;
+	map<string, SPftTraits*>::iterator pos = PftLinkList.find(type);
+	if (pos == (PftLinkList.end()))
+		cerr << "type not found:" << type << endl;
+	else
+		traits = new SPftTraits(*pos->second);
+	return traits;
+}
+
+SPftTraits* SPftTraits::createPftInstanceFromPftLink(SPftTraits* traits) {
+	assert(traits != NULL);
+	traits = new SPftTraits(*traits);
+	return traits;
+}
+
 //-----------------------------------------------------------------------------
 /**
  * Read definition of PFTs used in the simulation
@@ -57,13 +95,17 @@ SPftTraits* SPftTraits::getPftLink(string type) {
  */
 void SPftTraits::ReadPFTDef(const string& file, int n) {
 	//delete old definitions
-	//delete static pointer vectors
 	for (map<string, SPftTraits*>::iterator i = SPftTraits::PftLinkList.begin();
-			i != SPftTraits::PftLinkList.end(); ++i)
+			i != SPftTraits::PftLinkList.end();
+			++i)
+	{
 		delete i->second;
+	}
+	//delete static pointer vectors
 	SPftTraits::PftLinkList.clear();
 	SPftTraits::pftInsertionOrder.clear(); // MSC
-	//Open InitFile,
+
+	//Open InitFile
 	ifstream InitFile(file.c_str());
 	if (!InitFile.good()) {
 		cerr << ("Fehler beim �ffnen InitFile");
@@ -71,26 +113,22 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 		exit(3);
 	}
 	cout << "InitFile: " << file << endl;
+
 	string line;
 	getline(InitFile, line); //skip header line
 	//skip first lines if only one Types should be initiated
-	if (n > -1)
-		for (int x = 0; x < n; x++) // MC: what is n supposed to be?
+	if (n > -1) // MSC: This is a broken window.
+		for (int x = 0; x < n; x++)
 			getline(InitFile, line);
 
 	int dummi1;
-//	float dummi0;
-	string dummi2; //int PFTtype; string Cltype;
+	string dummi2; // int PFTtype; string Cltype;
 
 	do {
-		//erstelle neue traits
+		// erstelle neue traits
 		SPftTraits* traits = new SPftTraits();
-		//    SclonalTraits* cltraits=new SclonalTraits();
-		// file structure
-		// "ID"      "Species" "alSeed"   "LMR"     "maxMass" "mSeed" "Dist"
-		// "pEstab"  "Gmax"    "SLA1"     "palat"   "memo"    "RAR"   "dgrow_BG_shoot" "dgrow_BG_root"
-		// "PropSex" "meanSpacerLength" "Resshare" "mSpacer"
-		//get type definitions from file
+//		SclonalTraits* cltraits=new SclonalTraits();
+		// get type definitions from file
 		InitFile >> dummi1;
 		InitFile >> dummi2;
 		InitFile >> traits->MaxAge >> traits->AllocSeed >> traits->LMR
@@ -99,17 +137,15 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 				>> traits->palat >> traits->memory >> traits->RAR
 				>> traits->growth >> traits->mThres >> traits->clonal
 				>> traits->PropSex >> traits->meanSpacerlength
-				>> traits->sdSpacerlength >> traits->Resshare >> // >> cltraits->mSpacer
+				>> traits->sdSpacerlength >> traits->Resshare >>
 				traits->AllocSpacer >> traits->mSpacer;
-		//namen und IDs
 		traits->name = dummi2; //=cltraits->name
 		traits->TypeID = dummi1;
 		//in Listen einf�gen..
 		SPftTraits::addPftLink(dummi2, traits);
-		//    addClLink(dummi2,cltraits);
-//		SPftTraits::PftList.push_back(traits);
-
 		pftInsertionOrder.push_back(dummi2); // MSC
+//	    addClLink(dummi2,cltraits);
+//		SPftTraits::PftList.push_back(traits);
 
 		if (!InitFile.good() || n > -1) {
 			return;
@@ -118,6 +154,40 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 
 //	return InitFile;
 } //read PFT defs
+
+/* MSC
+ * Unfortunately, because the traits (i.e. LMR, m0, ...) are stored as variables
+ * rather than inside a map, or some such, there is no simple way to parameterize
+ * which values get varied. The reason is that one can't get a variable (i.e. LMR)
+ * from a string (which would be the input value).
+ *
+ * Don't forget that you'll have to deliver the new traits to the seeds (and they'll in turn
+ * create a plant which will then fecund new seeds).
+ */
+void SPftTraits::varyTraits() {
+	// TODO: ensure that all these variables are named correctly.
+	assert(myTraitType == SPftTraits::species);
+
+	double variancePerLinkedTrait;
+	myTraitType = SPftTraits::individual;
+
+	variancePerLinkedTrait = CEnvir::normrand(1.0, SRunPara::RunPara.indivVariationSD);
+	LMR = LMR * variancePerLinkedTrait;
+
+	variancePerLinkedTrait = CEnvir::normrand(1.0, SRunPara::RunPara.indivVariationSD);
+	m0 = m0 * variancePerLinkedTrait;
+	MaxMass = MaxMass * variancePerLinkedTrait;
+	SeedMass = SeedMass * variancePerLinkedTrait;
+	Dist = Dist * variancePerLinkedTrait;
+
+	variancePerLinkedTrait = CEnvir::normrand(1.0, SRunPara::RunPara.indivVariationSD);
+	Gmax = Gmax * variancePerLinkedTrait;
+	memory = memory * variancePerLinkedTrait;
+
+	variancePerLinkedTrait = CEnvir::normrand(1.0, SRunPara::RunPara.indivVariationSD);
+	palat = palat * variancePerLinkedTrait;
+	SLA = SLA * variancePerLinkedTrait;
+}
 
 /**
  initialize clonal traits with default values

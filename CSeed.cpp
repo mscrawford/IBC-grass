@@ -2,58 +2,82 @@
 //#pragma hdrstop
 
 #include "CSeed.h"
-#include "CGrid.h"//for CGrid::PftList[]
+
+#include <vector>
+
+#include "Cell.h"
+#include "Plant.h"
+#include "RunPara.h"
+#include "SPftTraits.h"
+
 //---------------------------------------------------------------------------
 
 //#pragma package(smart_init)
 
 
 //---------------------------------------------------------------------------
-/*
-CSeed::CSeed(double x, double y, int ID, double m, double estab, int maxage)
-:xcoord(x),ycoord(y),mass(m),estab(estab)
-{
-//   TypeID=ID;
-   Traits=*CPftTraits::PftList[ID-1];
-   cell=NULL;
-
-   Age=1;
-   remove=false;
-}
-*/
+//CSeed::CSeed(double x, double y, int ID, double m, double estab, int maxage)
+//:xcoord(x),ycoord(y),mass(m),estab(estab)
+//{
+////   TypeID=ID;
+//   Traits=*CPftTraits::PftList[ID-1];
+//   cell=NULL;
+//
+//   Age=1;
+//   remove=false;
+//}
 
 //---------------------------------------------------------------------------
 ///not used
 ///
-CSeed::CSeed(CSeed& seed)
-  :xcoord(seed.xcoord),ycoord(seed.ycoord),Age(seed.Age),cell(seed.cell),
-  remove(seed.remove),Traits(seed.Traits),estab(seed.estab),mass(seed.mass)
-{
-}//end copy-constructor
+//CSeed::CSeed(CSeed& seed)
+//  :xcoord(seed.xcoord),ycoord(seed.ycoord),Age(seed.Age),cell(seed.cell),
+//  remove(seed.remove),Traits(seed.Traits),estab(seed.estab),mass(seed.mass)
+//{
+//}
+
 //---------------------------------------------------------------------------
 ///not used
 ///
-CSeed::CSeed(double x, double y, CPlant* plant)
-  :xcoord(x),ycoord(y),Age(1),cell(NULL),remove(false),
-  Traits(plant->Traits),estab(Traits->pEstab),mass(Traits->SeedMass)
-{}
+//CSeed::CSeed(double x, double y, CPlant* plant)
+//  :xcoord(x),ycoord(y),Age(1),cell(NULL),remove(false),
+//  Traits(plant->Traits),estab(Traits->pEstab),mass(Traits->SeedMass)
+//{
+//}
+
 //---------------------------------------------------------------------------
-CSeed::CSeed(CPlant* plant,CCell* cell)
+CSeed::CSeed(CPlant* plant, CCell* cell)
   :xcoord(plant->xcoord),ycoord(plant->ycoord),Age(1),cell(NULL),remove(false)
 {
    Traits=plant->Traits;
+//   cout << "SeedMass, old: " << Traits->SeedMass << " | ";
+   if (SRunPara::RunPara.indivVariationVer == on)
+   {
+	   Traits=SPftTraits::createPftInstanceFromPftType(Traits->name);
+	   Traits->varyTraits();
+   }
    estab=Traits->pEstab;
    mass=Traits->SeedMass;
+//   cout << "SeedMass, new: " << Traits->SeedMass << endl;
    setCell(cell);
 }
 
 //---------------------------------------------------------------------------
-CSeed::CSeed(double estab, SPftTraits* traits,CCell* cell)
+CSeed::CSeed(double estab, SPftTraits* traits, CCell* cell)
   :xcoord(0),ycoord(0),Age(1),cell(NULL),remove(false),estab(estab),
   Traits(traits),mass(traits->SeedMass)
 {
-   setCell(cell);
-   if (cell){
+//	cout << "SeedMass, old: " << Traits->SeedMass << " | ";
+	if (SRunPara::RunPara.indivVariationVer == on)
+	{
+		Traits=SPftTraits::createPftInstanceFromPftType(Traits->name);
+		Traits->varyTraits();
+		mass = Traits->SeedMass;
+	}
+//	cout << "SeedMass, new: " << Traits->SeedMass << endl;
+	setCell(cell);
+	if (cell)
+	{
      xcoord=(cell->x*SRunPara::RunPara.CellScale());
      ycoord=(cell->y*SRunPara::RunPara.CellScale());
    }
@@ -62,40 +86,46 @@ CSeed::CSeed(double estab, SPftTraits* traits,CCell* cell)
 //---------------------------------------------------------------------------
 ///not used
 ///
-CSeed::CSeed(double x, double y,double estab, SPftTraits* traits)
-  :xcoord(x),ycoord(y),estab(estab){
-   Traits=traits;
-   mass=Traits->SeedMass;
-   Age=1;
-   remove=false;
-   cell=NULL;
-}
+//CSeed::CSeed(double x, double y,double estab, SPftTraits* traits)
+//  :xcoord(x),ycoord(y),estab(estab){
+//   Traits=traits;
+//   mass=Traits->SeedMass;
+//   Age=1;
+//   remove=false;
+//   cell=NULL;
+//}
+
 //-----------------------------------------------------------------------------
 void CSeed::setCell(CCell* cell){
-   if (this->cell==NULL){
+   if (this->cell==NULL)
+   {
      this->cell=cell;
-     //add to seed bank
-     this->cell->SeedBankList.push_back(this);
+     this->cell->SeedBankList.push_back(this); //add to seed bank
    }
-}//end setCell
-//---------------------------------------------------------------------------
-/*
-///not used
-///
-bool CSeed::Survive()
-{
-   if (Age<Traits->Dorm) return true;
-   else return false;
+   else
+   {
+	 // MSC -- maybe this is not an author oversight.
+	 cerr << "This seed is already on a cell." << endl;
+   }
 }
 
 //---------------------------------------------------------------------------
 ///not used
 ///
-void CSeed::SetAge(int age)
-{
-   Age=age;
-}
-*/
+//bool CSeed::Survive()
+//{
+//   if (Age<Traits->Dorm) return true;
+//   else return false;
+//}
+
+//---------------------------------------------------------------------------
+///not used
+///
+//void CSeed::SetAge(int age)
+//{
+//   Age=age;
+//}
+
 //---------------------------------------------------------------------------
 bool GetSeedRemove(const CSeed* seed1)
 {
@@ -110,12 +140,15 @@ int CompareTypeID(const CSeed* seed1, const CSeed* seed2)
 {
   return (seed1->Traits->TypeID < seed2->Traits->TypeID);
 }
+
 //-----------------------------------------------------------------------------
 std::string CSeed::type(){
         return "CSeed";
 }
+
+//-----------------------------------------------------------------------------
 std::string CSeed::pft(){
         return this->Traits->name;
-}   //say what a pft you are
+}
 
 //-eof----------------------------------------------------------------------------
