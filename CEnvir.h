@@ -62,7 +62,6 @@ SSR SeedRainGr;
    static string NameLogFile;      ///< Filename of Log-Entries
    static string NameClonalOutFile; ///< Filename of clonal Output-File
 
-
    static vector<double> AResMuster;     //!< mean above-ground resource availability [resource units per cm^2]
    static vector<double> BResMuster;     //!< mean below-ground resource availability [resource units per cm^2]
 
@@ -71,6 +70,7 @@ SSR SeedRainGr;
    static int WeeksPerYear;///< nb of weeks per year (constantly at value 30)
    static int NRep;        //!< number of replications -> read from SimFile;
    static int SimNr;       ///< simulation-ID
+   static int ComNr;	   ///< Community identifier for multiple parameter settings of the same community.
    static int RunNr;       ///< repitition number
 
    bool endofrun;			///<end of simulation reached? (flag)
@@ -149,7 +149,7 @@ SSR SeedRainGr;
    void WriteSurvival();
    ///write survival data while adding an index to the file name
    void WriteSurvival(string str);
-   void WriteSurvival(int runnr, int simnr);
+   void WriteSurvival(int runnr, int simnr, int comnr);
    //! writes detailed data for the modeled community to output file
    void WriteGridComplete(bool allYears=true);
    //! writes detailed data for each PFT to output file
@@ -171,6 +171,8 @@ SSR SeedRainGr;
       ///get current PopSize of type pft
    double GetCurrPopSize(string pft);
 
+   static string toString();
+   static string headerToString();
 };
 //---------------------------------------------------------------------------
 #endif

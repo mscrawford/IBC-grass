@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iostream>
 #include <cassert>
+#include <sstream>
 
 #include "SPftTraits.h"
 #include "CEnvir.h"
@@ -22,7 +23,7 @@ SPftTraits::SPftTraits() :
 				17.5), sdSpacerlength(12.5), Resshare(true), mSpacer(70), AllocSpacer(
 				0.05), clonal(true), myTraitType(SPftTraits::species)
 {
-	myTraitType = SPftTraits::species;
+
 } //end constructor
 
 SPftTraits::SPftTraits(const SPftTraits& s) :
@@ -32,9 +33,15 @@ SPftTraits::SPftTraits(const SPftTraits& s) :
 		mThres(s.mThres), Dorm(s.Dorm), FlowerWeek(s.FlowerWeek), DispWeek(s.DispWeek),
 		PropSex(s.PropSex), meanSpacerlength(s.meanSpacerlength),sdSpacerlength(s.sdSpacerlength),
 		Resshare(s.Resshare), mSpacer(s.mSpacer), AllocSpacer(s.AllocSpacer), clonal(s.clonal),
-		myTraitType(SPftTraits::species)
+		myTraitType(s.myTraitType)
 {
-	myTraitType = SPftTraits::species;
+	if (SRunPara::RunPara.indivVariationVer == off) {
+		assert(s.myTraitType == SPftTraits::species);
+	}
+
+	if (s.myTraitType == SPftTraits::individualized) {
+		assert(SRunPara::RunPara.indivVariationVer == on);
+	}
 }
 
 SPftTraits::~SPftTraits() {
@@ -47,6 +54,21 @@ map<string, SPftTraits*> SPftTraits::PftLinkList = map<string, SPftTraits*>();
 
 // MSC : This vector is for remembering the order of the PFTs if this is an InvasionCriterion experiment.
 vector<string> SPftTraits::pftInsertionOrder = vector<string>();
+
+/** MSC
+ * Records every "individualized" trait syndrome (or rather, the pointer to it).
+ * This is used to remove them after each run. By the end of a 100 year run with 128cm grid cells,
+ * there will be about 2GB of memory used. To improve this algorithm (though complicating the code),
+ * one could delete the trait syndromes after their final use (i.e. a seed does not germinate, or a
+ * plant dies). One must be cognizant to ensure that
+ *				0) all plants use individualized traits (though they do not necessarily have to vary) so that the
+ *					destructor doesn't accidentally delete a species level trait. Or, if individualization is off (that is,
+ *					no traits are actually being varied), all copies can just be deleted with their parent's (plant or seed) destructor.
+ *				1) all seeds pass their traits to the plants they become (enabled by the use of SPftTrait's copy constructor) inside
+ *					the plant constructor.
+ *				2) all seeds and plants, when they die, remove their own traits.
+ *				3) they got rid of the individualPftList (as all individualPfts have a very short life).
+ */
 
 //------------------------------------------------------------------------------
 /**
@@ -141,18 +163,15 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 				traits->AllocSpacer >> traits->mSpacer;
 		traits->name = dummi2; //=cltraits->name
 		traits->TypeID = dummi1;
-		//in Listen einf�gen..
+
 		SPftTraits::addPftLink(dummi2, traits);
 		pftInsertionOrder.push_back(dummi2); // MSC
 //	    addClLink(dummi2,cltraits);
-//		SPftTraits::PftList.push_back(traits);
 
 		if (!InitFile.good() || n > -1) {
 			return;
 		}
 	} while (!InitFile.eof());
-
-//	return InitFile;
 } //read PFT defs
 
 /* MSC
@@ -167,10 +186,11 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 void SPftTraits::varyTraits() {
 	// TODO: ensure that all these variables are named correctly.
 	assert(myTraitType == SPftTraits::species);
+	assert(SRunPara::RunPara.indivVariationVer == on);
+
+	myTraitType = SPftTraits::individualized;
 
 	double variancePerLinkedTrait;
-	myTraitType = SPftTraits::individual;
-
 	variancePerLinkedTrait = CEnvir::normrand(1.0, SRunPara::RunPara.indivVariationSD);
 	LMR = LMR * variancePerLinkedTrait;
 
@@ -187,6 +207,66 @@ void SPftTraits::varyTraits() {
 	variancePerLinkedTrait = CEnvir::normrand(1.0, SRunPara::RunPara.indivVariationSD);
 	palat = palat * variancePerLinkedTrait;
 	SLA = SLA * variancePerLinkedTrait;
+}
+
+string SPftTraits::toString()
+{
+	std::stringstream mystream;
+	mystream << name << '\t'
+			<< AllocSeed << "\t"
+			<< LMR << "\t"
+			<< m0 << "\t"
+			<< MaxMass << "\t"
+			<< SeedMass << "\t"
+			<< Dist << "\t"
+			<< pEstab << "\t"
+			<< Gmax << "\t"
+			<< SLA << "\t"
+			<< palat << "\t"
+			<< memory << "\t"
+			<< RAR << "\t"
+			<< growth << "\t"
+			<< mThres << "\t"
+			<< clonal << "\t"
+			<< PropSex << "\t"
+			<< meanSpacerlength << "\t"
+			<< sdSpacerlength << "\t"
+			<< Resshare << "\t"
+			<< AllocSpacer << "\t"
+			<< mSpacer << "\t"
+			;
+
+	return mystream.str();
+}
+
+string SPftTraits::headerToString()
+{
+	std::stringstream mystream;
+	mystream << "PFT" << "\t"
+			<< "AllocSeed" << "\t"
+			<< "LMR" << "\t"
+			<< "m0" << "\t"
+			<< "MaxMass" << "\t"
+			<< "SeedMass" << "\t"
+			<< "Dist" << "\t"
+			<< "pEstab" << "\t"
+			<< "Gmax" << "\t"
+			<< "SLA" << "\t"
+			<< "palat" << "\t"
+			<< "memory" << "\t"
+			<< "RAR" << "\t"
+			<< "growth" << "\t"
+			<< "mThres" << "\t"
+			<< "clonal" << "\t"
+			<< "PropSex" << "\t"
+			<< "meanSpacerlength" << "\t"
+			<< "sdSpacerlength" << "\t"
+			<< "Resshare" << "\t"
+			<< "AllocSpacer" << "\t"
+			<< "mSpacer" << "\t"
+		;
+
+	return mystream.str();
 }
 
 /**

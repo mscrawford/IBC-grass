@@ -5,6 +5,7 @@
 //#pragma hdrstop
 
 #include "RunPara.h"
+#include "SPftTraits.h"
 
 //#include <iostream>
 #include <cstdlib>
@@ -17,7 +18,7 @@ std::string SRunPara::NameSimFile = "Input/SimFile.txt"; //file with simulation 
 
 SRunPara SRunPara::RunPara=SRunPara();
 //-------------------------------------------------------------------
-SRunPara::SRunPara():Version(version1),AboveCompMode(sym),BelowCompMode(sym),
+SRunPara::SRunPara():Version(version1),indivVariationVer(off),AboveCompMode(sym),BelowCompMode(sym),
   mort_base(0.007),LitterDecomp(0.5),DiebackWinter(0.5),EstabRamet(1),
   GridSize(128),CellNum(128),Tmax(10), invasionTmax(10), NPft(81),GrazProb(0),PropRemove(0.5),BitSize(0.5),MassUngraz(15300),
   BelGrazProb(0),BelPropRemove(0),BelGrazMode(0),BGThres(1),HetBG(false),
@@ -30,27 +31,68 @@ SRunPara::SRunPara():Version(version1),AboveCompMode(sym),BelowCompMode(sym),
 \author KK
 \date  120831
 */
-std::string SRunPara::asString(){
-  std::stringstream mystream;
-      mystream
-      <<"\n"<<Version<<"\t"<<AboveCompMode<<"\t"<<BelowCompMode
-      <<"\t"<<GridSize <<"\t"<<Tmax        <<"\t"<<torus
-      <<"\t"<<mort_seeds<<"\t"<<EstabRamet
-      <<"\t"<<mort_base<<"\t"<<LitterDecomp<<"\t"<<DiebackWinter
-      <<"\nRes: \t"<<meanARes     <<"\t"<<meanBRes
-      <<"\nGrazing:\t"<<GrazProb    <<"\t"<<PropRemove <<"\t"<<BitSize
-      <<"\nBGHerb:\t"<<BelGrazProb <<"\t"<<BelPropRemove
-      <<"\t"<<BelGrazMode  <<"\t"<<BGThres   <<"\t"<<HetBG
-      <<"\nCutting:\t"<<NCut         <<"\t"<<CutMass  //<<"\nCutLeave:\t"<<CutLeave
-      <<"\nTrampling:\t"<<DistAreaYear<<"\t"<<AreaEvent
-      <<"\t"<<DistAreaYear<<"\t"<<AreaEvent
-//      <<"\t"<<mort_seeds
- //     <<"\nspecies:\t"<<species   <<"\nWaterLevel:\t"<<WaterLevel
- //     <<"\nWLseason:\t"<<WLseason <<"\nWLsigma:\t"<<WLsigma
- //     <<"\nchangeVal:\t"<<changeVal<<"\n Migration:\t"<<Migration
-      <<"\n"<<SRunPara::NamePftFile;
- return mystream.str();
-}//end print
+std::string SRunPara::toString(){
+	std::stringstream mystream;
+	mystream << Version << "\t"
+			 << Invasion << "\t";
+
+	if (Invasion == invasionCriteria) {
+		std::string monoculture = SPftTraits::pftInsertionOrder[0];
+		std::string invader = SPftTraits::pftInsertionOrder[1];
+
+		mystream << monoculture << "\t";
+		mystream << invader << "\t";
+	} else if (Invasion == normal) {
+		mystream << "NA\tNA\t";
+	}
+
+	mystream
+			<< indivVariationVer << "\t"
+			<< indivVariationSD << "\t"
+			<< Tmax << "\t"
+			<< meanARes << "\t"
+			<< meanBRes << "\t"
+			<< GrazProb << "\t"
+			<< PropRemove << "\t"
+			<< NCut << "\t"
+			<< CutMass << "\t"
+			<< DistAreaYear << "\t"
+			<< AreaEvent << "\t"
+			<< SeedRainType << "\t"
+			<< SeedInput << "\t"
+			;
+
+	return mystream.str();
+}
+
+/*
+ * MSC
+ * 19-01-2015
+ */
+std::string SRunPara::headerToString() {
+	std::stringstream mystream;
+	mystream
+			<< "Version" << "\t"
+			<< "Invasion" << "\t"
+			<< "monoculture" << "\t"
+			<< "invader" << "\t"
+			<< "indivVariationVer" << "\t"
+			<< "indivVariationSD" << "\t"
+			<< "Tmax" << "\t"
+			<< "ARes" << "\t"
+			<< "BRes" << "\t"
+			<< "GrazProb" << "\t"
+			<< "PropRemove" << "\t"
+			<< "NCut" << "\t"
+			<< "CutMass" << "\t"
+			<< "DistAreaYear" << "\t"
+			<< "AreaEvent" << "\t"
+			<< "SeedRainType" << "\t"
+			<< "SeedInput" << "\t"
+			;
+	return mystream.str();
+}
+
 void SRunPara::setRunPara(std::string def){
 	using namespace std;
 	stringstream dummi; dummi<<def;

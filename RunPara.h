@@ -6,6 +6,7 @@
 #define RunParaH
 
 #include <iostream>
+#include <string>
 
 //---------------------------------------------------------------------------
 //! Enumeration type to specify size asymmetry/symmetry of competition
@@ -36,7 +37,7 @@ enum invasionVersion {
  * \arg off \c there is no individual variation.
  */
 enum individualVariationVersion {
-	on, off
+	off, on
 };
 
 //---------------------------------------------------------------------------
@@ -51,6 +52,9 @@ public:
 
 	CompMode AboveCompMode; //!<0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry
 	CompMode BelowCompMode; //!<0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry
+
+
+	int SPAT; // Do we record the spatial grid?
 
 	//! niche differentiation
 	/*!
@@ -152,7 +156,8 @@ public:
 		return CellNum * CellNum;
 	}
 	;
-	std::string asString();  ///<
+	std::string toString();  ///<
+	static std::string headerToString();
 	std::string getFileID(); ///<ID-string for current run
 	void setRunPara(std::string def);
 };

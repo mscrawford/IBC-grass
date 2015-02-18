@@ -36,6 +36,7 @@ string SSR::NameLDDFile5 = "Output/SeedOut19_20.csv";
 
 int CEnvir::NRep = 1;        //!> number of replications -> read from SimFile;
 int CEnvir::SimNr = 0;
+int CEnvir::ComNr = 0;
 int CEnvir::RunNr = 0;
 vector<double> CEnvir::AResMuster;
 vector<double> CEnvir::BResMuster;
@@ -148,6 +149,7 @@ int CEnvir::GetSim(const int pos, string file) {
 	int version, acomp, bcomp, invasionVersion, individualVariation;
 
 	SimFile >> SimNr
+			>> ComNr
 			>> invasionVersion; // MSC
 
 	// MSC:
@@ -185,7 +187,7 @@ int CEnvir::GetSim(const int pos, string file) {
 
 	if (SRunPara::RunPara.Invasion == invasionCriteria) {
 		SimFile >> SRunPara::RunPara.invasionTmax;
-		SRunPara::RunPara.Tmax = 10;
+		SRunPara::RunPara.Tmax = SRunPara::RunPara.invasionTmax;
 	} else {
 		SimFile >> SRunPara::RunPara.Tmax;
 	}
@@ -205,6 +207,7 @@ int CEnvir::GetSim(const int pos, string file) {
 //	>> RunPara.mort_seeds
 	>> SRunPara::RunPara.SeedRainType
 	>> SRunPara::RunPara.SeedInput //seed number / mass per grid
+	>> SRunPara::RunPara.SPAT
 	>> SRunPara::NamePftFile
 //  >> RunPara.PftFile
 //	>> RunPara.BGThres
@@ -215,12 +218,10 @@ int CEnvir::GetSim(const int pos, string file) {
 	//grazing intensity
 //  SRunPara::RunPara.PropRemove=0.5;
 	//no trampling
-	SRunPara::RunPara.DistAreaYear = 0;
 	//above- and belowground competition -> acomp=asymetric bcomp=symetric
 	acomp = 1;
 	bcomp = 0;
-	//RunPara.Version assume higher intraspecific competition
-	version = 1;
+	version = 1; //RunPara.Version assume higher intraspecific competition
 
 	//--------------------------------
 	// set version and competition  modes - in this way because of enum types!
@@ -280,8 +281,7 @@ int CEnvir::GetSim(const int pos, string file) {
 	default:
 		break;
 	}
-
-	cout << SRunPara::RunPara.asString() << endl;
+//	cout << SRunPara::RunPara.toString() << endl;
 	//Open InitFile,
 	SPftTraits::ReadPFTDef(SRunPara::NamePftFile);
 
@@ -299,7 +299,32 @@ int CEnvir::GetSim(const int pos, string file) {
 	SSR::NameLDDFile5 = (string) "Output/LDD-19-20_" + fid + ".txt";
 
 	return SimFile.tellg();
-}      //end  CEnvir::GetSim
+} //end  CEnvir::GetSim
+
+string CEnvir::headerToString() {
+	std::stringstream mystream;
+	mystream
+		<< "SimNr" << "\t"
+		<< "ComNr" << "\t"
+		<< "RunNr" << "\t"
+		<< "year" << "\t"
+		<< "week" << "\t"
+		;
+	return mystream.str();
+}
+
+string CEnvir::toString() {
+	std::stringstream mystream;
+	mystream
+		<< SimNr << "\t"
+		<< ComNr << "\t"
+		<< RunNr << "\t"
+		<< year << "\t"
+		<< week << "\t"
+		;
+	return mystream.str();
+}
+
 //------------------------------------------------------------------------------
 /**
  * refresh environment
@@ -346,14 +371,12 @@ void CEnvir::WriteOFiles() {
 	WriteGridComplete(false);
 	WritePftComplete(false);
 //	WriteclonalOutput();
-	if (SRunPara::RunPara.Invasion == normal
-			&& year == SRunPara::RunPara.Tmax) {	//output at end of run
+	if (SRunPara::RunPara.Invasion == normal && year == SRunPara::RunPara.Tmax) {	//output at end of run
 		WriteSurvival();
-		this->WritePftSeedOutput();	//write all year's output at once
-	} else if (SRunPara::RunPara.Invasion == invasionCriteria && // MSC
-			year == SRunPara::RunPara.invasionTmax + SRunPara::RunPara.Tmax) {
+//		this->WritePftSeedOutput();	//write all year's output at once
+	} else if (SRunPara::RunPara.Invasion == invasionCriteria && year == SRunPara::RunPara.invasionTmax + SRunPara::RunPara.Tmax) {
 		WriteSurvival();
-		this->WritePftSeedOutput();	//write all year's output at once
+//		this->WritePftSeedOutput();	//write all year's output at once
 	}
 }
 //------------------------------------------------------------------------------
@@ -371,33 +394,56 @@ void CEnvir::WriteGridComplete(bool allYears) {
 	GridOutFile.seekp(0, ios::end);
 	long size = GridOutFile.tellp();
 	if (size == 0) {
-		GridOutFile << "Sim\tRun\tTime\t" << "totMass\tNInd\t"
-				// << "abovemass\tbelowmass\tBareGround\t"
-				<< "abovemass\tbelowmass\tBareGround\t"
-				<< "mean_ares\tmean_bres\t" << "shannon\tmeanShannon\t"
-				<< "NPFT\tmeanNPFT\tCutted\t" << "NNonClonal\tNClonal\tNGenets";
-		GridOutFile << "\n";
+		GridOutFile
+				<< "SimNr" << "\t"
+				<< "ComNr" << "\t"
+				<< "RunNr" << "\t"
+				<< "Year" << "\t"
+				<< SRunPara::headerToString()
+				<< "totalMass" << "\t"
+				<< "NInd" << "\t"
+				<< "abovemass" << "\t"
+				<< "belowmass" << "\t"
+				<< "BareGround" << "\t"
+				<< "mean_ares" << "\t"
+				<< "mean_bres" << "\t"
+				<< "shannon" << "\t"
+				<< "meanShannon" << "\t"
+				<< "nPFT" << "\t"
+				<< "meanNPFT" << "\t"
+				<< "Cutted" << "\t"
+				<< "nNonClonal" << "\t"
+				<< "nClonal" << "\t"
+				<< "NGenets" << "\t"
+				<< endl;
 	}
 
 	vector<SGridOut>::size_type i = 0;
 	if (!allYears)
 		i = GridOutData.size() - 1;
-	for ((i); i < GridOutData.size(); ++i) {
-		GridOutFile << SimNr << '\t' << RunNr << '\t' << i
-				//<<'\t'<<GridOutData[i]->week
-				<< '\t' << GridOutData[i]->totmass << '\t'
-				<< GridOutData[i]->Nind << '\t' << GridOutData[i]->above_mass
-				<< '\t' << GridOutData[i]->below_mass << '\t'
+	for (i; i < GridOutData.size(); ++i) {
+		GridOutFile
+				<< SimNr << "\t"
+				<< ComNr << "\t"
+				<< RunNr << "\t"
+				<< i << "\t"
+				<< SRunPara::RunPara.toString()
+				<< GridOutData[i]->totmass << '\t'
+				<< GridOutData[i]->Nind << '\t'
+				<< GridOutData[i]->above_mass << '\t'
+				<< GridOutData[i]->below_mass << '\t'
 				<< GridOutData[i]->bareGround << '\t'
-				<< GridOutData[i]->aresmean << '\t' << GridOutData[i]->bresmean
-				<< '\t' << GridOutData[i]->shannon << '\t' << GetMeanShannon(10)
-				//25 nach 100J
-				<< '\t' << GridOutData[i]->PftCount << '\t' << GetMeanNPFT(10)
-				<< '\t' << GridOutData[i]->cutted << '\t'
+				<< GridOutData[i]->aresmean << '\t'
+				<< GridOutData[i]->bresmean << '\t'
+				<< GridOutData[i]->shannon << '\t'
+				<< GetMeanShannon(10) << '\t'
+				<< GridOutData[i]->PftCount << '\t'
+				<< GetMeanNPFT(10) << '\t'
+				<< GridOutData[i]->cutted << '\t'
 				<< GridOutData.back()->NPlants << '\t'
 				<< GridOutData.back()->NclonalPlants << '\t'
-				<< GridOutData.back()->NGenets //GetNMotherPlants()
-				<< "\n";
+				<< GridOutData.back()->NGenets
+				<< endl;
 	}
 	GridOutFile.close();
 } //WriteGridComplete
@@ -408,76 +454,55 @@ void CEnvir::WriteGridComplete(bool allYears) {
  \param allYears write all data or only the last entry?
  */
 void CEnvir::WritePftComplete(bool allYears) {
-	//Open PftFile , write header and initial conditions
+	//Open PftFile, write header and initial conditions
 	ofstream PftOutFile(NamePftOutFile.c_str(), ios_base::app);
 	if (!PftOutFile.good()) {
 		cerr << ("Fehler beim �ffnen PftOutFile");
 		exit(3);
 	}
+
 	PftOutFile.seekp(0, ios::end);
 	long size = PftOutFile.tellp();
 	if (size == 0) {
-		PftOutFile << "Sim\tRun\tTime\tInds\tseeds\tcover\trootmass\tshootmass\tPFT\t";
-		PftOutFile << "monoculture\tinvader\t";
-		PftOutFile << "AllocSeed\tLMR\tm0\tMaxMass\tmSeed\tDist\tpEstab\tGmax\tSLA\tpalat\t" <<
-				"memo\tRAR\tgrowth\tmThres\tclonal\tpropSex\tmeanSpacerLength\t" <<
-				"sdSpacerLength\tResshare\tAllocSpacer\tmSpacer\t";
-		PftOutFile << endl;
+		PftOutFile
+				<< "SimNr" << "\t"
+				<< "ComNr" << "\t"
+				<< "RunNr" << "\t"
+				<< "Year" << "\t"
+				<< SRunPara::headerToString()
+				<< SPftTraits::headerToString()
+				<< "Nind" << "\t"
+				<< "Nseeds" << "\t"
+				<< "cover" << "\t"
+				<< "rootmass" << "\t"
+				<< "shootmass" << "\t"
+				<< endl;
 	}
 
 	vector<SPftOut>::size_type i = 0;
 	if (!allYears)
 		i = PftOutData.size() - 1;
-	for ((i); i < PftOutData.size(); ++i) {
+	for (i; i < PftOutData.size(); ++i)
+	{
 		typedef map<string, SPftOut::SPftSingle*> mapType;
-
 		for (mapType::const_iterator it = PftOutData[i]->PFT.begin();
-				it != PftOutData[i]->PFT.end(); ++it) {
-			PftOutFile << SimNr << '\t' << RunNr << '\t' << i;
-			PftOutFile << '\t' << it->second->Nind;
-			PftOutFile << '\t' << it->second->Nseeds;
-			PftOutFile << '\t' << it->second->cover;
-			PftOutFile << '\t' << it->second->rootmass;
-			PftOutFile << '\t' << it->second->shootmass;
-			PftOutFile << '\t' << it->first; //pft-name at last
-
-			// MSC: if this is an invasion simulation, also print out which
-			// was the monoculture PFT and which was the invader.
-			if (SRunPara::RunPara.Invasion == invasionCriteria) {
-				string monoculture = SPftTraits::pftInsertionOrder[0];
-				PftOutFile << '\t' << monoculture; // monoculture
-
-				string invader = SPftTraits::pftInsertionOrder[1];
-				PftOutFile << '\t' << invader; // invader
-			}
-			else if (SRunPara::RunPara.Invasion == normal)
-			{
-				PftOutFile << "\tNA\tNA";
-			}
+				it != PftOutData[i]->PFT.end(); ++it)
+		{
 
 			SPftTraits* traits = SPftTraits::PftLinkList.find(it->first)->second;
-			PftOutFile << '\t' << traits->AllocSeed;
-			PftOutFile << '\t' << traits->LMR;
-			PftOutFile << '\t' << traits->m0;
-			PftOutFile << '\t' << traits->MaxMass;
-			PftOutFile << '\t' << traits->SeedMass;
-			PftOutFile << '\t' << traits->Dist;
-			PftOutFile << '\t' << traits->pEstab;
-			PftOutFile << '\t' << traits->Gmax;
-			PftOutFile << '\t' << traits->SLA;
-			PftOutFile << '\t' << traits->palat;
-			PftOutFile << '\t' << traits->memory;
-			PftOutFile << '\t' << traits->RAR;
-			PftOutFile << '\t' << traits->growth;
-			PftOutFile << '\t' << traits->mThres;
-			PftOutFile << '\t' << traits->clonal;
-			PftOutFile << '\t' << traits->PropSex;
-			PftOutFile << '\t' << traits->meanSpacerlength;
-			PftOutFile << '\t' << traits->sdSpacerlength;
-			PftOutFile << '\t' << traits->Resshare;
-			PftOutFile << '\t' << traits->AllocSpacer;
-			PftOutFile << '\t' << traits->mSpacer;
-			PftOutFile << endl;
+			PftOutFile
+						<< SimNr << "\t"
+						<< ComNr << "\t"
+						<< RunNr << "\t"
+						<< i << "\t"
+						<< SRunPara::RunPara.toString()
+			 	 	 	<< traits->toString()
+						<< it->second->Nind << "\t"
+						<< it->second->Nseeds << "\t"
+						<< it->second->cover << "\t"
+						<< it->second->rootmass << "\t"
+						<< it->second->shootmass << "\t"
+						<< endl;
 		}
 	}
 	PftOutFile.close();
@@ -487,7 +512,7 @@ void CEnvir::WritePftComplete(bool allYears) {
  * File Output - survival Info of PFTs
  */
 void CEnvir::WriteSurvival() {
-	WriteSurvival(RunNr, SimNr);
+	WriteSurvival(RunNr, SimNr, ComNr);
 }
 /**
  * File Output - survival Info of PFTs
@@ -502,72 +527,37 @@ void CEnvir::WriteSurvival(string str) {
 /**
  File-Output - Documentation of type-specific survival statistics.
  */
-void CEnvir::WriteSurvival(int runnr, int simnr) {
+void CEnvir::WriteSurvival(int runnr, int simnr, int comnr) {
 	ofstream SurvOutFile(NameSurvOutFile.c_str(), ios_base::app);
 	if (!SurvOutFile.good()) {
 		cerr << ("Fehler beim �ffnen SurvFile");
 		exit(3);
 	}
+
 	SurvOutFile.seekp(0, ios::end);
 	long size = SurvOutFile.tellp();
 	if (size == 0) {
-		SurvOutFile << "Sim\tRun\tT\tmPop\tcPop\tTE\tPFT\t";
-
-//		if (SRunPara::RunPara.Invasion == invasionCriteria) { // MSC
-			SurvOutFile << "monoculture\tinvader\t";
-//		}
-
-		SurvOutFile << "AllocSeed\tLMR\tm0\tMaxMass\tmSeed\tDist\tpEstab\tGmax\tSLA\tpalat\t" <<
-				"memo\tRAR\tgrowth\tmThres\tclonal\tpropSex\tmeanSpacerLength\t" <<
-				"sdSpacerLength\tResshare\tAllocSpacer\tmSpacer";
-
-		SurvOutFile << endl;
+		SurvOutFile
+		<< CEnvir::headerToString()
+		<< SRunPara::headerToString()
+		<< SPftTraits::headerToString()
+		<< "mPop" << "\t"
+		<< "cPop" << "\t"
+		<< "TE" << "\t"
+		<< endl;
 	}
 
 	typedef map<string, int> mapType;
-
 	for (mapType::const_iterator it = PftSurvTime.begin();
 			it != PftSurvTime.end(); ++it) {
-		SurvOutFile << simnr << '\t' << runnr << '\t' << year;
-		SurvOutFile << '\t' << GetMeanPopSize(it->first, 10); //mean of 10 years
-		SurvOutFile << '\t' << GetCurrPopSize(it->first);
-		SurvOutFile << '\t' << it->second << '\t' << it->first;
-
-		if (SRunPara::RunPara.Invasion == invasionCriteria) {
-			string monoculture = SPftTraits::pftInsertionOrder[0];
-			SurvOutFile << '\t' << monoculture; // monoculture
-
-			string invader = SPftTraits::pftInsertionOrder[1];
-			SurvOutFile << '\t' << invader; // invader
-		}
-		else if (SRunPara::RunPara.Invasion == normal)
-		{
-			SurvOutFile << "\tNA\tNA";
-		}
-
 		SPftTraits* traits = SPftTraits::getPftLink(it->first);
-		SurvOutFile << '\t' << traits->AllocSeed;
-		SurvOutFile << '\t' << traits->LMR;
-		SurvOutFile << '\t' << traits->m0;
-		SurvOutFile << '\t' << traits->MaxMass;
-		SurvOutFile << '\t' << traits->SeedMass;
-		SurvOutFile << '\t' << traits->Dist;
-		SurvOutFile << '\t' << traits->pEstab;
-		SurvOutFile << '\t' << traits->Gmax;
-		SurvOutFile << '\t' << traits->SLA;
-		SurvOutFile << '\t' << traits->palat;
-		SurvOutFile << '\t' << traits->memory;
-		SurvOutFile << '\t' << traits->RAR;
-		SurvOutFile << '\t' << traits->growth;
-		SurvOutFile << '\t' << traits->mThres;
-		SurvOutFile << '\t' << traits->clonal;
-		SurvOutFile << '\t' << traits->PropSex;
-		SurvOutFile << '\t' << traits->meanSpacerlength;
-		SurvOutFile << '\t' << traits->sdSpacerlength;
-		SurvOutFile << '\t' << traits->Resshare;
-		SurvOutFile << '\t' << traits->AllocSpacer;
-		SurvOutFile << '\t' << traits->mSpacer;
-		SurvOutFile << endl;
+		SurvOutFile	<< CEnvir::toString()
+					<< SRunPara::RunPara.toString()
+					<< traits->toString()
+					<< GetMeanPopSize(it->first, 10) << '\t' // mean of 10 years
+					<< GetCurrPopSize(it->first) << '\t'
+					<< it->second << '\t'
+					<< endl;
 	}
 //     SurvOutFile<<"\n";
 } //end writeSurvival
@@ -587,8 +577,9 @@ void CEnvir::WriteclonalOutput() {
 	clonOut.seekp(0, ios::end);
 	long size = clonOut.tellp();
 	if (size == 0)
-		clonOut << "SimNr\tRun\tweek\tnon-ClPlants\tClPlants\tclones\n";
+		clonOut << "SimNr\tComNr\tRun\tweek\tnon-ClPlants\tClPlants\tclones\n";
 	clonOut << SimNr << "\t"
+			<< ComNr << "\t"
 			//       <<Pfttype+1<<"\t"
 			//       <<clonaltype+1<<"\t"
 			<< RunNr + 1 << "\t" << GetT() << "\t"
@@ -620,7 +611,7 @@ void CEnvir::WritePftSeedOutput() {
 	LDDFile1.seekp(0, ios::end);
 	long size = LDDFile1.tellp();
 	if (size == 0) {
-		LDDFile1 << "Sim\tRun\tTime";
+		LDDFile1 << "Sim\tComNr\tRun\tTime";
 		LDDFile1 << "\t";
 
 		for (map<string, SPftTraits*>::const_iterator it =
@@ -637,7 +628,9 @@ void CEnvir::WritePftSeedOutput() {
 
 	for (vector<PftOut>::size_type i = 0; i < PftOutData.size(); ++i) {
 
-		LDDFile1 << SimNr << '\t' << RunNr << '\t' << i + 1;
+		LDDFile1 << SimNr << '\t'
+				 << ComNr << "\t"
+				 << RunNr << '\t' << i + 1;
 
 		for (mapType::const_iterator it = SPftTraits::PftLinkList.begin();
 				it != SPftTraits::PftLinkList.end(); ++it) {

@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
 
 	if (argc>=2) {
       string file = argv[1];
-      SRunPara::NameSimFile="Input/"+file;
+      SRunPara::NameSimFile=file;
    } else SRunPara::NameSimFile="Input/SimFile.txt";
    cout<<"new Environment...clonal community...\n";
 //      //change gridsize to 3qm

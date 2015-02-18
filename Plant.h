@@ -106,6 +106,7 @@ public:
    virtual string type();  ///<say what you are
    virtual string pft();   ///<say what a pft you are
    virtual string asString(); ///<report plant's status
+   static string headerToString();
 //   void Allometrics(); //!< calculates ZOI areas (above and below) from shoot and root mass
 
 //-2nd order properties

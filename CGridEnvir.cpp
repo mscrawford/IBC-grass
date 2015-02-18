@@ -182,7 +182,6 @@ void CGridEnvir::InitInds(string file, int n) {
 		// container needs to be used. It's only relevant when invasion criterion is on.
 		string monocultureName = SPftTraits::pftInsertionOrder[0];
 		SPftTraits* traits = SPftTraits::PftLinkList.find(monocultureName)->second;
-		traits->varyTraits();
 		InitClonalSeeds(traits, no_init_seeds); // cltraits
 		PftInitList[traits->name] += no_init_seeds;
 		PftSurvTime[traits->name] = 0;
@@ -233,7 +232,7 @@ bool CGridEnvir::InitInd(string def) { // Breaks individual vary trais MSC
  \param type string naming the type to be set
  \param number number of seeds to set
  */
-void CGridEnvir::InitSeeds(string type, int number) { // Breaks individual vary trais MSC
+void CGridEnvir::InitSeeds(string type, int number) { // Breaks individual vary traits MSC
 	//searching the type
 	SPftTraits *pfttraits = SPftTraits::getPftLink(type); //=SclonalTraits::clonalTraits[Cltype];
 	//set seeds...
@@ -260,15 +259,17 @@ void CGridEnvir::OneRun() {
 	// adding in the other PFT.
 	do {
 		this->NewWeek();
-		cout << "y " << year;
+		cout << "y " << year << endl;
 		OneYear();
 //		if (SRunPara::RunPara.Invasion == normal)
 		WriteOFiles(); //to be adapted
 
 //		if (year == 50) {
-			stringstream v;
-			this->Save(v.str());
+//			stringstream v;
+//			this->Save(v.str());
 //		}
+
+		this->writeSpatialGrid();
 
 		if (endofrun)
 			break;
@@ -286,7 +287,6 @@ void CGridEnvir::OneRun() {
 
 		string invader = SPftTraits::pftInsertionOrder[1];
 		SPftTraits* traits = SPftTraits::getPftLink(invader);
-		traits->varyTraits();
 		InitClonalPlants(traits, no_init_plants);
 
 		PftInitList[traits->name] += no_init_plants;
@@ -303,8 +303,7 @@ void CGridEnvir::OneRun() {
 			cout << "y " << year << endl;
 			OneYear();
 			WriteOFiles();
-			stringstream v;
-			this->Save(v.str());
+			this->writeSpatialGrid();
 			if (endofrun)
 				break;
 		} while (year < SRunPara::RunPara.invasionTmax + SRunPara::RunPara.Tmax); // years
@@ -627,15 +626,32 @@ void CGridEnvir::Save(string ID) {
 	SaveFile << CEnvir::year << "\t" << CEnvir::week << endl;
 	SaveFile << SRunPara::NamePftFile << endl;
 //Run Parameter
-	SaveFile << SRunPara::RunPara.asString() << endl;
+	SaveFile << SRunPara::RunPara.toString() << endl;
 
 	fname = "Save/G_" + ID + "_" + std::to_string(CEnvir::RunNr) + "_" +
 			std::to_string(CEnvir::year) + "_" + std::to_string(CEnvir::week) + ".sav";
 //CGrid, CClonalGrid
 
-	((CGrid*) this)->saveSpatialGrid(fname);
+	((CGrid*) this)->Save(fname);
 
-} //Save
+}
+
+/**
+ * MSC
+ * Saves the spatial state of the grid (one entry for each plant)
+ */
+void CGridEnvir::writeSpatialGrid() {
+	if (SRunPara::RunPara.SPAT == 1)
+	{
+		string fn = "Output/Spat-" +
+				std::to_string(CEnvir::SimNr) + "_" +
+				std::to_string(CEnvir::ComNr) + "_" +
+				std::to_string(CEnvir::RunNr) + ".txt";
+
+		((CGrid*) this)->writeSpatialGrid(fn);
+	}
+}
+
 //------------------------------------------------------------------------------
 /**
  * annual seed rain

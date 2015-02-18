@@ -11,6 +11,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -23,8 +24,8 @@ public:
 
 	enum traitType
 	{
-		individual,
-		species
+		species,
+		individualized
 	};
 
 //general
@@ -100,6 +101,8 @@ public:
 	SPftTraits(const SPftTraits& s);
 	void varyTraits();
 	virtual ~SPftTraits();
+	string toString();
+	static string headerToString();
 	static void ReadPFTDef(const string& file, int n = -1);
 	static SPftTraits* getPftLink(string type); ///get basic type according to string
 	static SPftTraits* createPftInstanceFromPftType(string type);

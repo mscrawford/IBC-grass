@@ -35,6 +35,7 @@ public:
   void OneWeek();   //!< calls all weekly processes
   virtual void Save(string ID);//<save current grid state
   virtual void Load(string ID){};//<load previosly saved grid
+  virtual void writeSpatialGrid();
   int PftSurvival();    ///< from CEnvir
   ///@}
 

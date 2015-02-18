@@ -3,17 +3,18 @@
 
 #include "CSeed.h"
 
+#include <cassert>
 #include <vector>
 
 #include "Cell.h"
 #include "Plant.h"
+#include "CEnvir.h"
 #include "RunPara.h"
 #include "SPftTraits.h"
 
 //---------------------------------------------------------------------------
 
 //#pragma package(smart_init)
-
 
 //---------------------------------------------------------------------------
 //CSeed::CSeed(double x, double y, int ID, double m, double estab, int maxage)
@@ -46,43 +47,65 @@
 //}
 
 //---------------------------------------------------------------------------
-CSeed::CSeed(CPlant* plant, CCell* cell)
-  :xcoord(plant->xcoord),ycoord(plant->ycoord),Age(1),cell(NULL),remove(false)
-{
-   Traits=plant->Traits;
-//   cout << "SeedMass, old: " << Traits->SeedMass << " | ";
-   if (SRunPara::RunPara.indivVariationVer == on)
-   {
-	   Traits=SPftTraits::createPftInstanceFromPftType(Traits->name);
-	   Traits->varyTraits();
-   }
-   estab=Traits->pEstab;
-   mass=Traits->SeedMass;
-//   cout << "SeedMass, new: " << Traits->SeedMass << endl;
-   setCell(cell);
+CSeed::CSeed(CPlant* plant, CCell* cell) :
+		xcoord(plant->xcoord), ycoord(plant->ycoord), Age(1), cell(NULL), remove(
+				false) {
+
+	if (SRunPara::RunPara.indivVariationVer == on) {
+		Traits = SPftTraits::createPftInstanceFromPftType(plant->Traits->name); // general
+		Traits->varyTraits();
+	} else if (SRunPara::RunPara.indivVariationVer == off) {
+		assert(plant->Traits->myTraitType == SPftTraits::species);
+		Traits = new SPftTraits(*plant->Traits);
+	} else {
+		exit(3);
+	}
+
+	estab = Traits->pEstab;
+	mass = Traits->SeedMass;
+
+	setCell(cell);
+
 }
 
 //---------------------------------------------------------------------------
-CSeed::CSeed(double estab, SPftTraits* traits, CCell* cell)
-  :xcoord(0),ycoord(0),Age(1),cell(NULL),remove(false),estab(estab),
-  Traits(traits),mass(traits->SeedMass)
-{
-//	cout << "SeedMass, old: " << Traits->SeedMass << " | ";
-	if (SRunPara::RunPara.indivVariationVer == on)
-	{
-		Traits=SPftTraits::createPftInstanceFromPftType(Traits->name);
+CSeed::CSeed(double estab, SPftTraits* traits, CCell* cell) :
+		xcoord(0), ycoord(0), Age(1), cell(NULL), remove(false), estab(estab) {
+
+	if (SRunPara::RunPara.indivVariationVer == on) {
+		Traits = SPftTraits::createPftInstanceFromPftType(traits->name); // general
 		Traits->varyTraits();
-		mass = Traits->SeedMass;
+	} else if (SRunPara::RunPara.indivVariationVer == off) {
+		assert(traits->myTraitType == SPftTraits::species);
+		Traits = new SPftTraits(*traits);
+	} else {
+		exit(3);
 	}
-//	cout << "SeedMass, new: " << Traits->SeedMass << endl;
+
+	mass = Traits->SeedMass;
+
 	setCell(cell);
-	if (cell)
-	{
-     xcoord=(cell->x*SRunPara::RunPara.CellScale());
-     ycoord=(cell->y*SRunPara::RunPara.CellScale());
-   }
+	if (cell) {
+		xcoord = (cell->x * SRunPara::RunPara.CellScale());
+		ycoord = (cell->y * SRunPara::RunPara.CellScale());
+	}
+
 }
 
+CSeed::~CSeed() {
+	/**
+	 * These assertions will trigger if the SimFile contains one parameterization with individual variation
+	 * and one without, in the first year of the later. This is because the deconstructor is called during cleanup,
+	 * which occurs at the beginning of the run, rather than the end of the last.
+	 */
+//	if (Traits->myTraitType == SPftTraits::individualized) {
+//		assert(SRunPara::RunPara.indivVariationVer == on);
+//	} else if (SRunPara::RunPara.indivVariationVer == off) {
+//		assert(Traits->myTraitType == SPftTraits::species);
+//	}
+	delete Traits; // Every seed has its own copy of the Traits object.
+
+}
 //---------------------------------------------------------------------------
 ///not used
 ///
@@ -96,17 +119,13 @@ CSeed::CSeed(double estab, SPftTraits* traits, CCell* cell)
 //}
 
 //-----------------------------------------------------------------------------
-void CSeed::setCell(CCell* cell){
-   if (this->cell==NULL)
-   {
-     this->cell=cell;
-     this->cell->SeedBankList.push_back(this); //add to seed bank
-   }
-   else
-   {
-	 // MSC -- maybe this is not an author oversight.
-	 cerr << "This seed is already on a cell." << endl;
-   }
+void CSeed::setCell(CCell* cell) {
+	if (this->cell == NULL) {
+		this->cell = cell;
+		this->cell->SeedBankList.push_back(this); //add to seed bank
+	} else {
+		cerr << "This seed is already on a cell." << endl;
+	}
 }
 
 //---------------------------------------------------------------------------
@@ -127,28 +146,26 @@ void CSeed::setCell(CCell* cell){
 //}
 
 //---------------------------------------------------------------------------
-bool GetSeedRemove(const CSeed* seed1)
-{
-   return (!seed1->remove);
+bool GetSeedRemove(const CSeed* seed1) {
+	return (!seed1->remove);
 }
 
 //-----------------------------------------------------------------------------
 ///sort plants ascending after TypeID
 ///\warning  compiler complains about temporal state of seed1 and seed2
 ///
-int CompareTypeID(const CSeed* seed1, const CSeed* seed2)
-{
-  return (seed1->Traits->TypeID < seed2->Traits->TypeID);
+int CompareTypeID(const CSeed* seed1, const CSeed* seed2) {
+	return (seed1->Traits->TypeID < seed2->Traits->TypeID);
 }
 
 //-----------------------------------------------------------------------------
-std::string CSeed::type(){
-        return "CSeed";
+std::string CSeed::type() {
+	return "CSeed";
 }
 
 //-----------------------------------------------------------------------------
-std::string CSeed::pft(){
-        return this->Traits->name;
+std::string CSeed::pft() {
+	return this->Traits->name;
 }
 
 //-eof----------------------------------------------------------------------------

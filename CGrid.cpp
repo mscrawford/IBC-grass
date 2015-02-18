@@ -64,12 +64,27 @@ void CGrid::resetGrid(){
       CCell* cell = CellList[i];
       cell->clear();
    }
-//plants...
+
+   //plants...
    for (plant_iter iplant=PlantList.begin(); iplant<PlantList.end(); ++iplant){
       delete *iplant;
    }
    PlantList.clear();
    CPlant::numPlants = 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Genet list..
    for(unsigned int i=0;i<GenetList.size();i++) delete GenetList[i];
    GenetList.clear();CGenet::staticID=0;
@@ -139,21 +154,32 @@ void CGrid::Save(string fname){
 MSC
 Record the entire spatial grid (every plant on it has a row)
 */
-void CGrid::saveSpatialGrid(string fname){
+void CGrid::writeSpatialGrid(string fn) {
+	ofstream w(fn.c_str(), ios::app);
+	if (!w.good()) {
+		cerr << ("Failure in writeSpatialGrid");
+		exit(3);
+	}
 
-  ofstream SaveFile(fname.c_str(), ios::app);
-  if (!SaveFile.good()) {
-	  cerr << ("Fehler beim �ffnen SaveFile");
-	  exit(3);
-  }
-  cout<<"SaveFile: "<<fname<<endl;
-  SaveFile << "Sim\tRun\tYear\tX\tY\tPFT\tAge\tplantID\tmShoot\tmRoot\tmRepro\trShoot\trRoot\tstress\tdead\tmonoculture\tinvader\t"
-		  	  "AllocSeed\tLMR\tm0\tMaxMass\tmSeed\tDist\tpEstab\tGmax\tSLA\tpalat\t" <<
-			  "memo\tRAR\tgrowth\tmThres\tclonal\tpropSex\tmeanSpacerLength\t" <<
-			  "sdSpacerLength\tResshare\tAllocSpacer\tmSpacer" << endl;
+	w.seekp(0, ios::end);
+	long size = w.tellp();
+	if (size == 0) {
+		w 	<< CEnvir::headerToString()
+			<< SRunPara::RunPara.headerToString()
+			<< CPlant::headerToString()
+			<< endl;
+	}
 
-  for (int i=0; i<this->PlantList.size(); ++i)
-     SaveFile<<PlantList[i]->asString()<<endl;
+	string envir = CEnvir::toString();
+	string runpara = SRunPara::RunPara.toString();
+
+	for (int i = 0; i < this->PlantList.size(); ++i)
+	{
+		w <<	envir <<
+				runpara <<
+				PlantList[i]->asString() <<
+				endl;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -170,7 +196,7 @@ void CGrid::PlantLoop()
    {
       CPlant* plant = *iplant;
       if (SRunPara::RunPara.indivVariationVer == on)
-    	  assert(plant->Traits->myTraitType == SPftTraits::individual); //MSC
+    	  assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
       if (!plant->dead)
       {
          plant->Grow2();
@@ -237,7 +263,7 @@ void getTargetCell(int& xx,int& yy,const float mean,const float sd,double cellsc
 int CGrid::DispersSeeds(CPlant* plant)
 {
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(plant->Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
    int px=plant->getCell()->x, py=plant->getCell()->y;
    int NSeeds=0;
    double dist=0, direction=0;
@@ -348,7 +374,7 @@ void CGrid::CoverCells() {
 		CPlant* plant = *iplant;
 
 		if (SRunPara::RunPara.indivVariationVer == on)
-			assert(plant->Traits->myTraitType == SPftTraits::individual); //MSC
+			assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
 
 		double Ashoot = plant->Area_shoot() / CellArea;
 		plant->Ash_disc = floor(plant->Area_shoot()) + 1;
@@ -484,7 +510,7 @@ void CGrid::Resshare() // resource sharing
          {
             CPlant* plant=Genet->AllRametList.front();
         	if (SRunPara::RunPara.indivVariationVer == on)
-        		assert(plant->Traits->myTraitType == SPftTraits::individual); //MSC
+        		assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
             if (plant->Traits->clonal //type()=="CclonalPlant"
                  &&plant->Traits->Resshare==true)
             {//only betwen connected ramets
@@ -784,7 +810,7 @@ void CGrid::Grazing()
 		while ((i < PlantList.size()) && (MassRemoved < MaxMassRemove)) {
 			CPlant* lplant = PlantList[i];
 			if (SRunPara::RunPara.indivVariationVer == on)
-				assert(lplant->Traits->myTraitType == SPftTraits::individual); //MSC
+				assert(lplant->Traits->myTraitType == SPftTraits::individualized); //MSC
 			grazprob = (lplant->mshoot * lplant->Traits->GrazFac()) / Max;
 			if (CEnvir::rand01() < grazprob)
 				MassRemoved += lplant->RemoveMass();
@@ -810,7 +836,7 @@ void CGrid::Cutting()
 	for (plant_size i = 0; i < PlantList.size(); i++) {
 		pPlant = PlantList[i];
 		if (SRunPara::RunPara.indivVariationVer == on)
-			assert(pPlant->Traits->myTraitType == SPftTraits::individual); // MSC
+			assert(pPlant->Traits->myTraitType == SPftTraits::individualized); // MSC
 		if (pPlant->mshoot / (pPlant->Traits->LMR * pPlant->Traits->LMR)
 				> mass_cut) {
 			double to_leave = mass_cut
@@ -1112,6 +1138,7 @@ void CGrid::InitClonalPlants(SPftTraits* traits, const int n) {
 		} while (cell->occupied);
 
 		if (!cell->occupied) {
+
 			CPlant *myplant = new CPlant(traits, cell);
 			CGenet *Genet = new CGenet();
 //          Genet->number=GenetList.size();

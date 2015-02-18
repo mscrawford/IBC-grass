@@ -13,6 +13,7 @@
 #include "CEnvir.h"
 #include "CGrid.h"
 #include "CSeed.h"
+#include "SPftTraits.h"
 
 int CPlant::numPlants;
 //---------------------------------------------------------------------------
@@ -20,15 +21,21 @@ int CPlant::numPlants;
 /**
  * constructor - without specific properties
  */
-CPlant::CPlant(double x, double y, SPftTraits* Traits) :
-		xcoord(x), ycoord(y), Traits(Traits), Age(0), plantID(++numPlants), mshoot(
-				Traits->m0), mroot(Traits->m0), Aroots_all(0), Aroots_type(0), mRepro(
-				0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0), dead(
+CPlant::CPlant(double x, double y, SPftTraits* given_Traits) :
+		xcoord(x), ycoord(y), Age(0), plantID(++numPlants), Aroots_all(0), Aroots_type(
+				0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0), dead(
 				false), remove(false), stress(0), cell(NULL), mReproRamets(0), Spacerlength(
 				0), Spacerdirection(0), Generation(1), SpacerlengthToGrow(0), genet(
 		NULL) {
+
+	Traits = new SPftTraits(*given_Traits);
+
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
+
+	mshoot = Traits->m0;
+	mroot = Traits->m0;
+
 	growingSpacerList.clear();
 }
 
@@ -36,16 +43,21 @@ CPlant::CPlant(double x, double y, SPftTraits* Traits) :
 /**
  * constructor - given constitution
  */
-CPlant::CPlant(SPftTraits* Traits, CCell* cell, double mshoot, double mroot,
-		double mrepro, int stress, bool dead) :
-		xcoord(0), ycoord(0), Traits(Traits), Age(0), plantID(++numPlants), mshoot(
-				mshoot), mroot(mroot), Aroots_all(0), Aroots_type(0), mRepro(
-				mrepro), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0), dead(
-				dead), remove(false), stress(stress), cell(NULL), mReproRamets(
-				0), Spacerlength(0), Spacerdirection(0), Generation(1), SpacerlengthToGrow(
-				0), genet(NULL) {
-	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+CPlant::CPlant(SPftTraits* given_Traits, CCell* cell, double mshoot,
+		double mroot, double mrepro, int stress, bool dead) :
+		xcoord(0), ycoord(0), Age(0), plantID(++numPlants), mshoot(mshoot), mroot(
+				mroot), Aroots_all(0), Aroots_type(0), mRepro(mrepro), Ash_disc(
+				0), Art_disc(0), Auptake(0), Buptake(0), dead(dead), remove(
+				false), stress(stress), cell(NULL), mReproRamets(0), Spacerlength(
+				0), Spacerdirection(0), Generation(1), SpacerlengthToGrow(0), genet(
+		NULL) {
+
+	Traits = new SPftTraits(*given_Traits);
+
+	if (SRunPara::RunPara.indivVariationVer == on) {
+		assert(Traits->myTraitType == SPftTraits::species); // MSC: These must be "fresh" plants not born from seeds
+		Traits->varyTraits();
+	}
 
 	if (mshoot == 0)
 		this->mshoot = Traits->m0;
@@ -72,14 +84,21 @@ CPlant::CPlant(SPftTraits* Traits, CCell* cell, double mshoot, double mroot,
  */
 CPlant::CPlant(CSeed* seed) :
 		xcoord(seed->xcoord), ycoord(seed->ycoord), Age(0), plantID(
-				++numPlants), Traits(seed->Traits), mshoot(seed->Traits->m0), mroot(
-				seed->Traits->m0), Aroots_all(0), Aroots_type(0), mRepro(0), Ash_disc(
+				++numPlants), Aroots_all(0), Aroots_type(0), mRepro(0), Ash_disc(
 				0), Art_disc(0), Auptake(0), Buptake(0), dead(false), remove(
 				false), stress(0), cell(NULL), mReproRamets(0), Spacerlength(0), Spacerdirection(
-				0), Generation(1), SpacerlengthToGrow(0), genet(NULL) {
-	//establish this plant on cell
+				0), Generation(1), SpacerlengthToGrow(0), genet(
+		NULL) {
+
+	Traits = new SPftTraits(*seed->Traits);
+
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
+
+	mshoot = Traits->m0;
+	mroot = Traits->m0;
+
+	//establish this plant on cell
 	setCell(seed->getCell());
 	if (cell) {
 		xcoord = (cell->x * SRunPara::RunPara.CellScale());
@@ -102,15 +121,20 @@ CPlant::CPlant(CSeed* seed) :
  \since revision
  */
 CPlant::CPlant(double x, double y, CPlant* plant) :
-		xcoord(x), ycoord(y), Traits(plant->Traits), Age(0), plantID(
-				++numPlants), mshoot(plant->Traits->m0), mroot(
-				plant->Traits->m0), Aroots_all(0), Aroots_type(0), mRepro(0), Ash_disc(
-				0), Art_disc(0), Auptake(0), Buptake(0), dead(false), remove(
-				false), stress(0), cell(NULL), mReproRamets(0), Spacerlength(0), Spacerdirection(
-				0), Generation(plant->Generation + 1), SpacerlengthToGrow(0), genet(
-				plant->genet) {
+		xcoord(x), ycoord(y), Age(0), plantID(++numPlants), Aroots_all(0), Aroots_type(
+				0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0), dead(
+				false), remove(false), stress(0), cell(NULL), mReproRamets(0), Spacerlength(
+				0), Spacerdirection(0), Generation(plant->Generation + 1), SpacerlengthToGrow(
+				0), genet(plant->genet) {
+
+	Traits = new SPftTraits(*plant->Traits);
+
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
+
+	mroot = Traits->m0;
+	mshoot = Traits->m0;
+
 	growingSpacerList.clear();
 //  this->Generation=plant->Generation+1;
 }
@@ -124,6 +148,26 @@ CPlant::~CPlant() {
 	for (unsigned int i = 0; i < growingSpacerList.size(); ++i)
 		delete growingSpacerList[i];
 	growingSpacerList.clear();
+
+	/**
+	 * These assertions will trigger if the SimFile contains one parameterization with individual variation
+	 * and one without, in the first year of the later. This is because the deconstructor is called during cleanup,
+	 * which occurs at the beginning of the run, rather than the end of the last.
+	 */
+//	if (Traits->myTraitType == SPftTraits::individualized) {
+//		assert(SRunPara::RunPara.indivVariationVer == on);
+//	}
+//	if (Traits->myTraitType == SPftTraits::species) {
+//		assert(SRunPara::RunPara.indivVariationVer == off);
+//	}
+//	if (SRunPara::RunPara.indivVariationVer == on) {
+//		assert(Traits->myTraitType == SPftTraits::individualized);
+//	}
+//	if (SRunPara::RunPara.indivVariationVer == off) {
+//		assert(Traits->myTraitType == SPftTraits::species);
+//	}
+
+	delete Traits;
 }
 
 //---------------------------------------------------------------------------
@@ -149,31 +193,10 @@ string CPlant::asString() {
 
 	// MSC
 	std::stringstream dummi;
-	dummi << CEnvir::SimNr << '\t' << CEnvir::RunNr << '\t' << CEnvir::year
-			<< '\t' << xcoord << '\t' << ycoord << '\t' << this->pft() << '\t'
-			<< Age << '\t' << plantID << '\t' << mshoot << '\t' << mroot << '\t'
-			<< mRepro << '\t' << Radius_shoot() << '\t' << Radius_root() << '\t'
-			<< stress << '\t' << dead << '\t';
-
-	if (SRunPara::RunPara.Invasion == invasionCriteria) {
-		string monoculture = SPftTraits::pftInsertionOrder[0];
-		dummi << monoculture << '\t'; // monoculture
-		string invader = SPftTraits::pftInsertionOrder[1];
-		dummi << invader; // invader
-	} else if (SRunPara::RunPara.Invasion == normal) {
-		dummi << "NA\tNA";
-	}
-
-	dummi << '\t' << Traits->AllocSeed << '\t' << Traits->LMR << '\t'
-			<< Traits->m0 << '\t' << Traits->MaxMass << '\t' << Traits->SeedMass
-			<< '\t' << Traits->Dist << '\t' << Traits->pEstab << '\t'
-			<< Traits->Gmax << '\t' << Traits->SLA << '\t' << Traits->palat
-			<< '\t' << Traits->memory << '\t' << Traits->RAR << '\t'
-			<< Traits->growth << '\t' << Traits->mThres << '\t'
-			<< Traits->clonal << '\t' << Traits->PropSex << '\t'
-			<< Traits->meanSpacerlength << '\t' << Traits->sdSpacerlength
-			<< '\t' << Traits->Resshare << '\t' << Traits->AllocSpacer << '\t'
-			<< Traits->mSpacer;
+	dummi << plantID << '\t' << xcoord << '\t' << ycoord << '\t' << Age << '\t'
+			<< mshoot << '\t' << mroot << '\t' << mRepro << '\t'
+			<< Radius_shoot() << '\t' << Radius_root() << '\t' << stress << '\t'
+			<< dead << '\t' << Traits->toString();
 
 //	generation number and genet - ID
 //	if (this->Traits->clonal) {
@@ -185,6 +208,15 @@ string CPlant::asString() {
 //		}
 //	}
 
+	return dummi.str();
+}
+
+string CPlant::headerToString() {
+	std::stringstream dummi;
+	dummi << "plantID" << '\t' << "xcoord" << '\t' << "ycoord" << '\t' << "Age"
+			<< '\t' << "mshoot" << '\t' << "mroot" << '\t' << "mRepro" << '\t'
+			<< "rShoot" << '\t' << "rRoot" << '\t' << "stress" << '\t' << "dead"
+			<< '\t' << SPftTraits::headerToString();
 	return dummi.str();
 }
 
@@ -262,7 +294,7 @@ double CPlant::ReproGrow(double uptake) {
  */
 void CPlant::SpacerGrow() {
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	double mGrowSpacer = 0;
 	int SpacerListSize = this->growingSpacerList.size();
 
@@ -361,7 +393,7 @@ void CPlant::Grow2() //grow plant one timestep
  */
 double CPlant::ShootGrow(double shres) {
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	double Assim_shoot, Resp_shoot;
 	double p = 2.0 / 3.0, q = 2.0, r = 4.0 / 3.0; //exponents for growth function
 	Assim_shoot = Traits->growth * min(shres, Traits->Gmax * Ash_disc); //growth limited by maximal resource per area -> similar to uptake limitation
@@ -378,7 +410,7 @@ double CPlant::ShootGrow(double shres) {
  */
 double CPlant::RootGrow(double rres) {
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	double Assim_root, Resp_root;
 	double p = 2.0 / 3.0, q = 2.0, r = 4.0 / 3.0; //exponents for growth function
 	Assim_root = Traits->growth * min(rres, Traits->Gmax * Art_disc); //growth limited by maximal resource per area -> similar to uptake limitation
@@ -524,28 +556,28 @@ void CPlant::WinterLoss() {
 //-----------------------------------------------------------------------------
 double CPlant::Radius_shoot() {
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	return sqrt(Traits->SLA * pow(Traits->LMR * mshoot, 2.0 / 3.0) / Pi);
 }
 
 //-----------------------------------------------------------------------------
 double CPlant::Radius_root() {
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	return sqrt(Traits->RAR * pow(mroot, 2.0 / 3.0) / Pi);
 }
 
 //-----------------------------------------------------------------------------
 double CPlant::Area_shoot() {
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	return Traits->SLA * pow(Traits->LMR * mshoot, 2.0 / 3.0);
 }
 
 //-----------------------------------------------------------------------------
 double CPlant::Area_root() {
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	return Traits->RAR * pow(mroot, 2.0 / 3.0);
 }
 
@@ -563,7 +595,7 @@ double CPlant::Area_root() {
  */
 double CPlant::comp_coef(const int layer, const int symmetry) const {
 	if (SRunPara::RunPara.indivVariationVer == on)
-		assert(Traits->myTraitType == SPftTraits::individual); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	switch (symmetry) {
 	case 1:
 		if (layer == 1)

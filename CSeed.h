@@ -34,10 +34,10 @@ class CSeed: public CObject
 
 	   CSeed(double x, double y, CPlant* plant);
 	   CSeed(CPlant* plant, CCell* cell);
-	   CSeed(double x, double y,double estab, SPftTraits* traits);
+	   CSeed(double x, double y, double estab, SPftTraits* traits);
 	   CSeed(double estab, SPftTraits* traits, CCell* cell);
 	   CSeed(CSeed& seed); ///<copy-constructor
-	   virtual ~CSeed(){};
+	   virtual ~CSeed();
 
 	   void setCell(CCell* cell);        ///<define cell (only if none defined yet)
 	   CCell* getCell(){ return cell; }; ///<return address of cell
