@@ -146,10 +146,11 @@ int CEnvir::GetSim(const int pos, string file) {
 	if (!SimFile.good())
 		return -1;
 
-	int version, acomp, bcomp, invasionVersion, individualVariation;
+	int IC_version, acomp, bcomp, invasionVersion, individualVariation;
 
 	SimFile >> SimNr
 			>> ComNr
+			>> IC_version
 			>> invasionVersion; // MSC
 
 	// MSC:
@@ -171,7 +172,7 @@ int CEnvir::GetSim(const int pos, string file) {
 	}
 
 //	>> dummi     // RunPara.Layer
-//  >> version
+
 //	>> RunPara.Version - enum types cannot be read with >>
 //  >> acomp
 //  >> RunPara.AboveCompMode
@@ -221,13 +222,13 @@ int CEnvir::GetSim(const int pos, string file) {
 	//above- and belowground competition -> acomp=asymetric bcomp=symetric
 	acomp = 1;
 	bcomp = 0;
-	version = 1; //RunPara.Version assume higher intraspecific competition
+//	IC_version = 1; //RunPara.Version assume higher intraspecific competition
 
 	//--------------------------------
 	// set version and competition  modes - in this way because of enum types!
 
 //    SRunPara::RunPara.Version=version;  // old code does not work because of problems with enumeration -> switch from integer to enumeration necessary
-	switch (version) {
+	switch (IC_version) {
 	case 0:
 		SRunPara::RunPara.Version = version1;
 		break;

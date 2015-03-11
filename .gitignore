@@ -5,3 +5,5 @@ Default
 .cproject
 .project
 .settings
+runscripts/tmp
+runscripts/tmp.tgz

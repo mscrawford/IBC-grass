@@ -1,0 +1,20 @@
+
+invasionVers = 1
+IndividualVariationVers, indivVariationSD = 1, 0.2
+CTmax, PftTmax = 100, 10
+ARes = 100
+Bres = 60
+GrazProb = .2
+propRemove = 0.5
+DistAreaYear = 0
+AreaEvent = 0.1
+NCut = 0
+CutMass = 5000
+SeedRain = 0
+SeedInput = 2900
+
+
+
+
+
+

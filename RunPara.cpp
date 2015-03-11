@@ -47,7 +47,6 @@ std::string SRunPara::toString(){
 	}
 
 	mystream
-			<< indivVariationVer << "\t"
 			<< indivVariationSD << "\t"
 			<< Tmax << "\t"
 			<< meanARes << "\t"
@@ -72,12 +71,11 @@ std::string SRunPara::toString(){
 std::string SRunPara::headerToString() {
 	std::stringstream mystream;
 	mystream
-			<< "Version" << "\t"
-			<< "Invasion" << "\t"
+			<< "IC_ver" << "\t"
+			<< "invasion_ver" << "\t"
 			<< "monoculture" << "\t"
 			<< "invader" << "\t"
-			<< "indivVariationVer" << "\t"
-			<< "indivVariationSD" << "\t"
+			<< "ITVsd" << "\t"
 			<< "Tmax" << "\t"
 			<< "ARes" << "\t"
 			<< "BRes" << "\t"

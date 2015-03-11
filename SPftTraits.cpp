@@ -184,29 +184,36 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
  * create a plant which will then fecund new seeds).
  */
 void SPftTraits::varyTraits() {
-	// TODO: ensure that all these variables are named correctly.
 	assert(myTraitType == SPftTraits::species);
 	assert(SRunPara::RunPara.indivVariationVer == on);
 
 	myTraitType = SPftTraits::individualized;
+	double dev;
 
-	double variancePerLinkedTrait;
-	variancePerLinkedTrait = CEnvir::normrand(1.0, SRunPara::RunPara.indivVariationSD);
-	LMR = LMR * variancePerLinkedTrait;
+	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	while (dev <= -1.0 || dev >= 1.0 || LMR + (LMR * dev) >= 1)
+		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+ 	LMR = LMR + (LMR * dev);
 
-	variancePerLinkedTrait = CEnvir::normrand(1.0, SRunPara::RunPara.indivVariationSD);
-	m0 = m0 * variancePerLinkedTrait;
-	MaxMass = MaxMass * variancePerLinkedTrait;
-	SeedMass = SeedMass * variancePerLinkedTrait;
-	Dist = Dist * variancePerLinkedTrait;
+	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	while (dev <= -1.0 || dev >= 1.0)
+		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	m0 = m0 + (m0 * dev);
+	MaxMass = MaxMass + (MaxMass * dev);
+	SeedMass = SeedMass + (SeedMass * dev);
+	Dist = Dist - (Dist * dev);
 
-	variancePerLinkedTrait = CEnvir::normrand(1.0, SRunPara::RunPara.indivVariationSD);
-	Gmax = Gmax * variancePerLinkedTrait;
-	memory = memory * variancePerLinkedTrait;
+	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	while (dev <= -1.0 || dev >= 1.0)
+		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	Gmax = Gmax + (Gmax * dev);
+	memory = memory - (memory * dev);
 
-	variancePerLinkedTrait = CEnvir::normrand(1.0, SRunPara::RunPara.indivVariationSD);
-	palat = palat * variancePerLinkedTrait;
-	SLA = SLA * variancePerLinkedTrait;
+	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	while (dev <= -1.0 || dev >= 1.0 || palat + (palat * dev) >= 1)
+		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	palat = palat + (palat * dev);
+	SLA = SLA + (SLA * dev);
 }
 
 string SPftTraits::toString()
