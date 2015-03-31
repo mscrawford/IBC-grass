@@ -13,17 +13,19 @@ from Base_Parameter import *
 from Parallel import *
 
 PARALLEL = True
-SPAT = 0 # print spatial grid
+SPAT_out = 1 # print spat_out grid
+SPAT_out_year = 100 # only print out the spatial grid in year 100
+PFT_out = 0 # print PFT output
 N_SLOTS = 400
 
 path = "./tmp/"
-N_SIMS = 20
-N_REPS = 20
-n_PFTs = 16
+N_SIMS = 3
+N_REPS = 1
+n_PFTs = 81
 
 Sim_header = "SimNrMax  NRep  OutFile\n" + \
                 "18\t" + str(N_REPS) + "\tUPD2-SR\nSimNr ComNr ICvers InvasionVers IndividualVariationVers IndivVariationSD Tmax ARes Bres " + \
-                "GrazProb PropRemove DistAreaYear AreaEvent NCut CutMass SeedRainType SeedInput NameInitFile\n"
+                "GrazProb PropRemove DistAreaYear AreaEvent NCut CutMass SeedRainType SeedInput SPATout SPATOutYear PFTout NameInitFile\n"
 
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                         "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer \n"
@@ -33,12 +35,12 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 base_params =  [[1], # intraspecific competition version
                 [0], # invasionVers
                 [0, 1], # IndividualVariationVers
-                [0, 0.1, 0.2, 0.3, 0.4], # indivVariationSD
+                [0, 0.1, 0.2, 0.4], # indivVariationSD
                 [100], # CTmax
                 [10], # PftTmax
-                [100, 60, 30], # ARes
-                [100, 60, 30], # Bres
-                [0, 0.20, 0.50], # GrazProb
+                [100, 90, 80, 70, 60, 50, 40, 30, 20, 10], # ARes
+                [100, 90, 80, 70, 60, 50, 40, 30, 20, 10], # Bres
+                [0, 0.1, 0.2, 0.3, 0.4, 0.5], # GrazProb
                 [0.5], # propRemove
                 [0], # DistAreaYear
                 [0], # AreaEvent
@@ -88,7 +90,7 @@ def makePFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
     SimFile = [] # all the simulations go into one 'SimFile.' This is a list of strings.
 
     community_number = 0
-    sim_number = 0
+    sim_number = random.randint(0, 33554432) # This is so that you can run multiple simulations at once. 
     for s in xrange(1, N_SIMS+1): # one sim_number per sample of PFTypes. 
         community = random.sample(pfts, n_PFTs)
         community_number += 1
@@ -106,7 +108,7 @@ def makePFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
             sim_filename = base_simID + "_" + "COM" + ".txt"
 
             # community's SimFile entry
-            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(True), str(SPAT), sim_filename, "\n"]))
+            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(True), str(SPAT_out), str(SPAT_out_year), str(PFT_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 
@@ -130,7 +132,7 @@ def makePFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
                     # PFT pair's SimFile entry 
                     pft_simID = base_simID + str(p.Species) + str(q.Species)
                     PFT_filename = base_simID + "_" + "PFT" + "_" + pft_simID + ".txt"
-                    SimFile.append(" ".join([pft_simID, ComNr, base_param.toString(False), str(SPAT), PFT_filename, "\n"]))
+                    SimFile.append(" ".join([pft_simID, ComNr, base_param.toString(False), str(SPAT_out), str(SPAT_out_year), str(PFT_out), PFT_filename, "\n"]))
 
                     # PFT pair's PFT file
                     with open(path + PFT_filename, 'w') as w:

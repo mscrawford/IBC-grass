@@ -641,7 +641,7 @@ void CGridEnvir::Save(string ID) {
  * Saves the spatial state of the grid (one entry for each plant)
  */
 void CGridEnvir::writeSpatialGrid() {
-	if (SRunPara::RunPara.SPAT == 1)
+	if (SRunPara::RunPara.SPAT == 1 && CEnvir::year == SRunPara::RunPara.SPATyear)
 	{
 		string fn = "Output/Spat-" +
 				std::to_string(CEnvir::SimNr) + "_" +

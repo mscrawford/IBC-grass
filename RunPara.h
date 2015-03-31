@@ -55,6 +55,8 @@ public:
 
 
 	int SPAT; // Do we record the spatial grid?
+	int SPATyear; // Which year do we record the spatial grid?
+	int PFT; // Do we record the PFT output?
 
 	//! niche differentiation
 	/*!

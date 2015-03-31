@@ -209,6 +209,8 @@ int CEnvir::GetSim(const int pos, string file) {
 	>> SRunPara::RunPara.SeedRainType
 	>> SRunPara::RunPara.SeedInput //seed number / mass per grid
 	>> SRunPara::RunPara.SPAT
+	>> SRunPara::RunPara.SPATyear
+	>> SRunPara::RunPara.PFT
 	>> SRunPara::NamePftFile
 //  >> RunPara.PftFile
 //	>> RunPara.BGThres
@@ -455,58 +457,62 @@ void CEnvir::WriteGridComplete(bool allYears) {
  \param allYears write all data or only the last entry?
  */
 void CEnvir::WritePftComplete(bool allYears) {
-	//Open PftFile, write header and initial conditions
-	ofstream PftOutFile(NamePftOutFile.c_str(), ios_base::app);
-	if (!PftOutFile.good()) {
-		cerr << ("Fehler beim �ffnen PftOutFile");
-		exit(3);
-	}
 
-	PftOutFile.seekp(0, ios::end);
-	long size = PftOutFile.tellp();
-	if (size == 0) {
-		PftOutFile
-				<< "SimNr" << "\t"
-				<< "ComNr" << "\t"
-				<< "RunNr" << "\t"
-				<< "Year" << "\t"
-				<< SRunPara::headerToString()
-				<< SPftTraits::headerToString()
-				<< "Nind" << "\t"
-				<< "Nseeds" << "\t"
-				<< "cover" << "\t"
-				<< "rootmass" << "\t"
-				<< "shootmass" << "\t"
-				<< endl;
-	}
-
-	vector<SPftOut>::size_type i = 0;
-	if (!allYears)
-		i = PftOutData.size() - 1;
-	for (i; i < PftOutData.size(); ++i)
+	if (SRunPara::RunPara.PFT == 1)
 	{
-		typedef map<string, SPftOut::SPftSingle*> mapType;
-		for (mapType::const_iterator it = PftOutData[i]->PFT.begin();
-				it != PftOutData[i]->PFT.end(); ++it)
-		{
-
-			SPftTraits* traits = SPftTraits::PftLinkList.find(it->first)->second;
-			PftOutFile
-						<< SimNr << "\t"
-						<< ComNr << "\t"
-						<< RunNr << "\t"
-						<< i << "\t"
-						<< SRunPara::RunPara.toString()
-			 	 	 	<< traits->toString()
-						<< it->second->Nind << "\t"
-						<< it->second->Nseeds << "\t"
-						<< it->second->cover << "\t"
-						<< it->second->rootmass << "\t"
-						<< it->second->shootmass << "\t"
-						<< endl;
+		//Open PftFile, write header and initial conditions
+		ofstream PftOutFile(NamePftOutFile.c_str(), ios_base::app);
+		if (!PftOutFile.good()) {
+			cerr << ("Fehler beim �ffnen PftOutFile");
+			exit(3);
 		}
+
+		PftOutFile.seekp(0, ios::end);
+		long size = PftOutFile.tellp();
+		if (size == 0) {
+			PftOutFile
+					<< "SimNr" << "\t"
+					<< "ComNr" << "\t"
+					<< "RunNr" << "\t"
+					<< "Year" << "\t"
+					<< SRunPara::headerToString()
+					<< SPftTraits::headerToString()
+					<< "Nind" << "\t"
+					<< "Nseeds" << "\t"
+					<< "cover" << "\t"
+					<< "rootmass" << "\t"
+					<< "shootmass" << "\t"
+					<< endl;
+		}
+
+		vector<SPftOut>::size_type i = 0;
+		if (!allYears)
+			i = PftOutData.size() - 1;
+		for (i; i < PftOutData.size(); ++i)
+		{
+			typedef map<string, SPftOut::SPftSingle*> mapType;
+			for (mapType::const_iterator it = PftOutData[i]->PFT.begin();
+					it != PftOutData[i]->PFT.end(); ++it)
+			{
+
+				SPftTraits* traits = SPftTraits::PftLinkList.find(it->first)->second;
+				PftOutFile
+							<< SimNr << "\t"
+							<< ComNr << "\t"
+							<< RunNr << "\t"
+							<< i << "\t"
+							<< SRunPara::RunPara.toString()
+							<< traits->toString()
+							<< it->second->Nind << "\t"
+							<< it->second->Nseeds << "\t"
+							<< it->second->cover << "\t"
+							<< it->second->rootmass << "\t"
+							<< it->second->shootmass << "\t"
+							<< endl;
+			}
+		}
+		PftOutFile.close();
 	}
-	PftOutFile.close();
 } //end WritePftComplete()
 //------------------------------------------------------------------------------
 /**

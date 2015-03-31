@@ -191,12 +191,12 @@ void SPftTraits::varyTraits() {
 	double dev;
 
 	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
-	while (dev <= -1.0 || dev >= 1.0 || LMR + (LMR * dev) >= 1)
+	while (dev < -1.0 || dev > 1.0 || LMR + (LMR * dev) > 1)
 		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
  	LMR = LMR + (LMR * dev);
 
 	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
-	while (dev <= -1.0 || dev >= 1.0)
+	while (dev < -1.0 || dev > 1.0)
 		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
 	m0 = m0 + (m0 * dev);
 	MaxMass = MaxMass + (MaxMass * dev);
@@ -204,13 +204,13 @@ void SPftTraits::varyTraits() {
 	Dist = Dist - (Dist * dev);
 
 	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
-	while (dev <= -1.0 || dev >= 1.0)
+	while (dev < -1.0 || dev > 1.0)
 		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
 	Gmax = Gmax + (Gmax * dev);
-	memory = memory - (memory * dev);
+	memory = (int) round((double) memory - ((double) memory * dev));
 
 	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
-	while (dev <= -1.0 || dev >= 1.0 || palat + (palat * dev) >= 1)
+	while (dev < -1.0 || dev > 1.0 || palat + (palat * dev) > 1 || SLA + (SLA * dev) > 1)
 		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
 	palat = palat + (palat * dev);
 	SLA = SLA + (SLA * dev);
