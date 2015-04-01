@@ -24,6 +24,9 @@ public:
    double AResConc;  //!< above-ground resource availability
    double BResConc;  //!< below-ground resource availability
 
+   double aComp_weekly;
+   double bComp_weekly;
+
 //   int Acover;    //!< above-ground cell state used for plotting the grid -> no ecological meaning
 //   int Bcover;   //!< below-ground cell state used for plotting the grid -> no ecological meaning
    /// returns cell-cover (int-coded)

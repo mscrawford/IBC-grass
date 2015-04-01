@@ -263,6 +263,8 @@ void CCell::AboveComp()
            *prop_res(plant->pft(),1,SRunPara::RunPara.Version);
       plant->Auptake+=AResConc*comp_c/comp_tot;
    }
+
+   aComp_weekly = comp_tot;
 }//end above_comp
 //-----------------------------------------------------------------------------
 /**
@@ -295,6 +297,8 @@ void CCell::BelowComp()
               *prop_res(plant->pft(),2,SRunPara::RunPara.Version);
       plant->Buptake+=BResConc*comp_c/comp_tot;
    }
+
+   bComp_weekly = comp_tot;
 }//end below_comp
 //---------------------------------------------------------------------------
 /**

@@ -12,35 +12,36 @@ from PFT import *
 from Base_Parameter import *
 from Parallel import *
 
-PARALLEL = True
+PARALLEL = False
 SPAT_out = 1 # print spat_out grid
-SPAT_out_year = 100 # only print out the spatial grid in year 100
-PFT_out = 0 # print PFT output
+SPAT_out_year = 0 # only print out the spatial grid in year 100, if 0 every year
+PFT_out = 1 # print PFT output
+COMP_out = 0
 N_SLOTS = 400
 
 path = "./tmp/"
-N_SIMS = 3
+N_SIMS = 1
 N_REPS = 1
-n_PFTs = 81
+n_PFTs = 16
 
 Sim_header = "SimNrMax  NRep  OutFile\n" + \
                 "18\t" + str(N_REPS) + "\tUPD2-SR\nSimNr ComNr ICvers InvasionVers IndividualVariationVers IndivVariationSD Tmax ARes Bres " + \
-                "GrazProb PropRemove DistAreaYear AreaEvent NCut CutMass SeedRainType SeedInput SPATout SPATOutYear PFTout NameInitFile\n"
+                "GrazProb PropRemove DistAreaYear AreaEvent NCut CutMass SeedRainType SeedInput SPATout SPATOutYear PFTout COMPout NameInitFile\n"
 
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                         "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer \n"
 
 ## These parameters are specific to the environment and "type" of the simulation, e.g.
 ## whether or not it is an "invasion" type, or an "individual variation" type.
-base_params =  [[1], # intraspecific competition version
+base_params =  [[1], # interspecific competition version
                 [0], # invasionVers
-                [0, 1], # IndividualVariationVers
-                [0, 0.1, 0.2, 0.4], # indivVariationSD
+                [1], # IndividualVariationVers
+                [0.2], # indivVariationSD
                 [100], # CTmax
                 [10], # PftTmax
-                [100, 90, 80, 70, 60, 50, 40, 30, 20, 10], # ARes
-                [100, 90, 80, 70, 60, 50, 40, 30, 20, 10], # Bres
-                [0, 0.1, 0.2, 0.3, 0.4, 0.5], # GrazProb
+                [100], # ARes
+                [100], # Bres
+                [0.2], # GrazProb
                 [0.5], # propRemove
                 [0], # DistAreaYear
                 [0], # AreaEvent
@@ -108,7 +109,7 @@ def makePFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
             sim_filename = base_simID + "_" + "COM" + ".txt"
 
             # community's SimFile entry
-            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(True), str(SPAT_out), str(SPAT_out_year), str(PFT_out), sim_filename, "\n"]))
+            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(True), str(SPAT_out), str(SPAT_out_year), str(PFT_out), str(COMP_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 
@@ -132,7 +133,7 @@ def makePFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
                     # PFT pair's SimFile entry 
                     pft_simID = base_simID + str(p.Species) + str(q.Species)
                     PFT_filename = base_simID + "_" + "PFT" + "_" + pft_simID + ".txt"
-                    SimFile.append(" ".join([pft_simID, ComNr, base_param.toString(False), str(SPAT_out), str(SPAT_out_year), str(PFT_out), PFT_filename, "\n"]))
+                    SimFile.append(" ".join([pft_simID, ComNr, base_param.toString(False), str(SPAT_out), str(SPAT_out_year), str(PFT_out), str(COMP_out), PFT_filename, "\n"]))
 
                     # PFT pair's PFT file
                     with open(path + PFT_filename, 'w') as w:

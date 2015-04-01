@@ -641,7 +641,8 @@ void CGridEnvir::Save(string ID) {
  * Saves the spatial state of the grid (one entry for each plant)
  */
 void CGridEnvir::writeSpatialGrid() {
-	if (SRunPara::RunPara.SPAT == 1 && CEnvir::year == SRunPara::RunPara.SPATyear)
+	if (SRunPara::RunPara.SPAT == 1 &&
+			(CEnvir::year == SRunPara::RunPara.SPATyear || SRunPara::RunPara.SPATyear == 0))
 	{
 		string fn = "Output/Spat-" +
 				std::to_string(CEnvir::SimNr) + "_" +
@@ -649,6 +650,16 @@ void CGridEnvir::writeSpatialGrid() {
 				std::to_string(CEnvir::RunNr) + ".txt";
 
 		((CGrid*) this)->writeSpatialGrid(fn);
+	}
+
+	if (SRunPara::RunPara.COMP == 1)
+	{
+		string fn = "Output/Comp-" +
+				std::to_string(CEnvir::SimNr) + "_" +
+				std::to_string(CEnvir::ComNr) + "_" +
+				std::to_string(CEnvir::RunNr) + ".txt";
+
+		((CGrid*) this) -> writeCompetitionGrid(fn);
 	}
 }
 

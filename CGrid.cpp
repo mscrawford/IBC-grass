@@ -182,6 +182,54 @@ void CGrid::writeSpatialGrid(string fn) {
 	}
 }
 
+
+
+
+
+
+
+/**
+ * MSC
+ * Recording the above and belowground competition on each grid cell
+ */
+
+void CGrid::writeCompetitionGrid(string fn) {
+	ofstream w(fn.c_str(), ios::app);
+	if (!w.good()) {
+		cerr << ("Failure in writeCompetitionGrid");
+		exit(3);
+	}
+
+	w.seekp(0, ios::end);
+	long size = w.tellp();
+	if (size == 0) {
+		w 	<< CEnvir::headerToString()
+			<< SRunPara::RunPara.headerToString()
+			<< "X" << "\t"
+			<< "Y" << "\t"
+			<< "AComp" << "\t"
+			<< "BComp" << "\t"
+			<< endl;
+	}
+
+	string envir = CEnvir::toString();
+	string runpara = SRunPara::RunPara.toString();
+
+	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
+		CCell* cell = CellList[i];
+		double acomp = cell->aComp_weekly;
+		double bcomp = cell->bComp_weekly;
+
+		w << envir
+				<< runpara
+				<< cell->x << "\t"
+				<< cell->y << "\t"
+				<< acomp << "\t"
+				<< bcomp << "\t"
+				<< endl;
+	}
+}
+
 //-----------------------------------------------------------------------------
 
 /**

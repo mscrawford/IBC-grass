@@ -211,6 +211,7 @@ int CEnvir::GetSim(const int pos, string file) {
 	>> SRunPara::RunPara.SPAT
 	>> SRunPara::RunPara.SPATyear
 	>> SRunPara::RunPara.PFT
+	>> SRunPara::RunPara.COMP
 	>> SRunPara::NamePftFile
 //  >> RunPara.PftFile
 //	>> RunPara.BGThres
