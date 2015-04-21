@@ -194,7 +194,7 @@ string CPlant::asString() {
 	// MSC
 	std::stringstream dummi;
 	dummi << plantID << '\t' << xcoord << '\t' << ycoord << '\t' << Age << '\t'
-			<< mshoot << '\t' << mroot << '\t' << mRepro << '\t'
+			<< mshoot << '\t' << mroot << '\t' << mRepro << '\t' << totalSeeds << '\t'
 			<< Radius_shoot() << '\t' << Radius_root() << '\t' << stress << '\t'
 			<< dead << '\t' << Traits->toString();
 
@@ -214,7 +214,7 @@ string CPlant::asString() {
 string CPlant::headerToString() {
 	std::stringstream dummi;
 	dummi << "plantID" << '\t' << "xcoord" << '\t' << "ycoord" << '\t' << "Age"
-			<< '\t' << "mshoot" << '\t' << "mroot" << '\t' << "mRepro" << '\t'
+			<< '\t' << "mshoot" << '\t' << "mroot" << '\t' << "mRepro" << '\t' << "totalSeeds" << '\t'
 			<< "rShoot" << '\t' << "rRoot" << '\t' << "stress" << '\t' << "dead"
 			<< '\t' << SPftTraits::headerToString();
 	return dummi.str();
@@ -491,6 +491,8 @@ int CPlant::GetNSeeds() {
 				this->dead = true; // kill senescent plants after they reproduced the last time
 		}
 	}
+
+	totalSeeds += NSeeds;
 	return NSeeds;
 }
 

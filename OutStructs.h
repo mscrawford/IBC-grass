@@ -28,11 +28,11 @@ struct SPftOut
      //   double sdmass;   //!< standard deviation (std) of individual masses
      //   double alloc;    //!< mean allocation coefficient
      //   double stress;   //!< mean stress counter
-     //   double Ashoot;   //!< shoot area [cm²]
-     //   double Aroot;    //!< root area  [cm²]
-     //   double repromass; //!< reproductive mass (which can be cobverted to seeds
-     //   int Ash_disc;     //!< discrete shoot area (in #cells covered instead of cm²)
-     //   int Art_disc;     //!< discrete root area (in #cells covered instead of cm²)
+     //   double Ashoot;   //!< shoot area [cmï¿½]
+     //   double Aroot;    //!< root area  [cmï¿½]
+//        double repromass; //!< reproductive mass (which can be cobverted to seeds
+     //   int Ash_disc;     //!< discrete shoot area (in #cells covered instead of cmï¿½)
+     //   int Art_disc;     //!< discrete root area (in #cells covered instead of cmï¿½)
      //   int NPlants;              ///< nb non-clonal plants
      //   int NclonalPlants;       ///< nb clonal plants
      //   int NGenets;             ///< Number of living genets

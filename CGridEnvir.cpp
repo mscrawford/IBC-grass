@@ -358,6 +358,7 @@ void CGridEnvir::OneWeek() {
 	if (week == 20) {        //general output
 		GetOutput();   //calculate output variables
 	}
+
 	if (week == 30) {
 		//get cutted biomass
 		GetOutputCutted();

@@ -50,7 +50,6 @@
 CSeed::CSeed(CPlant* plant, CCell* cell) :
 		xcoord(plant->xcoord), ycoord(plant->ycoord), Age(1), cell(NULL), remove(
 				false) {
-
 	if (SRunPara::RunPara.indivVariationVer == on) {
 		Traits = SPftTraits::createPftInstanceFromPftType(plant->Traits->name); // general
 		Traits->varyTraits();

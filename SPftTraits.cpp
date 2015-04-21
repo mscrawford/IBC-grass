@@ -210,7 +210,7 @@ void SPftTraits::varyTraits() {
 	memory = (int) round((double) memory - ((double) memory * dev));
 
 	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
-	while (dev < -1.0 || dev > 1.0 || palat + (palat * dev) > 1 || SLA + (SLA * dev) > 1)
+	while (dev < -1.0 || dev > 1.0 || palat + (palat * dev) > 1)
 		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
 	palat = palat + (palat * dev);
 	SLA = SLA + (SLA * dev);

@@ -72,19 +72,6 @@ void CGrid::resetGrid(){
    PlantList.clear();
    CPlant::numPlants = 0;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Genet list..
    for(unsigned int i=0;i<GenetList.size();i++) delete GenetList[i];
    GenetList.clear();CGenet::staticID=0;
@@ -181,12 +168,6 @@ void CGrid::writeSpatialGrid(string fn) {
 				endl;
 	}
 }
-
-
-
-
-
-
 
 /**
  * MSC

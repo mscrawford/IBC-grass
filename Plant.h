@@ -48,6 +48,7 @@ public:
    double mshoot;   //!< shoot mass
    double mroot;    //!< root mass
    double mRepro;    //!< reproductive mass (which is converted to seeds)
+   int totalSeeds = 0; //!< The total accumulation of seeds. Note that this may be offset by one year, it's quite imperfect.
 
 //   double alloc_shoot;     //!< root-shoot resource partition coefficient
 
