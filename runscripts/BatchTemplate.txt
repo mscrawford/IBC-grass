@@ -12,6 +12,6 @@
 #$ -e /work/$USER/$JOB_NAME-$JOB_ID.err
 
 module load sge
-module load gcc/4.8.1-3
+module load gcc/4.9.2-2
 
 /home/crawford/IBC-grass/Default/IBC-grass Input/@SIMFILE@

@@ -259,17 +259,19 @@ void CGridEnvir::OneRun() {
 	// adding in the other PFT.
 	do {
 		this->NewWeek();
-		cout << "y " << year << endl;
+		cout << " y " << year << endl;
 		OneYear();
-//		if (SRunPara::RunPara.Invasion == normal)
-		WriteOFiles(); //to be adapted
+
+		if (SRunPara::RunPara.Invasion == normal)
+		{
+			WriteOFiles();
+			this->writeSpatialGrid();
+		}
 
 //		if (year == 50) {
 //			stringstream v;
 //			this->Save(v.str());
 //		}
-
-		this->writeSpatialGrid();
 
 		if (endofrun)
 			break;
@@ -477,6 +479,20 @@ void CGridEnvir::GetOutput() //PftOut& PftData, SGridOut& GridData)
 	}
 	GridWeek->aresmean = sum_above / sumcells;
 	GridWeek->bresmean = sum_below / sumcells;
+
+	double t_acomp = 0;
+	double t_bcomp = 0;
+	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
+		CCell* cell = CellList[i];
+		double acomp = cell->aComp_weekly;
+		double bcomp = cell->bComp_weekly;
+
+		t_acomp += acomp;
+		t_bcomp += bcomp;
+	}
+	GridWeek->aComp = t_acomp / SRunPara::RunPara.GetSumCells();
+	GridWeek->bComp = t_bcomp / SRunPara::RunPara.GetSumCells();
+
 	this->GetClonOutput(*GridWeek);
 
 	NCellsAcover = GetCoveredCells();

@@ -65,6 +65,8 @@ struct SGridOut
    double bresmean;         //!< mean below-ground resource availability
    double cutted;           ///< cutted biomass
    double bareGround;       ///< bare ground cover on grid
+   double aComp;			/// Aboveground resource draw
+   double bComp;				/// Belowground resource draw
 
 //clonal..
    int NPlants;              ///< nb non-clonal plants

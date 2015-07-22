@@ -372,7 +372,7 @@ void CEnvir::InitRun() {
 void CEnvir::WriteOFiles() {
 	// if (year%10==1){// modulo... output every n time steps
 	// if (year==11||year==31){//output in discrete time steps
-	WriteGridComplete(false);
+//	WriteGridComplete(false);
 	WritePftComplete(false);
 //	WriteclonalOutput();
 	if (SRunPara::RunPara.Invasion == normal && year == SRunPara::RunPara.Tmax) {	//output at end of run
@@ -411,6 +411,8 @@ void CEnvir::WriteGridComplete(bool allYears) {
 				<< "BareGround" << "\t"
 				<< "mean_ares" << "\t"
 				<< "mean_bres" << "\t"
+				<< "mean_aComp" << "\t"
+				<< "mean_bComp" << "\t"
 				<< "shannon" << "\t"
 				<< "meanShannon" << "\t"
 				<< "nPFT" << "\t"
@@ -439,6 +441,8 @@ void CEnvir::WriteGridComplete(bool allYears) {
 				<< GridOutData[i]->bareGround << '\t'
 				<< GridOutData[i]->aresmean << '\t'
 				<< GridOutData[i]->bresmean << '\t'
+				<< GridOutData[i]->aComp << '\t'
+				<< GridOutData[i]->bComp << '\t'
 				<< GridOutData[i]->shannon << '\t'
 				<< GetMeanShannon(10) << '\t'
 				<< GridOutData[i]->PftCount << '\t'

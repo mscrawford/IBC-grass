@@ -191,12 +191,15 @@ void CPlant::setGenet(CGenet* genet) {
  */
 string CPlant::asString() {
 
+	totalSeeds += accumulatedSeeds;
+
 	// MSC
 	std::stringstream dummi;
 	dummi << plantID << '\t' << xcoord << '\t' << ycoord << '\t' << Age << '\t'
-			<< mshoot << '\t' << mroot << '\t' << mRepro << '\t' << totalSeeds << '\t'
-			<< Radius_shoot() << '\t' << Radius_root() << '\t' << stress << '\t'
-			<< dead << '\t' << Traits->toString();
+			<< mshoot << '\t' << mroot << '\t' << mRepro << '\t'
+			<< accumulatedSeeds << '\t' << totalSeeds << '\t' << Radius_shoot()
+			<< '\t' << Radius_root() << '\t' << stress << '\t' << dead << '\t'
+			<< Traits->toString();
 
 //	generation number and genet - ID
 //	if (this->Traits->clonal) {
@@ -208,15 +211,18 @@ string CPlant::asString() {
 //		}
 //	}
 
+	accumulatedSeeds = 0;
+
 	return dummi.str();
 }
 
 string CPlant::headerToString() {
 	std::stringstream dummi;
 	dummi << "plantID" << '\t' << "xcoord" << '\t' << "ycoord" << '\t' << "Age"
-			<< '\t' << "mshoot" << '\t' << "mroot" << '\t' << "mRepro" << '\t' << "totalSeeds" << '\t'
-			<< "rShoot" << '\t' << "rRoot" << '\t' << "stress" << '\t' << "dead"
-			<< '\t' << SPftTraits::headerToString();
+			<< '\t' << "mshoot" << '\t' << "mroot" << '\t' << "mRepro" << '\t'
+			<< "accumulatedSeeds" << '\t' << "totalSeeds" << '\t' << "rShoot"
+			<< '\t' << "rRoot" << '\t' << "stress" << '\t' << "dead" << '\t'
+			<< SPftTraits::headerToString();
 	return dummi.str();
 }
 
@@ -492,7 +498,8 @@ int CPlant::GetNSeeds() {
 		}
 	}
 
-	totalSeeds += NSeeds;
+	accumulatedSeeds += NSeeds;
+
 	return NSeeds;
 }
 

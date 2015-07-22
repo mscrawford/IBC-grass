@@ -13,7 +13,7 @@ from Base_Parameter import *
 from Parallel import *
 
 PARALLEL = True
-SPAT_out = 1 # print spat_out grid
+SPAT_out = 0 # print spat_out grid
 SPAT_out_year = 0 # only print out the spatial grid in year 100, if 0 every year
 PFT_out = 1 # print PFT output
 COMP_out = 0
@@ -21,7 +21,7 @@ N_SLOTS = 400
 
 path = "./tmp/"
 N_SIMS = 20
-N_REPS = 5
+N_REPS = 1
 n_PFTs = 16
 
 Sim_header = "SimNrMax  NRep  OutFile\n" + \
@@ -33,10 +33,10 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 
 ## These parameters are specific to the environment and "type" of the simulation, e.g.
 ## whether or not it is an "invasion" type, or an "individual variation" type.
-base_params =  [[1], # interspecific competition version
+base_params =  [[0, 1], # interspecific competition version
                 [0], # invasionVers
                 [0, 1], # IndividualVariationVers
-                [0, 0.2, 0.4, 0.6], # indivVariationSD
+                [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7], # indivVariationSD
                 [100], # CTmax
                 [10], # PftTmax
                 [100], # ARes

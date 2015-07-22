@@ -658,7 +658,7 @@ void CGrid::EstabLott_help(CSeed* seed) {
 	tempPlant->setGenet(Genet);
 	plant = tempPlant;
 	PlantList.push_back(plant);
-
+	tempPlant = NULL;
 }
 //-----------------------------------------------------------------------------
 /**
