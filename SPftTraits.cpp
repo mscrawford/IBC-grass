@@ -214,6 +214,12 @@ void SPftTraits::varyTraits() {
 		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
 	palat = palat + (palat * dev);
 	SLA = SLA + (SLA * dev);
+
+	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	 while (dev < -1.0 || dev > 1.0)
+		 dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	 meanSpacerlength = meanSpacerlength + (meanSpacerlength * dev);
+	 sdSpacerlength = sdSpacerlength + (sdSpacerlength  * dev);
 }
 
 string SPftTraits::toString()
