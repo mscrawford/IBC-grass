@@ -12,17 +12,17 @@ from PFT import *
 from Base_Parameter import *
 from Parallel import *
 
-PARALLEL = True
-SPAT_out = 0 # print spat_out grid
+PARALLEL = False
+SPAT_out = 1 # print spat_out grid
 SPAT_out_year = 0 # only print out the spatial grid in year 100, if 0 every year
 PFT_out = 1 # print PFT output
-COMP_out = 0
+COMP_out = 1
 N_SLOTS = 400
 
 path = "./tmp/"
-N_SIMS = 20
+N_SIMS = 1
 N_REPS = 1
-n_PFTs = 16
+n_PFTs = 1
 
 Sim_header = "SimNrMax  NRep  OutFile\n" + \
                 "18\t" + str(N_REPS) + "\tUPD2-SR\nSimNr ComNr ICvers InvasionVers IndividualVariationVers IndivVariationSD Tmax ARes Bres " + \
@@ -33,10 +33,10 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 
 ## These parameters are specific to the environment and "type" of the simulation, e.g.
 ## whether or not it is an "invasion" type, or an "individual variation" type.
-base_params =  [[0, 1], # interspecific competition version
+base_params =  [[1], # intraspecific competition version
                 [0], # invasionVers
-                [0, 1], # IndividualVariationVers
-                [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7], # indivVariationSD
+                [1], # IndividualVariationVers
+                [0, 0.2], # indivVariationSD
                 [100], # CTmax
                 [10], # PftTmax
                 [100], # ARes
@@ -153,5 +153,89 @@ def makePFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
             w.write(Sim_header)
             w.writelines(sim for sim in SimFile)
 
+
+
+
+
+def makeEmpiricalPFTs():
+
+    # Read in Lina's superset of PFTs
+    with open("./masterWeiss.txt", "r") as r:
+        pfts = r.read().splitlines()
+        pfts = [pft.split(' ') for pft in pfts]
+        [pft.pop(1) for pft in pfts]
+        pfts = [" ".join(pft) for pft in pfts]
+
+    SimFile = [] # all the simulations go into one 'SimFile.' This is a list of strings.
+    community_number = 0
+    sim_number = random.randint(0, 33554432) # This is so that you can run multiple simulations at once. 
+
+    for s in xrange(1, N_SIMS+1): # one sim_number per sample of PFTypes. 
+        community = random.sample(pfts, n_PFTs)
+        community_number += 1
+
+        for base_param in itertools.product(*base_params):
+            
+            try:
+                base_param = Base_Parameter(*base_param)
+            except:
+                continue
+
+            sim_number += 1 # IBC-grass will barf if sim_number starts with 0.
+            base_simID = str(sim_number)
+            ComNr = str(community_number)
+            sim_filename = base_simID + "_" + "COM" + ".txt"
+
+            # community's SimFile entry
+            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(True), str(SPAT_out), str(SPAT_out_year), str(PFT_out), str(COMP_out), sim_filename, "\n"]))
+            
+            # community's PFT file    
+            with open(path + sim_filename, 'w') as w: 
+                w.write(PFT_header)
+                counter = 0
+                for p in community:
+                    w.write(str(counter) + " " + str(p))
+                    counter += 1
+
+                    if (community.index(p) != len(community)-1): # This is critical. There can be no trailing newline on the end of the PFT file.
+                        w.write("\n")
+
+    if (PARALLEL):
+        buildBatchScripts(SimFile, N_SLOTS, path, Sim_header)
+        os.system('cp ./queue.sh ./tmp')
+    else:
+        with open(path + "SimFile.txt", 'w') as w:
+            w.write(Sim_header)
+            w.writelines(sim for sim in SimFile)
+
+
+
+
+
+
+
 if __name__ == "__main__":
-    makePFTs()
+    # makePFTs()
+    makeEmpiricalPFTs()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

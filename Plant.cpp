@@ -121,22 +121,18 @@ CPlant::CPlant(CSeed* seed) :
  \since revision
  */
 CPlant::CPlant(double x, double y, CPlant* plant) :
-		xcoord(x), ycoord(y), Age(0), plantID(++numPlants), Aroots_all(0), Aroots_type(
-				0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0), dead(
-				false), remove(false), stress(0), cell(NULL), mReproRamets(0), Spacerlength(
-				0), Spacerdirection(0), Generation(plant->Generation + 1), SpacerlengthToGrow(
-				0), genet(plant->genet) {
-
-	Traits = new SPftTraits(*plant->Traits);
-
+		xcoord(x), ycoord(y), Traits(plant->Traits), Age(0), plantID(
+				++numPlants), mshoot(plant->Traits->m0), mroot(
+				plant->Traits->m0), Aroots_all(0), Aroots_type(0), mRepro(0), Ash_disc(
+				0), Art_disc(0), Auptake(0), Buptake(0), dead(false), remove(
+				false), stress(0), cell(NULL), mReproRamets(0), Spacerlength(0), Spacerdirection(
+				0), Generation(plant->Generation + 1), SpacerlengthToGrow(0), genet(
+				plant->genet)
+{
 	if (SRunPara::RunPara.indivVariationVer == on)
 		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 
-	mroot = Traits->m0;
-	mshoot = Traits->m0;
-
 	growingSpacerList.clear();
-//  this->Generation=plant->Generation+1;
 }
 
 //---------------------------------------------------------------------------
@@ -191,13 +187,13 @@ void CPlant::setGenet(CGenet* genet) {
  */
 string CPlant::asString() {
 
-	totalSeeds += accumulatedSeeds;
+	lifetimeFecundity += yearlyFecundity;
 
 	// MSC
 	std::stringstream dummi;
 	dummi << plantID << '\t' << xcoord << '\t' << ycoord << '\t' << Age << '\t'
 			<< mshoot << '\t' << mroot << '\t' << mRepro << '\t'
-			<< accumulatedSeeds << '\t' << totalSeeds << '\t' << Radius_shoot()
+			<< yearlyFecundity << '\t' << lifetimeFecundity << '\t' << Radius_shoot()
 			<< '\t' << Radius_root() << '\t' << stress << '\t' << dead << '\t'
 			<< Traits->toString();
 
@@ -211,7 +207,7 @@ string CPlant::asString() {
 //		}
 //	}
 
-	accumulatedSeeds = 0;
+	yearlyFecundity = 0;
 
 	return dummi.str();
 }
@@ -220,7 +216,7 @@ string CPlant::headerToString() {
 	std::stringstream dummi;
 	dummi << "plantID" << '\t' << "xcoord" << '\t' << "ycoord" << '\t' << "Age"
 			<< '\t' << "mshoot" << '\t' << "mroot" << '\t' << "mRepro" << '\t'
-			<< "accumulatedSeeds" << '\t' << "totalSeeds" << '\t' << "rShoot"
+			<< "yearlyFecundity" << '\t' << "lifetimeFecundity" << '\t' << "rShoot"
 			<< '\t' << "rRoot" << '\t' << "stress" << '\t' << "dead" << '\t'
 			<< SPftTraits::headerToString();
 	return dummi.str();
@@ -301,6 +297,7 @@ double CPlant::ReproGrow(double uptake) {
 void CPlant::SpacerGrow() {
 	if (SRunPara::RunPara.indivVariationVer == on)
 		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
+
 	double mGrowSpacer = 0;
 	int SpacerListSize = this->growingSpacerList.size();
 
@@ -498,7 +495,7 @@ int CPlant::GetNSeeds() {
 		}
 	}
 
-	accumulatedSeeds += NSeeds;
+	yearlyFecundity += NSeeds;
 
 	return NSeeds;
 }
