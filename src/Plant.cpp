@@ -121,16 +121,19 @@ CPlant::CPlant(CSeed* seed) :
  \since revision
  */
 CPlant::CPlant(double x, double y, CPlant* plant) :
-		xcoord(x), ycoord(y), Traits(plant->Traits), Age(0), plantID(
-				++numPlants), mshoot(plant->Traits->m0), mroot(
-				plant->Traits->m0), Aroots_all(0), Aroots_type(0), mRepro(0), Ash_disc(
-				0), Art_disc(0), Auptake(0), Buptake(0), dead(false), remove(
-				false), stress(0), cell(NULL), mReproRamets(0), Spacerlength(0), Spacerdirection(
-				0), Generation(plant->Generation + 1), SpacerlengthToGrow(0), genet(
-				plant->genet)
-{
+		xcoord(x), ycoord(y), Age(0), plantID(++numPlants), Aroots_all(0), Aroots_type(
+				0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0), dead(
+				false), remove(false), stress(0), cell(NULL), mReproRamets(0), Spacerlength(
+				0), Spacerdirection(0), Generation(plant->Generation + 1), SpacerlengthToGrow(
+				0), genet(plant->genet) {
+
+	Traits = new SPftTraits(*plant->Traits);
+
 	if (SRunPara::RunPara.indivVariationVer == on)
 		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
+
+	mshoot = Traits->m0;
+	mroot = Traits->m0;
 
 	growingSpacerList.clear();
 }
