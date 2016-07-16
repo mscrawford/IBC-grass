@@ -22,17 +22,17 @@ int CEnvir::year = 1;
 int CEnvir::WeeksPerYear = 30;
 
 //Output Files
-string CEnvir::NamePftOutFile = "Output/PftOut.txt";
-string CEnvir::NameGridOutFile = "Output/GridOut.txt";
-string CEnvir::NameSurvOutFile = "Output/SurvOutGraz.txt";
-string CEnvir::NameLogFile = "Output/LogUpSc.log";
-string CEnvir::NameClonalOutFile = "Output/clonalOut.txt";
+string CEnvir::NamePftOutFile = "data/out/PftOut.txt";
+string CEnvir::NameGridOutFile = "data/out/GridOut.txt";
+string CEnvir::NameSurvOutFile = "data/out/SurvOutGraz.txt";
+string CEnvir::NameLogFile = "data/out/LogUpSc.log";
+string CEnvir::NameClonalOutFile = "data/out/clonalOut.txt";
 
-string SSR::NameLDDFile1 = "Output/SeedOut1_2.csv";
-string SSR::NameLDDFile2 = "Output/SeedOut2_3.csv";
-string SSR::NameLDDFile3 = "Output/SeedOut4_5.csv";
-string SSR::NameLDDFile4 = "Output/SeedOut9_10.csv";
-string SSR::NameLDDFile5 = "Output/SeedOut19_20.csv";
+string SSR::NameLDDFile1 = "data/out/SeedOut1_2.csv";
+string SSR::NameLDDFile2 = "data/out/SeedOut2_3.csv";
+string SSR::NameLDDFile3 = "data/out/SeedOut4_5.csv";
+string SSR::NameLDDFile4 = "data/out/SeedOut9_10.csv";
+string SSR::NameLDDFile5 = "data/out/SeedOut19_20.csv";
 
 int CEnvir::NRep = 1;        //!> number of replications -> read from SimFile;
 int CEnvir::SimNr = 0;
@@ -62,7 +62,7 @@ CEnvir::CEnvir() :
 CEnvir::CEnvir(string id) :
 		NCellsAcover(0), init(1), endofrun(false) {
 //read file
-	string dummi = (string) "Save/E_" + id + ".sav";
+	string dummi = (string) "data/save/E_" + id + ".sav";
 	ifstream loadf(dummi.c_str());
 	string d;
 	loadf >> year >> week;
@@ -217,7 +217,7 @@ int CEnvir::GetSim(const int pos, string file) {
 //	>> RunPara.BGThres
 	;
 
-	SRunPara::NamePftFile = (string) "Input/" + SRunPara::NamePftFile;
+	SRunPara::NamePftFile = (string) "data/in/" + SRunPara::NamePftFile;
 	//---------standard parameter:
 	//grazing intensity
 //  SRunPara::RunPara.PropRemove=0.5;
@@ -292,15 +292,16 @@ int CEnvir::GetSim(const int pos, string file) {
 	//set valid OFile names
 	string fid = SRunPara::RunPara.getFileID();
 	//set file names
-	NamePftOutFile = (string) "Output/Pft-" + fid + ".txt";
-	NameGridOutFile = (string) "Output/Grd-" + fid + ".txt";
-	NameSurvOutFile = (string) "Output/Srv-" + fid + ".txt";
-	NameLogFile = (string) "Output/Log-" + fid + ".log";
-	SSR::NameLDDFile1 = (string) "Output/LDD-1-2_" + fid + ".txt";
-	SSR::NameLDDFile2 = (string) "Output/LDD-2-3_" + fid + ".txt";
-	SSR::NameLDDFile3 = (string) "Output/LDD-3-5_" + fid + ".txt";
-	SSR::NameLDDFile4 = (string) "Output/LDD-9-10_" + fid + ".txt";
-	SSR::NameLDDFile5 = (string) "Output/LDD-19-20_" + fid + ".txt";
+	NamePftOutFile = (string) "data/out/Pft-" + fid + ".txt";
+	cout << NamePftOutFile << endl;
+	NameGridOutFile = (string) "data/out/Grd-" + fid + ".txt";
+	NameSurvOutFile = (string) "data/out/Srv-" + fid + ".txt";
+	NameLogFile = (string) "data/out/Log-" + fid + ".log";
+	SSR::NameLDDFile1 = (string) "data/out/LDD-1-2_" + fid + ".txt";
+	SSR::NameLDDFile2 = (string) "data/out/LDD-2-3_" + fid + ".txt";
+	SSR::NameLDDFile3 = (string) "data/out/LDD-3-5_" + fid + ".txt";
+	SSR::NameLDDFile4 = (string) "data/out/LDD-9-10_" + fid + ".txt";
+	SSR::NameLDDFile5 = (string) "data/out/LDD-19-20_" + fid + ".txt";
 
 	return SimFile.tellg();
 } //end  CEnvir::GetSim

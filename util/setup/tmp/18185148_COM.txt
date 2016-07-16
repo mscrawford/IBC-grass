@@ -1,0 +1,2 @@
+ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer 
+0 116 100 0.05 0.5 0.3 2000 0.3 0.3 0.5 40 1 1 4 1 0.25 0.2 1 1 2.5 2.5 0 0.05 70

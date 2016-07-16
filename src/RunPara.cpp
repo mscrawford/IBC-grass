@@ -5,6 +5,7 @@
 //#pragma hdrstop
 
 #include "RunPara.h"
+#include "CEnvir.h"
 #include "SPftTraits.h"
 
 //#include <iostream>
@@ -13,8 +14,8 @@
 //---------------------------------------------------------------------------
 //#pragma package(smart_init)
 //Input Files
-std::string SRunPara::NamePftFile = "Input/PftTraits.experiment.txt"; // trait file for experiment species
-std::string SRunPara::NameSimFile = "Input/SimFile.txt"; //file with simulation scenarios
+std::string SRunPara::NamePftFile = "data/in/PftTraits.experiment.txt"; // trait file for experiment species
+std::string SRunPara::NameSimFile = "data/in/SimFile.txt"; //file with simulation scenarios
 
 SRunPara SRunPara::RunPara=SRunPara();
 //-------------------------------------------------------------------
@@ -24,7 +25,7 @@ SRunPara::SRunPara():Version(version1),indivVariationVer(off),AboveCompMode(sym)
   BelGrazProb(0),BelPropRemove(0),BelGrazMode(0),BGThres(1),HetBG(false),
   CutMass(5000),NCut(0),torus(true),
   DistAreaYear(0),AreaEvent(0.1),mort_seeds(0.5),meanARes(100),meanBRes(100),Rootherb(false),
-  Aampl(0),Bampl(0),PftFile("Input/PftTraits.experiment.txt"),SeedInput(0),SeedRainType(0){}
+  Aampl(0),Bampl(0),PftFile("data/in/PftTraits.experiment.txt"),SeedInput(0),SeedRainType(0){}
 
 /**
 \note  es fehlen: CellNum,NPft
@@ -129,9 +130,13 @@ void SRunPara::setRunPara(std::string def){
 }
 
 std::string SRunPara::getFileID() {
-	std::stringstream mystream; unsigned pos = std::max(NamePftFile.find("/")+1,NamePftFile.find("\\")+2);
+
+	string t = to_string(CEnvir::SimNr) + "_" + to_string(CEnvir::ComNr) + "_" + to_string(CEnvir::RunNr);
+	return t;
+
 	// ares bres graz SR file
-    mystream <<	this->NamePftFile.substr(pos,NamePftFile.find(".txt")-pos);
-	return mystream.str();
+//	std::stringstream mystream; unsigned pos = std::max(NamePftFile.find("/")+1,NamePftFile.find("\\")+2);
+//	mystream <<	this->NamePftFile.substr(pos,NamePftFile.find(".txt")-pos);
+//	return mystream.str();
 }
 //eof  ---------------------------------------------------------------------

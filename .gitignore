@@ -1,9 +1,7 @@
-Input
-Output
-Save
+data
+setup/tmp
 Default
+*.pyc
 .cproject
 .project
 .settings
-runscripts/tmp
-runscripts/tmp.tgz

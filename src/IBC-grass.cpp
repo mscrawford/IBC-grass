@@ -105,7 +105,7 @@ Biology group at the University of Potsdam
   in grassland communities - the role of above- and below-ground competition.
   Diploma thesis Potsdam University.
 */
-//---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 CGridEnvir* Envir;   ///<environment in which simulations are run
 using namespace std;
 
@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
 	if (argc>=2) {
       string file = argv[1];
       SRunPara::NameSimFile=file;
-   } else SRunPara::NameSimFile="Input/SimFile.txt";
+   } else SRunPara::NameSimFile="data/in/SimFile.txt";
    cout<<"new Environment...clonal community...\n";
 //      //change gridsize to 3qm
 //   SRunPara::RunPara.GridSize=SRunPara::RunPara.CellNum=173; //if pot experiments are to be reproduced than set to 12
@@ -163,7 +163,7 @@ void Init(){
 }
 //------------------------------------------------
 void writeBenchmark(int pft,int clpft,int run,int week, double time){
-  ofstream of("Output/extTimes.txt",ios_base::app);
+  ofstream of("data/out/extTimes.txt",ios_base::app);
   of<<pft<<'\t'<<clpft<<'\t'<<run<<'\t'<<week<<'\t'<<time<<'\n';
 }
 //------------------------------------------------

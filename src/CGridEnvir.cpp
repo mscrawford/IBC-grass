@@ -58,7 +58,7 @@ CGridEnvir::CGridEnvir() :
 CGridEnvir::CGridEnvir(string id) :
 		CGrid(id), CEnvir(id) {
 	//here re-eval clonal PFTFile
-	string dummi = (string) "Save/E_" + id + ".sav";
+	string dummi = (string) "data/save/E_" + id + ".sav";
 	ifstream loadf0(dummi.c_str());
 	string d;
 	getline(loadf0, d); //>>year>>week;
@@ -66,7 +66,7 @@ CGridEnvir::CGridEnvir(string id) :
 	//fill PftLinkList
 	SPftTraits::ReadPFTDef(SRunPara::NamePftFile, -1);
 	//open file..
-	dummi = (string) "Save/G_" + id + ".sav";
+	dummi = (string) "data/save/G_" + id + ".sav";
 	ifstream loadf(dummi.c_str());
 	getline(loadf, d);
 	int x = 0, y = 0;
@@ -630,7 +630,7 @@ void CGridEnvir::setCover() {
  */
 void CGridEnvir::Save(string ID) {
 	//open file(s)
-	string fname = "Save/E_" + ID + ".sav";
+	string fname = "data/save/E_" + ID + ".sav";
 	ofstream SaveFile(fname.c_str(), ios::app);
 	if (!SaveFile.good()) {
 		cerr << ("Fehler beim �ffnen InitFile");
@@ -645,7 +645,7 @@ void CGridEnvir::Save(string ID) {
 //Run Parameter
 	SaveFile << SRunPara::RunPara.toString() << endl;
 
-	fname = "Save/G_" + ID + "_" + std::to_string(CEnvir::RunNr) + "_" +
+	fname = "data/dave/G_" + ID + "_" + std::to_string(CEnvir::RunNr) + "_" +
 			std::to_string(CEnvir::year) + "_" + std::to_string(CEnvir::week) + ".sav";
 //CGrid, CClonalGrid
 
@@ -661,7 +661,7 @@ void CGridEnvir::writeSpatialGrid() {
 	if (SRunPara::RunPara.SPAT == 1 &&
 			(CEnvir::year == SRunPara::RunPara.SPATyear || SRunPara::RunPara.SPATyear == 0))
 	{
-		string fn = "Output/Spat-" +
+		string fn = "data/out/Spat-" +
 				std::to_string(CEnvir::SimNr) + "_" +
 				std::to_string(CEnvir::ComNr) + "_" +
 				std::to_string(CEnvir::RunNr) + ".txt";
@@ -671,7 +671,7 @@ void CGridEnvir::writeSpatialGrid() {
 
 	if (SRunPara::RunPara.COMP == 1)
 	{
-		string fn = "Output/Comp-" +
+		string fn = "data/out/Comp-" +
 				std::to_string(CEnvir::SimNr) + "_" +
 				std::to_string(CEnvir::ComNr) + "_" +
 				std::to_string(CEnvir::RunNr) + ".txt";
