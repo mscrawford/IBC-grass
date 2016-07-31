@@ -7,9 +7,9 @@
 #include "cmath"
 //---------------------------------------------------------------------------
 int CGenet::staticID=0;
+
 /// Calculate the mean of the uptakes of one genet and save this
 /// as the uptake for each plant of this genet.
-///
 void CGenet::ResshareA()
 {
   double sumAuptake=0;
@@ -35,10 +35,10 @@ void CGenet::ResshareA()
   for (int m=0; m<listsize;m++)
       AllRametList[m]->Auptake+=MeanAuptake;
 } //end CGridclonal::ResshareA
+
 //-----------------------------------------------------------------------------
 /// Calculate the mean of the uptakes of one genet and save this
 /// as the uptake for each plant of this genet.
-///
 void CGenet::ResshareB()
 {
  double sumBuptake=0;
@@ -63,6 +63,3 @@ void CGenet::ResshareB()
        AllRametList[m]->Buptake+=MeanBuptake;
 }//end CGridclonal::ResshareB
 //eof---------------------------------------------------------------------
-
-
-

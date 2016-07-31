@@ -424,7 +424,7 @@ CompetitionOverTime <- function()
 
     # Average the redundant runs
     tdata <- tdata %>%
-        group_by(ComNr, ITVsd, IC_ver, Tmax, Year)
+        group_by(ComNr, ITVsd, IC_vers, Tmax, Year)
 
     tdata <- tdata %>%
         summarise(avg_AComp = mean(mean_aComp),
@@ -443,7 +443,7 @@ CompetitionOverTime <- function()
 #                            y = avg_abovemass + avg_belowmass,
 #                            col = as.factor(ITVsd)))
 
-    p <- p + facet_grid(Tmax ~ IC_ver, scales = "free")
+    p <- p + facet_grid(Tmax ~ IC_vers, scales = "free")
 
 #     p <- p + labs(x = "Year",
 #                   y = "Mean global resource demand (above- and belowground)")
@@ -578,11 +578,11 @@ yearling_deltaT <- function(spat_data, srv_data, save = FALSE)
         select(-contains(".y"))
 
     tdata <- tdata %>%
-        group_by(SimNr, ComNr, IC_ver.x, ITVsd.x, PFT) %>%
+        group_by(SimNr, ComNr, IC_vers.x, ITVsd.x, PFT) %>%
         mutate(lives = ifelse(cPop > 0, 1, 0))
 
     tdata <- tdata %>%
-        group_by(SimNr, IC_ver.x, ITVsd.x, year.x, PFT, lives) %>%
+        group_by(SimNr, IC_vers.x, ITVsd.x, year.x, PFT, lives) %>%
         filter(Age == 1) %>%
         summarise(yearlings = n())
 
@@ -593,7 +593,7 @@ yearling_deltaT <- function(spat_data, srv_data, save = FALSE)
                            y = yearlings,
                            color = PFT))
 
-    p <- p + facet_grid(ITVsd.x ~ IC_ver.x, labeller=label_both)
+    p <- p + facet_grid(ITVsd.x ~ IC_vers.x, labeller=label_both)
 
     p
 }
@@ -614,11 +614,11 @@ MaxAge <- function(spat_data, srv_data, save = FALSE)
         select(-contains(".y"))
 
     tdata <- tdata %>%
-        group_by(SimNr, ComNr, IC_ver.x, ITVsd.x, PFT) %>%
+        group_by(SimNr, ComNr, IC_vers.x, ITVsd.x, PFT) %>%
         mutate(lives = ifelse(cPop > 0, 1, 0))
 
     tdata <- tdata %>%
-        group_by(SimNr, ComNr, IC_ver.x, ITVsd.x, PFT, plantID) %>%
+        group_by(SimNr, ComNr, IC_vers.x, ITVsd.x, PFT, plantID) %>%
         filter(Age == max(Age))
 
     p <- ggplot()
@@ -628,7 +628,7 @@ MaxAge <- function(spat_data, srv_data, save = FALSE)
                               y = Age,
                               color = as.factor(lives)))
 
-    p <- p + facet_grid(ITVsd.x ~ IC_ver.x, labeller=label_both)
+    p <- p + facet_grid(ITVsd.x ~ IC_vers.x, labeller=label_both)
 
     p
 }

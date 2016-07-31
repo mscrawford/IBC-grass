@@ -43,7 +43,7 @@ read_files <- function(dir, file_type)
                                    fread(files,
                                          stringsAsFactors = T,
                                          na.strings = "NA",
-                                         header = T)
+                                         header = F)
                                }))
         setnames(data, strsplit(readLines(files[1], n = 1), split = "\t")[[1]])
     } else {
@@ -62,18 +62,6 @@ read_files <- function(dir, file_type)
 
 clean_data <- function(data, classify = TRUE)
 {
-    # Transforming the "Sim" such that the pairwise and community runs are consistent. Each set of sims will
-    # now have the same "Sim" number.
-    data <- data %>%
-        mutate(SimNr = ifelse(invasion_ver == 1,
-                            as.integer(
-                                substr(
-                                    as.character(SimNr),
-                                    1,
-                                    str_length(as.character(SimNr)) - str_length(as.character(
-                                               paste(as.character(monoculture),
-                                                     as.character(invader), sep=""))))),
-                            SimNr))
 
     # Classify the pairs by their attributes:
     if (classify)
@@ -128,11 +116,6 @@ clean_data <- function(data, classify = TRUE)
                    -meanSpacerlength, -sdSpacerlength, -Resshare,
                    -AllocSpacer, -mSpacer, -mThres, -clonal)
     }
-
-    # Remove RunParameters that we don't use.
-    data <- data %>%
-        select(-PropRemove, -NCut, -CutMass, -DistAreaYear,
-               -AreaEvent, -SeedRainType, -SeedInput)
 
     return (data)
 }

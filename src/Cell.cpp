@@ -337,10 +337,6 @@ double CCell::prop_res(const string type,const int layer,const int version)const
    return -1; //should not be reached
 }//end CCell::prop_res
 //---------------------------------------------------------------------------
-void CCell::SortTypeID()
-{
-   sort(SeedlingList.begin(),SeedlingList.end(),CompareTypeID);
-}
 void CCell::print_map(map<string,int> &mymap){
    typedef map<string,int>::const_iterator CI;
    for (CI p=mymap.begin();p!=mymap.end();++p){
@@ -376,22 +372,3 @@ return dummi.str();
 }//return content for file saving
 
 //-eof--------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

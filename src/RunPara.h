@@ -25,18 +25,10 @@ enum CompVersion {
 };
 
 /** MSC
- * \arg normal \c traditional model: drops seeds of every PFT and lets them compete
- * \arg invasionCriteria \c Requires exactly two PFTs: The first grows to carrying capacity, and the second is introduced
- */
-enum invasionVersion {
-	normal, invasionCriteria
-};
-
-/** MSC
- * \arg on \c variation is taken from "indivVariationSD" and will be applied to the independently parameterized traits.
+ * \arg on \c variation is taken from "ITVsd" and will be applied to the independently parameterized traits.
  * \arg off \c there is no individual variation.
  */
-enum individualVariationVersion {
+enum ITV_version {
 	off, on
 };
 
@@ -53,7 +45,6 @@ public:
 	CompMode AboveCompMode; //!<0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry
 	CompMode BelowCompMode; //!<0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry
 
-
 	int SPAT; // Do we record the spatial grid?
 	int SPATyear; // Which year do we record the spatial grid?
 	int PFT; // Do we record the PFT output?
@@ -66,10 +57,9 @@ public:
 	 * 2 = lower resource availability for intraspecific competition
 	 */
 	CompVersion Version;
-	invasionVersion Invasion; // MSC
-	individualVariationVersion indivVariationVer; // MSC
-	double indivVariationSD; // MSC
-	int invasionTmax; // MSC: Hard coded in the initialization code for now.
+	ITV_version ITV; // MSC
+	double ITVsd; // MSC
+
 	int GridSize;     //!< side length in cm
 	int CellNum;      //!< side length in cells
 	bool torus;       //!< boundary behavior
@@ -133,7 +123,6 @@ public:
 //   double cv_res;     //!< coefficient of resource variation between years (not used)
 	double Aampl;    //!< within year above-ground resource amplitude (not used)
 	double Bampl;   //!<  within year above-ground resource amplitude (not used)
-	std::string PftFile; //!< File with PFT trait parameter in Folder "Input"
 
 	double SeedInput; //!< number of seeds introduced per PFT per year or seed mass introduced per PFT
 	int SeedRainType;  //!< mode of seed input: 0 - no seed rain;

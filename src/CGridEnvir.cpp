@@ -9,34 +9,6 @@
 #include <sstream>
 #include <iostream>
 using namespace std;
-//------------------------------------------------------------------------------
-/** \page loadsave Loading and Saving environments
- Since initalization phase on grid takes a lot of simulation time,
- with this option we aim to shorten simulation runs that look at performance
- after environmental changes to an existing community. We should be able to
- generate a set of (parameter-defined) 'starting points' with repititions. Thus
- we are able to compare the community with and without environmental change.
-
- \par Saving.
- All state variables of
- - the environment (CClonalGridEnvir::Save()),
- - the grid (CGridclonal::Save()),
- - the plants (CPlant::asString(), CclonalPlant::asString())
- - and cells  (CCell::asString())
- are saved in files with one core id code to identify associated files.
-
- \par Loading.
- An environment is loaded mainly via constructors of the various
- structures and classes. One core-string (\verb'id') defines the set of files
- belonging to one task.
-
- \note saving should work already, while loading ability still is in process
- \sa CClonalGridEnvir::CClonalGridEnvir(string id), CEnvir::CEnvir(string id),
- CGridclonal::CGridclonal(string id), CGrid::CGrid(string id), ...
-
- \author KK
- \date 120905
- */
 
 //------------------------------------------------------------------------------
 /**
@@ -46,59 +18,7 @@ CGridEnvir::CGridEnvir() :
 		CEnvir(), CGrid() {
 	ReadLandscape();
 }
-/**
- Constructor - load a previously saved environment.
 
- \note only state variables are restored
- \param id core string for the set of saved files
- \author KK
- \date  120905
- \todo not yet updated after 'Update2.0'
- */
-CGridEnvir::CGridEnvir(string id) :
-		CGrid(id), CEnvir(id) {
-	//here re-eval clonal PFTFile
-	string dummi = (string) "data/save/E_" + id + ".sav";
-	ifstream loadf0(dummi.c_str());
-	string d;
-	getline(loadf0, d); //>>year>>week;
-
-	//fill PftLinkList
-	SPftTraits::ReadPFTDef(SRunPara::NamePftFile, -1);
-	//open file..
-	dummi = (string) "data/save/G_" + id + ".sav";
-	ifstream loadf(dummi.c_str());
-	getline(loadf, d);
-	int x = 0, y = 0;
-	int xmax = SRunPara::RunPara.CellNum - 1;
-	//load cells..
-	//loop over cell entries
-	do {
-		loadf >> x >> y;
-		getline(loadf, d);
-		getline(loadf, d);
-		while (d != "CE") {
-			//set seeds of type x
-			stringstream mstr(d);
-			string type;
-			int num;
-			mstr >> type >> num;
-			CGrid::InitSeeds(SPftTraits::getPftLink(type), num, x, y, 0);
-			//or InitClonalSeeds(..) for clonal types
-			getline(loadf, d);
-		}
-
-	} while (!(x == xmax && y == xmax));
-	//load Plants..
-	int num;
-	loadf >> d >> d >> d >> num;
-	getline(loadf, d);
-	cout << "lade " << num << "plant individuals.." << endl;
-	do {
-		getline(loadf, d);
-	} while (InitInd(d));
-	ReadLandscape();
-}
 //------------------------------------------------------------------------------
 /**
  * destructor
@@ -106,6 +26,7 @@ CGridEnvir::CGridEnvir(string id) :
 CGridEnvir::~CGridEnvir() {
 //  for (unsigned int i=0;i<ClonOutData.size();i++)  delete ClonOutData[i];
 }
+
 //------------------------------------------------------------------------------
 /**
  Initiate new Run: reset grid and randomly set initial individuals.
@@ -118,13 +39,7 @@ void CGridEnvir::InitRun() {
 	//new: read from File
 	InitInds(SRunPara::NamePftFile, -1);
 
-//  another input file for seed rain runs..
-//   string mfile("");
-//   mfile="Input\\InitPFTdat_seedrain.txt";
-//   InitInds(mfile);
-
-//  cout<<" sum of types: "<<PftInitList.size()<<endl;
-	init = 1; //start new
+//  cout <<" sum of types: "<<PftInitList.size()<<endl;
 }
 
 //------------------------------------------------------------------------------
@@ -142,102 +57,29 @@ void CGridEnvir::InitRun() {
  \todo init pft defs elsewhere
  */
 void CGridEnvir::InitInds(string file, int n) {
+
 	const int no_init_seeds = 10;
+
 	// PFT Traits are read in GetSim()
-
-	if (SRunPara::RunPara.Invasion == normal)
+	for (map<string, SPftTraits*>::iterator var = SPftTraits::PftLinkList.begin();
+			var != SPftTraits::PftLinkList.end();
+			++var)
 	{
-		for (map<string, SPftTraits*>::iterator var =
-				SPftTraits::PftLinkList.begin();
-				var != SPftTraits::PftLinkList.end(); ++var)
-		{
-			SPftTraits* traits = var->second; // MSC you could vary the traits here...
-			InitClonalSeeds(traits, no_init_seeds); //cltraits,
-			PftInitList[traits->name] += no_init_seeds;
-			PftSurvTime[traits->name] = 0;
-			cout << "init " << no_init_seeds << " seeds of Pft: " << traits->name << endl;
-			CEnvir::SeedRainGr.PftSeedRainList[traits->name] = SRunPara::RunPara.SeedInput;
-			if (n > -1) { // Broken window
-				SRunPara::RunPara.NPft = PftInitList.size();
-				return;
-			}
-		}
-		this->SeedRainGr.GetNPftSeedsize();
-		this->SeedRainGr.GetNPftSeedClonal();
-
-	} else if (SRunPara::RunPara.Invasion == invasionCriteria) { // MSC: Creating the monoculture.
-
-		if (n > -1) { // MSC: I don't know what "type initiates for monoculture means but if it's on I doubt we want it.
-			cerr << "Please don't have the \"Position of type initiates for monoculture\" set to above -1." << endl;
-			exit(1);
-		}
-
-		if (SPftTraits::PftLinkList.size() != 2) {
-			cerr << "PftLinkList must be of size 2 in order to run an invasion criteria simulation!" << endl;
-			exit(1);
-		}
-
-		// Populate the grid with the first PFT. pftInsertionOrder maintains the order that the PFTs were read into the system.
-		// Because the first PFT read in is the "monoculture" PFT, order matters. Maps do not preserve order, so a secondary
-		// container needs to be used. It's only relevant when invasion criterion is on.
-		string monocultureName = SPftTraits::pftInsertionOrder[0];
-		SPftTraits* traits = SPftTraits::PftLinkList.find(monocultureName)->second;
-		InitClonalSeeds(traits, no_init_seeds); // cltraits
+		SPftTraits* traits = var->second; // MSC you could vary the traits here...
+		InitClonalSeeds(traits, no_init_seeds);
 		PftInitList[traits->name] += no_init_seeds;
 		PftSurvTime[traits->name] = 0;
-
-		cout << " Monoculture! Init " << no_init_seeds << " seeds of Pft: " << traits->name << endl;
+		cout << "Initializing " << no_init_seeds << " seeds of PFT: " << traits->name << endl;
 		CEnvir::SeedRainGr.PftSeedRainList[traits->name] = SRunPara::RunPara.SeedInput;
-		this->SeedRainGr.GetNPftSeedsize();
-		this->SeedRainGr.GetNPftSeedClonal();
+		if (n > -1) { // Broken window
+			SRunPara::RunPara.NPft = PftInitList.size();
+			return;
+		}
 	}
+	this->SeedRainGr.GetNPftSeedsize();
+	this->SeedRainGr.GetNPftSeedClonal();
 
 } //initialization based on file
-//------------------------------------------------------------------------------
-/** initialize individuals with size and type
- on a predifened grid
- \param def definition string
- \return did it work? (flag)
- \todo clonal plants are not yet restored correctly
- */
-bool CGridEnvir::InitInd(string def) { // Breaks individual vary trais MSC
-	stringstream d(def);
-	//get cell
-	int x, y;
-	d >> x >> y;
-	//frage streamzustand ab ; wenn nicht good, beende Funktion
-	if (!d.good())
-		return false;
-	CCell* cell = this->CellList[x * SRunPara::RunPara.CellNum + y];
-
-	string type;
-	double mshoot, mroot, mrepro;
-	int stress;
-	bool dead;
-	d >> type >> mshoot >> mroot >> mrepro >> stress >> dead;
-
-	//for nonclonal CPlant
-	CPlant* plant = new CPlant(SPftTraits::getPftLink(type), cell, mshoot,
-			mroot, mrepro, stress, dead);
-	this->PlantList.push_back(plant);
-//  cout<<"Init "<<type<<" at "<<x<<":"<<y
-//      <<" ("<<mshoot<<", "<<mroot<<", "<<mrepro<<", "<<stress<<", "<<dead<<")\n";
-	return true;
-} //<init of one ind based on saved data
-
-//------------------------------------------------------------------------------
-/**
- This function initiates a number of seeds of the specified type on the grid.
-
- \param type string naming the type to be set
- \param number number of seeds to set
- */
-void CGridEnvir::InitSeeds(string type, int number) { // Breaks individual vary traits MSC
-	//searching the type
-	SPftTraits *pfttraits = SPftTraits::getPftLink(type); //=SclonalTraits::clonalTraits[Cltype];
-	//set seeds...
-	CGrid::InitClonalSeeds(pfttraits, number, pfttraits->pEstab);   //cltraits,
-}   //InitSeeds
 
 //------------------------------------------------------------------------------
 /**
@@ -251,74 +93,29 @@ void CGridEnvir::OneRun() {
 
 	ResetT(); // reset time
 
-	//get initial conditions
-	init = 1; // for init the second plant (for the invasion experiments)
-	//run simulation until YearsMax (SRunPara::RunPara.Tmax)
-
-	// MSC: In case of invasionCriterion, the first Tmax years will be one PFT. Then we're going to repeat it,
-	// adding in the other PFT.
 	do {
 		this->NewWeek();
-		cout << " y " << year << endl;
+		cout << "y " << year << endl;
+
 		OneYear();
 
-		if (SRunPara::RunPara.Invasion == normal)
-		{
-			WriteOFiles();
-			this->writeSpatialGrid();
-		}
-
-//		if (year == 50) {
-//			stringstream v;
-//			this->Save(v.str());
-//		}
+		WriteOFiles();
+		this->writeSpatialGrid();
 
 		if (endofrun)
 			break;
 
-	} while (year < SRunPara::RunPara.Tmax); //years
-
-	// MSC: Add in the other PFT
-	if (SRunPara::RunPara.Invasion == invasionCriteria) {
-//		ResetT(); // reset time
-
-		const int no_init_plants = 5; // Number of "invading" plants
-
-		if (SPftTraits::pftInsertionOrder.size() != 2)
-			exit(1); // Only two PFTs for an invasionCriterion run.
-
-		string invader = SPftTraits::pftInsertionOrder[1];
-		SPftTraits* traits = SPftTraits::getPftLink(invader);
-		InitClonalPlants(traits, no_init_plants);
-
-		PftInitList[traits->name] += no_init_plants;
-		cout << "Invader! init " << no_init_plants << " plants of Pft: "
-				<< traits->name << endl;
-		CEnvir::SeedRainGr.PftSeedRainList[traits->name] =
-				SRunPara::RunPara.SeedInput;
-		PftSurvTime[traits->name] = 0; // for Srv printing
-		this->SeedRainGr.GetNPftSeedsize();
-		this->SeedRainGr.GetNPftSeedClonal();
-
-		do {
-			this->NewWeek();
-			cout << "y " << year << endl;
-			OneYear();
-			WriteOFiles();
-			this->writeSpatialGrid();
-			if (endofrun)
-				break;
-		} while (year < SRunPara::RunPara.invasionTmax + SRunPara::RunPara.Tmax); // years
-	}
+	} while (year < SRunPara::RunPara.Tmax);
 
 }  // end OneSim
+
 //------------------------------------------------------------------------------
 /**
  * calculate one year's todos.
  */
 void CGridEnvir::OneYear() {
 	do {
-		cout << year << " w " << week << endl;
+		cout << "y " << year << " w " << week << endl;
 		OneWeek();
 		//exit conditions
 		exitConditions();
@@ -326,6 +123,7 @@ void CGridEnvir::OneYear() {
 			break;
 	} while (++week <= WeeksPerYear);  //weeks
 } // end OneYear
+
 //------------------------------------------------------------------------------
 /**
  calculation of one week's todos
@@ -352,6 +150,7 @@ void CGridEnvir::OneWeek() {
 
 	if (week == 20)
 		SeedMortAge(); //necessary to remove non-dormant seeds before autumn
+
 	if (week == WeeksPerYear) {     //at end of year ...
 		Winter();           //removal of above ground biomass and of dead plants
 		SeedMortWinter();    //winter seed mortality
@@ -369,6 +168,7 @@ void CGridEnvir::OneWeek() {
 	}
 
 }   //end CClonalGridEnvir::OneWeek()
+
 //---------------------------------------------------------------------------
 /**
  Exit conditions for runs,
@@ -399,9 +199,8 @@ int CGridEnvir::exitConditions() {
  */
 void CGridEnvir::GetOutput() //PftOut& PftData, SGridOut& GridData)
 {
-	int pft, df;
 	string pft_name;
-	double mean, prop_PFT;
+	double prop_PFT;
 
 	SPftOut* PftWeek = new SPftOut();
 
@@ -521,7 +320,7 @@ void CGridEnvir::GetOutputCutted() {
  * get clonal variables (grid wide)
  */
 void CGridEnvir::GetClonOutput(SGridOut& GridData) //PftOut& PftData, )
-		{
+{
 	GridData.NclonalPlants = GetNclonalPlants();
 	GridData.NGenets = GetNMotherPlants();
 	GridData.MeanGeneration = GetNGeneration();
@@ -616,41 +415,6 @@ void CGridEnvir::setCover() {
 			this->PftCover[it->first] = getTypeCover(it->first);
 		}
 	} //end if week=20
-}
-//-Save.. and Load.. --------------------------------------------------------------------------
-/**
- Saves the current state of the grid and parameters.
-
- -does it have to be in one file?
- -how to store all information
-
- \note not saved: output file names, WeeksPerYear
- \author KK
- \date 120830
- */
-void CGridEnvir::Save(string ID) {
-	//open file(s)
-	string fname = "data/save/E_" + ID + ".sav";
-	ofstream SaveFile(fname.c_str(), ios::app);
-	if (!SaveFile.good()) {
-		cerr << ("Fehler beim �ffnen InitFile");
-		exit(3);
-	}
-	cout << "SaveFile: " << fname << endl;
-
-//environmental parameters CEnvir, CClonalGridEnvir
-//ifiles, PftInitList, week, year (SimNr, RunNr)
-	SaveFile << CEnvir::year << "\t" << CEnvir::week << endl;
-	SaveFile << SRunPara::NamePftFile << endl;
-//Run Parameter
-	SaveFile << SRunPara::RunPara.toString() << endl;
-
-	fname = "data/dave/G_" + ID + "_" + std::to_string(CEnvir::RunNr) + "_" +
-			std::to_string(CEnvir::year) + "_" + std::to_string(CEnvir::week) + ".sav";
-//CGrid, CClonalGrid
-
-	((CGrid*) this)->Save(fname);
-
 }
 
 /**

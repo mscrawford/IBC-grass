@@ -15,6 +15,9 @@
 #include "SPftTraits.h"
 #include "CEnvir.h"
 
+/*
+ * Default constructor
+ */
 SPftTraits::SPftTraits() :
 		TypeID(999), name("default"), MaxAge(100), AllocSeed(0.05), LMR(0), m0(
 				0), MaxMass(0), SeedMass(0), Dist(0), pEstab(0.5), Gmax(0), memory(
@@ -24,8 +27,11 @@ SPftTraits::SPftTraits() :
 				0.05), clonal(true), myTraitType(SPftTraits::species)
 {
 
-} //end constructor
+}
 
+/*
+ * Constructor copying a given set of traits. This is necessary for IBC-grass.ITV.
+ */
 SPftTraits::SPftTraits(const SPftTraits& s) :
 		TypeID(s.TypeID), name(s.name), MaxAge(s.MaxAge), AllocSeed(s.AllocSeed), LMR(s.LMR),
 		m0(s.m0), MaxMass(s.MaxMass), SeedMass(s.SeedMass), Dist(s.Dist), pEstab(s.pEstab),
@@ -35,12 +41,12 @@ SPftTraits::SPftTraits(const SPftTraits& s) :
 		Resshare(s.Resshare), mSpacer(s.mSpacer), AllocSpacer(s.AllocSpacer), clonal(s.clonal),
 		myTraitType(s.myTraitType)
 {
-	if (SRunPara::RunPara.indivVariationVer == off) {
+	if (SRunPara::RunPara.ITV == off) {
 		assert(s.myTraitType == SPftTraits::species);
 	}
 
 	if (s.myTraitType == SPftTraits::individualized) {
-		assert(SRunPara::RunPara.indivVariationVer == on);
+		assert(SRunPara::RunPara.ITV == on);
 	}
 }
 
@@ -52,15 +58,12 @@ SPftTraits::~SPftTraits() {
 //std::vector<SclonalTraits*> SclonalTraits::clonalTraits;//(8,new SclonalTraits());
 map<string, SPftTraits*> SPftTraits::PftLinkList = map<string, SPftTraits*>();
 
-// MSC : This vector is for remembering the order of the PFTs if this is an InvasionCriterion experiment.
-vector<string> SPftTraits::pftInsertionOrder = vector<string>();
-
 /** MSC
  * Records every "individualized" trait syndrome (or rather, the pointer to it).
  * This is used to remove them after each run. By the end of a 100 year run with 128cm grid cells,
  * there will be about 2GB of memory used. To improve this algorithm (though complicating the code),
  * one could delete the trait syndromes after their final use (i.e. a seed does not germinate, or a
- * plant dies). One must be cognizant to ensure that
+ * plant dies). One must be cognizant to ensure that:
  *				0) all plants use individualized traits (though they do not necessarily have to vary) so that the
  *					destructor doesn't accidentally delete a species level trait. Or, if individualization is off (that is,
  *					no traits are actually being varied), all copies can just be deleted with their parent's (plant or seed) destructor.
@@ -125,9 +128,9 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 	}
 	//delete static pointer vectors
 	SPftTraits::PftLinkList.clear();
-	SPftTraits::pftInsertionOrder.clear(); // MSC
 
 	//Open InitFile
+	cout << file << endl;
 	ifstream InitFile(file.c_str());
 	if (!InitFile.good()) {
 		cerr << ("Fehler beim �ffnen InitFile");
@@ -147,10 +150,7 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 	string dummi2; // int PFTtype; string Cltype;
 
 	do {
-		// erstelle neue traits
 		SPftTraits* traits = new SPftTraits();
-//		SclonalTraits* cltraits=new SclonalTraits();
-		// get type definitions from file
 		InitFile >> dummi1;
 		InitFile >> dummi2;
 		InitFile >> traits->MaxAge >> traits->AllocSeed >> traits->LMR
@@ -161,63 +161,57 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 				>> traits->PropSex >> traits->meanSpacerlength
 				>> traits->sdSpacerlength >> traits->Resshare >>
 				traits->AllocSpacer >> traits->mSpacer;
-		traits->name = dummi2; //=cltraits->name
+		traits->name = dummi2;
 		traits->TypeID = dummi1;
 
 		SPftTraits::addPftLink(dummi2, traits);
-		pftInsertionOrder.push_back(dummi2); // MSC
-//	    addClLink(dummi2,cltraits);
 
 		if (!InitFile.good() || n > -1) {
 			return;
 		}
 	} while (!InitFile.eof());
-} //read PFT defs
+}
 
 /* MSC
- * Unfortunately, because the traits (i.e. LMR, m0, ...) are stored as variables
- * rather than inside a map, or some such, there is no simple way to parameterize
- * which values get varied. The reason is that one can't get a variable (i.e. LMR)
- * from a string (which would be the input value).
- *
- * Don't forget that you'll have to deliver the new traits to the seeds (and they'll in turn
- * create a plant which will then fecund new seeds).
+ * Vary the current individual's traits, based on a Gaussian distribution with a
+ * standard deviation of "ITVsd". Sub-traits that are tied will vary accordingly.
+ * Bounds on 1 and -1 ensure that no trait garners a negative value.
  */
 void SPftTraits::varyTraits() {
 	assert(myTraitType == SPftTraits::species);
-	assert(SRunPara::RunPara.indivVariationVer == on);
+	assert(SRunPara::RunPara.ITV == on);
 
 	myTraitType = SPftTraits::individualized;
 	double dev;
 
-	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 	while (dev < -1.0 || dev > 1.0 || LMR + (LMR * dev) > 1)
-		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
  	LMR = LMR + (LMR * dev);
 
-	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 	while (dev < -1.0 || dev > 1.0)
-		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 	m0 = m0 + (m0 * dev);
 	MaxMass = MaxMass + (MaxMass * dev);
 	SeedMass = SeedMass + (SeedMass * dev);
 	Dist = Dist - (Dist * dev);
 
-	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 	while (dev < -1.0 || dev > 1.0)
-		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 	Gmax = Gmax + (Gmax * dev);
 	memory = (int) round((double) memory - ((double) memory * dev));
 
-	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 	while (dev < -1.0 || dev > 1.0 || palat + (palat * dev) > 1)
-		dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 	palat = palat + (palat * dev);
 	SLA = SLA + (SLA * dev);
 
-	dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+	dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 	 while (dev < -1.0 || dev > 1.0)
-		 dev = CEnvir::normrand(0, SRunPara::RunPara.indivVariationSD);
+		 dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 	 meanSpacerlength = meanSpacerlength + (meanSpacerlength * dev);
 	 sdSpacerlength = sdSpacerlength + (sdSpacerlength  * dev);
 }
@@ -281,44 +275,3 @@ string SPftTraits::headerToString()
 
 	return mystream.str();
 }
-
-/**
- initialize clonal traits with default values
- * /
- SclonalTraits::SclonalTraits()  //clonal plant with specifc traits
- :name("default")//,PropSex(0.1),meanSpacerlength(17.5),sdSpacerlength(12.5),
- //Resshare(true),mSpacer(70),AllocSpacer(0.05),clonal(true)
- {
- }
- /* /---------------------------------------------------------------------------
- void SclonalTraits::ReadclonalTraits(char* file)    // not needed anymore -> new initialisation
- {
- std::string sfile=file;
- std::ifstream clonalFile;
- //open parameter file
- if (sfile=="") sfile=(CClonalGridEnvir::NameClonalPftFile);
- clonalFile.open(sfile.c_str());
- if (!clonalFile.good()) {std::cerr<<("Fehler beim �ffnen clonalFile");exit(3); }
- string line1;
- getline(clonalFile,line1);
- //*******************
-
- //loop for all clonal types
- for (int type=0; type<8; type++)
- {   int num; string name;SclonalTraits* temp=new SclonalTraits;
- //read plant parameter from inputfile
- clonalFile>>num
- //             >>(char*)clonalTraits[type].name
- >>name
- >>temp->PropSex
- >>temp->meanSpacerlength
- >>temp->sdSpacerlength
- >>temp->Resshare
- ;
- temp->name=name;
- clonalTraits.push_back(temp);
- }
- clonalFile.close();
- }
- */
-//eof

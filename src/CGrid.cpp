@@ -54,6 +54,7 @@ void CGrid::CellsInit()
      }
   }
 }//end CellsInit
+
 //---------------------------------------------------------------------------
 /**
   Clears the grid from Plants and resets cells.
@@ -105,42 +106,12 @@ CGrid::~CGrid()
    for(unsigned int i=0;i<GenetList.size();i++) delete GenetList[i];
    GenetList.clear();CGenet::staticID=0;
 }//end ~CGrid
-//---------------------------------------------------------------------------
-/**
-  File saving the entire clonal grid for later reload.
-
-  \note not included: LDD-Seed list ; genet info - IDs are included in ramets
-  \author KK
-  \date 120831
-*/
-void CGrid::Save(string fname){
-//open file..
-   ofstream SaveFile(fname.c_str());
-  if (!SaveFile.good()) {cerr<<("Fehler beim Öffnen InitFile");exit(3); }
-  cout<<"SaveFile: "<<fname<<endl;
-//write..
-
-//Cells (without Plants, with seeds)
-//  SaveFile<<"\nNumber of Cells\t"<<SRunPara::RunPara.GetSumCells() <<endl;
-  for (int i=0; i<SRunPara::RunPara.GetSumCells(); ++i)  //loop for all cells
-     SaveFile<<CellList[i]->asString();
-
-//Plants
-  SaveFile<<"\nNumber of Plants\t"<<this->PlantList.size();
-  for (int i=0; i<this->PlantList.size(); ++i)  //loop for all cells
-//    SaveFile<<"\nPlant "<<i;//Plant->asString()
-     SaveFile<<PlantList[i]->asString();
-//genet information
-  SaveFile<<"\nNumber of Genets\t"<<this->GetNMotherPlants();
-
-}  // file save of entire grid
 
 //-----------------------------------------------------------------------------
-
 /**
-MSC
-Record the entire spatial grid (every plant on it has a row)
-*/
+ * MSC
+ * Record the entire spatial grid (one plant per row)
+ */
 void CGrid::writeSpatialGrid(string fn) {
 	ofstream w(fn.c_str(), ios::app);
 	if (!w.good()) {
@@ -151,7 +122,7 @@ void CGrid::writeSpatialGrid(string fn) {
 	w.seekp(0, ios::end);
 	long size = w.tellp();
 	if (size == 0) {
-		w 	<< CEnvir::headerToString()
+		w << CEnvir::headerToString()
 			<< SRunPara::RunPara.headerToString()
 			<< CPlant::headerToString()
 			<< endl;
@@ -162,18 +133,17 @@ void CGrid::writeSpatialGrid(string fn) {
 
 	for (int i = 0; i < this->PlantList.size(); ++i)
 	{
-		w <<	envir <<
-				runpara <<
-				PlantList[i]->asString() <<
-				endl;
+		w << envir
+      << runpara
+      << PlantList[i]->toString(true)
+      << endl;
 	}
 }
-
+//-----------------------------------------------------------------------------
 /**
  * MSC
- * Recording the above and belowground competition on each grid cell
+ * Record the above- and belowground competition on each grid cell.
  */
-
 void CGrid::writeCompetitionGrid(string fn) {
 	ofstream w(fn.c_str(), ios::app);
 	if (!w.good()) {
@@ -184,7 +154,7 @@ void CGrid::writeCompetitionGrid(string fn) {
 	w.seekp(0, ios::end);
 	long size = w.tellp();
 	if (size == 0) {
-		w 	<< CEnvir::headerToString()
+		w << CEnvir::headerToString()
 			<< SRunPara::RunPara.headerToString()
 			<< "X" << "\t"
 			<< "Y" << "\t"
@@ -202,12 +172,12 @@ void CGrid::writeCompetitionGrid(string fn) {
 		double bcomp = cell->bComp_weekly;
 
 		w << envir
-				<< runpara
-				<< cell->x << "\t"
-				<< cell->y << "\t"
-				<< acomp << "\t"
-				<< bcomp << "\t"
-				<< endl;
+			<< runpara
+			<< cell->x << "\t"
+			<< cell->y << "\t"
+			<< acomp << "\t"
+			<< bcomp << "\t"
+			<< endl;
 	}
 }
 
@@ -224,8 +194,10 @@ void CGrid::PlantLoop()
    for (plant_iter iplant=PlantList.begin(); iplant<PlantList.end(); ++iplant)
    {
       CPlant* plant = *iplant;
-      if (SRunPara::RunPara.indivVariationVer == on)
+      
+      if (SRunPara::RunPara.ITV == on)
     	  assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
+
       if (!plant->dead)
       {
          plant->Grow2();
@@ -291,7 +263,7 @@ void getTargetCell(int& xx,int& yy,const float mean,const float sd,double cellsc
   */
 int CGrid::DispersSeeds(CPlant* plant)
 {
-	if (SRunPara::RunPara.indivVariationVer == on)
+	if (SRunPara::RunPara.ITV == on)
 		assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
    int px=plant->getCell()->x, py=plant->getCell()->y;
    int NSeeds=0;
@@ -341,6 +313,7 @@ int CGrid::DispersSeeds(CPlant* plant)
    }//for NSeeds
    return nb_LDDseeds;
 }//end DispersSeeds
+
 //---------------------------------------------------------------------------
 void CGrid::DispersRamets(CPlant* plant)
 {
@@ -377,6 +350,7 @@ void CGrid::DispersRamets(CPlant* plant)
       }//end for NRamets
   }  //end for if it a clonal plant
 }//end CGridclonal::DispersRamets()
+
 //--------------------------------------------------------------------------
 /**
   This function calculates ZOI of all plants on grid.
@@ -402,7 +376,7 @@ void CGrid::CoverCells() {
 	{
 		CPlant* plant = *iplant;
 
-		if (SRunPara::RunPara.indivVariationVer == on)
+		if (SRunPara::RunPara.ITV == on)
 			assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
 
 		double Ashoot = plant->Area_shoot() / CellArea;
@@ -455,6 +429,7 @@ void CGrid::CalcRootInteraction(){
    CalcRootInteraction(plant);
    }
 }
+
 //---------------------------------------------------------------------------
 /**
   Function calculates the interaction intensity (root density)
@@ -486,6 +461,7 @@ void CGrid::CalcRootInteraction(CPlant * plant){
         plant->Aroots_type += cell->PftNIndB[plant->pft()];
      }
 }
+
 //---------------------------------------------------------------------------
 /**
   Resets all weekly variables of individual cells and plants (only in PlantList)
@@ -526,6 +502,7 @@ void CGrid::DistribResource()
    } //for all cells
    Resshare();  // resource sharing between connected ramets
 }//end distribResource
+
 //----------------------------------------------------------------------------
 /**
   Resource sharing between connected ramets on grid.
@@ -538,7 +515,7 @@ void CGrid::Resshare() // resource sharing
          if (Genet->AllRametList.size()>1)//!Genet->AllRametList.empty())
          {
             CPlant* plant=Genet->AllRametList.front();
-        	if (SRunPara::RunPara.indivVariationVer == on)
+        	if (SRunPara::RunPara.ITV == on)
         		assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
             if (plant->Traits->clonal //type()=="CclonalPlant"
                  &&plant->Traits->Resshare==true)
@@ -798,7 +775,8 @@ bool CGrid::Disturb()
       return true;
    }
    else return false;
-}//end  Disturb
+}//end Disturb
+
 //-----------------------------------------------------------------------------
 /**
   The plants on the whole grid are grazed according to
@@ -838,7 +816,7 @@ void CGrid::Grazing()
 		plant_size i = 0;
 		while ((i < PlantList.size()) && (MassRemoved < MaxMassRemove)) {
 			CPlant* lplant = PlantList[i];
-			if (SRunPara::RunPara.indivVariationVer == on)
+			if (SRunPara::RunPara.ITV == on)
 				assert(lplant->Traits->myTraitType == SPftTraits::individualized); //MSC
 			grazprob = (lplant->mshoot * lplant->Traits->GrazFac()) / Max;
 			if (CEnvir::rand01() < grazprob)
@@ -847,6 +825,7 @@ void CGrid::Grazing()
 		}
 	}
 }//end CGrid::Grazing()
+
 //-----------------------------------------------------------------------------
 /**
   Cutting of all plants on the patch
@@ -864,7 +843,7 @@ void CGrid::Cutting()
 
 	for (plant_size i = 0; i < PlantList.size(); i++) {
 		pPlant = PlantList[i];
-		if (SRunPara::RunPara.indivVariationVer == on)
+		if (SRunPara::RunPara.ITV == on)
 			assert(pPlant->Traits->myTraitType == SPftTraits::individualized); // MSC
 		if (pPlant->mshoot / (pPlant->Traits->LMR * pPlant->Traits->LMR)
 				> mass_cut) {
@@ -892,6 +871,7 @@ double getMortBelGraz(double fraction, double thresh)
 //  if (fraction<thresh) return 0.0;
   return  max(0.0,(fraction-thresh)/(1.0-thresh));
 }
+
 //-----------------------------------------------------------------------------
 /**
   The plants on the whole grid are grazed according to the mode given
@@ -926,7 +906,7 @@ double getMortBelGraz(double fraction, double thresh)
 */
 void CGrid::GrazingBelGr(const int mode)
 {
-  bool HetFlag=SRunPara::RunPara.HetBG;  //!< true for heterogenous belowground herbivory
+
   if (mode==0){
     for (plant_size i=0;i<PlantList.size();i++){
          CPlant* lplant=PlantList[i];
@@ -1035,6 +1015,7 @@ void CGrid::GrazingBelGr(const int mode)
 //    }
   }//if mode>0
 }//end CGrid::GrazingBelGr()
+
 //-----------------------------------------------------------------------------
 /**
   Round gaps are created randomly, and all plants therein are killed,
@@ -1145,73 +1126,7 @@ void CGrid::SeedMortWinter()
       cell->RemoveSeeds();   //removes and deletes all seeds with remove==true
    }// for all cells
 }//end CGrid::SeedMortWinter()
-//---------------------------------------------------------------------------
-/**
-  Set a number of randomly distributed clonal Plants (CclonalPlant)
-  of a specific trait-combination on the grid.
 
-  \param traits   CPftTraits of the plants to be set
-  \param cltraits SclonalTraits of the plants to be set
-  \param n        number of Individuals to be set
-*/
-void CGrid::InitClonalPlants(SPftTraits* traits, const int n) {
-	int x, y;
-	int SideCells = SRunPara::RunPara.CellNum;
-	CCell* cell;
-
-	for (int h = 0; h < n; h++) {
-		do {
-			x = CEnvir::nrand(SideCells);
-			y = CEnvir::nrand(SideCells);
-			cell = CellList[x * SideCells + y];
-		} while (cell->occupied);
-
-		if (!cell->occupied) {
-
-			CPlant *myplant = new CPlant(traits, cell);
-			CGenet *Genet = new CGenet();
-//          Genet->number=GenetList.size();
-			GenetList.push_back(Genet);
-			myplant->setGenet(Genet);
-
-// MSC: Comment these two lines out because we want the plants to be "fresh" seedlings
-//         myplant->mshoot=myplant->Traits->MaxMass/2.0;
-//         myplant->mroot=myplant->Traits->MaxMass/2.0;
-
-			PlantList.push_back(myplant);
-		}
-	}
-}
-
-//-----------------------------------------------------------------------------
-/**
-  Set a number of randomly distributed Plants (CPlant) of a specific
-  trait-combination on the grid.
-
-  \param traits   SPftTraits of the plants to be set
-  \param n        number of Individuals to be set
-*/
-void CGrid::InitPlants(SPftTraits* traits,const int n)
-{
-   int  x, y;
-   int SideCells=SRunPara::RunPara.CellNum;
-
-   int counter=0;
-   while (counter<n) {
-         x=CEnvir::nrand(SideCells);
-         y=CEnvir::nrand(SideCells);
-
-         CCell* cell = CellList[x*SideCells+y];
-         if (!cell->occupied)
-         {
-            CPlant* plant = new CPlant(traits,cell);
-            PlantList.push_back(plant);
-            plant->mshoot=plant->Traits->MaxMass/2;
-            plant->mroot=plant->Traits->MaxMass/2;
-            ++counter;
-         }
-   }
-}//end CGrid::PlantsInit()
 //-----------------------------------------------------------------------------
 /**
   Set a number of randomly distributed clonal Seeds (CclonalSeed) of a specific
@@ -1224,8 +1139,7 @@ void CGrid::InitPlants(SPftTraits* traits,const int n)
   \since 2010-09-10 estab rate for seeds can be modified (default is 1.0)
 
 */
-void CGrid::InitClonalSeeds(
-  SPftTraits* traits,const int n,double estab)
+void CGrid::InitClonalSeeds(SPftTraits* traits, const int n, double estab)
 //,SclonalTraits* cltraits
 { //init clonal seeds in random cells
 //   using CEnvir::nrand;using SRunPara::RunPara;
@@ -1240,45 +1154,7 @@ void CGrid::InitClonalSeeds(
         new CSeed(estab,traits,cell);//cltraits,
    }
 } //end CGridclonal::clonalSeedsInit()
-//-----------------------------------------------------------------------------
-/**
-  Set a number of randomly distributed Seeds (CSeed) of a specific
-  trait-combination on the grid.
 
-  \param traits   SPftTraits of the seeds to be set
-  \param n        number of seeds to be set
-  \param estab    seed establishment (CSeed) - default is 1
-  \since 2010-09-10 estab rate for seeds can be modified (default is 1.0)
-*/
-void CGrid::InitSeeds(SPftTraits* traits, int n,double estab)
-{
-//   using CEnvir::nrand;using SRunPara::RunPara;
-   int x,y;
-   int SideCells=SRunPara::RunPara.CellNum;
-
-   //random initial conditions
-     for (int i=0; i<n; ++i){
-        x=CEnvir::nrand(SideCells);
-        y=CEnvir::nrand(SideCells);
-//        CCell* cell = CellList[x*SideCells+y];
-//        new CSeed(estab,traits,cell);
-        InitSeeds(traits,1,x,y,estab);
-     }
-}//end CGrid::SeedsInit()
-//---------------------------------------------------------------------------
-void CGrid::InitSeeds(SPftTraits* traits, int n,int x, int y,double estab)
-{
-//   using CEnvir::nrand;using SRunPara::RunPara;
-   int SideCells=SRunPara::RunPara.CellNum;
-   if (estab==0) estab=traits->pEstab;
-   CCell* cell = CellList[x*SideCells+y];
-
-   //random initial conditions
-     for (int i=0; i<n; ++i){
-        new CSeed(estab,traits,cell);
-     }
-//     if (n>1) cout<<n<<" seeds of type "<<traits->name<<" at "<<x<<":"<<y<<endl;
-}//end CGrid::SeedsInit()
 //---------------------------------------------------------------------------
 /**
   Weekly sets cell's resources - above- and belowground variation during the
@@ -1358,33 +1234,7 @@ bool Emmigrates(int& xx, int& yy)
    if(yy<0||yy>=SRunPara::RunPara.CellNum)return true;
    return false;
 }
-//---------------------------------------------------------------------------
-/*
-///manipulates vector with individual numbers of each PFT
-///\param[out] PftData list of numbers of various Pfts on grid
-void CGrid::GetPftNInd(vector<int>& PftData)
-{
-   for (plant_iter iplant=PlantList.begin(); iplant<PlantList.end(); ++iplant){
-        ++PftData[(*iplant)->Traits->TypeID-1];
-   }
-}
-//---------------------------------------------------------------------------
-///manipulates vector with seed numbers of each PFT
-/**
- *
- * @param PftData
- * /
-void CGrid::GetPftNSeed(vector<int>& PftData)
-{
-   for (int i=0; i<SRunPara::RunPara.GetSumCells(); ++i){
-      CCell* cell = CellList[i];
-      for (seed_iter iter=cell->SeedBankList.begin(); iter!=cell->SeedBankList.end(); ++iter){
-         CSeed* seed = *iter;
-         ++PftData[seed->Traits->TypeID-1];
-      }
-   }
-}
-*/
+
 //---------------------------------------------------------------------------
 /**
   \return sum of all plants' aboveground biomass (shoot and fruit)
@@ -1526,8 +1376,3 @@ double CGrid::GetNGeneration()
    }
    return MeanGeneration;
 }//end CGridclonal::GetNGeneration()
-
-
-
-//-eof--------------------------------------------------------------------------
-

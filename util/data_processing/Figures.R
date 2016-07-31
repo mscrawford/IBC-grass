@@ -18,28 +18,28 @@ library(readr)
 
 ## Species Richness
 # tdata <- srv_data %>%
-#     group_by(ComNr, RunNr, IC_ver, ITVsd, PFT, Tmax) %>%
+#     group_by(ComNr, RunNr, IC_vers, ITVsd, PFT, Tmax) %>%
 #     summarise(lives = ifelse(cPop > 0, 1, 0))
 #
 # tdata <- tdata %>%
-#     group_by(ComNr, RunNr, IC_ver, ITVsd, Tmax) %>%
+#     group_by(ComNr, RunNr, IC_vers, ITVsd, Tmax) %>%
 #     summarise(richness = sum(lives), start = n())
 #
 # tdata <- tdata %>%
-#     group_by(ComNr, IC_ver, ITVsd, Tmax) %>%
+#     group_by(ComNr, IC_vers, ITVsd, Tmax) %>%
 #     summarise(richness = mean(richness), start = start)
 #
 # tdata <- tdata %>%
-#     group_by(IC_ver, ITVsd, Tmax) %>%
+#     group_by(IC_vers, ITVsd, Tmax) %>%
 #     summarise_each(funs(mean, sd), richness)
 
 ## Shannon diversity
 tdata <- grd_data %>%
-    group_by(ComNr, RunNr, IC_ver, ITVsd, Tmax) %>%
+    group_by(ComNr, RunNr, IC_vers, ITVsd, Tmax) %>%
     filter(Year == max(Year))
 
 tdata <- tdata %>%
-    group_by(ComNr, IC_ver, ITVsd, Tmax) %>%
+    group_by(ComNr, IC_vers, ITVsd, Tmax) %>%
     summarise(mean_shannon = mean(shannon), sem_shannon = sd(shannon)/sqrt(n()))
 
 # Average standard error of the replicates
@@ -49,7 +49,7 @@ c(mean(tdata$mean_shannon)-2*mean(tdata$sem_shannon),
   mean(tdata$mean_shannon)+2*mean(tdata$sem_shannon))
 
 tdata <- tdata %>%
-    group_by(IC_ver, ITVsd, Tmax) %>%
+    group_by(IC_vers, ITVsd, Tmax) %>%
     summarise_each(funs(mean, sd), mean_shannon)
 
 ## Continue as usual
@@ -57,14 +57,14 @@ tdata <- tdata %>%
     dplyr::rename(Timespan = Tmax)
 
 tdata <- tdata %>%
-    filter(IC_ver == 1)
+    filter(IC_vers == 1)
 
 p <- ggplot()
 
 # p <- p + geom_line(data = tdata,
 #                    aes(x = ITVsd,
 #                        y = mean,
-#                        linetype = factor(IC_ver)))
+#                        linetype = factor(IC_vers)))
 
 p <- p + geom_line(data = tdata,
                    aes(x = ITVsd,
@@ -139,28 +139,28 @@ ggsave(filename = "SUPL3.pdf",
 
 ## Species Richness
 # tdata <- srv_data %>%
-#     group_by(ComNr, RunNr, IC_ver, ITVsd, PFT, Tmax) %>%
+#     group_by(ComNr, RunNr, IC_vers, ITVsd, PFT, Tmax) %>%
 #     summarise(lives = ifelse(cPop > 0, 1, 0))
 #
 # tdata <- tdata %>%
-#     group_by(ComNr, RunNr, IC_ver, ITVsd, Tmax) %>%
+#     group_by(ComNr, RunNr, IC_vers, ITVsd, Tmax) %>%
 #     summarise(richness = sum(lives), start = n())
 #
 # tdata <- tdata %>%
-#     group_by(ComNr, IC_ver, ITVsd, Tmax) %>%
+#     group_by(ComNr, IC_vers, ITVsd, Tmax) %>%
 #     summarise(richness = mean(richness), start = start)
 #
 # tdata <- tdata %>%
-#     group_by(IC_ver, ITVsd, Tmax) %>%
+#     group_by(IC_vers, ITVsd, Tmax) %>%
 #     summarise_each(funs(mean, sd), richness)
 
 ## Shannon diversity
 tdata <- grd_data %>%
-    group_by(ComNr, RunNr, IC_ver, ITVsd, Tmax) %>%
+    group_by(ComNr, RunNr, IC_vers, ITVsd, Tmax) %>%
     filter(Year == max(Year))
 
 tdata <- tdata %>%
-    group_by(ComNr, IC_ver, ITVsd, Tmax) %>%
+    group_by(ComNr, IC_vers, ITVsd, Tmax) %>%
     summarise(mean_shannon = mean(shannon))
 
 # Average standard error of the replicates
@@ -170,7 +170,7 @@ tdata <- tdata %>%
   # mean(tdata$mean_shannon)+2*mean(tdata$sem_shannon))
 
 tdata <- tdata %>%
-    group_by(IC_ver, ITVsd, Tmax) %>%
+    group_by(IC_vers, ITVsd, Tmax) %>%
     summarise(mean = mean(mean_shannon),
               sd = sd(mean_shannon),
               CI = 2 * sd(mean_shannon)/sqrt(n()))
@@ -180,14 +180,14 @@ tdata <- tdata %>%
     dplyr::rename(Timespan = Tmax)
 
 tdata <- tdata %>%
-    filter(IC_ver == 1)
+    filter(IC_vers == 1)
 
 p <- ggplot()
 
 # p <- p + geom_line(data = tdata,
 #                    aes(x = ITVsd,
 #                        y = mean,
-#                        linetype = factor(IC_ver)))
+#                        linetype = factor(IC_vers)))
 
 p <- p + geom_line(data = tdata,
                    aes(x = ITVsd,
@@ -258,15 +258,15 @@ ggsave(filename = "FIG1.pdf",
 #FIG2_5000Years-----------
 # USE "LONGTERM" DATASET
 tdata <- grd_data %>%
-    group_by(ComNr, RunNr, IC_ver, ITVsd, Tmax) %>%
+    group_by(ComNr, RunNr, IC_vers, ITVsd, Tmax) %>%
     filter(Year == max(Year))
 
 tdata <- tdata %>%
-    group_by(ComNr, IC_ver, ITVsd, Tmax) %>%
+    group_by(ComNr, IC_vers, ITVsd, Tmax) %>%
     summarise(shannon = mean(shannon))
 
 tdata <- tdata %>%
-    group_by(IC_ver, ITVsd, Tmax) %>%
+    group_by(IC_vers, ITVsd, Tmax) %>%
     summarise_each(funs(mean, sd, se), shannon)
 
 p <- ggplot()
@@ -274,14 +274,14 @@ p <- ggplot()
 p <- p + geom_line(data = tdata,
                    aes(x = Tmax,
                        y = mean,
-                       linetype = factor(IC_ver),
-                       group = factor(IC_ver)))
+                       linetype = factor(IC_vers),
+                       group = factor(IC_vers)))
 
 p <- p + geom_errorbar(data = tdata,
                        aes(x = Tmax,
                            ymin = mean-sd,
                            ymax = mean+sd,
-                           group = factor(IC_ver)),
+                           group = factor(IC_vers)),
                        width=50)
 
 p <- p + geom_point(data = tdata,
@@ -805,8 +805,8 @@ ggsave(filename = "SUPL1.pdf",
 
 #SUPL_AbundanceTimeSeries ---------------
 tdata <- pft_data %>%
-    filter(IC_ver == 1, Tmax == 100, ITVsd %in% c(0, 0.2, 0.5)) %>%
-    select(SimNr, ComNr, RunNr, Year, IC_ver, ITVsd, PFT, Nind, rootmass, shootmass)
+    filter(IC_vers == 1, Tmax == 100, ITVsd %in% c(0, 0.2, 0.5)) %>%
+    select(SimNr, ComNr, RunNr, Year, IC_vers, ITVsd, PFT, Nind, rootmass, shootmass)
 
 tdata <- tdata %>%
     filter(ComNr == sample(ComNr, 1), RunNr == sample(RunNr, 1))
@@ -854,35 +854,35 @@ ggsave(filename = "SUPL_AbundanceTimeSeries.pdf",
 tdata <- srv_data
 
 tdata <- tdata %>%
-    group_by(SimNr, RunNr, PFT, ITVsd, IC_ver) %>%
+    group_by(SimNr, RunNr, PFT, ITVsd, IC_vers) %>%
     filter(year == max(year),
            ITVsd %in% c(0, 0.2, 0.5)) %>%
     summarise(abundance = cPop)
 
 tdata <- tdata %>%
-    group_by(SimNr, RunNr, ITVsd, IC_ver) %>%
+    group_by(SimNr, RunNr, ITVsd, IC_vers) %>%
     mutate(rank = n() - row_number(abundance))
 
 tdata <- tdata %>%
-    group_by(rank, ITVsd, IC_ver) %>%
+    group_by(rank, ITVsd, IC_vers) %>%
     summarise(mean_abundance = mean(abundance))
 
 ## START -- Unrelated to the graph
 tdata <- tdata %>%
-    group_by(ITVsd, IC_ver) %>%
+    group_by(ITVsd, IC_vers) %>%
     mutate(total_abundance = sum(mean_abundance))
 
 tdata <- tdata %>%
-    group_by(rank, ITVsd, IC_ver) %>%
+    group_by(rank, ITVsd, IC_vers) %>%
     mutate(perc_total_abundance = mean_abundance / total_abundance)
 
 tdata <- tdata %>%
     ungroup() %>%
-    arrange(ITVsd, IC_ver, rank)
+    arrange(ITVsd, IC_vers, rank)
 ## END -- Unrelated to the graph
 
 tdata <- tdata %>%
-    dplyr::rename(Stabilizing_mechanism = IC_ver) %>%
+    dplyr::rename(Stabilizing_mechanism = IC_vers) %>%
     mutate(Stabilizing_mechanism = ifelse(Stabilizing_mechanism == 0, "Off", "On"))
 
 tdata <- tdata %>%

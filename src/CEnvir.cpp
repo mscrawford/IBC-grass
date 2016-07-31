@@ -16,17 +16,17 @@
 #include <sstream>
 
 using namespace std;
-//-CEnvir: Init static variables--------------------------------------------------------------------------
+//-CEnvir: Init static variables-----------------------------------------------
 int CEnvir::week = 0;
 int CEnvir::year = 1;
 int CEnvir::WeeksPerYear = 30;
 
 //Output Files
-string CEnvir::NamePftOutFile = "data/out/PftOut.txt";
-string CEnvir::NameGridOutFile = "data/out/GridOut.txt";
-string CEnvir::NameSurvOutFile = "data/out/SurvOutGraz.txt";
-string CEnvir::NameLogFile = "data/out/LogUpSc.log";
-string CEnvir::NameClonalOutFile = "data/out/clonalOut.txt";
+string CEnvir::NamePftOutFile;
+string CEnvir::NameGridOutFile;
+string CEnvir::NameSurvOutFile;
+string CEnvir::NameLogFile;
+string CEnvir::NameClonalOutFile;
 
 string SSR::NameLDDFile1 = "data/out/SeedOut1_2.csv";
 string SSR::NameLDDFile2 = "data/out/SeedOut2_3.csv";
@@ -35,9 +35,10 @@ string SSR::NameLDDFile4 = "data/out/SeedOut9_10.csv";
 string SSR::NameLDDFile5 = "data/out/SeedOut19_20.csv";
 
 int CEnvir::NRep = 1;        //!> number of replications -> read from SimFile;
-int CEnvir::SimNr = 0;
-int CEnvir::ComNr = 0;
-int CEnvir::RunNr = 0;
+int CEnvir::SimNr;
+int CEnvir::ComNr;
+int CEnvir::RunNr;
+
 vector<double> CEnvir::AResMuster;
 vector<double> CEnvir::BResMuster;
 map<string, long> CEnvir::PftInitList;  //!< list of Pfts used
@@ -48,7 +49,7 @@ map<string, double> SSR::PftSeedRainList;
  * constructor for virtual class
  */
 CEnvir::CEnvir() :
-		NCellsAcover(0), init(1), endofrun(false) {
+		NCellsAcover(0), endofrun(false) {
 	ReadLandscape();
 	ACover.assign(SRunPara::RunPara.GetSumCells(), 0);
 	BCover.assign(SRunPara::RunPara.GetSumCells(), 0);
@@ -60,7 +61,7 @@ CEnvir::CEnvir() :
  * @param id file name stub of saves grid
  */
 CEnvir::CEnvir(string id) :
-		NCellsAcover(0), init(1), endofrun(false) {
+		NCellsAcover(0), endofrun(false) {
 //read file
 	string dummi = (string) "data/save/E_" + id + ".sav";
 	ifstream loadf(dummi.c_str());
@@ -129,12 +130,9 @@ int CEnvir::GetSim(const int pos, string file) {
 	cout << "SimFile: " << SRunPara::NameSimFile << endl;
 	int lpos = pos;
 	if (pos == 0) {  //read header
-		string line, file_id; // file_id not used here
+		string line; // file_id not used here
 		getline(SimFile, line);
-		int SimNrMax; // dummi
-		SimFile >> SimNrMax >> NRep >> file_id;
-//    file_id.erase (file_id.begin(), file_id.begin()+1);
-//    file_id.erase (file_id.end()-1, file_id.end());
+		SimFile >> NRep;
 		getline(SimFile, line);
 		getline(SimFile, line);
 		lpos = SimFile.tellg();
@@ -146,34 +144,11 @@ int CEnvir::GetSim(const int pos, string file) {
 	if (!SimFile.good())
 		return -1;
 
-	int IC_version, acomp, bcomp, invasionVersion, individualVariation;
+	int IC_version, acomp, bcomp;
 
 	SimFile >> SimNr
 			>> ComNr
 			>> IC_version
-			>> invasionVersion; // MSC
-
-	// MSC:
-	switch (invasionVersion) {
-	case 0:
-		// Case 0: Completely traditional run, no invaders.
-		SRunPara::RunPara.Invasion = normal;
-		break;
-	case 1:
-		// Case 1: Drop a small number of seedling invaders into a monoculture of one PFT.
-		// The monoculture and the "invasion" are run for the same number of years.
-		// The number of seedling invaders is hard coded right now.
-		// Each seedling invader is dropped into an "empty spot" in the grid. Therefore
-		// it's important that the number isn't too big, or else one may run out of free spots.
-		SRunPara::RunPara.Invasion = invasionCriteria;
-		break;
-	default:
-		break;
-	}
-
-//	>> dummi     // RunPara.Layer
-
-//	>> RunPara.Version - enum types cannot be read with >>
 //  >> acomp
 //  >> RunPara.AboveCompMode
 //  >> bcomp
@@ -181,56 +156,33 @@ int CEnvir::GetSim(const int pos, string file) {
 //  >> RunPara.BelGrazMode   //mode of belowground grazing   --> submodel with direct biomass removal, Katrins version
 //  >> RunPara.GridSize
 //  >> RunPara.CellNum
-
-	SimFile
-	>> individualVariation
-	>> SRunPara::RunPara.indivVariationSD;
-
-	if (SRunPara::RunPara.Invasion == invasionCriteria) {
-		SimFile >> SRunPara::RunPara.invasionTmax;
-		SRunPara::RunPara.Tmax = SRunPara::RunPara.invasionTmax;
-	} else {
-		SimFile >> SRunPara::RunPara.Tmax;
-	}
-
-	SimFile
-//	>> RunPara.NPft
-	>> SRunPara::RunPara.meanARes
-	>> SRunPara::RunPara.meanBRes
-	>> SRunPara::RunPara.GrazProb
-	>> SRunPara::RunPara.PropRemove
+		>> SRunPara::RunPara.ITVsd
+		>> SRunPara::RunPara.Tmax
+		>> SRunPara::RunPara.meanARes
+		>> SRunPara::RunPara.meanBRes
+		>> SRunPara::RunPara.GrazProb
+		>> SRunPara::RunPara.PropRemove
 //	>> SRunPara::RunPara.MassUngraz // Residual Mass ungrazable
 //	>> SRunPara::RunPara.BitSize           //Grazing bit size
-	>> SRunPara::RunPara.DistAreaYear      //Trampling
-	>> SRunPara::RunPara.AreaEvent         //Trampling
-	>> SRunPara::RunPara.NCut       //Cutting NCut
-	>> SRunPara::RunPara.CutMass    //Cutting cutmass
+		>> SRunPara::RunPara.DistAreaYear      //Trampling
+		>> SRunPara::RunPara.AreaEvent         //Trampling
+		>> SRunPara::RunPara.NCut       //Cutting NCut
+		>> SRunPara::RunPara.CutMass    //Cutting cutmass
 //	>> RunPara.mort_seeds
-	>> SRunPara::RunPara.SeedRainType
-	>> SRunPara::RunPara.SeedInput //seed number / mass per grid
-	>> SRunPara::RunPara.SPAT
-	>> SRunPara::RunPara.SPATyear
-	>> SRunPara::RunPara.PFT
-	>> SRunPara::RunPara.COMP
-	>> SRunPara::NamePftFile
-//  >> RunPara.PftFile
+		>> SRunPara::RunPara.SeedRainType
+		>> SRunPara::RunPara.SeedInput //seed number / mass per grid
+		>> SRunPara::RunPara.SPAT
+		>> SRunPara::RunPara.SPATyear
+		>> SRunPara::RunPara.PFT
+		>> SRunPara::RunPara.COMP
+		>> SRunPara::NamePftFile
 //	>> RunPara.BGThres
-	;
+		;
 
-	SRunPara::NamePftFile = (string) "data/in/" + SRunPara::NamePftFile;
-	//---------standard parameter:
-	//grazing intensity
-//  SRunPara::RunPara.PropRemove=0.5;
-	//no trampling
-	//above- and belowground competition -> acomp=asymetric bcomp=symetric
-	acomp = 1;
-	bcomp = 0;
-//	IC_version = 1; //RunPara.Version assume higher intraspecific competition
+	acomp = 1; // aboveground competition is asymmetric
+	bcomp = 0; // belowground competition is symmetric
 
-	//--------------------------------
-	// set version and competition  modes - in this way because of enum types!
-
-//    SRunPara::RunPara.Version=version;  // old code does not work because of problems with enumeration -> switch from integer to enumeration necessary
+	// set intraspecific competition version, intraspecific trait variation version, and competition modes
 	switch (IC_version) {
 	case 0:
 		SRunPara::RunPara.Version = version1;
@@ -245,18 +197,13 @@ int CEnvir::GetSim(const int pos, string file) {
 		break;
 	}
 
-	switch (individualVariation) {
-	case 0:
-		SRunPara::RunPara.indivVariationVer = off;
-		break;
-	case 1:
-		SRunPara::RunPara.indivVariationVer = on;
-		break;
-	default:
-		break;
+	if (SRunPara::RunPara.ITVsd > 0) {
+		SRunPara::RunPara.ITV = on;
+	}
+	else {
+		SRunPara::RunPara.ITV = off;
 	}
 
-// SRunPara::RunPara.AboveCompMode=acomp;
 	switch (acomp) {
 	case 0:
 		SRunPara::RunPara.AboveCompMode = sym;
@@ -271,7 +218,6 @@ int CEnvir::GetSim(const int pos, string file) {
 		break;
 	}
 
-//      SRunPara::RunPara.BelowCompMode=bcomp;
 	switch (bcomp) {
 	case 0:
 		SRunPara::RunPara.BelowCompMode = sym;
@@ -285,8 +231,9 @@ int CEnvir::GetSim(const int pos, string file) {
 	default:
 		break;
 	}
-//	cout << SRunPara::RunPara.toString() << endl;
+
 	//Open InitFile,
+	SRunPara::NamePftFile = "data/in/" + SRunPara::NamePftFile;
 	SPftTraits::ReadPFTDef(SRunPara::NamePftFile);
 
 	//set valid OFile names
@@ -304,7 +251,7 @@ int CEnvir::GetSim(const int pos, string file) {
 	SSR::NameLDDFile5 = (string) "data/out/LDD-19-20_" + fid + ".txt";
 
 	return SimFile.tellg();
-} //end  CEnvir::GetSim
+}
 
 string CEnvir::headerToString() {
 	std::stringstream mystream;
@@ -330,19 +277,6 @@ string CEnvir::toString() {
 	return mystream.str();
 }
 
-//------------------------------------------------------------------------------
-/**
- * refresh environment
- *
- * \todo is it used?
- * /
- void CEnvir::clearResults(){
- InitRun();
- ACover.assign(SRunPara::RunPara.GetSumCells(),0);
- BCover.assign(SRunPara::RunPara.GetSumCells(),0);
- NCellsAcover=0;
- }
- */
 //------------------------------------------------------------------------------
 /**
  * refresh output data.
@@ -371,15 +305,10 @@ void CEnvir::InitRun() {
  * At end of Run all data or only last year's data can be written
  */
 void CEnvir::WriteOFiles() {
-	// if (year%10==1){// modulo... output every n time steps
-	// if (year==11||year==31){//output in discrete time steps
-//	WriteGridComplete(false);
+	WriteGridComplete(false);
 	WritePftComplete(false);
 //	WriteclonalOutput();
-	if (SRunPara::RunPara.Invasion == normal && year == SRunPara::RunPara.Tmax) {	//output at end of run
-		WriteSurvival();
-//		this->WritePftSeedOutput();	//write all year's output at once
-	} else if (SRunPara::RunPara.Invasion == invasionCriteria && year == SRunPara::RunPara.invasionTmax + SRunPara::RunPara.Tmax) {
+	if (year == SRunPara::RunPara.Tmax) {	//output at end of run
 		WriteSurvival();
 //		this->WritePftSeedOutput();	//write all year's output at once
 	}
@@ -527,18 +456,9 @@ void CEnvir::WritePftComplete(bool allYears) {
 void CEnvir::WriteSurvival() {
 	WriteSurvival(RunNr, SimNr, ComNr);
 }
+
 /**
- * File Output - survival Info of PFTs
- *
- * @param str Output file name stub
- */
-void CEnvir::WriteSurvival(string str) {
-	string dummi = NameSurvOutFile.substr(0, NameSurvOutFile.length() - 4);
-	NameSurvOutFile = dummi + str + ".txt";
-	WriteSurvival();
-}
-/**
- File-Output - Documentation of type-specific survival statistics.
+ * File-Output - Documentation of type-specific survival statistics.
  */
 void CEnvir::WriteSurvival(int runnr, int simnr, int comnr) {
 	ofstream SurvOutFile(NameSurvOutFile.c_str(), ios_base::app);
@@ -572,17 +492,20 @@ void CEnvir::WriteSurvival(int runnr, int simnr, int comnr) {
 					<< it->second << '\t'
 					<< endl;
 	}
-//     SurvOutFile<<"\n";
 } //end writeSurvival
+
 //---------------------------------------------------------------------------
 /**
+ * MSC 07/2016
+ * This function is not supported by IBC-grass.ITV and may need to be rewritten. BE CAREFUL.
+ *
  * Write clonal Output
  */
 void CEnvir::WriteclonalOutput() {
 	//get data
 	//write data in the clonalOut file
 	ofstream clonOut(NameClonalOutFile.c_str(), ios_base::app);
-//    {
+
 	if (!clonOut.good()) {
 		cerr << ("Fehler beim �ffnen ClonalOutFile");
 		exit(3);
@@ -600,11 +523,14 @@ void CEnvir::WriteclonalOutput() {
 			<< GridOutData.back()->NclonalPlants << "\t" //GetNclonalPlants()
 			<< GridOutData.back()->NGenets //GetNMotherPlants()
 			<< endl;    //schreibt z.b: 1 4
-//    }
 	clonOut.close();
 }    //end CClonalGridEnvir::clonalOutput()
+
 //---------------------------------------------------------------------------
 /**
+ * MSC 07/2016
+ * This function is not supported by IBC-grass.ITV and may need to be rewritten. BE CAREFUL.
+ *
  * file output of seed rain (current list)
  *
  * \author FM - seed rain option
@@ -830,7 +756,6 @@ void CEnvir::WritePftSeedOutput() {
 }   //end WritePftSeedOutput()
 
 //---------------------------------------------------------------------------
-//----------------------------------
 /**
  * File Output - append text to log file
  * @param text string to append
@@ -845,9 +770,9 @@ void CEnvir::AddLogEntry(string text, string filename) {
 
 	LogFile << text;
 }
+
 //----------------------------------
 /**
- * File Output - append numbers to log file
  * @param nb number to append
  * @param filename filename
  */
@@ -880,6 +805,7 @@ double CEnvir::GetMeanShannon(int years) {
 	}
 	return sum / count;
 }
+
 //---------------------------------------------------------------------------
 /**
  * extract mean PFT number
@@ -897,6 +823,7 @@ double CEnvir::GetMeanNPFT(int years) {
 	}
 	return sum / count;
 }
+
 //---------------------------------------------------------------------------
 /**
  * extract current population size
@@ -909,6 +836,7 @@ double CEnvir::GetCurrPopSize(string pft) {
 	SPftOut::SPftSingle* entry = PftOutData.back()->PFT.find(pft)->second;
 	return entry->Nind;
 }
+
 //-------------------------------------------------------
 /**
  * extract mean population size
@@ -928,9 +856,12 @@ double CEnvir::GetMeanPopSize(string pft, int x) {
 		}
 	return (sum / x);
 }
-//---------------------------------------------------------------------------
+
 //---------------------------------------------------------------------------
 /**
+ * MSC 07/2016
+ * This function is not supported by IBC-grass.ITV and may need to be rewritten. BE CAREFUL.
+ *
  * summarize seed mass distribution in seed rain
  * \author FM for seed rain option (numbers oriented to PFT categories)
  */
@@ -961,6 +892,9 @@ void SSR::GetNPftSeedsize() {
 
 //---------------------------------------------------------------------------
 /**
+ * MSC 07/2016
+ * This function is not supported by IBC-grass.ITV and may need to be rewritten. BE CAREFUL.
+ *
  * summarize clonality distribution in seed rain
  * \author FM for seed rain option
  */
@@ -983,8 +917,6 @@ void SSR::GetNPftSeedClonal() {
 		if (!traits->clonal)
 			NPftClonal[0]++; //non-clonal
 		else
-			NPftClonal[1]++;                 //clonal
+			NPftClonal[1]++; //clonal
 	}
-}
-
-//eof
+} //eof

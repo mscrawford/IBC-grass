@@ -14,4 +14,4 @@
 module load sge
 module load gcc/4.9.2-2
 
-/home/crawford/IBC-grass/Default/IBC-grass Input/@SIMFILE@
+/home/crawford/Default/IBC-grass /home/crawford/data/in/@SIMFILE@

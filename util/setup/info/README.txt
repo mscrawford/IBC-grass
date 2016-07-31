@@ -1,19 +1,3 @@
-base_params =  [[0], # invasionVers
-                [1, 0], # IndividualVariationVers
-                [0.2, 0.5], # indivVariationSD
-                [100], # CTmax
-                [10], # PftTmax
-                [100], # ARes
-                [60], # Bres
-                [0.2], # GrazProb
-                [0.5], # propRemove
-                [0], # DistAreaYear
-                [0.1], # AreaEvent
-                [0], # NCut
-                [5000], # CutMass
-                [0], # SeedRain
-                [2900]] # SeedInput
-
 Standard parameterization values
 
 ARes = 100

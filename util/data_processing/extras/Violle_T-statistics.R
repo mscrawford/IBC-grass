@@ -8,37 +8,37 @@ library("RColorBrewer")
 t_ip_ic <- function(spat_data, srv_data)
 {
     coexistence <- srv_data %>%
-        group_by(ComNr, RunNr, IC_ver, ITVsd, PFT, GrazProb, ARes, BRes) %>%
+        group_by(ComNr, RunNr, IC_vers, ITVsd, PFT, GrazProb, ARes, BRes) %>%
         mutate(lives = ifelse(cPop > 0, 1, 0))
 
     coexistence <- coexistence %>%
-        group_by(ComNr, RunNr, IC_ver, ITVsd, GrazProb, ARes, BRes) %>%
+        group_by(ComNr, RunNr, IC_vers, ITVsd, GrazProb, ARes, BRes) %>%
         summarise(numStartingPFTs = n(), numLivingPFTs = sum(lives))
 
     coexistence <- coexistence %>%
-        group_by(ComNr, RunNr, IC_ver, ITVsd, GrazProb, ARes, BRes) %>%
+        group_by(ComNr, RunNr, IC_vers, ITVsd, GrazProb, ARes, BRes) %>%
         summarise(totalLivingPFTs = sum(numLivingPFTs),
                   totalStartingPFTs = sum(numStartingPFTs))
 
     coexistence <- coexistence %>%
-        group_by(ComNr, RunNr, IC_ver, ITVsd, GrazProb, ARes, BRes) %>%
+        group_by(ComNr, RunNr, IC_vers, ITVsd, GrazProb, ARes, BRes) %>%
         summarise(coexistence = totalLivingPFTs/totalStartingPFTs)
 
     coexistence <- coexistence %>%
-        group_by(ComNr, IC_ver, ITVsd, GrazProb, ARes, BRes) %>%
+        group_by(ComNr, IC_vers, ITVsd, GrazProb, ARes, BRes) %>%
         summarise(coexistence = mean(coexistence))
 
     tdata <- spat_data %>%
-        group_by(SimNr, ComNr, RunNr, IC_ver, ITVsd, PFT, GrazProb, ARes, BRes) %>%
+        group_by(SimNr, ComNr, RunNr, IC_vers, ITVsd, PFT, GrazProb, ARes, BRes) %>%
         filter(year == 99) %>%
         filter(n() >= 5)
 
     population_variance <- tdata %>%
-        group_by(SimNr, ComNr, RunNr, IC_ver, ITVsd, PFT, GrazProb, ARes, BRes) %>%
+        group_by(SimNr, ComNr, RunNr, IC_vers, ITVsd, PFT, GrazProb, ARes, BRes) %>%
         summarise(ip = var(SLA))
 
     community_variance <- tdata %>%
-        group_by(SimNr, ComNr, RunNr, IC_ver, ITVsd, GrazProb, ARes, BRes) %>%
+        group_by(SimNr, ComNr, RunNr, IC_vers, ITVsd, GrazProb, ARes, BRes) %>%
         summarise(ic = var(SLA))
 
     tdata <- inner_join(population_variance, community_variance)
@@ -70,34 +70,34 @@ t_ip_ic <- function(spat_data, srv_data)
 t_ic_ir <- function(spat_data, srv_data, trait)
 {
     coexistence <- srv_data %>%
-        group_by(SimNr, ComNr, RunNr, IC_ver, ITVsd, PFT, GrazProb, ARes, BRes) %>%
+        group_by(SimNr, ComNr, RunNr, IC_vers, ITVsd, PFT, GrazProb, ARes, BRes) %>%
         mutate(lives = ifelse(cPop > 0, 1, 0))
 
     coexistence <- coexistence %>%
-        group_by(SimNr, ComNr, RunNr, IC_ver, ITVsd, GrazProb, ARes, BRes) %>%
+        group_by(SimNr, ComNr, RunNr, IC_vers, ITVsd, GrazProb, ARes, BRes) %>%
         summarise(numStartingPFTs = n(), numLivingPFTs = sum(lives))
 
     coexistence <- coexistence %>%
-        group_by(SimNr, ComNr, RunNr, IC_ver, ITVsd, GrazProb, ARes, BRes) %>%
+        group_by(SimNr, ComNr, RunNr, IC_vers, ITVsd, GrazProb, ARes, BRes) %>%
         summarise(totalLivingPFTs = sum(numLivingPFTs),
                   totalStartingPFTs = sum(numStartingPFTs))
 
     coexistence <- coexistence %>%
-        group_by(SimNr, ComNr, RunNr, IC_ver, ITVsd, GrazProb, ARes, BRes) %>%
+        group_by(SimNr, ComNr, RunNr, IC_vers, ITVsd, GrazProb, ARes, BRes) %>%
         summarise(coexistence = totalLivingPFTs/totalStartingPFTs)
 
     coexistence <- coexistence %>%
-        group_by(SimNr, ComNr, IC_ver, ITVsd, GrazProb, ARes, BRes) %>%
+        group_by(SimNr, ComNr, IC_vers, ITVsd, GrazProb, ARes, BRes) %>%
         summarise(coexistence = mean(coexistence))
 
     tdata <- spat_data %>%
-        group_by(SimNr, ComNr, RunNr, IC_ver, ITVsd, GrazProb, ARes, BRes, PFT) %>%
+        group_by(SimNr, ComNr, RunNr, IC_vers, ITVsd, GrazProb, ARes, BRes, PFT) %>%
         filter(year == 100) %>%
         filter(n() >= 5) %>%
         filter(ITVsd == 0.5)
 
     community_variance <- tdata %>%
-        group_by(SimNr, ComNr, RunNr, IC_ver, ITVsd, GrazProb, ARes, BRes) %>%
+        group_by(SimNr, ComNr, RunNr, IC_vers, ITVsd, GrazProb, ARes, BRes) %>%
         summarise(ic = var(LMR))
 
     regional_variance <- tdata %>%
@@ -139,7 +139,7 @@ ic_ir_trait_distributions <- function(spat_data, srv_data, attribute = "LMR")
         filter(n() >= 10)
 
     lives <- srv_data %>%
-        group_by(SimNr, ComNr, RunNr, IC_ver, ITVsd, PFT, GrazProb, ARes, BRes) %>%
+        group_by(SimNr, ComNr, RunNr, IC_vers, ITVsd, PFT, GrazProb, ARes, BRes) %>%
         mutate(lives = ifelse(cPop > 0, 1, 0))
 
     tdata %>% inner_join(tdata, lives)

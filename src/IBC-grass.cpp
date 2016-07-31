@@ -1,9 +1,7 @@
-//---------------------------------------------------------------------------
 #include <iostream>
-
-//the only information the GUI needs from the model
-#include "CGridEnvir.h"
 #include <ctime>
+#include "CGridEnvir.h"
+
 //------------------------------------------------------------------------------
 /**\mainpage Grassland Model (for console) - documentation
 
@@ -106,16 +104,14 @@ Biology group at the University of Potsdam
   Diploma thesis Potsdam University.
 */
 //---------------------------------------------------------------------------
-CGridEnvir* Envir;   ///<environment in which simulations are run
-using namespace std;
 
-void Init();
-void Run();
+CGridEnvir* Envir;   //<environment in which simulations are run
+using namespace std;
 
 /**
  * Program launch - Model Design is defined.
  * Here the model design is read from file.
- * Grid size is constant and 1m� (100*100cells) at moment.
+ * Grid size is constant and 1m^2 (100*100cells) at moment.
  * @param argc number of program parameters (>1 if parameters are given)
  * @param argv list of program parameters (SimFileName is expected)
  * \sa SRunPara::NameSimFile
@@ -123,54 +119,34 @@ void Run();
  * \sa CGridEnvir
  * \sa CGridEnvir::OneRun()
  */
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
 	initLCG(time(NULL), 3487234); // setze den Zufallsgenerator auf einen neuen Wert, 3487234 ist 'zuf�llig' gew�hlt
 
-	if (argc>=2) {
-      string file = argv[1];
-      SRunPara::NameSimFile=file;
-   } else SRunPara::NameSimFile="data/in/SimFile.txt";
-   cout<<"new Environment...clonal community...\n";
-//      //change gridsize to 3qm
-//   SRunPara::RunPara.GridSize=SRunPara::RunPara.CellNum=173; //if pot experiments are to be reproduced than set to 12
-   Envir=new CGridEnvir();
+	if (argc >= 2) {
+		SRunPara::NameSimFile = argv[1];
+	} else {
+		SRunPara::NameSimFile = "data/in/SimFile.txt";
+	}
 
-   //do simulations specified in input-file
-   int lpos=Envir->GetSim(); //extern file input
-   do{
-      {
-         cout<<"\n  Simulation No. "<<Envir->SimNr;
-         for (Envir->RunNr=0;Envir->RunNr<Envir->NRep;Envir->RunNr++) //def:20
-         {
-            cout<<"\nrun "<<Envir->RunNr+1<<"; ";
-            Init();
-            Run();
-         }
-      }
-      lpos=Envir->GetSim(lpos);
-   } while (lpos!=-1);
+	cout << "New Environment...\n";
+	Envir = new CGridEnvir();
 
-   delete Envir;
-   //delete static pointer vectors
-   for (map<string,SPftTraits*>::iterator i=SPftTraits::PftLinkList.begin();
-		   i!=SPftTraits::PftLinkList.end(); ++i) delete i->second;
-   return 0;
+	//do simulations specified in input-file
+	int lpos = Envir->GetSim();
+	do {
+		cout << "Simulation No. " << Envir->SimNr << "\n";
+		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++) {
+			cout << "Run " << Envir->RunNr + 1 << " \n";
+			Envir->InitRun();
+			Envir->OneRun();
+		}
+		lpos = Envir->GetSim(lpos);
+	} while (lpos != -1);
+
+	delete Envir;
+	//delete static pointer vectors
+	for (map<string, SPftTraits*>::iterator i = SPftTraits::PftLinkList.begin();
+			i != SPftTraits::PftLinkList.end(); ++i)
+		delete i->second;
+	return 0;
 }
-//---------------------------------------------------------------------------
-void Init(){
-      Envir->InitRun();
-}
-//------------------------------------------------
-void writeBenchmark(int pft,int clpft,int run,int week, double time){
-  ofstream of("data/out/extTimes.txt",ios_base::app);
-  of<<pft<<'\t'<<clpft<<'\t'<<run<<'\t'<<week<<'\t'<<time<<'\n';
-}
-//------------------------------------------------
-void Run(){
-   int exitcond=0;
-   Envir->OneRun();
-   exitcond=Envir->GetT();
-}
-//---------------------------------------------------------------------------
-//eof---------------------------------------------------------------------------
