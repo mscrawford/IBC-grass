@@ -78,8 +78,6 @@ public:
 	//  vector<SClonOut*>  ClonOutData; ///< Vector of clonal Output data
 
 	//result variables - non-clonal
-	vector<int> ACover; //!< mean above-ground resource availability [resource units per cm^2]
-	vector<int> BCover; //!< mean below-ground resource availability [resource units per cm^2]
 	map<string, double> PftCover;  //!< current Grid-cover of Pfts used
 	double NCellsAcover;    ///< Number of Cells shaded by plants on ground
 

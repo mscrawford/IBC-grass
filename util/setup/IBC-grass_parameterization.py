@@ -16,35 +16,37 @@ COMP_out = 0 # print comp grid
 N_SLOTS = 400
 
 path = "./tmp/"
-N_COMS = 20
-N_REPS = 1
-n_PFTs = 0
+N_COMS = 30
+N_REPS = 5
+n_PFTs = 16
 
 Sim_header = "NRep\n" + str(N_REPS) + "\nSimNr ComNr IC_vers ITVsd Tmax ARes Bres " + \
-                "GrazProb PropRemove DistAreaYear AreaEvent NCut CutMass SeedRainType SeedInput " + \
+                "GrazProb PropRemove BelGrazMode BelGrazStartYear BelGrazWindow BelGrazProb BelPropRemove DistAreaYear AreaEvent NCut CutMass " + \
                 "SPATout SPAToutYear PFTout COMPout NameInitFile\n"
 
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                         "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
 
 ## These parameters are specific to the environment and "type" of the simulation
-base_params =  [[1], # IC version
-                [0, 0.5], # ITVsd
-                [100], # CTmax
+base_params =  [[0, 1], # IC version
+                [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7], # ITVsd
+                [100, 1000], # Tmax
                 [100], # ARes
-                [30, 60, 90], # Bres
-                [0.3, 0.5, 0.7], # GrazProb
+                [90], # Bres
+                [0.2], # GrazProb
                 [0.5], # propRemove
+                [0], # BelGrazMode
+                [0], # BelGrazStartYear
+                [0], # BelGrazWindow
+                [0], # BelGrazProb
+                [0], # BelPropRemove
                 [0], # DistAreaYear
                 [0], # AreaEvent
                 [0], # NCut
-                [0], # CutMass
-                [0], # SeedRain
-                [0]] # SeedInput
+                [0]] # CutMass
 
-
-## These parameters are specific to each plant functional type. That is, this details the composition
-## of functional traits.
+# These parameters are specific to each plant functional type. That is, this details the composition
+# of functional traits.
 PFType_params = [[100], # MaxAge
                 [0.05], # AllocSeed
                 [1.0, 0.75, 0.50], # LMR
@@ -69,8 +71,45 @@ PFType_params = [[100], # MaxAge
                 [0], # AllocSpacer
                 [0]] # mSpacer
 
+# Changing resource response!
+# PFType_params = [[100], # MaxAge
+#                 [0.05], # AllocSeed
+#                 [0.50], # LMR
+#                 [[0.3, 2000, 0.3, 0.3]],# maxPlantSizeSet. Maximum plant size -- large
+#                 [0.5], # pEstab
+#                 [[60, 2],
+#                  [20, 6]], # Resource response -- tolerator
+#                 [[0.50, 0.75]],# grazingResponseSet. Grazing response -- tolerator
+#                 [1], # RAR
+#                 [0.25], # growth
+#                 [0.2], # mThres
+#                 [0], # clonal
+#                 [0], # propSex
+#                 [0], # meanSpacerLength
+#                 [0], # sdSpacerLength
+#                 [0], # Resshare
+#                 [0], # AllocSpacer
+#                 [0]] # mSpacer
 
-
+# Changing maxPlantSize set
+# PFType_params = [[100], # MaxAge
+#                 [0.05], # AllocSeed
+#                 [0.75], # LMR
+#                 [[1.0, 5000, 1.0, 0.1], # maxPlantSizeSet is a linked trait set
+#                  [0.1, 1000, 0.1, 0.6]], # Maximum plant size -- small
+#                 [0.5], # pEstab
+#                 [[40, 4]], # Resource response -- tolerator
+#                 [[0.50, 0.75]], # Grazing response -- avoider
+#                 [1], # RAR
+#                 [0.25], # growth
+#                 [0.2], # mThres
+#                 [0], # clonal
+#                 [0], # propSex
+#                 [0], # meanSpacerLength
+#                 [0], # sdSpacerLength
+#                 [0], # Resshare
+#                 [0], # AllocSpacer
+#                 [0]] # mSpacer
 
 
 
@@ -221,5 +260,14 @@ def makeEmpiricalPFTs():
 
 
 if __name__ == "__main__":
-    # makeTheoreticalPFTs()
-    makeEmpiricalPFTs()
+    makeTheoreticalPFTs()
+    # makeEmpiricalPFTs()
+    
+    with open('IBC-grass_parameterization.py', 'r') as r:
+        words = r.readlines()
+        with open(path + 'param_doc.txt', 'w') as w:
+            w.write("*************************************************************************************\n")
+            w.write("This is a copy of the parameterization file that this simulation set is derived from.\n")
+            w.write("*************************************************************************************\n")
+            w.write("\n\n___________________________________________________________________________________\n\n")
+            w.writelines(words)

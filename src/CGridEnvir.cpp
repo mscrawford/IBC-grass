@@ -37,7 +37,7 @@ void CGridEnvir::InitRun() {
 
 	//set initial plants on grid...
 	//new: read from File
-	InitInds(SRunPara::NamePftFile, -1);
+	InitInds(SRunPara::NamePftFile);
 
 //  cout <<" sum of types: "<<PftInitList.size()<<endl;
 }
@@ -56,7 +56,7 @@ void CGridEnvir::InitRun() {
  \param file file name of simulation definitions
  \todo init pft defs elsewhere
  */
-void CGridEnvir::InitInds(string file, int n) {
+void CGridEnvir::InitInds(string file) {
 
 	const int no_init_seeds = 10;
 
@@ -71,14 +71,7 @@ void CGridEnvir::InitInds(string file, int n) {
 		PftSurvTime[traits->name] = 0;
 		cout << "Initializing " << no_init_seeds << " seeds of PFT: " << traits->name << endl;
 		CEnvir::SeedRainGr.PftSeedRainList[traits->name] = SRunPara::RunPara.SeedInput;
-		if (n > -1) { // Broken window
-			SRunPara::RunPara.NPft = PftInitList.size();
-			return;
-		}
 	}
-	this->SeedRainGr.GetNPftSeedsize();
-	this->SeedRainGr.GetNPftSeedClonal();
-
 } //initialization based on file
 
 //------------------------------------------------------------------------------
@@ -117,11 +110,10 @@ void CGridEnvir::OneYear() {
 	do {
 		cout << "y " << year << " w " << week << endl;
 		OneWeek();
-		//exit conditions
 		exitConditions();
 		if (endofrun)
 			break;
-	} while (++week <= WeeksPerYear);  //weeks
+	} while (++week <= WeeksPerYear);
 } // end OneYear
 
 //------------------------------------------------------------------------------
@@ -135,7 +127,6 @@ void CGridEnvir::OneWeek() {
 	ResetWeeklyVariables(); //cell loop, removes data from cells
 	SetCellResource();      //variability between weeks
 	CoverCells();           //plant loop
-	setCover();             //set ACover und BCover lists, as well as type cover
 	DistribResource();      //cell loop, resource uptake and competition
 	PlantLoop();            //Growth, Dispersal, Mortality
 
@@ -351,12 +342,6 @@ int CGridEnvir::PftSurvival() {
 	return PftOutData.back()->PFT.size(); //count_pft;
 } //endPftSurvival
 //-Auswertung--------------------------------------------------------------------------
-int CGridEnvir::getACover(int x, int y) {
-	return ACover[x * SRunPara::RunPara.CellNum + y];
-}
-int CGridEnvir::getBCover(int x, int y) {
-	return BCover[x * SRunPara::RunPara.CellNum + y];
-}
 int CGridEnvir::getGridACover(int i) {
 	return CellList[i]->getCover(1);
 }
@@ -393,28 +378,6 @@ double CGridEnvir::getTypeCover(const string type) const {
  */
 double CGridEnvir::getTypeCover(const int i, const string type) const {
 	return CellList[i]->getCover(type);
-}
-
-/**
- * Get cover of cells.
- *
- \warning PftCover is very time consuming
- */
-void CGridEnvir::setCover() {
-	const int sum = SRunPara::RunPara.GetSumCells();
-	for (int i = 0; i < sum; i++) {
-		ACover.at(i) = getGridACover(i);
-		BCover[i] = getGridBCover(i);
-
-	}
-	//report cover in week 20
-	if (week == 20) {
-		typedef map<string, long> mapType;
-		for (mapType::const_iterator it = this->PftInitList.begin();
-				it != this->PftInitList.end(); ++it) {
-			this->PftCover[it->first] = getTypeCover(it->first);
-		}
-	} //end if week=20
 }
 
 /**

@@ -28,8 +28,9 @@ source("utilities.R")
 datadir = "/Users/Theodore/Desktop/data/out/"
 
 # # Loading raw data
-srv_data <- read_data(datadir, "Srv", FALSE)
+srv_data <- read_data(datadir, "Srv")
 pft_data <- read_data(datadir, "Pft")
-# spat_data <- read_data(datadir, "Spat", FALSE)
+spat_data <- read_data(datadir, "Spat")
 # comp_data <- read_files(datadir, "Comp")
-grd_data <- read_data(datadir, "Grd", FALSE)
+grd_data <- read_data(datadir, "Grd")
+

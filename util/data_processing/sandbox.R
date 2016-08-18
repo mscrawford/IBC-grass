@@ -367,6 +367,7 @@ zero_ratio <- full_join(zeros, total)
 
 # Determine rarity
 t <- spat_data %>%
+    filter(ComNr == 1, RunNr == 1) %>%
     group_by(SimNr, ComNr, RunNr, ITVsd, year, PFT) %>%
     mutate(Nind = n())
 
@@ -379,16 +380,16 @@ t <- t %>%
     mutate(Class = ifelse(avg_population > 50,
                           "Common",
                           "Rare"))
-# End determine rarity
 
+# End determine rarity
 tdata <- spat_data %>%
     group_by(SimNr, ComNr, RunNr, ITVsd, year, PFT) %>%
-    mutate(PFT_nTotalSeeds = sum(accumulatedSeeds))
+    mutate(PFT_nTotalSeeds = sum(yearlyFecundity))
 
 tdata <- tdata %>%
     group_by(SimNr, ComNr, RunNr, ITVsd, PFT, year, plantID) %>%
-    summarise(proportionTotalSeeds = ifelse(accumulatedSeeds > 0,
-                                            accumulatedSeeds / PFT_nTotalSeeds,
+    summarise(proportionTotalSeeds = ifelse(yearlyFecundity > 0,
+                                            yearlyFecundity / PFT_nTotalSeeds,
                                             0))
 
 tdata <- tdata %>%

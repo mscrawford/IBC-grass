@@ -64,7 +64,6 @@ public:
 	int CellNum;      //!< side length in cells
 	bool torus;       //!< boundary behavior
 	int Tmax;         //!< simulation time
-	int NPft;         //!< number of plant functional types
 	double mort_seeds;     //!< seed mortality per year (in winter)
 	double DiebackWinter; //!< portion of aboveground biomass to be removed in winter
 	double mort_base;      //!< basic mortality per week
@@ -90,14 +89,14 @@ public:
 	int BelGrazMode; //!< mode of belowground grazing \sa CGrid::GrazingBelGr
 	///belowground grazing probability per week
 	///\since belowground herbivory simulations
-	bool Rootherb; //!< indirect effect of belowground herbovory via correction of conversion rate parameter grow
+	int BelGrazStartYear;
+	int BelGrazWindow;
 	double BelGrazProb;
 	//! proportion of belowground biomass removed by grazing
 	///\since belowground herbivory simulations
 	double BelPropRemove;
 	///threshold for additional below_herbivory-mortality  (default is one)
 	double BGThres;
-	bool HetBG;         //!< flag for heterogenous belowground grazing
 ///@}
 
 	/** @name CutParam

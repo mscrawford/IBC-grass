@@ -33,8 +33,7 @@ SPftOut::SPftSingle::SPftSingle():cover(0),Nind(0),Nseeds(0),
  */
 SGridOut::SGridOut():week(CEnvir::week),//GetT()),
   above_mass(0),below_mass(0),
-  aresmean(0),bresmean(0),Nind(0),PftCount(0),shannon(0),
-  totmass(0),cutted(0),
+  aresmean(0),bresmean(0),bareGround(0),Nind(0),PftCount(0),shannon(0), totmass(0),cutted(0),
   MclonalPlants(0),MeanGeneration(0),MeanGenetsize(0),
   MPlants(0),NclonalPlants(0),NGenets(0),NPlants(0),aComp(0),bComp(0){}// end SGridOut constructor
 //-------------------------------------------------------

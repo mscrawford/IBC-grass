@@ -21,17 +21,7 @@ CGrid::CGrid():cutted_BM(0)
    for (unsigned int i=0;i<ZOIBase.size();i++) ZOIBase[i]=i;
    sort(ZOIBase.begin(),ZOIBase.end(),CompareIndexRel);
 }
-//---------------------------------------------------------------------------
-CGrid::CGrid(string id):cutted_BM(0)
-{
-   CellsInit();
 
-   LDDSeeds = new map<string,LDD_Dist>;
-   //generate ZOIBase...
-   ZOIBase.assign(SRunPara::RunPara.GetSumCells(),0);
-   for (unsigned int i=0;i<ZOIBase.size();i++) ZOIBase[i]=i;
-   sort(ZOIBase.begin(),ZOIBase.end(),CompareIndexRel);
-}
 //-----------------------------------------------------------------------------
 /**
   Initiate grid cells.
@@ -267,8 +257,7 @@ int CGrid::DispersSeeds(CPlant* plant)
 		assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
    int px=plant->getCell()->x, py=plant->getCell()->y;
    int NSeeds=0;
-   double dist=0, direction=0;
-   double rnumber=0;
+   double dist=0;
    int nb_LDDseeds=0;
    int SideCells=SRunPara::RunPara.CellNum;
 
@@ -288,7 +277,6 @@ int CGrid::DispersSeeds(CPlant* plant)
          if (Emmigrates(x, y)) {
 			nb_LDDseeds++;
 			//Calculate distance between (x,y) and grid-center
-			int test = SRunPara::RunPara.GridSize / 2;
 			dist = Distance(x, y, SRunPara::RunPara.GridSize / 2,
 					SRunPara::RunPara.GridSize / 2);
 			dist = dist / 100;  //convert to m
@@ -326,7 +314,7 @@ void CGrid::DispersRamets(CPlant* plant)
         for (int j=0; j<plant->GetNRamets(); ++j)
         {
          double dist=0, direction;//, rdist;
-         double mean, sd, mu, sigma; //parameters for lognormal dispersal kernel
+         double mean, sd; //parameters for lognormal dispersal kernel
 
          //normal distribution for spacer length
          mean=plant->Traits->meanSpacerlength;   //cm
@@ -364,9 +352,7 @@ void CGrid::DispersRamets(CPlant* plant)
 */
 void CGrid::CoverCells() {
 
-	int xmin, xmax, ymin, ymax;
 	int index;
-	double dist, Radius;
 	int xhelp, yhelp;
 
 	double CellScale = SRunPara::RunPara.CellScale();
@@ -754,22 +740,25 @@ void CGrid::SeedMortAge()
 bool CGrid::Disturb()
 {
    if (PlantList.size()>0){
-      if (CEnvir::rand01()<SRunPara::RunPara.GrazProb){
+      if (CEnvir::rand01() < SRunPara::RunPara.GrazProb){
          Grazing();
       }
-      if (CEnvir::rand01()<SRunPara::RunPara.DistProb()){
+      if (CEnvir::rand01() < SRunPara::RunPara.DistProb()){
          Trampling();
       }
-      if (CEnvir::rand01()<SRunPara::RunPara.BelGrazProb){
+      if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb &&
+    		  CEnvir::year >= SRunPara::RunPara.BelGrazStartYear &&
+			  (CEnvir::year < SRunPara::RunPara.BelGrazStartYear + SRunPara::RunPara.BelGrazWindow ||
+					 SRunPara::RunPara.BelGrazWindow == 0)){
          GrazingBelGr(SRunPara::RunPara.BelGrazMode);
       }
       int week = CEnvir::week;
-      if (SRunPara::RunPara.NCut>0){
+      if (SRunPara::RunPara.NCut > 0){
          switch (SRunPara::RunPara.NCut){
             case 1: if (week==22) Cutting(); break;
             case 2: if ((week==22) || (week==10)) Cutting(); break;
             case 3: if ((week==22) || (week==10) || (week==16)) Cutting(); break;
-            default: cerr<<"CGrid::Disturb() - wrong input";exit(3);
+            default: cerr << "CGrid::Disturb() - wrong input"; exit(3);
          }
       }
       return true;

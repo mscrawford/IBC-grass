@@ -15,8 +15,6 @@
 #include "CSeed.h"
 #include "SPftTraits.h"
 
-int CPlant::numPlants;
-
 //-----------------------------------------------------------------------------
 /**
  * constructor - germination
@@ -24,6 +22,9 @@ int CPlant::numPlants;
  * If a seed germinates, the new plant inherits its parameters.
  * Genet has to be defined externally.
  */
+
+int CPlant::numPlants = 0;
+
 CPlant::CPlant(CSeed* seed) :
 		xcoord(seed->xcoord), ycoord(seed->ycoord), Age(0), plantID(
 				++numPlants), Aroots_all(0), Aroots_type(0), mRepro(0), Ash_disc(
@@ -306,10 +307,7 @@ void CPlant::Grow2() //grow plant one timestep
 {
 	double dm_shoot, dm_root, alloc_shoot;
 //   double Assim_shoot, Resp_shoot, Assim_root, Resp_root;
-	double Assim_shoot, Assim_root, Resp;
 	double LimRes, ShootRes, RootRes, VegRes;
-	double p = 2.0 / 3.0, q = 2.0, r = 4.0 / 3.0; //exponents for growth function
-	int pweek = CEnvir::week;
 
 	/********************************************/
 	/*  dm/dt = growth*(c*m^p - m^q / m_max^r)  */
@@ -368,7 +366,7 @@ double CPlant::RootGrow(double rres) {
 		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 
 	double Assim_root, Resp_root;
-	double p = 2.0 / 3.0, q = 2.0, r = 4.0 / 3.0; //exponents for growth function
+	double q = 2.0, r = 4.0 / 3.0; //exponents for growth function
 	Assim_root = Traits->growth * min(rres, Traits->Gmax * Art_disc); //growth limited by maximal resource per area -> similar to uptake limitation
 	Resp_root = Traits->growth * Traits->Gmax * Traits->RAR * pow(mroot, q)
 			/ pow(Traits->MaxMass, r);  //respiration proportional to root^2
@@ -408,6 +406,7 @@ void CPlant::Kill() {
 	// resource deficiency mortality
 	// pmin->random background mortality
 	const double pmin = SRunPara::RunPara.mort_base;  // 0.007;
+	assert(Traits->memory != 0);
 	double pmort = (double) stress / Traits->memory + pmin; // stress mortality + random background mortality
 	if (CEnvir::rand01() < pmort)
 		dead = true;

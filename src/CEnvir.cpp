@@ -51,32 +51,8 @@ map<string, double> SSR::PftSeedRainList;
 CEnvir::CEnvir() :
 		NCellsAcover(0), endofrun(false) {
 	ReadLandscape();
-	ACover.assign(SRunPara::RunPara.GetSumCells(), 0);
-	BCover.assign(SRunPara::RunPara.GetSumCells(), 0);
 }
-//---------------------------------------------------------------------------
-/**
- * constructor -
- * Restore an previously saved grid.
- * @param id file name stub of saves grid
- */
-CEnvir::CEnvir(string id) :
-		NCellsAcover(0), endofrun(false) {
-//read file
-	string dummi = (string) "data/save/E_" + id + ".sav";
-	ifstream loadf(dummi.c_str());
-	string d;
-	loadf >> year >> week;
-	string dummi2;
-	loadf >> SRunPara::NamePftFile >> dummi2; //NameClonalPftFile must be read separately
-//  getline(loadf,d);
-	getline(loadf, dummi2);
-	getline(loadf, dummi2);
-	SRunPara::RunPara.setRunPara(dummi2);
-	ReadLandscape();
-	ACover.assign(SRunPara::RunPara.GetSumCells(), 0);
-	BCover.assign(SRunPara::RunPara.GetSumCells(), 0);
-}
+
 //------------------------------------------------------------------------------
 /**
  * destructor -
@@ -144,43 +120,35 @@ int CEnvir::GetSim(const int pos, string file) {
 	if (!SimFile.good())
 		return -1;
 
-	int IC_version, acomp, bcomp;
+	int IC_version;
+	int acomp = 1; // aboveground competition is asymmetric by default
+	int bcomp = 0; // belowground competition is symmetric by default
 
-	SimFile >> SimNr
-			>> ComNr
-			>> IC_version
-//  >> acomp
-//  >> RunPara.AboveCompMode
-//  >> bcomp
-//  >> RunPara.BelowCompMode
-//  >> RunPara.BelGrazMode   //mode of belowground grazing   --> submodel with direct biomass removal, Katrins version
-//  >> RunPara.GridSize
-//  >> RunPara.CellNum
-		>> SRunPara::RunPara.ITVsd
-		>> SRunPara::RunPara.Tmax
-		>> SRunPara::RunPara.meanARes
-		>> SRunPara::RunPara.meanBRes
-		>> SRunPara::RunPara.GrazProb
-		>> SRunPara::RunPara.PropRemove
-//	>> SRunPara::RunPara.MassUngraz // Residual Mass ungrazable
-//	>> SRunPara::RunPara.BitSize           //Grazing bit size
-		>> SRunPara::RunPara.DistAreaYear      //Trampling
-		>> SRunPara::RunPara.AreaEvent         //Trampling
-		>> SRunPara::RunPara.NCut       //Cutting NCut
-		>> SRunPara::RunPara.CutMass    //Cutting cutmass
-//	>> RunPara.mort_seeds
-		>> SRunPara::RunPara.SeedRainType
-		>> SRunPara::RunPara.SeedInput //seed number / mass per grid
-		>> SRunPara::RunPara.SPAT
-		>> SRunPara::RunPara.SPATyear
-		>> SRunPara::RunPara.PFT
-		>> SRunPara::RunPara.COMP
-		>> SRunPara::NamePftFile
-//	>> RunPara.BGThres
+	SimFile
+		>> SimNr // Simulation number
+		>> ComNr // Community number
+		>> IC_version // Stabilizing mechan isms
+		>> SRunPara::RunPara.ITVsd // Standard deviation of intraspecific variation
+		>> SRunPara::RunPara.Tmax // End of run year
+		>> SRunPara::RunPara.meanARes // Aboveground resources
+		>> SRunPara::RunPara.meanBRes  // Belowground resources
+		>> SRunPara::RunPara.GrazProb // Aboveground grazing: probability
+		>> SRunPara::RunPara.PropRemove // Aboveground grazing: proportion of biomass removed
+		>> SRunPara::RunPara.BelGrazMode // Belowground grazing: mode
+		>> SRunPara::RunPara.BelGrazStartYear // Belowground grazing: year of herbivory introduction
+		>> SRunPara::RunPara.BelGrazWindow // Belowground grazing: timespan in which herbivory takes place
+		>> SRunPara::RunPara.BelGrazProb // Belowground grazing: probability
+		>> SRunPara::RunPara.BelPropRemove // Belowground grazing: proportion of biomass removed
+		>> SRunPara::RunPara.DistAreaYear // Trampling: Percentage of grid disturbed per year
+		>> SRunPara::RunPara.AreaEvent // Trampling
+		>> SRunPara::RunPara.NCut // Cutting Number of cuts per year
+		>> SRunPara::RunPara.CutMass // Cutting Amount of aboveground biomass removed per cut
+		>> SRunPara::RunPara.SPAT // Print spatial grid
+		>> SRunPara::RunPara.SPATyear // Print spatial grid on a specific year
+		>> SRunPara::RunPara.PFT // Print PFT data
+		>> SRunPara::RunPara.COMP // Print competitive grid
+		>> SRunPara::NamePftFile // Name of PFT input file
 		;
-
-	acomp = 1; // aboveground competition is asymmetric
-	bcomp = 0; // belowground competition is symmetric
 
 	// set intraspecific competition version, intraspecific trait variation version, and competition modes
 	switch (IC_version) {
@@ -199,8 +167,7 @@ int CEnvir::GetSim(const int pos, string file) {
 
 	if (SRunPara::RunPara.ITVsd > 0) {
 		SRunPara::RunPara.ITV = on;
-	}
-	else {
+	} else {
 		SRunPara::RunPara.ITV = off;
 	}
 
@@ -240,7 +207,6 @@ int CEnvir::GetSim(const int pos, string file) {
 	string fid = SRunPara::RunPara.getFileID();
 	//set file names
 	NamePftOutFile = (string) "data/out/Pft-" + fid + ".txt";
-	cout << NamePftOutFile << endl;
 	NameGridOutFile = (string) "data/out/Grd-" + fid + ".txt";
 	NameSurvOutFile = (string) "data/out/Srv-" + fid + ".txt";
 	NameLogFile = (string) "data/out/Log-" + fid + ".log";

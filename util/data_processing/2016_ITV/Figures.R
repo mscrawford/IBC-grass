@@ -328,7 +328,7 @@ tdata <- spat_data %>%
     summarise(ind_lifetime_stress = sum(stress),
               ind_memory = mean(memory),
               ind_max_age = max(Age),
-              ind_lifetime_fecundity = max(totalSeeds) * mean(SeedMass))
+              ind_lifetime_fecundity = max(lifetimeFecundity) * mean(SeedMass))
 
 # Among PFTs
 tdata <- tdata %>%
@@ -664,12 +664,12 @@ tdata <- tdata %>%
 
 tdata <- tdata %>%
     group_by(SimNr, ComNr, RunNr, ITVsd, PFT, year) %>%
-    mutate(PFT_nTotalSeeds = sum(accumulatedSeeds))
+    mutate(PFT_n_LifetimeFecundity = sum(yearlyFecundity))
 
 tdata <- tdata %>%
     group_by(SimNr, ComNr, RunNr, ITVsd, PFT, year, plantID) %>%
-    mutate(proportionTotalSeeds = ifelse(accumulatedSeeds > 0,
-                                         accumulatedSeeds / PFT_nTotalSeeds,
+    mutate(proportionLifetimeFecundity = ifelse(yearlyFecundity > 0,
+                                         yearlyFecundity / PFT_n_LifetimeFecundity,
                                          0))
 
 tdata <- tdata %>%
@@ -678,7 +678,7 @@ tdata <- tdata %>%
 
 tdata <- tdata %>%
     group_by(SimNr, ComNr, RunNr, ITVsd, PFT, year, tExtinction, Nind) %>%
-    summarise(maxProportionSeeds = max(proportionTotalSeeds)) %>%
+    summarise(maxProportionSeeds = max(proportionLifetimeFecundity)) %>%
     filter(maxProportionSeeds > 0.5)
 
 tdata <- tdata %>%
@@ -753,7 +753,7 @@ tdata <- spat_data %>%
              LMR, MaxMass, Dist, SLA, palat, memory, Gmax) %>%
     summarise(cumsum_lifetime_stress = sum(stress),
               maximum_age = max(Age),
-              realized_lifetime_fecundity = max(totalSeeds),
+              realized_lifetime_fecundity = max(lifetimeFecundity),
               max_realized_shootMass = max(mshoot),
               max_realized_rootMass = max(mroot))
 
@@ -933,7 +933,7 @@ tdata <- spat_data %>%
     filter(ITVsd == 0.2) %>%
     summarise(cumsum_lifetime_stress = sum(stress),
               maximum_age = max(Age),
-              realized_lifetime_fecundity = max(totalSeeds),
+              realized_lifetime_fecundity = max(lifetimeFecundity),
               max_realized_shootMass = max(mshoot),
               max_realized_rootMass = max(mroot))
 
@@ -983,7 +983,7 @@ tdata <- spat_data %>%
     filter(ITVsd == 0.5) %>%
     summarise(sum_lifetime_stress = sum(stress),
               ind_maximum_age = max(Age),
-              sum_lifetime_fecundity = max(totalSeeds),
+              sum_lifetime_fecundity = max(lifetimeFecundity),
               sum_realized_shootMass = sum(mshoot),
               sum_realized_rootMass = sum(mroot))
 
@@ -1051,7 +1051,7 @@ FindNeighborhoodAverage <- function(SimNr_, ComNr_, RunNr_, ITVsd_, plantID_, ye
     if (nrow(t) == 0) {
         neighbors = 0
     } else {
-        neighbors = mean(t$accumulatedSeeds * t$SeedMass)
+        neighbors = mean(t$yearlyFecundity * t$SeedMass)
     }
 
     return(neighbors)
@@ -1076,8 +1076,8 @@ originally_rare <- originally_rare %>%
 tdata <- spat_data %>%
     group_by(SimNr, ComNr, RunNr, ITVsd, PFT, plantID) %>%
     mutate(ind_lifetime_stress = sum(stress),
-           ind_lifetime_fecundity = max(totalSeeds) * SeedMass,
-           ind_avg_fecundity = mean(accumulatedSeeds) * SeedMass) %>%
+           ind_lifetime_fecundity = max(lifetimeFecundity) * SeedMass,
+           ind_avg_fecundity = mean(yearlyFecundity) * SeedMass) %>%
     ungroup()
 
 tdata <- tdata %>%

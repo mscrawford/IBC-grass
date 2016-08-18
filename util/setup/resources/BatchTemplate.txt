@@ -11,7 +11,6 @@
 #$ -o /work/$USER/$JOB_NAME-$JOB_ID.out
 #$ -e /work/$USER/$JOB_NAME-$JOB_ID.err
 
-module load sge
 module load gcc/4.9.2-2
 
 /home/crawford/Default/IBC-grass /home/crawford/data/in/@SIMFILE@

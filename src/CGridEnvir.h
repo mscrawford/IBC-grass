@@ -45,7 +45,7 @@ public:
 	///@}
 	///\name init new Individuals/Seeds
 	///@{
-	void InitInds(string file, int n = -1); ///< new way of initializing clonal and other traits at the same time from one file
+	void InitInds(string file); ///< new way of initializing clonal and other traits at the same time from one file
 	///@}
 
 	int exitConditions(); ///< get exit conditions //first implemented by Ines

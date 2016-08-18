@@ -175,7 +175,9 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 /* MSC
  * Vary the current individual's traits, based on a Gaussian distribution with a
  * standard deviation of "ITVsd". Sub-traits that are tied will vary accordingly.
- * Bounds on 1 and -1 ensure that no trait garners a negative value.
+ * Bounds on 1 and -1 ensure that no trait garners a negative value and keep the resulting
+ * distribution balanced. Other, trait-specific, requirements are checked as well. (e.g.,
+ * LMR cannot be greater than 1, memory cannot be less than 1).
  */
 void SPftTraits::varyTraits() {
 	assert(myTraitType == SPftTraits::species);
@@ -184,36 +186,76 @@ void SPftTraits::varyTraits() {
 	myTraitType = SPftTraits::individualized;
 	double dev;
 
-	dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
-	while (dev < -1.0 || dev > 1.0 || LMR + (LMR * dev) > 1)
+//	cout << "Varying traits! LMR..." << endl;
+	double LMR_;
+	do {
 		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
- 	LMR = LMR + (LMR * dev);
+		LMR_ = LMR + (LMR * dev);
+	} while (dev < -1.0 || dev > 1.0 || LMR_ < 0 || LMR_ > 1);
+	LMR = LMR_;
+//	cout << "LMR: " << LMR << endl;
 
-	dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
-	while (dev < -1.0 || dev > 1.0)
+//	cout << "Varying traits! Mass..." << endl;
+	double m0_, MaxMass_, SeedMass_, Dist_;
+	do {
 		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
-	m0 = m0 + (m0 * dev);
-	MaxMass = MaxMass + (MaxMass * dev);
-	SeedMass = SeedMass + (SeedMass * dev);
-	Dist = Dist - (Dist * dev);
+		m0_ = m0 + (m0 * dev);
+		MaxMass_ = MaxMass + (MaxMass * dev);
+		SeedMass_ = SeedMass + (SeedMass * dev);
+		Dist_ = Dist - (Dist * dev);
+	} while (dev < -1.0 || dev > 1.0 || m0_ < 0 || MaxMass_ < 0 || SeedMass_ < 0 || Dist_ < 0);
+	m0 = m0_;
+	MaxMass = MaxMass_;
+	SeedMass = SeedMass_;
+	Dist = Dist_;
+//	cout << "m0: " << m0 << endl;
+//	cout << "MaxMass: " << MaxMass << endl;
+//	cout << "SeedMass: " << SeedMass << endl;
+//	cout << "Dist: " << Dist << endl;
 
-	dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
-	while (dev < -1.0 || dev > 1.0)
+	//	cout << "Varying traits! Gmax..." << endl;
+	double Gmax_;
+	int memory_;
+	do {
+//		cout << "Drawing variate..." << endl;
 		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
-	Gmax = Gmax + (Gmax * dev);
-	memory = (int) round((double) memory - ((double) memory * dev));
+//		cout << "Setting Gmax ..." << endl;
+		Gmax_ = Gmax + (Gmax * dev);
+//		cout << "Setting memory..." << endl;
+		memory_ = (int) round((double) memory - ((double) memory * dev));
+//		cout << "Testing values: dev: " << dev << " Gmax: " << Gmax_ << " memory: " << memory_  << endl;
+	} while (dev < -1.0 || dev > 1.0 || Gmax_ < 0 || memory_ == 0);
+	Gmax = Gmax_;
+	memory = memory_;
+//	cout << "Gmax: " << Gmax << endl;
+//	cout << "Memory: " << memory << endl;
 
-	dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
-	while (dev < -1.0 || dev > 1.0 || palat + (palat * dev) > 1)
+//	cout << "Varying traits! Palat..." << endl;
+	double palat_, SLA_;
+	do {
 		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
-	palat = palat + (palat * dev);
-	SLA = SLA + (SLA * dev);
+		palat_ = palat + (palat * dev);
+		SLA_ = SLA + (SLA * dev);
+	} while (dev < -1.0 || dev > 1.0 || palat_ < 0 || palat_ > 1 || SLA_ < 0);
+	palat = palat_;
+	SLA = SLA_;
+//	cout << "palat: " << palat << endl;
+//	cout << "SLA: " << SLA << endl;
 
-	dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
-	 while (dev < -1.0 || dev > 1.0)
-		 dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
-	 meanSpacerlength = meanSpacerlength + (meanSpacerlength * dev);
-	 sdSpacerlength = sdSpacerlength + (sdSpacerlength  * dev);
+	//	cout << "Varying traits! Spacers..." << endl;
+	double meanSpacerlength_, sdSpacerlength_;
+	do {
+		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
+		meanSpacerlength_ = meanSpacerlength + (meanSpacerlength * dev);
+		sdSpacerlength_ = sdSpacerlength + (sdSpacerlength * dev);
+	} while (dev < -1.0 || dev > 1.0 || meanSpacerlength_ < 0 || sdSpacerlength_ < 0);
+	meanSpacerlength = meanSpacerlength_;
+	sdSpacerlength = sdSpacerlength_;
+//	cout << "meanSpacerlength: " << meanSpacerlength << endl;
+//	cout << "sdSpacerlength: " << sdSpacerlength << endl;
+
+//	cout << "Done varying traits!" << endl;
+
 }
 
 string SPftTraits::toString()

@@ -18,7 +18,7 @@
  * @param bres belowground resources
  */
 CCell::CCell(const unsigned int xx,const unsigned int yy, double ares, double bres)
-:x(xx),y(yy),AResConc(ares),BResConc(bres),NPftA(0),NPftB(0),
+:x(xx),y(yy),AResConc(ares),BResConc(bres),NPftA(0),NPftB(0),aComp_weekly(0),bComp_weekly(0),
 occupied(false),PlantInCell(NULL)
 {
    AbovePlantList.clear();
