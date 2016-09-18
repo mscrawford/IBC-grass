@@ -3,7 +3,7 @@ import sys, os, subprocess, itertools, csv, copy, math, re, random
 class Base_Parameter():
     def __init__(self, IC_version, ITVsd, Tmax, ARes, Bres, 
         GrazProb, PropRemove, BelGrazMode, BelGrazStartYear, BelGrazWindow, BelGrazProb, BelPropRemove, 
-        DistAreaYear, AreaEvent, NCut, CutMass):
+        DistAreaYear, AreaEvent, NCut, CutMass, catastophicDistYear):
         self.IC_version = IC_version
         self.ITVsd = ITVsd
         self.Tmax = Tmax
@@ -20,6 +20,7 @@ class Base_Parameter():
         self.AreaEvent = AreaEvent
         self.NCut = NCut
         self.CutMass = CutMass
+        self.catastophicDistYear = catastophicDistYear
 
         if (self.GrazProb == 0 and self.PropRemove > 0 or self.GrazProb > 0 and self.PropRemove == 0):
             print "Nonsensical or redundant parameterization -- GrazProb and PropRemove."
@@ -53,7 +54,7 @@ class Base_Parameter():
     def toString(self):
         return " ".join(map(str, [self.IC_version, self.ITVsd, self.Tmax, self.ARes, self.Bres, 
             self.GrazProb, self.PropRemove, self.BelGrazMode, self.BelGrazStartYear, self.BelGrazWindow,
-            self.BelGrazProb, self.BelPropRemove, self.DistAreaYear, self.AreaEvent, self.NCut, self.CutMass]))
+            self.BelGrazProb, self.BelPropRemove, self.DistAreaYear, self.AreaEvent, self.NCut, self.CutMass, self.catastophicDistYear]))
 
 
 

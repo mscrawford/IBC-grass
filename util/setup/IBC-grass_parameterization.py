@@ -16,34 +16,41 @@ COMP_out = 0 # print comp grid
 N_SLOTS = 400
 
 path = "./tmp/"
-N_COMS = 30
-N_REPS = 5
-n_PFTs = 16
+N_COMS = 1
+N_REPS = 20
+n_PFTs = 0
+
+PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
 Sim_header = "NRep\n" + str(N_REPS) + "\nSimNr ComNr IC_vers ITVsd Tmax ARes Bres " + \
-                "GrazProb PropRemove BelGrazMode BelGrazStartYear BelGrazWindow BelGrazProb BelPropRemove DistAreaYear AreaEvent NCut CutMass " + \
+                "GrazProb PropRemove BelGrazMode BelGrazStartYear BelGrazWindow BelGrazProb BelPropRemove DistAreaYear AreaEvent NCut CutMass CatastrophicDistYear " + \
                 "SPATout SPAToutYear PFTout COMPout NameInitFile\n"
 
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                         "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
 
 ## These parameters are specific to the environment and "type" of the simulation
-base_params =  [[0, 1], # IC version
-                [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7], # ITVsd
-                [100, 1000], # Tmax
+# Some of these are contingent on the others to not be deemed, "redunant." This is a poor algorithm
+# and I need to rethink the implementation. I can't think of a better way to do it though, so maybe improve the "input" methodology
+# but not the backend? Maybe create this array behind the scenes and fill it out with some sort of text document.
+
+base_params =  [[1], # IC version
+                [0, 0.2], # ITVsd
+                [150], # Tmax
                 [100], # ARes
-                [90], # Bres
+                [30, 60, 90], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
-                [0], # BelGrazMode
-                [0], # BelGrazStartYear
-                [0], # BelGrazWindow
-                [0], # BelGrazProb
-                [0], # BelPropRemove
+                [0, 1], # BelGrazMode 
+                [0, 50, 51, 75], # BelGrazStartYear
+                [0, 5, 25], # BelGrazWindow
+                [0, 1], # BelGrazProb
+                [0, 0.1, 0.5, 0.75], # BelPropRemove
                 [0], # DistAreaYear
                 [0], # AreaEvent
                 [0], # NCut
-                [0]] # CutMass
+                [0], # CutMass
+                [0, 50]] # CatastrophicDisYear
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
@@ -91,25 +98,8 @@ PFType_params = [[100], # MaxAge
 #                 [0], # AllocSpacer
 #                 [0]] # mSpacer
 
-# Changing maxPlantSize set
-# PFType_params = [[100], # MaxAge
-#                 [0.05], # AllocSeed
-#                 [0.75], # LMR
-#                 [[1.0, 5000, 1.0, 0.1], # maxPlantSizeSet is a linked trait set
-#                  [0.1, 1000, 0.1, 0.6]], # Maximum plant size -- small
-#                 [0.5], # pEstab
-#                 [[40, 4]], # Resource response -- tolerator
-#                 [[0.50, 0.75]], # Grazing response -- avoider
-#                 [1], # RAR
-#                 [0.25], # growth
-#                 [0.2], # mThres
-#                 [0], # clonal
-#                 [0], # propSex
-#                 [0], # meanSpacerLength
-#                 [0], # sdSpacerLength
-#                 [0], # Resshare
-#                 [0], # AllocSpacer
-#                 [0]] # mSpacer
+
+
 
 
 
@@ -260,9 +250,11 @@ def makeEmpiricalPFTs():
 
 
 if __name__ == "__main__":
-    makeTheoreticalPFTs()
-    # makeEmpiricalPFTs()
-    
+    if (PFT_type == 0):
+        makeTheoreticalPFTs()
+    elif (PFT_type == 1):
+        makeEmpiricalPFTs()
+
     with open('IBC-grass_parameterization.py', 'r') as r:
         words = r.readlines()
         with open(path + 'param_doc.txt', 'w') as w:

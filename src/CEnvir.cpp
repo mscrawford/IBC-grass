@@ -143,6 +143,7 @@ int CEnvir::GetSim(const int pos, string file) {
 		>> SRunPara::RunPara.AreaEvent // Trampling
 		>> SRunPara::RunPara.NCut // Cutting Number of cuts per year
 		>> SRunPara::RunPara.CutMass // Cutting Amount of aboveground biomass removed per cut
+		>> SRunPara::RunPara.catastrophicDistYear // Year for catastrophic disturbace. Removes all aboveground biomass after seeds are dropped.
 		>> SRunPara::RunPara.SPAT // Print spatial grid
 		>> SRunPara::RunPara.SPATyear // Print spatial grid on a specific year
 		>> SRunPara::RunPara.PFT // Print PFT data

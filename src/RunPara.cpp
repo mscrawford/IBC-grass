@@ -26,7 +26,7 @@ SRunPara::SRunPara() :
 		GridSize(128), CellNum(128), Tmax(100), GrazProb(0), PropRemove(0.5),
 		BitSize(0.5), MassUngraz(15300), BelGrazProb(0), BelGrazStartYear(0),
 		BelGrazWindow(0), BelPropRemove(0), BelGrazMode(0),
-		BGThres(1), NCut(0), CutMass(5000), torus(true), DistAreaYear(0),
+		BGThres(1), NCut(0), CutMass(5000), catastrophicDistYear(0), torus(true), DistAreaYear(0),
 		AreaEvent(0.1), mort_seeds(0.5), meanARes(100), meanBRes(100),
 		Aampl(0), Bampl(0), SeedInput(0), SeedRainType(0)
 {
@@ -55,6 +55,7 @@ std::string SRunPara::toString(){
 			<< BelPropRemove << "\t"
 			<< NCut << "\t"
 			<< CutMass << "\t"
+			<< catastrophicDistYear << "\t"
 			<< DistAreaYear << "\t"
 			<< AreaEvent << "\t"
 			;
@@ -83,6 +84,7 @@ std::string SRunPara::headerToString() {
 			<< "BelPropRemove" << "\t"
 			<< "NCut" << "\t"
 			<< "CutMass" << "\t"
+			<< "catastrophicDistYear" << "\t"
 			<< "DistAreaYear" << "\t"
 			<< "AreaEvent" << "\t"
 			;
