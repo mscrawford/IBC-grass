@@ -105,6 +105,7 @@ public:
 ///@{
 	double CutMass;     //!< plant aboveground biomass for plants with LMR = 1.0
 	int NCut;          //!< number cuts per year
+	int catastrophicDistYear;
 ///@}
 
 	/** @name TramplingParam

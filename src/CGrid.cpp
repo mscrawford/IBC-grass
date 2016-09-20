@@ -755,11 +755,21 @@ bool CGrid::Disturb()
       int week = CEnvir::week;
       if (SRunPara::RunPara.NCut > 0){
          switch (SRunPara::RunPara.NCut){
-            case 1: if (week==22) Cutting(); break;
-            case 2: if ((week==22) || (week==10)) Cutting(); break;
-            case 3: if ((week==22) || (week==10) || (week==16)) Cutting(); break;
+            case 1: if (week==22) Cutting(SRunPara::RunPara.CutMass); break;
+            case 2: if ((week==22) || (week==10)) Cutting(SRunPara::RunPara.CutMass); break;
+            case 3: if ((week==22) || (week==10) || (week==16)) Cutting(SRunPara::RunPara.CutMass); break;
             default: cerr << "CGrid::Disturb() - wrong input"; exit(3);
          }
+      }
+      if (SRunPara::RunPara.catastrophicDistYear > 0 &&
+    		  CEnvir::year == SRunPara::RunPara.catastrophicDistYear) {
+    	  if (week == 22) {
+    			for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p) {
+    				CPlant* plant = *p;
+    				DeletePlant(plant);
+    			}
+    			PlantList.erase(PlantList.begin(), PlantList.end());
+    	  }
       }
       return true;
    }
@@ -823,25 +833,30 @@ void CGrid::Grazing()
   \change 28-10-2010 lw: quadriere LMR    #
   \change 18-11-2010 kk: gebe entfernte BM an Klassenvariable
   */
-void CGrid::Cutting()
+void CGrid::Cutting(double mass_cut)
 {
-	CPlant* pPlant;
 
-	double mass_cut = SRunPara::RunPara.CutMass;
+	CPlant* pPlant;
 	double mass_removed = 0;
 
 	for (plant_size i = 0; i < PlantList.size(); i++) {
 		pPlant = PlantList[i];
-		if (SRunPara::RunPara.ITV == on)
-			assert(pPlant->Traits->myTraitType == SPftTraits::individualized); // MSC
-		if (pPlant->mshoot / (pPlant->Traits->LMR * pPlant->Traits->LMR)
-				> mass_cut) {
+
+//		cout << "mass_cut setting: " << mass_cut << endl;
+//		cout << "New plant identifier: " << pPlant->plantID << endl;
+//		cout << "	Aboveground biomass: " << pPlant->mshoot << " mg" << endl;
+//		cout << " 	Reproductive biomass: " << pPlant->mRepro << " mg" << endl;
+//		cout << "	LMR^2: " << (pPlant->Traits->LMR * pPlant->Traits->LMR) << endl;
+
+		if (pPlant->mshoot / (pPlant->Traits->LMR * pPlant->Traits->LMR) > mass_cut) {
 			double to_leave = mass_cut
 					* (pPlant->Traits->LMR * pPlant->Traits->LMR);
 			//doc biomass removed
 			mass_removed += pPlant->mshoot - to_leave + pPlant->mRepro;
 			pPlant->mshoot = to_leave;
 			pPlant->mRepro = 0.0;
+
+//			cout << " 	THIS PLANT WAS CUT TO: " << pPlant->mshoot << endl;
 		}
 	}
 	cutted_BM += mass_removed;
@@ -920,12 +935,13 @@ void CGrid::GrazingBelGr(const int mode)
       if (!PlantsToGraze[i]->dead) aboveDom[PlantsToGraze[i]->pft()]+=PlantsToGraze[i]->mshoot;
 
     double TotalBelowMass=GetTotalBelowMass();
+    cout << "totalbelowmass: " << TotalBelowMass << endl;
     //see Grazing(), but no information for belowground grazing
-    double ResidualMass=0;
+    double ResidualMass=0; // MSC: THIS VARIABLE IS NEVER SET TO ANYTHING OTHER THAN 0. WHAT IS ITS INTENDED PURPOSE?
     double MassRemoved=0;
     //maximal removal of biomass
     double MaxMassRemove=TotalBelowMass*SRunPara::RunPara.BelPropRemove;
-    MaxMassRemove=min(TotalBelowMass-ResidualMass,MaxMassRemove);
+    MaxMassRemove=min(TotalBelowMass-ResidualMass,MaxMassRemove); // MSC: MaxMassRemove WILL ALWAYS BE LESS, BECAUSE "TotalBelowMass-ResidualMass" WILL ALWAYS BE "TotalBelowMass - 0."
     while(MassRemoved<MaxMassRemove){
       double max_value=0;
       double mass_remove_start=MassRemoved;//remember value started

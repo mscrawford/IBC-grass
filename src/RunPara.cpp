@@ -23,11 +23,11 @@ SRunPara::SRunPara() :
 		Version(version1), ITV(off), ITVsd(0),
 		AboveCompMode(sym), BelowCompMode(sym), PFT(1), SPAT(0), SPATyear(0), COMP(0),
 		mort_base(0.007), LitterDecomp(0.5), DiebackWinter(0.5), EstabRamet(1),
-		GridSize(128), CellNum(128), Tmax(100), GrazProb(0), PropRemove(0.5),
+		GridSize(128), CellNum(128), Tmax(100), GrazProb(0.2), PropRemove(0.5),
 		BitSize(0.5), MassUngraz(15300), BelGrazProb(0), BelGrazStartYear(0),
 		BelGrazWindow(0), BelPropRemove(0), BelGrazMode(0),
-		BGThres(1), NCut(0), CutMass(5000), torus(true), DistAreaYear(0),
-		AreaEvent(0.1), mort_seeds(0.5), meanARes(100), meanBRes(100),
+		BGThres(1), NCut(0), CutMass(0), catastrophicDistYear(0), torus(true), DistAreaYear(0),
+		AreaEvent(0), mort_seeds(0.5), meanARes(100), meanBRes(100),
 		Aampl(0), Bampl(0), SeedInput(0), SeedRainType(0)
 {
 	;
@@ -48,15 +48,12 @@ std::string SRunPara::toString(){
 			<< meanBRes << "\t"
 			<< GrazProb << "\t"
 			<< PropRemove << "\t"
-			<< BelGrazMode << "\t"
+			<< BelGrazProb << "\t"
 			<< BelGrazStartYear << "\t"
 			<< BelGrazWindow << "\t"
-			<< BelGrazProb << "\t"
+			<< BelGrazMode << "\t"
 			<< BelPropRemove << "\t"
-			<< NCut << "\t"
-			<< CutMass << "\t"
-			<< DistAreaYear << "\t"
-			<< AreaEvent << "\t"
+			<< catastrophicDistYear << "\t"
 			;
 
 	return mystream.str();
@@ -76,15 +73,12 @@ std::string SRunPara::headerToString() {
 			<< "BRes" << "\t"
 			<< "GrazProb" << "\t"
 			<< "PropRemove" << "\t"
-			<< "BelGrazMode" << "\t"
+			<< "BelGrazProb" << "\t"
 			<< "BelGrazStartYear" << "\t"
 			<< "BelGrazWindow" << "\t"
-			<< "BelGrazProb" << "\t"
+			<< "BelGrazMode" << "\t"
 			<< "BelPropRemove" << "\t"
-			<< "NCut" << "\t"
-			<< "CutMass" << "\t"
-			<< "DistAreaYear" << "\t"
-			<< "AreaEvent" << "\t"
+			<< "catastrophicDistYear" << "\t"
 			;
 
 	return mystream.str();
