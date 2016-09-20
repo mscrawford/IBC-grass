@@ -761,9 +761,14 @@ bool CGrid::Disturb()
             default: cerr << "CGrid::Disturb() - wrong input"; exit(3);
          }
       }
-      if (SRunPara::RunPara.catastrophicDistYear > 0) {
+      if (SRunPara::RunPara.catastrophicDistYear > 0 &&
+    		  CEnvir::year == SRunPara::RunPara.catastrophicDistYear) {
     	  if (week == 22) {
-    		  Cutting();
+    			for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p) {
+    				CPlant* plant = *p;
+    				DeletePlant(plant);
+    			}
+    			PlantList.erase(PlantList.begin(), PlantList.end());
     	  }
       }
       return true;
@@ -837,11 +842,11 @@ void CGrid::Cutting(double mass_cut)
 	for (plant_size i = 0; i < PlantList.size(); i++) {
 		pPlant = PlantList[i];
 
-		cout << "mass_cut setting: " << mass_cut << endl;
-		cout << "New plant identifier: " << pPlant->plantID << endl;
-		cout << "	Aboveground biomass: " << pPlant->mshoot << " mg" << endl;
-		cout << " 	Reproductive biomass: " << pPlant->mRepro << " mg" << endl;
-		cout << "	LMR^2: " << (pPlant->Traits->LMR * pPlant->Traits->LMR) << endl;
+//		cout << "mass_cut setting: " << mass_cut << endl;
+//		cout << "New plant identifier: " << pPlant->plantID << endl;
+//		cout << "	Aboveground biomass: " << pPlant->mshoot << " mg" << endl;
+//		cout << " 	Reproductive biomass: " << pPlant->mRepro << " mg" << endl;
+//		cout << "	LMR^2: " << (pPlant->Traits->LMR * pPlant->Traits->LMR) << endl;
 
 		if (pPlant->mshoot / (pPlant->Traits->LMR * pPlant->Traits->LMR) > mass_cut) {
 			double to_leave = mass_cut
@@ -851,7 +856,7 @@ void CGrid::Cutting(double mass_cut)
 			pPlant->mshoot = to_leave;
 			pPlant->mRepro = 0.0;
 
-			cout << " 	THIS PLANT WAS CUT TO: " << pPlant->mshoot << endl;
+//			cout << " 	THIS PLANT WAS CUT TO: " << pPlant->mshoot << endl;
 		}
 	}
 	cutted_BM += mass_removed;
@@ -930,12 +935,13 @@ void CGrid::GrazingBelGr(const int mode)
       if (!PlantsToGraze[i]->dead) aboveDom[PlantsToGraze[i]->pft()]+=PlantsToGraze[i]->mshoot;
 
     double TotalBelowMass=GetTotalBelowMass();
+    cout << "totalbelowmass: " << TotalBelowMass << endl;
     //see Grazing(), but no information for belowground grazing
-    double ResidualMass=0;
+    double ResidualMass=0; // MSC: THIS VARIABLE IS NEVER SET TO ANYTHING OTHER THAN 0. WHAT IS ITS INTENDED PURPOSE?
     double MassRemoved=0;
     //maximal removal of biomass
     double MaxMassRemove=TotalBelowMass*SRunPara::RunPara.BelPropRemove;
-    MaxMassRemove=min(TotalBelowMass-ResidualMass,MaxMassRemove);
+    MaxMassRemove=min(TotalBelowMass-ResidualMass,MaxMassRemove); // MSC: MaxMassRemove WILL ALWAYS BE LESS, BECAUSE "TotalBelowMass-ResidualMass" WILL ALWAYS BE "TotalBelowMass - 0."
     while(MassRemoved<MaxMassRemove){
       double max_value=0;
       double mass_remove_start=MassRemoved;//remember value started

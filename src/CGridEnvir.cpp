@@ -137,6 +137,7 @@ void CGridEnvir::OneWeek() {
 
 	if ((SRunPara::RunPara.SeedRainType > 0) && (week == 21)) //seed rain in seed dispersal week
 		SeedRain();
+
 	EstabLottery();         //for seeds and ramets
 
 	if (week == 20)

@@ -127,22 +127,18 @@ int CEnvir::GetSim(const int pos, string file) {
 	SimFile
 		>> SimNr // Simulation number
 		>> ComNr // Community number
-		>> IC_version // Stabilizing mechan isms
+		>> IC_version // Stabilizing mechanisms
 		>> SRunPara::RunPara.ITVsd // Standard deviation of intraspecific variation
 		>> SRunPara::RunPara.Tmax // End of run year
 		>> SRunPara::RunPara.meanARes // Aboveground resources
 		>> SRunPara::RunPara.meanBRes  // Belowground resources
 		>> SRunPara::RunPara.GrazProb // Aboveground grazing: probability
 		>> SRunPara::RunPara.PropRemove // Aboveground grazing: proportion of biomass removed
-		>> SRunPara::RunPara.BelGrazMode // Belowground grazing: mode
+		>> SRunPara::RunPara.BelGrazProb // Belowground grazing: probability
 		>> SRunPara::RunPara.BelGrazStartYear // Belowground grazing: year of herbivory introduction
 		>> SRunPara::RunPara.BelGrazWindow // Belowground grazing: timespan in which herbivory takes place
-		>> SRunPara::RunPara.BelGrazProb // Belowground grazing: probability
+		>> SRunPara::RunPara.BelGrazMode // Belowground grazing: mode
 		>> SRunPara::RunPara.BelPropRemove // Belowground grazing: proportion of biomass removed
-		>> SRunPara::RunPara.DistAreaYear // Trampling: Percentage of grid disturbed per year
-		>> SRunPara::RunPara.AreaEvent // Trampling
-		>> SRunPara::RunPara.NCut // Cutting Number of cuts per year
-		>> SRunPara::RunPara.CutMass // Cutting Amount of aboveground biomass removed per cut
 		>> SRunPara::RunPara.catastrophicDistYear // Year for catastrophic disturbace. Removes all aboveground biomass after seeds are dropped.
 		>> SRunPara::RunPara.SPAT // Print spatial grid
 		>> SRunPara::RunPara.SPATyear // Print spatial grid on a specific year
