@@ -9,8 +9,8 @@ import util
 from util import *
 
 PARALLEL = True
-SPAT_out = 1 # print spatial grid
-SPAT_out_year = 175 # Which year to print the spatial grid, 0 for every year
+SPAT_out = 0 # print spatial grid
+SPAT_out_year = 0 # Which year to print the spatial grid, 0 for every year
 PFT_out = 1 # print PFT output
 COMP_out = 0 # print comp grid
 N_SLOTS = 400
@@ -36,17 +36,17 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 
 base_params =  [[1], # IC version
                 [0], # ITVsd
-                [175], # Tmax
+                [100], # Tmax
                 [100], # ARes
                 [30, 60, 90], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
                 [0, 1], # BelGrazProb
-                [50, 55, 100], # BelGrazStartYear
+                [0, 50], # BelGrazStartYear
                 [0, 5, 25], # BelGrazWindow
                 [0], # BelGrazMode
                 [0, 0.1, 0.5, 0.75], # BelPropRemove
-                [50]] # CatastrophicDisYear
+                [0, 50]] # CatastrophicDisYear
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
@@ -95,10 +95,6 @@ PFType_params = [[100], # MaxAge
 #                 [0]] # mSpacer
 
 
-
-
-
-
 def buildBatchScripts(SimFile, n_cores, path, Sim_header):
     sims_per_core = int(math.ceil(len(SimFile)/float(n_cores)))
     sim_files = []
@@ -124,10 +120,6 @@ def buildBatchScripts(SimFile, n_cores, path, Sim_header):
             with open('./tmp/' + batch_name + ".sub", 'w') as w:
                 w.write(re.sub('@SIMFILE@', replace_string, base))
             batch_number += 1
-
-
-
-
 
 
 def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
@@ -162,7 +154,8 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
             sim_filename = base_simID + "_" + "COM" + ".txt"
 
             # community's SimFile entry
-            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), str(SPAT_out), str(SPAT_out_year), str(PFT_out), str(COMP_out), sim_filename, "\n"]))
+            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), 
+                str(SPAT_out), str(SPAT_out_year), str(PFT_out), str(COMP_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 
@@ -183,10 +176,6 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
         with open(path + "SimFile.txt", 'w') as w:
             w.write(Sim_header)
             w.writelines(sim for sim in SimFile)
-
-
-
-
 
 
 def makeEmpiricalPFTs():
@@ -219,7 +208,8 @@ def makeEmpiricalPFTs():
             sim_filename = base_simID + "_" + "COM" + ".txt"
 
             # community's SimFile entry
-            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), str(SPAT_out), str(SPAT_out_year), str(PFT_out), str(COMP_out), sim_filename, "\n"]))
+            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), 
+                str(SPAT_out), str(SPAT_out_year), str(PFT_out), str(COMP_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 
@@ -239,10 +229,6 @@ def makeEmpiricalPFTs():
         with open(path + "SimFile.txt", 'w') as w:
             w.write(Sim_header)
             w.writelines(sim for sim in SimFile)
-
-
-
-
 
 
 if __name__ == "__main__":
