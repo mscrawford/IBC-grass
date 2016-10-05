@@ -373,6 +373,7 @@ void CEnvir::WritePftComplete(bool allYears) {
 					<< "ComNr" << "\t"
 					<< "RunNr" << "\t"
 					<< "Year" << "\t"
+					<< "Week" << "\t"
 					<< SRunPara::headerToString()
 					<< SPftTraits::headerToString()
 					<< "Nind" << "\t"
@@ -384,21 +385,25 @@ void CEnvir::WritePftComplete(bool allYears) {
 		}
 
 		vector<SPftOut>::size_type i = 0;
-		if (!allYears)
-			i = PftOutData.size() - 1;
+		while (PftOutData[i]->year < year)
+			i++;
 		for (i; i < PftOutData.size(); ++i)
 		{
+			cout << "i: " << i << "; year: " << year << "; week: " << week << endl;
 			typedef map<string, SPftOut::SPftSingle*> mapType;
 			for (mapType::const_iterator it = PftOutData[i]->PFT.begin();
 					it != PftOutData[i]->PFT.end(); ++it)
 			{
-
 				SPftTraits* traits = SPftTraits::PftLinkList.find(it->first)->second;
+
+				cout << "PftOutData[i]->year: " << PftOutData[i]->year << " and week " << PftOutData[i]->week <<endl;
+
 				PftOutFile
 							<< SimNr << "\t"
 							<< ComNr << "\t"
 							<< RunNr << "\t"
-							<< i << "\t"
+							<< PftOutData[i]->year << "\t"
+							<< PftOutData[i]->week << "\t"
 							<< SRunPara::RunPara.toString()
 							<< traits->toString()
 							<< it->second->Nind << "\t"

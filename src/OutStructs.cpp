@@ -8,7 +8,9 @@
 /**
  * constructor
  */
-SPftOut::SPftOut():week(CEnvir::week){//GetT()){
+SPftOut::SPftOut(){//GetT()){
+	year = CEnvir::year;
+	week = CEnvir::week;
 }//end PftOut constructor
 //-----------------------------------
 /**
@@ -31,7 +33,7 @@ SPftOut::SPftSingle::SPftSingle():cover(0),Nind(0),Nseeds(0),
 /**
  * constructor
  */
-SGridOut::SGridOut():week(CEnvir::week),//GetT()),
+SGridOut::SGridOut():year(CEnvir::year), week(CEnvir::week),//GetT()),
   above_mass(0),below_mass(0),
   aresmean(0),bresmean(0),bareGround(0),Nind(0),PftCount(0),shannon(0), totmass(0),cutted(0),
   MclonalPlants(0),MeanGeneration(0),MeanGenetsize(0),
