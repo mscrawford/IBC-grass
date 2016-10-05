@@ -148,9 +148,9 @@ void CGridEnvir::OneWeek() {
 		SeedMortWinter();    //winter seed mortality
 	}
 
-	if (week == 20) {        //general output
+//	if (week == 20) {        //general output
 		GetOutput();   //calculate output variables
-	}
+//	}
 
 	if (week == 30) {
 		//get cutted biomass
@@ -195,8 +195,8 @@ void CGridEnvir::GetOutput() //PftOut& PftData, SGridOut& GridData)
 	double prop_PFT;
 
 	SPftOut* PftWeek = new SPftOut();
-
 	SGridOut* GridWeek = new SGridOut();
+
 	//calculate sums
 	for (plant_iter iplant = PlantList.begin(); iplant < PlantList.end();
 			++iplant) {

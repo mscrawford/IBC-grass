@@ -8,7 +8,7 @@ import util
 
 from util import *
 
-PARALLEL = True
+PARALLEL = False
 SPAT_out = 0 # print spatial grid
 SPAT_out_year = 0 # Which year to print the spatial grid, 0 for every year
 PFT_out = 1 # print PFT output
@@ -17,7 +17,7 @@ N_SLOTS = 400
 
 path = "./tmp/"
 N_COMS = 1
-N_REPS = 30
+N_REPS = 1
 n_PFTs = 0
 
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
@@ -38,14 +38,14 @@ base_params =  [[1], # IC version
                 [0], # ITVsd
                 [100], # Tmax
                 [100], # ARes
-                [30, 60, 90], # Bres
+                [60], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
                 [0, 1], # BelGrazProb
                 [0, 50], # BelGrazStartYear
-                [0, 5, 25], # BelGrazWindow
+                [0], # BelGrazWindow
                 [0], # BelGrazMode
-                [0, 0.1, 0.5, 0.75], # BelPropRemove
+                [0, 0.5], # BelPropRemove
                 [0, 50]] # CatastrophicDisYear
 
 # These parameters are specific to each plant functional type. That is, this details the composition
