@@ -1,7 +1,7 @@
 import sys, os, subprocess, itertools, csv, copy, math, re, random
 
 class Base_Parameter():
-    def __init__(self, IC_version, ITVsd, Tmax, ARes, Bres, 
+    def __init__(self, IC_version, ITVsd, Tmax, ARes, Bres, CutHeight,
         GrazProb, PropRemove, 
         BelGrazProb, BelGrazStartYear, BelGrazWindow, BelGrazMode, BelPropRemove, 
         catastophicDistYear):
@@ -10,6 +10,7 @@ class Base_Parameter():
         self.Tmax = Tmax
         self.ARes = ARes
         self.Bres = Bres
+        self.CutHeight = CutHeight
         self.GrazProb = GrazProb
         self.PropRemove = PropRemove
         self.BelGrazProb = BelGrazProb
@@ -18,6 +19,11 @@ class Base_Parameter():
         self.BelGrazMode = BelGrazMode
         self.BelPropRemove = BelPropRemove
         self.catastophicDistYear = catastophicDistYear
+
+        # This only applies to Wireworm scenarios
+        if (self.catastophicDistYear == 0 and self.CutHeight > 0 or self.catastophicDistYear > 0 and self.CutHeight == 0):
+            print "Nonsensical or redundant parameterization -- catastrophicDistYear and CutHeight."
+            raise Exception("Nonsensical or redundant parameterization")
 
         if (self.GrazProb == 0 and self.PropRemove > 0 or self.GrazProb > 0 and self.PropRemove == 0):
             print "Nonsensical or redundant parameterization -- GrazProb and PropRemove."
@@ -37,7 +43,7 @@ class Base_Parameter():
 
     def toString(self):
         return " ".join(map(str, [self.IC_version, self.ITVsd, self.Tmax, self.ARes, 
-            self.Bres, self.GrazProb, self.PropRemove, self.BelGrazProb, self.BelGrazStartYear, 
+            self.Bres, self.CutHeight, self.GrazProb, self.PropRemove, self.BelGrazProb, self.BelGrazStartYear, 
             self.BelGrazWindow, self.BelGrazMode, self.BelPropRemove, self.catastophicDistYear]))
 
 

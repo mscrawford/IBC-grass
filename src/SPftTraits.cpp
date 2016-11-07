@@ -130,14 +130,14 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 	SPftTraits::PftLinkList.clear();
 
 	//Open InitFile
-	cout << file << endl;
+	if(SRunPara::RunPara.verbose) cout << file << endl;
 	ifstream InitFile(file.c_str());
 	if (!InitFile.good()) {
 		cerr << ("Fehler beim �ffnen InitFile");
 		cerr << file.c_str();
 		exit(3);
 	}
-	cout << "InitFile: " << file << endl;
+	if(SRunPara::RunPara.verbose) cout << "InitFile: " << file << endl;
 
 	string line;
 	getline(InitFile, line); //skip header line

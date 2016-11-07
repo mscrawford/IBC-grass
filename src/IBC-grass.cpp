@@ -45,7 +45,7 @@ with following structure:
   -# DistAreaYear: Trampling
   -# AreaEvent: Trampling
   -# NCut: Cutting number of Cuttings
-  -# CutMass: residual Mass - Cutting depth
+  -# CutHeight: Height to cut plants to
   -# SeedRainType SRunPara::SeedRainType
   -# SeedInput SRunPara::SeedInput
   -# file name of PFT-definitions (SRunPara::NamePftFile)
@@ -128,15 +128,15 @@ int main(int argc, char* argv[]) {
 		SRunPara::NameSimFile = "data/in/SimFile.txt";
 	}
 
-	cout << "New Environment...\n";
+	if(SRunPara::RunPara.verbose) cout << "New Environment...\n";
 	Envir = new CGridEnvir();
 
 	//do simulations specified in input-file
 	int lpos = Envir->GetSim();
 	do {
-		cout << "Simulation No. " << Envir->SimNr << "\n";
+		if(SRunPara::RunPara.verbose) cout << "Simulation No. " << Envir->SimNr << "\n";
 		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++) {
-			cout << "Run " << Envir->RunNr + 1 << " \n";
+			if(SRunPara::RunPara.verbose) cout << "Run " << Envir->RunNr + 1 << " \n";
 			Envir->InitRun();
 			Envir->OneRun();
 		}

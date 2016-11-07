@@ -103,7 +103,7 @@ int CEnvir::GetSim(const int pos, string file) {
 		cerr << ("error opening SimFile");
 		exit(3);
 	}
-	cout << "SimFile: " << SRunPara::NameSimFile << endl;
+	if(SRunPara::RunPara.verbose) cout << "SimFile: " << SRunPara::NameSimFile << endl;
 	int lpos = pos;
 	if (pos == 0) {  //read header
 		string line; // file_id not used here
@@ -132,6 +132,7 @@ int CEnvir::GetSim(const int pos, string file) {
 		>> SRunPara::RunPara.Tmax // End of run year
 		>> SRunPara::RunPara.meanARes // Aboveground resources
 		>> SRunPara::RunPara.meanBRes  // Belowground resources
+		>> SRunPara::RunPara.CutHeight // Cut Mass left after mowing (Wireworm herb.)
 		>> SRunPara::RunPara.GrazProb // Aboveground grazing: probability
 		>> SRunPara::RunPara.PropRemove // Aboveground grazing: proportion of biomass removed
 		>> SRunPara::RunPara.BelGrazProb // Belowground grazing: probability
@@ -389,14 +390,14 @@ void CEnvir::WritePftComplete(bool allYears) {
 			i++;
 		for (i; i < PftOutData.size(); ++i)
 		{
-			cout << "i: " << i << "; year: " << year << "; week: " << week << endl;
+			if(SRunPara::RunPara.verbose) cout << "i: " << i << "; year: " << year << "; week: " << week << endl;
 			typedef map<string, SPftOut::SPftSingle*> mapType;
 			for (mapType::const_iterator it = PftOutData[i]->PFT.begin();
 					it != PftOutData[i]->PFT.end(); ++it)
 			{
 				SPftTraits* traits = SPftTraits::PftLinkList.find(it->first)->second;
 
-				cout << "PftOutData[i]->year: " << PftOutData[i]->year << " and week " << PftOutData[i]->week <<endl;
+//				cout << "PftOutData[i]->year: " << PftOutData[i]->year << " and week " << PftOutData[i]->week <<endl;
 
 				PftOutFile
 							<< SimNr << "\t"

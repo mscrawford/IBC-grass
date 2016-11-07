@@ -132,10 +132,17 @@ public:
 /// \bug since mass relates to 3D-measurements as volume,
 ///   height has to be correlated with mass^(1/3)
 ///
-	virtual double getHeight(double const cheight = 6.5) {
-		return pow(mshoot / (Traits->LMR), 1 / 3.0) * cheight;
+	virtual double getHeight(double const height_conversion_constant = 6.5) {
+		return pow(mshoot / (Traits->LMR), 1 / 3.0) * height_conversion_constant;
 	}
 	;
+
+	// MSC: This is derived from "CPlant::getHeight"
+	virtual double getBiomassAtHeight(double const height, double const height_conversion_constant = 6.5)
+	{
+		return ( (pow(height, 3) * Traits->LMR) / pow(height_conversion_constant, 3) );
+	}
+
 	virtual int GetNSeeds(); //!< returns number of seeds of one plant individual
 
 //-----clonal...

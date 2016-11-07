@@ -69,7 +69,7 @@ void CGridEnvir::InitInds(string file) {
 		InitClonalSeeds(traits, no_init_seeds);
 		PftInitList[traits->name] += no_init_seeds;
 		PftSurvTime[traits->name] = 0;
-		cout << "Initializing " << no_init_seeds << " seeds of PFT: " << traits->name << endl;
+		if(SRunPara::RunPara.verbose) cout << "Initializing " << no_init_seeds << " seeds of PFT: " << traits->name << endl;
 		CEnvir::SeedRainGr.PftSeedRainList[traits->name] = SRunPara::RunPara.SeedInput;
 	}
 } //initialization based on file
@@ -88,7 +88,7 @@ void CGridEnvir::OneRun() {
 
 	do {
 		this->NewWeek();
-		cout << "y " << year << endl;
+		if(SRunPara::RunPara.verbose) cout << "y " << year << endl;
 
 		OneYear();
 
@@ -108,7 +108,7 @@ void CGridEnvir::OneRun() {
  */
 void CGridEnvir::OneYear() {
 	do {
-		cout << "y " << year << " w " << week << endl;
+		if(SRunPara::RunPara.verbose) cout << "y " << year << " w " << week << endl;
 		OneWeek();
 		exitConditions();
 		if (endofrun)
@@ -148,9 +148,9 @@ void CGridEnvir::OneWeek() {
 		SeedMortWinter();    //winter seed mortality
 	}
 
-//	if (week == 20) {        //general output
+	if (week == 20) {        //general output
 		GetOutput();   //calculate output variables
-//	}
+	}
 
 	if (week == 30) {
 		//get cutted biomass

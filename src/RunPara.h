@@ -36,6 +36,9 @@ enum ITV_version {
 //! Structure with all scenario parameters
 struct SRunPara {
 public:
+
+	bool verbose = true;
+
 	//Input Files
 	static std::string NamePftFile;   ///< Filename of PftTrait-File
 	static std::string NameSimFile;  ///< Filename of Simulation-File
@@ -103,7 +106,7 @@ public:
 	 *  Cutting parameters
 	 */
 ///@{
-	double CutMass;     //!< plant aboveground biomass for plants with LMR = 1.0
+	double CutHeight;     //!< Height to move the grassland to
 	int NCut;          //!< number cuts per year
 	int catastrophicDistYear;
 ///@}

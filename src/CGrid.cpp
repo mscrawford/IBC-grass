@@ -739,41 +739,71 @@ void CGrid::SeedMortAge()
 */
 bool CGrid::Disturb()
 {
-   if (PlantList.size()>0){
-      if (CEnvir::rand01() < SRunPara::RunPara.GrazProb){
-         Grazing();
-      }
-      if (CEnvir::rand01() < SRunPara::RunPara.DistProb()){
-         Trampling();
-      }
-      if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb &&
-    		  CEnvir::year >= SRunPara::RunPara.BelGrazStartYear &&
-			  (CEnvir::year < SRunPara::RunPara.BelGrazStartYear + SRunPara::RunPara.BelGrazWindow ||
-					 SRunPara::RunPara.BelGrazWindow == 0)){
-         GrazingBelGr(SRunPara::RunPara.BelGrazMode);
-      }
-      int week = CEnvir::week;
-      if (SRunPara::RunPara.NCut > 0){
-         switch (SRunPara::RunPara.NCut){
-            case 1: if (week==22) Cutting(SRunPara::RunPara.CutMass); break;
-            case 2: if ((week==22) || (week==10)) Cutting(SRunPara::RunPara.CutMass); break;
-            case 3: if ((week==22) || (week==10) || (week==16)) Cutting(SRunPara::RunPara.CutMass); break;
-            default: cerr << "CGrid::Disturb() - wrong input"; exit(3);
-         }
-      }
-      if (SRunPara::RunPara.catastrophicDistYear > 0 &&
-    		  CEnvir::year == SRunPara::RunPara.catastrophicDistYear) {
-    	  if (week == 22) {
-    			for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p) {
-    				CPlant* plant = *p;
-    				DeletePlant(plant);
-    			}
-    			PlantList.erase(PlantList.begin(), PlantList.end());
-    	  }
-      }
-      return true;
-   }
-   else return false;
+	if (PlantList.size() > 0) {
+
+		if (CEnvir::rand01() < SRunPara::RunPara.GrazProb) {
+			Grazing();
+		}
+
+		if (CEnvir::rand01() < SRunPara::RunPara.DistProb()) {
+			Trampling();
+		}
+
+		/**
+		 * If:
+		 * 		The probability is triggered
+		 * 		The year is after the "belowground grazing start year"
+		 * 		The year is either:
+		 * 			Before the window expires
+		 * 			There is no window and belowground infestation is permanent
+		 *
+		 */
+		if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb
+				&& CEnvir::year >= SRunPara::RunPara.BelGrazStartYear
+				&& (CEnvir::year < SRunPara::RunPara.BelGrazStartYear + SRunPara::RunPara.BelGrazWindow
+						|| SRunPara::RunPara.BelGrazWindow == 0))
+		{
+			GrazingBelGr(SRunPara::RunPara.BelGrazMode);
+		}
+
+		if (SRunPara::RunPara.NCut > 0) {
+			switch (SRunPara::RunPara.NCut) {
+			case 1:
+				if (CEnvir::week == 22)
+					Cutting(SRunPara::RunPara.CutHeight);
+				break;
+			case 2:
+				if ((CEnvir::week == 22) || (CEnvir::week == 10))
+					Cutting(SRunPara::RunPara.CutHeight);
+				break;
+			case 3:
+				if ((CEnvir::week == 22) || (CEnvir::week == 10) || (CEnvir::week == 16))
+					Cutting(SRunPara::RunPara.CutHeight);
+				break;
+			default:
+				cerr << "CGrid::Disturb() - wrong input";
+				exit(3);
+			}
+		}
+
+		if (SRunPara::RunPara.catastrophicDistYear > 0 // Catastrophic disturbance is on
+				&& CEnvir::year == SRunPara::RunPara.catastrophicDistYear // It is the disturbance year
+				&& CEnvir::week == 22) // It is the disturbance week
+		{
+
+			Cutting(SRunPara::RunPara.CutHeight);
+
+//    		  // This is code to remove all below- and above-ground biomass
+//    			for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p) {
+//    				CPlant* plant = *p;
+//    				DeletePlant(plant);
+//    			}
+//    			PlantList.erase(PlantList.begin(), PlantList.end());
+
+		}
+		return true;
+	} else
+		return false;
 }//end Disturb
 
 //-----------------------------------------------------------------------------
@@ -833,30 +863,33 @@ void CGrid::Grazing()
   \change 28-10-2010 lw: quadriere LMR    #
   \change 18-11-2010 kk: gebe entfernte BM an Klassenvariable
   */
-void CGrid::Cutting(double mass_cut)
+void CGrid::Cutting(double cut_height)
 {
+	if(SRunPara::RunPara.verbose) cout << "In CGrid::Cutting" << endl;
 
-	CPlant* pPlant;
+	CPlant* p;
 	double mass_removed = 0;
 
 	for (plant_size i = 0; i < PlantList.size(); i++) {
-		pPlant = PlantList[i];
+		p = PlantList[i];
 
-//		cout << "mass_cut setting: " << mass_cut << endl;
-//		cout << "New plant identifier: " << pPlant->plantID << endl;
-//		cout << "	Aboveground biomass: " << pPlant->mshoot << " mg" << endl;
-//		cout << " 	Reproductive biomass: " << pPlant->mRepro << " mg" << endl;
-//		cout << "	LMR^2: " << (pPlant->Traits->LMR * pPlant->Traits->LMR) << endl;
+		assert(cut_height != 0 && "In CGrid::Cutting, but cut_height is 0.");
 
-		if (pPlant->mshoot / (pPlant->Traits->LMR * pPlant->Traits->LMR) > mass_cut) {
-			double to_leave = mass_cut
-					* (pPlant->Traits->LMR * pPlant->Traits->LMR);
-			//doc biomass removed
-			mass_removed += pPlant->mshoot - to_leave + pPlant->mRepro;
-			pPlant->mshoot = to_leave;
-			pPlant->mRepro = 0.0;
+		if (p->getHeight() > cut_height)
+		{
+			double biomass_at_height = p->getBiomassAtHeight(cut_height);
 
-//			cout << " 	THIS PLANT WAS CUT TO: " << pPlant->mshoot << endl;
+			if(SRunPara::RunPara.verbose) cout << "Current plant height: " << p->getHeight() << endl;
+			if(SRunPara::RunPara.verbose) cout << "LMR: " << p->Traits->LMR << endl;
+			if(SRunPara::RunPara.verbose) cout << "Current aboveground plant mass: " << p->mshoot << endl;
+			if(SRunPara::RunPara.verbose) cout << "Mass to be below " << cut_height << " cm: " << biomass_at_height << endl;
+
+			mass_removed = p->mshoot - biomass_at_height;
+			p->mshoot = biomass_at_height;
+			p->mRepro = 0.0;
+
+			if(SRunPara::RunPara.verbose) cout << "Mass removed: " << mass_removed << endl;
+			if(SRunPara::RunPara.verbose) cout << "New plant height: " << p->getHeight() << endl;
 		}
 	}
 	cutted_BM += mass_removed;
@@ -935,7 +968,7 @@ void CGrid::GrazingBelGr(const int mode)
       if (!PlantsToGraze[i]->dead) aboveDom[PlantsToGraze[i]->pft()]+=PlantsToGraze[i]->mshoot;
 
     double TotalBelowMass=GetTotalBelowMass();
-    cout << "totalbelowmass: " << TotalBelowMass << endl;
+    if(SRunPara::RunPara.verbose) cout << "totalbelowmass: " << TotalBelowMass << endl;
     //see Grazing(), but no information for belowground grazing
     double ResidualMass=0; // MSC: THIS VARIABLE IS NEVER SET TO ANYTHING OTHER THAN 0. WHAT IS ITS INTENDED PURPOSE?
     double MassRemoved=0;
@@ -1000,7 +1033,7 @@ void CGrid::GrazingBelGr(const int mode)
       }
       // .. to prevent endless loops...
       if(mass_remove_start>=MassRemoved){
-        cout<<" no more roots found - diff: "
+    	  if(SRunPara::RunPara.verbose) cout<<" no more roots found - diff: "
             <<(1-MassRemoved/MaxMassRemove)<<" - ";
         break;
       }
