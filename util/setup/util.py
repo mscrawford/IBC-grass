@@ -4,7 +4,7 @@ class Base_Parameter():
     def __init__(self, IC_version, ITVsd, Tmax, ARes, Bres, CutHeight,
         GrazProb, PropRemove, 
         BelGrazProb, BelGrazStartYear, BelGrazWindow, BelGrazMode, BelPropRemove, 
-        catastophicDistYear):
+        catastophicDistYear, CatastrophicPlantMortality, CatastrophicSeedMortality):
         self.IC_version = IC_version
         self.ITVsd = ITVsd
         self.Tmax = Tmax
@@ -19,10 +19,18 @@ class Base_Parameter():
         self.BelGrazMode = BelGrazMode
         self.BelPropRemove = BelPropRemove
         self.catastophicDistYear = catastophicDistYear
+        self.CatastrophicPlantMortality = CatastrophicPlantMortality
+        self.CatastrophicSeedMortality = CatastrophicSeedMortality
 
         # This only applies to Wireworm scenarios
-        if (self.catastophicDistYear == 0 and self.CutHeight > 0 or self.catastophicDistYear > 0 and self.CutHeight == 0):
-            print "Nonsensical or redundant parameterization -- catastrophicDistYear and CutHeight."
+        if (self.catastophicDistYear == 0 and self.CatastrophicSeedMortality > 0 or 
+            self.catastophicDistYear > 0 and self.CatastrophicSeedMortality == 0):
+            print "Nonsensical or redundant parameterization -- catastrophicDistYear and Seed Mortality."
+            raise Exception("Nonsensical or redundant parameterization")
+
+        if (self.catastophicDistYear == 0 and self.CatastrophicPlantMortality > 0 or 
+            self.catastophicDistYear > 0 and self.CatastrophicPlantMortality == 0):
+            print "Nonsensical or redundant parameterization -- catastrophicDistYear and Plant Mortality."
             raise Exception("Nonsensical or redundant parameterization")
 
         if (self.GrazProb == 0 and self.PropRemove > 0 or self.GrazProb > 0 and self.PropRemove == 0):
@@ -31,7 +39,7 @@ class Base_Parameter():
 
         if (self.BelGrazProb == 0):
             if (self.BelGrazStartYear > 0 or 
-                self.BelGrazWindow > 0 or 
+                # self.BelGrazWindow > 0 or 
                 self.BelGrazMode > 0 or 
                 self.BelPropRemove > 0):
                 print "Nonsensical or redundant parameterization -- BelGrazProb."
@@ -44,7 +52,8 @@ class Base_Parameter():
     def toString(self):
         return " ".join(map(str, [self.IC_version, self.ITVsd, self.Tmax, self.ARes, 
             self.Bres, self.CutHeight, self.GrazProb, self.PropRemove, self.BelGrazProb, self.BelGrazStartYear, 
-            self.BelGrazWindow, self.BelGrazMode, self.BelPropRemove, self.catastophicDistYear]))
+            self.BelGrazWindow, self.BelGrazMode, self.BelPropRemove, 
+            self.catastophicDistYear, self.CatastrophicPlantMortality, self.CatastrophicSeedMortality]))
 
 
 

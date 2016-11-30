@@ -28,7 +28,8 @@ SRunPara::SRunPara() :
 		BelGrazWindow(0), BelPropRemove(0), BelGrazMode(0),
 		BGThres(1), NCut(0), CutHeight(0), catastrophicDistYear(0), torus(true), DistAreaYear(0),
 		AreaEvent(0), mort_seeds(0.5), meanARes(100), meanBRes(100),
-		Aampl(0), Bampl(0), SeedInput(0), SeedRainType(0)
+		Aampl(0), Bampl(0), SeedInput(0), SeedRainType(0),
+		CatastrophicPlantMortality(0), CatastrophicSeedMortality(0)
 {
 	;
 }
@@ -55,6 +56,8 @@ std::string SRunPara::toString(){
 			<< BelGrazMode << "\t"
 			<< BelPropRemove << "\t"
 			<< catastrophicDistYear << "\t"
+			<< CatastrophicPlantMortality << "\t"
+			<< CatastrophicSeedMortality << "\t"
 			;
 
 	return mystream.str();
@@ -81,6 +84,8 @@ std::string SRunPara::headerToString() {
 			<< "BelGrazMode" << "\t"
 			<< "BelPropRemove" << "\t"
 			<< "catastrophicDistYear" << "\t"
+			<< "CatastrophicPlantMortality" << "\t"
+			<< "CatastrophicSeedMortality" << "\t"
 			;
 
 	return mystream.str();

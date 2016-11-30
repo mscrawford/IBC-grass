@@ -109,6 +109,8 @@ public:
 	double CutHeight;     //!< Height to move the grassland to
 	int NCut;          //!< number cuts per year
 	int catastrophicDistYear;
+	double CatastrophicPlantMortality;
+	double CatastrophicSeedMortality;
 ///@}
 
 	/** @name TramplingParam

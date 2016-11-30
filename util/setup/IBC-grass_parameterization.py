@@ -11,21 +11,22 @@ from util import *
 path = "./tmp/"
 
 PARALLEL = True
-N_SLOTS = 400
+N_SLOTS = 50
+# N_SLOTS = 400
 
 SPAT_out = 0 # print spatial grid
 SPAT_out_year = 0 # Which year to print the spatial grid, 0 for every year
 PFT_out = 1 # print PFT output
 COMP_out = 0 # print comp grid
 
-N_COMS = 30
-N_REPS = 1
+N_COMS = 1
+N_REPS = 30
 n_PFTs = 0
 
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
 Sim_header = "NRep\n" + str(N_REPS) + "\nSimNr ComNr IC_vers ITVsd Tmax ARes Bres CutHeight" + \
-                "GrazProb PropRemove BelGrazProb BelGrazStartYear BelGrazWindow BelGrazMode BelPropRemove CatastrophicDistYear " + \
+                "GrazProb PropRemove BelGrazProb BelGrazStartYear BelGrazWindow BelGrazMode BelPropRemove CatastrophicDistYear CatastrophicSeedMortality" + \
                 "SPATout SPAToutYear PFTout COMPout NameInitFile\n"
 
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
@@ -56,15 +57,17 @@ base_params =  [[1], # IC version
                 [100], # Tmax
                 [30, 60, 90], # ARes
                 [30, 60, 90], # Bres
-                [0, 5, 20, 40], # CutHeight
+                [0], # CutHeight
                 [0.2], # GrazProb
                 [0.5], # propRemove
-                [1], # BelGrazProb
-                [50], # BelGrazStartYear
+                [0], # BelGrazProb
+                [0], # BelGrazStartYear
                 [0], # BelGrazWindow
                 [0], # BelGrazMode
-                [0.5], # BelPropRemove
-                [0, 50]] # CatastrophicDisYear
+                [0], # BelPropRemove
+                [0, 50], # CatastrophicDisYear; 0 is no disturbance
+                [0, 0.3, 0.6, 0.9, 1], # CatastrophicPlantMortality
+                [0, 0.3, 0.6, 0.9, 1]] # CatastrophicSeedMortality
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
@@ -243,6 +246,7 @@ def makeEmpiricalPFTs():
     if (PARALLEL):
         buildBatchScripts(SimFile, N_SLOTS, path, Sim_header)
         os.system('cp ./resources/queue.sh ./tmp')
+        os.system('cp ./resources/laptopQueue.sh ./tmp')
     else:
         with open(path + "SimFile.txt", 'w') as w:
             w.write(Sim_header)
