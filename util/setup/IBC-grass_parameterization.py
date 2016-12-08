@@ -11,7 +11,7 @@ from util import *
 path = "./tmp/"
 
 PARALLEL = True
-N_SLOTS = 50
+N_SLOTS = 200
 # N_SLOTS = 400
 
 SPAT_out = 0 # print spatial grid
@@ -26,7 +26,7 @@ n_PFTs = 0
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
 Sim_header = "NRep\n" + str(N_REPS) + "\nSimNr ComNr IC_vers ITVsd Tmax ARes Bres CutHeight" + \
-                "GrazProb PropRemove BelGrazProb BelGrazStartYear BelGrazWindow BelGrazMode BelPropRemove CatastrophicDistYear CatastrophicSeedMortality" + \
+                "GrazProb PropRemove BelGrazProb BelGrazStartYear BelGrazWindow BelGrazMode BelPropRemove CatastrophicDistYear CatastrophicSeedMortality SeedRainType SeedInput" + \
                 "SPATout SPAToutYear PFTout COMPout NameInitFile\n"
 
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
@@ -55,19 +55,21 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 base_params =  [[1], # IC version
                 [0], # ITVsd
                 [100], # Tmax
-                [30, 60, 90], # ARes
-                [30, 60, 90], # Bres
+                [90], # ARes
+                [90], # Bres
                 [0], # CutHeight
                 [0.2], # GrazProb
                 [0.5], # propRemove
-                [0], # BelGrazProb
-                [0], # BelGrazStartYear
-                [0], # BelGrazWindow
+                [0, 1], # BelGrazProb
+                [0, 50], # BelGrazStartYear
+                [0, 5], # BelGrazWindow
                 [0], # BelGrazMode
-                [0], # BelPropRemove
+                [0, 0.5], # BelPropRemove
                 [0, 50], # CatastrophicDisYear; 0 is no disturbance
-                [0, 0.3, 0.6, 0.9, 1], # CatastrophicPlantMortality
-                [0, 0.3, 0.6, 0.9, 1]] # CatastrophicSeedMortality
+                [0, 0.99, 1], # CatastrophicPlantMortality
+                [0, 0.99, 1], # CatastrophicSeedMortality
+                [0, 1], # SeedRainType
+                [0, 10]] # SeedInput
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
@@ -246,7 +248,7 @@ def makeEmpiricalPFTs():
     if (PARALLEL):
         buildBatchScripts(SimFile, N_SLOTS, path, Sim_header)
         os.system('cp ./resources/queue.sh ./tmp')
-        os.system('cp ./resources/laptopQueue.sh ./tmp')
+
     else:
         with open(path + "SimFile.txt", 'w') as w:
             w.write(Sim_header)

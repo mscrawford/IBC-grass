@@ -143,6 +143,8 @@ int CEnvir::GetSim(const int pos, string file) {
 		>> SRunPara::RunPara.catastrophicDistYear // Year for catastrophic disturbace. Removes all aboveground biomass after seeds are dropped.
 		>> SRunPara::RunPara.CatastrophicPlantMortality
 		>> SRunPara::RunPara.CatastrophicSeedMortality
+		>> SRunPara::RunPara.SeedRainType
+		>> SRunPara::RunPara.SeedInput
 		>> SRunPara::RunPara.SPAT // Print spatial grid
 		>> SRunPara::RunPara.SPATyear // Print spatial grid on a specific year
 		>> SRunPara::RunPara.PFT // Print PFT data

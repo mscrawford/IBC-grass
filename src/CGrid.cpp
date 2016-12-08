@@ -785,60 +785,62 @@ bool CGrid::Disturb() {
 				exit(3);
 			}
 		}
-
-		if (SRunPara::RunPara.catastrophicDistYear > 0 // Catastrophic disturbance is on
-		&& CEnvir::year == SRunPara::RunPara.catastrophicDistYear // It is the disturbance year
-		&& CEnvir::week == 22) // It is the disturbance week
-		{
-//			Cutting(SRunPara::RunPara.CutHeight);
-
-			// Remove the parameter adjusting cut height from the various parameterization and output scripts
-			// This is code to remove all below- and above-ground biomass
-			if (SRunPara::RunPara.verbose) cout << "Before disturbance number of plants: " << PlantList.size() << endl;
-			for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p) {
-				CPlant* plant = *p;
-				if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicPlantMortality) {
-					plant->dead = true;
-				}
-			}
-			if (SRunPara::RunPara.verbose) cout << "After disturbance number of plants: " << PlantList.size() << endl;
-
-			// Count seeds
-			int seedCount = 0;
-			for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
-				CCell* cell = CellList[i];
-				seedCount = seedCount + cell->SeedBankList.size();
-			}
-
-			if (SRunPara::RunPara.verbose) cout << "Before disturbance number of seeds: " << seedCount << endl;
-
-			// Disturb seeds
-			for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) { // loop for all cells
-				CCell* cell = CellList[i];
-				for (seed_iter iter = cell->SeedBankList.begin(); iter != cell->SeedBankList.end(); ++iter) {
-					CSeed* seed = *iter;
-					if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicSeedMortality) {
-						seed->remove = true;
-					} //if not seed survive
-				} //for seeds in cell
-
-				cell->RemoveSeeds(); //removes and deletes all seeds with remove==true
-			} // for all cells
-
-			// Count seeds
-			seedCount = 0;
-			for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
-				CCell* cell = CellList[i];
-				seedCount = seedCount + cell->SeedBankList.size();
-			}
-
-			if (SRunPara::RunPara.verbose) cout << "After disturbance number of seeds: " << seedCount << endl;
-
-		}
 		return true;
 	} else
 		return false;
-}   //end Disturb
+} //end Disturb
+
+void CGrid::catastrophicDisturbance()
+{
+		// Remove the parameter adjusting cut height from the various parameterization and output scripts
+		// This is code to remove all below- and above-ground biomass
+		if (SRunPara::RunPara.verbose)
+			cout << "Before disturbance number of plants: " << PlantList.size() << endl;
+
+		for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p) {
+			CPlant* plant = *p;
+			if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicPlantMortality) {
+				plant->dead = true;
+			}
+		}
+
+		if (SRunPara::RunPara.verbose)
+			cout << "After disturbance number of plants: " << PlantList.size() << endl;
+
+		// Count seeds
+		int seedCount = 0;
+		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
+			CCell* cell = CellList[i];
+			seedCount = seedCount + cell->SeedBankList.size();
+		}
+
+		if (SRunPara::RunPara.verbose)
+			cout << "Before disturbance number of seeds: " << seedCount << endl;
+
+		// Disturb seeds
+		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) { // loop for all cells
+			CCell* cell = CellList[i];
+			for (seed_iter iter = cell->SeedBankList.begin(); iter != cell->SeedBankList.end(); ++iter) {
+				CSeed* seed = *iter;
+				if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicSeedMortality) {
+					seed->remove = true;
+				} //if not seed survive
+			} //for seeds in cell
+
+			cell->RemoveSeeds(); //removes and deletes all seeds with remove==true
+		} // for all cells
+
+		// Count seeds
+		seedCount = 0;
+		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
+			CCell* cell = CellList[i];
+			seedCount = seedCount + cell->SeedBankList.size();
+		}
+
+		if (SRunPara::RunPara.verbose)
+			cout << "After disturbance number of seeds: " << seedCount << endl;
+
+}
 
 //-----------------------------------------------------------------------------
 /**
@@ -1404,6 +1406,22 @@ int CGrid::GetNPlants() //count non-clonal plants
 	}
 	return NPlants;
 } //end CGridclonal::GetNPlants()
+
+
+int CGrid::GetNSeeds()
+{
+	int seedCount = 0;
+	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
+		CCell* cell = CellList[i];
+		seedCount = seedCount + cell->SeedBankList.size();
+	}
+
+	if (SRunPara::RunPara.verbose)
+		cout << "Before disturbance number of seeds: " << seedCount << endl;
+
+	return seedCount;
+}
+
 //-----------------------------------------------------------------------------
 /**
  \return the number of genets with at least one ramet still alive

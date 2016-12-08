@@ -64,6 +64,7 @@ protected:
 	//! disturbance --> calls grazing and gap formation functions
 	bool Disturb();
 	/// simulates aboveground herbivory
+	void catastrophicDisturbance();
 	void Grazing();
 	/// simulates belowground grazing
 	void GrazingBelGr(const int mode = 0);
@@ -94,6 +95,7 @@ public:
 	void writeCompetitionGrid(string fname); // MSC
 	int GetNclonalPlants();   ///< number of living clonal plants
 	int GetNPlants();         ///< number of living non-clonal plants
+	int GetNSeeds();			// number of seeds
 	int GetNMotherPlants();   ///< number of living genets
 	int GetCoveredCells();    ///< number of cells covered
 	double GetNGeneration();  ///< number of Generations

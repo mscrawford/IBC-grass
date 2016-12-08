@@ -4,7 +4,8 @@ class Base_Parameter():
     def __init__(self, IC_version, ITVsd, Tmax, ARes, Bres, CutHeight,
         GrazProb, PropRemove, 
         BelGrazProb, BelGrazStartYear, BelGrazWindow, BelGrazMode, BelPropRemove, 
-        catastophicDistYear, CatastrophicPlantMortality, CatastrophicSeedMortality):
+        catastophicDistYear, CatastrophicPlantMortality, CatastrophicSeedMortality,
+        SeedRainType, SeedInput):
         self.IC_version = IC_version
         self.ITVsd = ITVsd
         self.Tmax = Tmax
@@ -21,6 +22,8 @@ class Base_Parameter():
         self.catastophicDistYear = catastophicDistYear
         self.CatastrophicPlantMortality = CatastrophicPlantMortality
         self.CatastrophicSeedMortality = CatastrophicSeedMortality
+        self.SeedRainType = SeedRainType
+        self.SeedInput = SeedInput
 
         # This only applies to Wireworm scenarios
         if (self.catastophicDistYear == 0 and self.CatastrophicSeedMortality > 0 or 
@@ -31,6 +34,11 @@ class Base_Parameter():
         if (self.catastophicDistYear == 0 and self.CatastrophicPlantMortality > 0 or 
             self.catastophicDistYear > 0 and self.CatastrophicPlantMortality == 0):
             print "Nonsensical or redundant parameterization -- catastrophicDistYear and Plant Mortality."
+            raise Exception("Nonsensical or redundant parameterization")
+
+        if (self.SeedRainType == 0 and self.SeedInput > 0 or 
+            self.SeedRainType > 0 and self.SeedInput == 0):
+            print "Nonsensical or redundant parameterization -- SeedRainType and SeedInput."
             raise Exception("Nonsensical or redundant parameterization")
 
         if (self.GrazProb == 0 and self.PropRemove > 0 or self.GrazProb > 0 and self.PropRemove == 0):
@@ -53,7 +61,8 @@ class Base_Parameter():
         return " ".join(map(str, [self.IC_version, self.ITVsd, self.Tmax, self.ARes, 
             self.Bres, self.CutHeight, self.GrazProb, self.PropRemove, self.BelGrazProb, self.BelGrazStartYear, 
             self.BelGrazWindow, self.BelGrazMode, self.BelPropRemove, 
-            self.catastophicDistYear, self.CatastrophicPlantMortality, self.CatastrophicSeedMortality]))
+            self.catastophicDistYear, self.CatastrophicPlantMortality, self.CatastrophicSeedMortality,
+            self.SeedRainType, self.SeedInput]))
 
 
 

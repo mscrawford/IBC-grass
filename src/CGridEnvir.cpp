@@ -92,8 +92,7 @@ void CGridEnvir::OneRun() {
 
 		OneYear();
 
-		if (year >= 45 && year <= 55)
-			WriteOFiles();
+		WriteOFiles();
 
 		this->writeSpatialGrid();
 
@@ -137,9 +136,6 @@ void CGridEnvir::OneWeek() {
 
 	RemovePlants();         //remove trampled plants
 
-	if ((SRunPara::RunPara.SeedRainType > 0) && (week == 21)) //seed rain in seed dispersal week
-		SeedRain();
-
 	EstabLottery();         //for seeds and ramets
 
 	if (week == 20)
@@ -150,9 +146,19 @@ void CGridEnvir::OneWeek() {
 		SeedMortWinter();    //winter seed mortality
 	}
 
-//	if (week == 20) {        //general output
+	if (week == 20) {        //general output
 		GetOutput();   //calculate output variables
-//	}
+	}
+
+	if (SRunPara::RunPara.catastrophicDistYear > 0 // Catastrophic disturbance is on
+	&& CEnvir::year == SRunPara::RunPara.catastrophicDistYear // It is the disturbance year
+	&& CEnvir::week == 21) // It is the disturbance week
+	{
+		catastrophicDisturbance();
+	}
+
+	if ((SRunPara::RunPara.SeedRainType > 0) && (week == 21)) //seed rain in seed dispersal week
+		SeedRain();
 
 	if (week == 30) {
 		//get cutted biomass
@@ -176,9 +182,10 @@ int CGridEnvir::exitConditions() {
 	int currTime = GetT();
 	int NPlants = GetNPlants();   //+GetNclonalPlants();
 	int NClPlants = GetNclonalPlants();
+	int NSeeds = GetNSeeds();
 
 //    if no more individuals existing
-	if ((NPlants + NClPlants) == 0) {
+	if ((NPlants + NClPlants + NSeeds) == 0) {
 		endofrun = true;
 		return currTime; //extinction time
 	}
@@ -417,79 +424,102 @@ void CGridEnvir::writeSpatialGrid() {
  * \author FM - seed rain option
  */
 void CGridEnvir::SeedRain() {
-
 	string PFT_ID, PFTtype, Cltype;
-	//size_t posc;
-	SPftTraits *pfttraits;
-//   SclonalTraits *cltraits;
-	double nseeds = 0;
-
-	double SeedFracClonal = 0.1; //ratio between seed input for clonal and non-clonal seeds;
-
-	//for all plants..
+	SPftTraits *traits;
+	double n = 0;
+	cout << "In SeedRain. " << endl;
+	// For each PFT, we'll drop N seeds
 	for (map<string, long>::const_iterator it = PftInitList.begin();
-			it != PftInitList.end(); ++it) {
+			it != PftInitList.end(); ++it)
+	{
 
 		PFT_ID = it->first;
+		traits = SPftTraits::getPftLink(PFT_ID);
 
-//      cltraits=getClLink(PFT_ID);
-		pfttraits = SPftTraits::getPftLink(PFT_ID);
-
-		switch (SRunPara::RunPara.SeedRainType) {
-		// [SeedInput] == seed NUMBER & equal seed NUMBER for each PFT
-		case 1:
-			nseeds = SRunPara::RunPara.SeedInput
-					/ (CEnvir::SeedRainGr.NPftSeedSize[0]
-							+ CEnvir::SeedRainGr.NPftSeedSize[1]
-							+ CEnvir::SeedRainGr.NPftSeedSize[2]);
-			break;
-			// [SeedInput] == seed MASS & equal seed NUMBER for each PFT
-		case 2:
-			nseeds = SRunPara::RunPara.SeedInput
-					/ (CEnvir::SeedRainGr.NPftSeedSize[0] * 0.1
-							+ CEnvir::SeedRainGr.NPftSeedSize[1] * 0.3
-							+ CEnvir::SeedRainGr.NPftSeedSize[2] * 1.0);
-			break;
-			// [SeedInput] == seed MASS & equal seed NUMBER for each PFT
-		case 3:
-			nseeds = SRunPara::RunPara.SeedInput
-					/ (CEnvir::SeedRainGr.NPftSeedSize[0]
-							+ CEnvir::SeedRainGr.NPftSeedSize[1] / 3.0
-							+ CEnvir::SeedRainGr.NPftSeedSize[2] / 10.0) * 0.1
-					/ pfttraits->SeedMass;
-			break;
-			// [SeedInput] == seed MASS& equal seed MASS  for each PFT
-		case 4:
-			nseeds = SRunPara::RunPara.SeedInput
-					/ (CEnvir::SeedRainGr.NPftSeedSize[0]
-							+ CEnvir::SeedRainGr.NPftSeedSize[1]
-							+ CEnvir::SeedRainGr.NPftSeedSize[2])
-					/ pfttraits->SeedMass;
-			break;
-			// [SeedInput] == seed NUMBER & fixed ratio of seed numbers for clonal and non-clonal PFTS
-		case 5:
-			nseeds =
-					SRunPara::RunPara.SeedInput
-							/ (CEnvir::SeedRainGr.NPftClonal[0]
-									+ CEnvir::SeedRainGr.NPftClonal[1]
-											* SeedFracClonal);
-			break;
-//disabled..
-//        // [SeedInput] == factor for pft-specific seed rain & number of seeds is PFT specific and specified in PFTTraits file
-//         case 99: nseeds = SRunPara::RunPara.SeedInput*pfttraits->SeedRainGr;
-//            break;
-		case 111:
-			nseeds = SRunPara::RunPara.SeedInput
-					* CEnvir::SeedRainGr.PftSeedRainList[PFT_ID];
-			break;
-		default:
-			nseeds = 0;
+		switch (SRunPara::RunPara.SeedRainType)
+		{
+			case 1:
+				n = SRunPara::RunPara.SeedInput;
 		}
 
-		int nseeds2 = poissonLCG(nseeds); //random number from poisson distribution
-		//int nseeds2 = Round(nseeds);
-		CGrid::InitClonalSeeds(pfttraits, nseeds2, pfttraits->pEstab); //,cltraits
+		cout << "Initializing " << n << " seeds of PFT type: " << PFT_ID << endl;
+		CGrid::InitClonalSeeds(traits, n, traits->pEstab);
 	}
+
 }
+
+//	string PFT_ID, PFTtype, Cltype;
+//	//size_t posc;
+//	SPftTraits *pfttraits;
+////   SclonalTraits *cltraits;
+//	double nseeds = 0;
+//
+//	double SeedFracClonal = 0.1; //ratio between seed input for clonal and non-clonal seeds;
+//
+//	//for all plants..
+//	for (map<string, long>::const_iterator it = PftInitList.begin();
+//			it != PftInitList.end(); ++it) {
+//
+//		PFT_ID = it->first;
+//
+////      cltraits=getClLink(PFT_ID);
+//		pfttraits = SPftTraits::getPftLink(PFT_ID);
+//
+//		switch (SRunPara::RunPara.SeedRainType) {
+//		// [SeedInput] == seed NUMBER & equal seed NUMBER for each PFT
+//		case 1:
+//			nseeds = SRunPara::RunPara.SeedInput
+//					/ (CEnvir::SeedRainGr.NPftSeedSize[0]
+//							+ CEnvir::SeedRainGr.NPftSeedSize[1]
+//							+ CEnvir::SeedRainGr.NPftSeedSize[2]);
+//			break;
+//			// [SeedInput] == seed MASS & equal seed NUMBER for each PFT
+//		case 2:
+//			nseeds = SRunPara::RunPara.SeedInput
+//					/ (CEnvir::SeedRainGr.NPftSeedSize[0] * 0.1
+//							+ CEnvir::SeedRainGr.NPftSeedSize[1] * 0.3
+//							+ CEnvir::SeedRainGr.NPftSeedSize[2] * 1.0);
+//			break;
+//			// [SeedInput] == seed MASS & equal seed NUMBER for each PFT
+//		case 3:
+//			nseeds = SRunPara::RunPara.SeedInput
+//					/ (CEnvir::SeedRainGr.NPftSeedSize[0]
+//							+ CEnvir::SeedRainGr.NPftSeedSize[1] / 3.0
+//							+ CEnvir::SeedRainGr.NPftSeedSize[2] / 10.0) * 0.1
+//					/ pfttraits->SeedMass;
+//			break;
+//			// [SeedInput] == seed MASS& equal seed MASS  for each PFT
+//		case 4:
+//			nseeds = SRunPara::RunPara.SeedInput
+//					/ (CEnvir::SeedRainGr.NPftSeedSize[0]
+//							+ CEnvir::SeedRainGr.NPftSeedSize[1]
+//							+ CEnvir::SeedRainGr.NPftSeedSize[2])
+//					/ pfttraits->SeedMass;
+//			break;
+//			// [SeedInput] == seed NUMBER & fixed ratio of seed numbers for clonal and non-clonal PFTS
+//		case 5:
+//			nseeds =
+//					SRunPara::RunPara.SeedInput
+//							/ (CEnvir::SeedRainGr.NPftClonal[0]
+//									+ CEnvir::SeedRainGr.NPftClonal[1]
+//											* SeedFracClonal);
+//			break;
+////disabled..
+////        // [SeedInput] == factor for pft-specific seed rain & number of seeds is PFT specific and specified in PFTTraits file
+////         case 99: nseeds = SRunPara::RunPara.SeedInput*pfttraits->SeedRainGr;
+////            break;
+//		case 111:
+//			nseeds = SRunPara::RunPara.SeedInput
+//					* CEnvir::SeedRainGr.PftSeedRainList[PFT_ID];
+//			break;
+//		default:
+//			nseeds = 0;
+//		}
+//
+//		int nseeds2 = poissonLCG(nseeds); //random number from poisson distribution
+//		//int nseeds2 = Round(nseeds);
+//		CGrid::InitClonalSeeds(pfttraits, nseeds2, pfttraits->pEstab); //,cltraits
+//	}
+//}
 
 //eof

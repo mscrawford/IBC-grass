@@ -58,6 +58,8 @@ std::string SRunPara::toString(){
 			<< catastrophicDistYear << "\t"
 			<< CatastrophicPlantMortality << "\t"
 			<< CatastrophicSeedMortality << "\t"
+			<< SeedRainType << "\t"
+			<< SeedInput << "\t"
 			;
 
 	return mystream.str();
@@ -86,6 +88,8 @@ std::string SRunPara::headerToString() {
 			<< "catastrophicDistYear" << "\t"
 			<< "CatastrophicPlantMortality" << "\t"
 			<< "CatastrophicSeedMortality" << "\t"
+			<< "SeedRainType" << "\t"
+			<< "SeedInput" << "\t"
 			;
 
 	return mystream.str();
