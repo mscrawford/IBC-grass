@@ -9,6 +9,8 @@
 #include <map>
 #include <algorithm>
 #include <cassert>
+#include <random>
+#include <math.h>
 
 //---------------------------------------------------------------------------
 CGrid::CGrid() :
@@ -758,9 +760,7 @@ bool CGrid::Disturb() {
 		 */
 		if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb
 				&& CEnvir::year >= SRunPara::RunPara.BelGrazStartYear
-				&& (CEnvir::year
-						< SRunPara::RunPara.BelGrazStartYear
-								+ SRunPara::RunPara.BelGrazWindow
+				&& (CEnvir::year < SRunPara::RunPara.BelGrazStartYear+ SRunPara::RunPara.BelGrazWindow
 						|| SRunPara::RunPara.BelGrazWindow == 0)) {
 			GrazingBelGr(SRunPara::RunPara.BelGrazMode);
 		}
@@ -792,30 +792,30 @@ bool CGrid::Disturb() {
 
 void CGrid::catastrophicDisturbance()
 {
+//		Cutting(10);
 		// Remove the parameter adjusting cut height from the various parameterization and output scripts
 		// This is code to remove all below- and above-ground biomass
 		if (SRunPara::RunPara.verbose)
-			cout << "Before disturbance number of plants: " << PlantList.size() << endl;
+			cout << "Before disturbance number of plants: " << GetNPlants() + GetNclonalPlants() << endl;
 
-		for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p) {
+		for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p)
+		{
 			CPlant* plant = *p;
-			if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicPlantMortality) {
+
+			if (plant->dead) continue;
+
+			if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicPlantMortality)
+			{
 				plant->dead = true;
 			}
 		}
 
 		if (SRunPara::RunPara.verbose)
-			cout << "After disturbance number of plants: " << PlantList.size() << endl;
+			cout << "After disturbance number of plants: " << GetNPlants() + GetNclonalPlants() << endl;
 
 		// Count seeds
-		int seedCount = 0;
-		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
-			CCell* cell = CellList[i];
-			seedCount = seedCount + cell->SeedBankList.size();
-		}
-
 		if (SRunPara::RunPara.verbose)
-			cout << "Before disturbance number of seeds: " << seedCount << endl;
+			cout << "Before disturbance number of seeds: " << GetNSeeds() << endl;
 
 		// Disturb seeds
 		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) { // loop for all cells
@@ -830,15 +830,8 @@ void CGrid::catastrophicDisturbance()
 			cell->RemoveSeeds(); //removes and deletes all seeds with remove==true
 		} // for all cells
 
-		// Count seeds
-		seedCount = 0;
-		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
-			CCell* cell = CellList[i];
-			seedCount = seedCount + cell->SeedBankList.size();
-		}
-
 		if (SRunPara::RunPara.verbose)
-			cout << "After disturbance number of seeds: " << seedCount << endl;
+			cout << "After disturbance number of seeds: " << GetNSeeds() << endl;
 
 }
 
@@ -901,8 +894,8 @@ void CGrid::Grazing() {
  \change 18-11-2010 kk: gebe entfernte BM an Klassenvariable
  */
 void CGrid::Cutting(double cut_height) {
-	if (SRunPara::RunPara.verbose)
-		cout << "In CGrid::Cutting" << endl;
+//	if (SRunPara::RunPara.verbose)
+//		cout << "In CGrid::Cutting" << endl;
 
 	CPlant* p;
 	double mass_removed = 0;
@@ -915,24 +908,24 @@ void CGrid::Cutting(double cut_height) {
 		if (p->getHeight() > cut_height) {
 			double biomass_at_height = p->getBiomassAtHeight(cut_height);
 
-			if (SRunPara::RunPara.verbose)
-				cout << "Current plant height: " << p->getHeight() << endl;
-			if (SRunPara::RunPara.verbose)
-				cout << "LMR: " << p->Traits->LMR << endl;
-			if (SRunPara::RunPara.verbose)
-				cout << "Current aboveground plant mass: " << p->mshoot << endl;
-			if (SRunPara::RunPara.verbose)
-				cout << "Mass to be below " << cut_height << " cm: "
-						<< biomass_at_height << endl;
+//			if (SRunPara::RunPara.verbose)
+//				cout << "Current plant height: " << p->getHeight() << endl;
+//			if (SRunPara::RunPara.verbose)
+//				cout << "LMR: " << p->Traits->LMR << endl;
+//			if (SRunPara::RunPara.verbose)
+//				cout << "Current aboveground plant mass: " << p->mshoot << endl;
+//			if (SRunPara::RunPara.verbose)
+//				cout << "Mass to be below " << cut_height << " cm: "
+//						<< biomass_at_height << endl;
 
 			mass_removed = p->mshoot - biomass_at_height;
 			p->mshoot = biomass_at_height;
 			p->mRepro = 0.0;
 
-			if (SRunPara::RunPara.verbose)
-				cout << "Mass removed: " << mass_removed << endl;
-			if (SRunPara::RunPara.verbose)
-				cout << "New plant height: " << p->getHeight() << endl;
+//			if (SRunPara::RunPara.verbose)
+//				cout << "Mass removed: " << mass_removed << endl;
+//			if (SRunPara::RunPara.verbose)
+//				cout << "New plant height: " << p->getHeight() << endl;
 		}
 	}
 	cutted_BM += mass_removed;
@@ -986,139 +979,111 @@ double getMortBelGraz(double fraction, double thresh) {
  */
 void CGrid::GrazingBelGr(const int mode) {
 
-	if (mode == 0) {
-		for (plant_size i = 0; i < PlantList.size(); i++) {
-			CPlant* lplant = PlantList[i];
-			lplant->RemoveRootMass(SRunPara::RunPara.BelPropRemove);
+	auto sumRootMass = [](const vector<CPlant*> l) {
+		double total_root_mass = 0;
+		for (auto i = l.begin(); i != l.end(); ++i) {
+			CPlant* p = *i;
+			total_root_mass += p->mroot;
 		}
-	} else { //if (mode<=4){
-//   map<CPlant*,double> oldMroot;
-//    for (plant_size i=0;i<PlantList.size();i++)
-//      oldMroot[PlantList[i]]=PlantList[i]->mroot;
-//partition of Plants left and right of grid
-//    plant_iter LeftPlants=
-//    partition(PlantList.begin(),PlantList.end(),mem_fun(&CPlant::is_left));
-//    vector<CPlant*> leftPlantList(LeftPlants,PlantList.end());
-	//get ranking list of aboveground types after aboveground biomass
-		map<string, double> aboveDom;
+		assert(!std::isnan(total_root_mass));
+		return total_root_mass;
+	};
 
-		vector<CPlant*> PlantsToGraze = PlantList;
-///!
-//    if (HetFlag) PlantsToGraze=leftPlantList; //!should only one half of grid be grazed?
-		for (plant_size i = 0; i < PlantsToGraze.size(); i++)
-			if (!PlantsToGraze[i]->dead)
-				aboveDom[PlantsToGraze[i]->pft()] += PlantsToGraze[i]->mshoot;
+	auto generateLivingPlants = [](vector<CPlant*> l) {
+		std::vector<CPlant*>::iterator it = l.begin();
+		while (it != l.end()) {
+			CPlant* p = *it;
+			if (p->dead) {
+				it = l.erase(it);
+			} else {
+				++it;
+			}
+		}
+		return l;
+	};
 
-		double TotalBelowMass = GetTotalBelowMass();
-		if (SRunPara::RunPara.verbose)
-			cout << "totalbelowmass: " << TotalBelowMass << endl;
-		//see Grazing(), but no information for belowground grazing
-		double ResidualMass = 0; // MSC: THIS VARIABLE IS NEVER SET TO ANYTHING OTHER THAN 0. WHAT IS ITS INTENDED PURPOSE?
-		double MassRemoved = 0;
-		//maximal removal of biomass
-		double MaxMassRemove = TotalBelowMass * SRunPara::RunPara.BelPropRemove;
-		MaxMassRemove = min(TotalBelowMass - ResidualMass, MaxMassRemove); // MSC: MaxMassRemove WILL ALWAYS BE LESS, BECAUSE "TotalBelowMass-ResidualMass" WILL ALWAYS BE "TotalBelowMass - 0."
-		while (MassRemoved < MaxMassRemove) {
-			double max_value = 0;
-			double mass_remove_start = MassRemoved; //remember value started
-			for (plant_size i = 0; i < PlantsToGraze.size(); i++) {
-				CPlant* lplant = PlantsToGraze[i];
-				if (lplant->dead)
-					continue;
-				//if (mode==1) max_value=0;
-				if (mode == 2)
-					max_value = max(max_value, lplant->mroot);
-				else if (mode == 3)
-					max_value = max(max_value,
-							lplant->mroot * lplant->Traits->palat);
-				else if (mode == 4)
-//            max_value=max(max_value,lplant->mroot/lplant->Traits->palat);
-					max_value = max(max_value, lplant->Traits->palat);
-				else if (mode == 7)
-					max_value = max(max_value,
-							aboveDom.find(lplant->pft())->second); ///\warning what if find fails?
-				else {
-					CalcRootInteraction(lplant);
-					if (mode == 5) {
-						max_value = max(max_value,
-								lplant->Aroots_all / lplant->Art_disc);
-					} else {
-						max_value = max(max_value,
-								lplant->Aroots_type / lplant->Art_disc);
-					}
-				}
-			}
-//      cout<<"max."<<max_value<<"|";
-			//stochastic removal of 50% root mass each plant
-			random_shuffle(PlantsToGraze.begin(), PlantsToGraze.end());
-			plant_size i = 0;
-			while ((i < PlantsToGraze.size()) && (MassRemoved < MaxMassRemove)) {
-				CPlant* lplant = PlantsToGraze[i];
-				if (lplant->dead) {
-					++i;
-					continue;
-				}
-				double grazprob = 1;
-				switch (mode) {
-				case 1:
-					grazprob = 1;
-					break;
-				case 2:
-					grazprob = (lplant->mroot) / max_value;
-					break;
-				case 3:
-					grazprob = (lplant->mroot * lplant->Traits->palat)
-							/ max_value;
-					break;
-//           case 4:grazprob= (lplant->mroot/lplant->Traits->palat)/max_value;
-				case 4:
-					grazprob = (lplant->Traits->palat) / max_value;
-					break;
-				case 5:
-					grazprob = lplant->Aroots_all / lplant->Art_disc
-							/ max_value;
-					break;
-				case 6:
-					grazprob = lplant->Aroots_type / lplant->Art_disc
-							/ max_value;
-					break;
-				case 7:
-					grazprob = aboveDom.find(lplant->pft())->second / max_value;
-					break;
-				default:
-					grazprob = 0;
-					break;    //fehler
-				}
-				if (CEnvir::rand01() < grazprob) {
-					MassRemoved += lplant->RemoveRootMass();
-					//grazing induced additional mortality
-					if (CEnvir::rand01() < SRunPara::RunPara.BGThres)
-						lplant->dead = true;
-				}
-				++i;
-			}
-			// .. to prevent endless loops...
-			if (mass_remove_start >= MassRemoved) {
-				if (SRunPara::RunPara.verbose)
-					cout << " no more roots found - diff: "
-							<< (1 - MassRemoved / MaxMassRemove) << " - ";
-				break;
-			}
-		}    //end mass-to-remove reached?
+	// BelPropRemove is treated as the proportion of rootmass to remove per year
+	if (mode == 0) // BelPropRemove is treated as a set amount of belowground biomass that is removed
+	{
+		double bt = sumRootMass(generateLivingPlants(PlantList)); // Total root biomass
+		double fn_o = SRunPara::RunPara.BelGrazGrams; // Forage need (parameterize this and remove BelPropRemove!)
+		double biomass_removed = 0;
+		const double alpha = 2.0; // Paramaterize this!
 
-//    //grazing induced additional mortality
-//    //compare origional mroot with current
-//    for(map<CPlant*,double>::const_iterator it = oldMroot.begin();
-//       it != oldMroot.end(); ++it)
-//    {
+		// Functional response leaves some amount of rootmass un-eaten
+//		const int BASE = 1000;
+//		if (fn_o > bt-BASE) {
+//			if (bt-BASE <= 0) {
+//				fn_o = 0;
+//			} else {
+//				fn_o = bt-BASE;
+//			}
+//		}
+
+		const double BASE = 0.01;
+
+		if (bt-fn_o < bt*BASE) {
+			fn_o = bt - bt*BASE;
+		}
+
+		double fn = fn_o;
+
+		while (ceil(biomass_removed) < fn_o)
+		{
+			vector<CPlant*> livingPlants = generateLivingPlants(PlantList);
+			bt = sumRootMass(livingPlants);
+
+			double bite = 0;
+			for (auto i = livingPlants.begin(); i != livingPlants.end(); ++i)
+			{
+				CPlant* p = *i;
+				bite += pow(p->mroot / bt, alpha) * fn;
+			}
+			bite = fn / bite;
+
+			double leftovers = 0; // When a large plant is eaten to death, this is the overshoot from the algorithm
+			for (auto i = livingPlants.begin(); i != livingPlants.end(); ++i)
+			{
+				CPlant* p = *i;
+
+				double biomass_to_remove = pow(p->mroot / bt, alpha) * fn * bite;
+				double proportion_to_remove = biomass_to_remove / p->mroot;
+
+				if (proportion_to_remove >= 1.0)
+				{
+					leftovers += biomass_to_remove - p->mroot;
+					biomass_removed += p->mroot;
+					p->mroot = 0;
+					p->dead = true;
+				}
+				else
+				{
+					biomass_removed += p->RemoveRootMass(proportion_to_remove);
+					assert(!p->dead);
+				}
+
+				assert(sumRootMass(livingPlants) > 0);
+			}
+
+			fn = leftovers;
+		}
+	}
+	else if (mode == 1)
+	{
+		cerr << "BelGrazMode [1] is not yet written." << endl;
+
+		// Remove the old RNG, replace it with STL stuff.
+//		std::random_device rd; // obtain a random number from hardware
+//	    std::mt19937 eng(rd()); // seed the generator
+//	    std::uniform_int_distribution<> distr(0, PlantList.size() - 1); // define the range
 //
-//    //depending on loss - calculate mortality
-//      double loss=1- (it->first->mroot/it->second);
-//      double val=getMortBelGraz(loss,SRunPara::RunPara.BGThres);
-//      if (CEnvir::rand01()<val) it->first->dead=true;
-
-//    }
-	}    //if mode>0
+//		random_shuffle(PlantList.begin(), PlantList.end());
+//		CPlant* p = PlantList[distr(eng)];
+	}
+	else
+	{
+		cerr << "Incorrect belowground grazing mode." << endl;
+	}
 }    //end CGrid::GrazingBelGr()
 
 //-----------------------------------------------------------------------------
@@ -1416,8 +1381,8 @@ int CGrid::GetNSeeds()
 		seedCount = seedCount + cell->SeedBankList.size();
 	}
 
-	if (SRunPara::RunPara.verbose)
-		cout << "Before disturbance number of seeds: " << seedCount << endl;
+//	if (SRunPara::RunPara.verbose)
+//		cout << "Before disturbance number of seeds: " << seedCount << endl;
 
 	return seedCount;
 }

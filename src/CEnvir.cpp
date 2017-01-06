@@ -132,14 +132,13 @@ int CEnvir::GetSim(const int pos, string file) {
 		>> SRunPara::RunPara.Tmax // End of run year
 		>> SRunPara::RunPara.meanARes // Aboveground resources
 		>> SRunPara::RunPara.meanBRes  // Belowground resources
-		>> SRunPara::RunPara.CutHeight // Cut Mass left after mowing (Wireworm herb.)
 		>> SRunPara::RunPara.GrazProb // Aboveground grazing: probability
 		>> SRunPara::RunPara.PropRemove // Aboveground grazing: proportion of biomass removed
 		>> SRunPara::RunPara.BelGrazProb // Belowground grazing: probability
 		>> SRunPara::RunPara.BelGrazStartYear // Belowground grazing: year of herbivory introduction
 		>> SRunPara::RunPara.BelGrazWindow // Belowground grazing: timespan in which herbivory takes place
 		>> SRunPara::RunPara.BelGrazMode // Belowground grazing: mode
-		>> SRunPara::RunPara.BelPropRemove // Belowground grazing: proportion of biomass removed
+		>> SRunPara::RunPara.BelGrazGrams // Belowground grazing: proportion of biomass removed
 		>> SRunPara::RunPara.catastrophicDistYear // Year for catastrophic disturbace. Removes all aboveground biomass after seeds are dropped.
 		>> SRunPara::RunPara.CatastrophicPlantMortality
 		>> SRunPara::RunPara.CatastrophicSeedMortality

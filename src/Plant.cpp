@@ -8,6 +8,7 @@
 #include <iostream>
 #include <sstream>
 #include <cassert>
+#include <iomanip>
 
 #include "Cell.h"
 #include "CEnvir.h"
@@ -492,11 +493,21 @@ double CPlant::RemoveMass() {
  \since belowground herbivory simulations
  */
 double CPlant::RemoveRootMass(const double prop_remove) {
-	double mass_removed = 0;
-	if (mroot > 1) {   //only remove mass if root mass > 1mg
-		mass_removed = prop_remove * mroot;
-		mroot -= mass_removed;   //*=1-prop_remove;
+//	double mass_removed = 0;
+//	if (mroot > 1) {   //only remove mass if root mass > 1mg
+//		mass_removed = prop_remove * mroot;
+//		mroot -= mass_removed;   //*=1-prop_remove;
+//	}
+//	return mass_removed;
+
+	double mass_removed = prop_remove * mroot;
+	assert(!(mass_removed > mroot));
+	mroot -= mass_removed;
+
+	if (mroot == 0) {
+		dead = true;
 	}
+
 	return mass_removed;
 }
 

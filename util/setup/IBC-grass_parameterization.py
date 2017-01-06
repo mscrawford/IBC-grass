@@ -10,7 +10,7 @@ from util import *
 
 path = "./tmp/"
 
-PARALLEL = True
+PARALLEL = False
 N_SLOTS = 200
 # N_SLOTS = 400
 
@@ -20,13 +20,17 @@ PFT_out = 1 # print PFT output
 COMP_out = 0 # print comp grid
 
 N_COMS = 1
-N_REPS = 30
+N_REPS = 1
 n_PFTs = 0
 
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
-Sim_header = "NRep\n" + str(N_REPS) + "\nSimNr ComNr IC_vers ITVsd Tmax ARes Bres CutHeight" + \
-                "GrazProb PropRemove BelGrazProb BelGrazStartYear BelGrazWindow BelGrazMode BelPropRemove CatastrophicDistYear CatastrophicSeedMortality SeedRainType SeedInput" + \
+Sim_header = "NRep\n" + str(N_REPS) + "\n" + \
+                "SimNr ComNr IC_vers ITVsd Tmax ARes Bres " + \
+                "GrazProb PropRemove " + \
+                "BelGrazProb BelGrazStartYear BelGrazWindow BelGrazMode BelGrazGrams " + \
+                "CatastrophicDistYear CatastrophicPlantMortality CatastrophicSeedMortality " + \
+                "SeedRainType SeedInput " + \
                 "SPATout SPAToutYear PFTout COMPout NameInitFile\n"
 
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
@@ -39,37 +43,39 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 
 # base_params =  [[1], # IC version
 #                 [0], # ITVsd
-#                 [100], # Tmax
-#                 [100], # ARes
-#                 [60], # Bres
-#                 [0, 5, 50], # CutHeight
+#                 [140], # Tmax
+#                 [90], # ARes
+#                 [90], # Bres
 #                 [0.2], # GrazProb
 #                 [0.5], # propRemove
 #                 [0, 1], # BelGrazProb
-#                 [0, 50], # BelGrazStartYear
+#                 [0], # BelGrazStartYear
 #                 [0], # BelGrazWindow
 #                 [0], # BelGrazMode
-#                 [0, 0.5], # BelPropRemove
-#                 [0, 50]] # CatastrophicDisYear
+#                 [0, 1000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000], # BelGrazGrams
+#                 [50], # CatastrophicDisYear; 0 is no disturbance
+#                 [0, 0.25, 0.50, 0.75, 0.90, 0.99, 1], # CatastrophicPlantMortality
+#                 [0, 0.25, 0.50, 0.75, 0.90, 0.99, 1], # CatastrophicSeedMortality
+#                 [1], # SeedRainType
+#                 [10]] # SeedInput
 
 base_params =  [[1], # IC version
                 [0], # ITVsd
                 [100], # Tmax
                 [90], # ARes
                 [90], # Bres
-                [0], # CutHeight
                 [0.2], # GrazProb
                 [0.5], # propRemove
-                [0, 1], # BelGrazProb
-                [0, 50], # BelGrazStartYear
-                [0, 5], # BelGrazWindow
+                [1], # BelGrazProb
+                [0], # BelGrazStartYear
+                [0], # BelGrazWindow
                 [0], # BelGrazMode
-                [0, 0.5], # BelPropRemove
-                [0, 50], # CatastrophicDisYear; 0 is no disturbance
-                [0, 0.99, 1], # CatastrophicPlantMortality
-                [0, 0.99, 1], # CatastrophicSeedMortality
-                [0, 1], # SeedRainType
-                [0, 10]] # SeedInput
+                [30000], # BelGrazGrams
+                [25], # CatastrophicDisYear; 0 is no disturbance
+                [0.90], # CatastrophicPlantMortality
+                [0], # CatastrophicSeedMortality
+                [1], # SeedRainType
+                [10]] # SeedInput
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
@@ -96,27 +102,6 @@ PFType_params = [[100], # MaxAge
                 [0], # Resshare
                 [0], # AllocSpacer
                 [0]] # mSpacer
-
-# Changing resource response!
-# PFType_params = [[100], # MaxAge
-#                 [0.05], # AllocSeed
-#                 [0.50], # LMR
-#                 [[0.3, 2000, 0.3, 0.3]],# maxPlantSizeSet. Maximum plant size -- large
-#                 [0.5], # pEstab
-#                 [[60, 2],
-#                  [20, 6]], # Resource response -- tolerator
-#                 [[0.50, 0.75]],# grazingResponseSet. Grazing response -- tolerator
-#                 [1], # RAR
-#                 [0.25], # growth
-#                 [0.2], # mThres
-#                 [0], # clonal
-#                 [0], # propSex
-#                 [0], # meanSpacerLength
-#                 [0], # sdSpacerLength
-#                 [0], # Resshare
-#                 [0], # AllocSpacer
-#                 [0]] # mSpacer
-
 
 def buildBatchScripts(SimFile, n_cores, path, Sim_header):
     sims_per_core = int(math.ceil(len(SimFile)/float(n_cores)))

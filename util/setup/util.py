@@ -1,39 +1,38 @@
 import sys, os, subprocess, itertools, csv, copy, math, re, random
 
 class Base_Parameter():
-    def __init__(self, IC_version, ITVsd, Tmax, ARes, Bres, CutHeight,
+    def __init__(self, 
+        IC_version, ITVsd, Tmax, ARes, Bres, 
         GrazProb, PropRemove, 
-        BelGrazProb, BelGrazStartYear, BelGrazWindow, BelGrazMode, BelPropRemove, 
-        catastophicDistYear, CatastrophicPlantMortality, CatastrophicSeedMortality,
+        BelGrazProb, BelGrazStartYear, BelGrazWindow, BelGrazMode, BelGrazGrams, 
+        catastrophicDistYear, CatastrophicPlantMortality, CatastrophicSeedMortality,
         SeedRainType, SeedInput):
         self.IC_version = IC_version
         self.ITVsd = ITVsd
         self.Tmax = Tmax
         self.ARes = ARes
         self.Bres = Bres
-        self.CutHeight = CutHeight
         self.GrazProb = GrazProb
         self.PropRemove = PropRemove
         self.BelGrazProb = BelGrazProb
         self.BelGrazStartYear = BelGrazStartYear
         self.BelGrazWindow = BelGrazWindow
         self.BelGrazMode = BelGrazMode
-        self.BelPropRemove = BelPropRemove
-        self.catastophicDistYear = catastophicDistYear
+        self.BelGrazGrams = BelGrazGrams
+        self.catastrophicDistYear = catastrophicDistYear
         self.CatastrophicPlantMortality = CatastrophicPlantMortality
         self.CatastrophicSeedMortality = CatastrophicSeedMortality
         self.SeedRainType = SeedRainType
         self.SeedInput = SeedInput
 
         # This only applies to Wireworm scenarios
-        if (self.catastophicDistYear == 0 and self.CatastrophicSeedMortality > 0 or 
-            self.catastophicDistYear > 0 and self.CatastrophicSeedMortality == 0):
-            print "Nonsensical or redundant parameterization -- catastrophicDistYear and Seed Mortality."
+
+        if (self.catastrophicDistYear == 0 and (self.CatastrophicSeedMortality > 0 or self.CatastrophicPlantMortality > 0)):
+            print "Nonsensical or redundant parameterization -- catastrophicDistYear and Seed/Plant Mortality."
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.catastophicDistYear == 0 and self.CatastrophicPlantMortality > 0 or 
-            self.catastophicDistYear > 0 and self.CatastrophicPlantMortality == 0):
-            print "Nonsensical or redundant parameterization -- catastrophicDistYear and Plant Mortality."
+        if (self.catastrophicDistYear > 0 and self.CatastrophicSeedMortality == 0 and self.CatastrophicPlantMortality == 0):
+            print "Nonsensical or redundant parameterization -- catastrophicDistYear and Seed/Plant Mortality."
             raise Exception("Nonsensical or redundant parameterization")
 
         if (self.SeedRainType == 0 and self.SeedInput > 0 or 
@@ -47,26 +46,21 @@ class Base_Parameter():
 
         if (self.BelGrazProb == 0):
             if (self.BelGrazStartYear > 0 or 
-                # self.BelGrazWindow > 0 or 
                 self.BelGrazMode > 0 or 
-                self.BelPropRemove > 0):
+                self.BelGrazGrams > 0):
                 print "Nonsensical or redundant parameterization -- BelGrazProb."
                 raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.BelGrazProb > 0 and self.BelPropRemove == 0):
-            print "Nonsensical or redundant parameterization -- BelGrazProb and BelPropRemove."
+        if (self.BelGrazProb > 0 and self.BelGrazGrams == 0):
+            print "Nonsensical or redundant parameterization -- BelGrazProb and BelGrazGrams."
             raise Exception("Nonsensical or redundant parameterization")
 
     def toString(self):
-        return " ".join(map(str, [self.IC_version, self.ITVsd, self.Tmax, self.ARes, 
-            self.Bres, self.CutHeight, self.GrazProb, self.PropRemove, self.BelGrazProb, self.BelGrazStartYear, 
-            self.BelGrazWindow, self.BelGrazMode, self.BelPropRemove, 
-            self.catastophicDistYear, self.CatastrophicPlantMortality, self.CatastrophicSeedMortality,
+        return " ".join(map(str, [self.IC_version, self.ITVsd, self.Tmax, self.ARes, self.Bres, 
+            self.GrazProb, self.PropRemove, 
+            self.BelGrazProb, self.BelGrazStartYear, self.BelGrazWindow, self.BelGrazMode, self.BelGrazGrams, 
+            self.catastrophicDistYear, self.CatastrophicPlantMortality, self.CatastrophicSeedMortality,
             self.SeedRainType, self.SeedInput]))
-
-
-
-
 
 
 class PFT():

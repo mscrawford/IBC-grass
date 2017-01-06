@@ -94,7 +94,7 @@ void CGridEnvir::OneRun() {
 
 		WriteOFiles();
 
-		this->writeSpatialGrid();
+//		this->writeSpatialGrid();
 
 		if (endofrun)
 			break;
@@ -131,8 +131,7 @@ void CGridEnvir::OneWeek() {
 	DistribResource();      //cell loop, resource uptake and competition
 	PlantLoop();            //Growth, Dispersal, Mortality
 
-	if (year > 1)
-		Disturb();  //grazing and disturbance
+
 
 	RemovePlants();         //remove trampled plants
 
@@ -146,15 +145,19 @@ void CGridEnvir::OneWeek() {
 		SeedMortWinter();    //winter seed mortality
 	}
 
-	if (week == 20) {        //general output
-		GetOutput();   //calculate output variables
-	}
-
 	if (SRunPara::RunPara.catastrophicDistYear > 0 // Catastrophic disturbance is on
 	&& CEnvir::year == SRunPara::RunPara.catastrophicDistYear // It is the disturbance year
 	&& CEnvir::week == 21) // It is the disturbance week
 	{
 		catastrophicDisturbance();
+	}
+
+	if (year > 1)
+		Disturb();  //grazing and disturbance
+
+	if (week == 21) {  //general output
+		GetOutput();   //calculate output variables
+		this->writeSpatialGrid();
 	}
 
 	if ((SRunPara::RunPara.SeedRainType > 0) && (week == 21)) //seed rain in seed dispersal week
@@ -442,7 +445,7 @@ void CGridEnvir::SeedRain() {
 				n = SRunPara::RunPara.SeedInput;
 		}
 
-		cout << "Initializing " << n << " seeds of PFT type: " << PFT_ID << endl;
+//		cout << "Initializing " << n << " seeds of PFT type: " << PFT_ID << endl;
 		CGrid::InitClonalSeeds(traits, n, traits->pEstab);
 	}
 

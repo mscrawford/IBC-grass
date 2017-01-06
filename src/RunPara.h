@@ -95,9 +95,9 @@ public:
 	int BelGrazStartYear;
 	int BelGrazWindow;
 	double BelGrazProb;
-	//! proportion of belowground biomass removed by grazing
+	//! Grams of belowground biomass removed by grazing
 	///\since belowground herbivory simulations
-	double BelPropRemove;
+	double BelGrazGrams;
 	///threshold for additional below_herbivory-mortality  (default is one)
 	double BGThres;
 ///@}
