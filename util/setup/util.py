@@ -98,3 +98,4 @@ class PFT():
                                     self.palat, self.memo, self.RAR, self.growth, self.mThres, self.clonal,
                                     self.propSex, self.meanSpacerLength, self.sdSpacerlength, self.Resshare,
                                     self.AllocSpacer, self.mSpacer])) 
+

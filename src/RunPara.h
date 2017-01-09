@@ -98,8 +98,7 @@ public:
 	//! Grams of belowground biomass removed by grazing
 	///\since belowground herbivory simulations
 	double BelGrazGrams;
-	///threshold for additional below_herbivory-mortality  (default is one)
-	double BGThres;
+
 ///@}
 
 	/** @name CutParam

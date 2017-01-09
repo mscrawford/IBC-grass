@@ -126,15 +126,12 @@ void CGridEnvir::OneYear() {
 void CGridEnvir::OneWeek() {
 
 	ResetWeeklyVariables(); //cell loop, removes data from cells
+
 	SetCellResource();      //variability between weeks
 	CoverCells();           //plant loop
 	DistribResource();      //cell loop, resource uptake and competition
 	PlantLoop();            //Growth, Dispersal, Mortality
-
-
-
 	RemovePlants();         //remove trampled plants
-
 	EstabLottery();         //for seeds and ramets
 
 	if (week == 20)

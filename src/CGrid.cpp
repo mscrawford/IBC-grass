@@ -179,8 +179,7 @@ void CGrid::PlantLoop() {
 			++iplant) {
 		CPlant* plant = *iplant;
 
-		if (SRunPara::RunPara.ITV == on)
-			assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
+		if (SRunPara::RunPara.ITV == on) assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
 
 		if (!plant->dead) {
 			plant->Grow2();
@@ -356,9 +355,6 @@ void CGrid::CoverCells() {
 			++iplant) {
 		CPlant* plant = *iplant;
 
-		if (SRunPara::RunPara.ITV == on)
-			assert(plant->Traits->myTraitType == SPftTraits::individualized); //MSC
-
 		double Ashoot = plant->Area_shoot() / CellArea;
 		plant->Ash_disc = floor(plant->Area_shoot()) + 1;
 
@@ -494,10 +490,6 @@ void CGrid::Resshare() // resource sharing
 		if (Genet->AllRametList.size() > 1) //!Genet->AllRametList.empty())
 				{
 			CPlant* plant = Genet->AllRametList.front();
-			if (SRunPara::RunPara.ITV == on)
-				assert(
-						plant->Traits->myTraitType
-								== SPftTraits::individualized); //MSC
 			if (plant->Traits->clonal //type()=="CclonalPlant"
 			&& plant->Traits->Resshare == true) { //only betwen connected ramets
 				Genet->ResshareA();  //above ground
@@ -761,7 +753,8 @@ bool CGrid::Disturb() {
 		if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb
 				&& CEnvir::year >= SRunPara::RunPara.BelGrazStartYear
 				&& (CEnvir::year < SRunPara::RunPara.BelGrazStartYear+ SRunPara::RunPara.BelGrazWindow
-						|| SRunPara::RunPara.BelGrazWindow == 0)) {
+						|| SRunPara::RunPara.BelGrazWindow == 0))
+		{
 			GrazingBelGr(SRunPara::RunPara.BelGrazMode);
 		}
 
@@ -792,46 +785,30 @@ bool CGrid::Disturb() {
 
 void CGrid::catastrophicDisturbance()
 {
-//		Cutting(10);
-		// Remove the parameter adjusting cut height from the various parameterization and output scripts
-		// This is code to remove all below- and above-ground biomass
-		if (SRunPara::RunPara.verbose)
-			cout << "Before disturbance number of plants: " << GetNPlants() + GetNclonalPlants() << endl;
-
-		for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p)
+		// Disturb plants
+		for (auto i = PlantList.begin(); i < PlantList.end(); ++i)
 		{
-			CPlant* plant = *p;
+			CPlant* p = *i;
 
-			if (plant->dead) continue;
+			if (p->dead) continue;
 
-			if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicPlantMortality)
-			{
-				plant->dead = true;
+			if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicPlantMortality) {
+				p->dead = true;
 			}
 		}
 
-		if (SRunPara::RunPara.verbose)
-			cout << "After disturbance number of plants: " << GetNPlants() + GetNclonalPlants() << endl;
-
-		// Count seeds
-		if (SRunPara::RunPara.verbose)
-			cout << "Before disturbance number of seeds: " << GetNSeeds() << endl;
-
 		// Disturb seeds
-		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) { // loop for all cells
-			CCell* cell = CellList[i];
-			for (seed_iter iter = cell->SeedBankList.begin(); iter != cell->SeedBankList.end(); ++iter) {
-				CSeed* seed = *iter;
+		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
+			CCell* c = CellList[i];
+			for (auto it = c->SeedBankList.begin(); it != c->SeedBankList.end(); ++it) {
+				CSeed* s = *it;
 				if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicSeedMortality) {
-					seed->remove = true;
-				} //if not seed survive
-			} //for seeds in cell
+					s->remove = true;
+				}
+			}
 
-			cell->RemoveSeeds(); //removes and deletes all seeds with remove==true
+			c->RemoveSeeds(); //removes and deletes all seeds with remove==true
 		} // for all cells
-
-		if (SRunPara::RunPara.verbose)
-			cout << "After disturbance number of seeds: " << GetNSeeds() << endl;
 
 }
 
@@ -873,10 +850,6 @@ void CGrid::Grazing() {
 		plant_size i = 0;
 		while ((i < PlantList.size()) && (MassRemoved < MaxMassRemove)) {
 			CPlant* lplant = PlantList[i];
-			if (SRunPara::RunPara.ITV == on)
-				assert(
-						lplant->Traits->myTraitType
-								== SPftTraits::individualized); //MSC
 			grazprob = (lplant->mshoot * lplant->Traits->GrazFac()) / Max;
 			if (CEnvir::rand01() < grazprob)
 				MassRemoved += lplant->RemoveMass();
@@ -894,8 +867,6 @@ void CGrid::Grazing() {
  \change 18-11-2010 kk: gebe entfernte BM an Klassenvariable
  */
 void CGrid::Cutting(double cut_height) {
-//	if (SRunPara::RunPara.verbose)
-//		cout << "In CGrid::Cutting" << endl;
 
 	CPlant* p;
 	double mass_removed = 0;
@@ -908,42 +879,15 @@ void CGrid::Cutting(double cut_height) {
 		if (p->getHeight() > cut_height) {
 			double biomass_at_height = p->getBiomassAtHeight(cut_height);
 
-//			if (SRunPara::RunPara.verbose)
-//				cout << "Current plant height: " << p->getHeight() << endl;
-//			if (SRunPara::RunPara.verbose)
-//				cout << "LMR: " << p->Traits->LMR << endl;
-//			if (SRunPara::RunPara.verbose)
-//				cout << "Current aboveground plant mass: " << p->mshoot << endl;
-//			if (SRunPara::RunPara.verbose)
-//				cout << "Mass to be below " << cut_height << " cm: "
-//						<< biomass_at_height << endl;
-
 			mass_removed = p->mshoot - biomass_at_height;
 			p->mshoot = biomass_at_height;
 			p->mRepro = 0.0;
 
-//			if (SRunPara::RunPara.verbose)
-//				cout << "Mass removed: " << mass_removed << endl;
-//			if (SRunPara::RunPara.verbose)
-//				cout << "New plant height: " << p->getHeight() << endl;
 		}
 	}
+
 	cutted_BM += mass_removed;
 } //end cutting
-
-//-----------------------------------------------------------------------------
-/**
- \brief get additional mortality
-
- obsolete
- */
-
-double getMortBelGraz(double fraction, double thresh) {
-	if (thresh == 1.0)
-		return 0.0;
-//  if (fraction<thresh) return 0.0;
-	return max(0.0, (fraction - thresh) / (1.0 - thresh));
-}
 
 //-----------------------------------------------------------------------------
 /**
@@ -1009,23 +953,11 @@ void CGrid::GrazingBelGr(const int mode) {
 		double fn_o = SRunPara::RunPara.BelGrazGrams; // Forage need (parameterize this and remove BelPropRemove!)
 		double biomass_removed = 0;
 		const double alpha = 2.0; // Paramaterize this!
-
-		// Functional response leaves some amount of rootmass un-eaten
-//		const int BASE = 1000;
-//		if (fn_o > bt-BASE) {
-//			if (bt-BASE <= 0) {
-//				fn_o = 0;
-//			} else {
-//				fn_o = bt-BASE;
-//			}
-//		}
-
 		const double BASE = 0.01;
 
 		if (bt-fn_o < bt*BASE) {
 			fn_o = bt - bt*BASE;
 		}
-
 		double fn = fn_o;
 
 		while (ceil(biomass_removed) < fn_o)
@@ -1082,7 +1014,7 @@ void CGrid::GrazingBelGr(const int mode) {
 	}
 	else
 	{
-		cerr << "Incorrect belowground grazing mode." << endl;
+		cerr << "Incorrect belowground herbivory mode." << endl;
 	}
 }    //end CGrid::GrazingBelGr()
 
@@ -1314,10 +1246,9 @@ bool Emmigrates(int& xx, int& yy) {
 double CGrid::GetTotalAboveMass() {
 	double above_mass = 0;
 
-	for (plant_iter iplant = PlantList.begin(); iplant < PlantList.end();
-			++iplant) {
-		CPlant* plant = *iplant;
-		above_mass += plant->mshoot + plant->mRepro;
+	for (plant_iter i = PlantList.begin(); i < PlantList.end(); ++i) {
+		CPlant* p = *i;
+		above_mass += p->mshoot + p->mRepro;
 	}
 	return above_mass;
 }
@@ -1328,10 +1259,9 @@ double CGrid::GetTotalAboveMass() {
 double CGrid::GetTotalBelowMass() {
 	double below_mass = 0;
 
-	for (plant_iter iplant = PlantList.begin(); iplant < PlantList.end();
-			++iplant) {
-		CPlant* plant = *iplant;
-		below_mass += plant->mroot;
+	for (plant_iter i = PlantList.begin(); i < PlantList.end(); ++i) {
+		CPlant* p = *i;
+		below_mass += p->mroot;
 	}
 	return below_mass;
 }
@@ -1342,16 +1272,16 @@ double CGrid::GetTotalBelowMass() {
 int CGrid::GetNclonalPlants() //count clonal plants
 {
 	int NClonalPlants = 0;
-	for (plant_iter iplant = PlantList.begin(); iplant < PlantList.end();
-			++iplant) {
-		CPlant* plant = *iplant;
-		//only if its a clonal plant
-		if ((plant->Traits->clonal) //>type() == "CclonalPlant")
-		&& (!plant->dead))
+	for (plant_iter i = PlantList.begin(); i < PlantList.end(); ++i) {
+		CPlant* p = *i;
+		if (p->Traits->clonal && !p->dead)
+		{
 			NClonalPlants++;
+		}
 	}
 	return NClonalPlants;
 } //end CGridclonal::GetNclonalPlants()
+
 //-----------------------------------------------------------------------------
 /**
  * TODO change meaning
@@ -1361,17 +1291,16 @@ int CGrid::GetNclonalPlants() //count clonal plants
 int CGrid::GetNPlants() //count non-clonal plants
 {
 	int NPlants = 0;
-	for (plant_iter iplant = PlantList.begin(); iplant < PlantList.end();
-			++iplant) {
-		CPlant* plant = *iplant;
+	for (plant_iter i = PlantList.begin(); i < PlantList.end(); ++i) {
+		CPlant* p = *i;
 		//only if its a non-clonal plant
-		if (!(plant->Traits->clonal) //>type() == "CPlant")
-		&& (!plant->dead))
+		if (!p->Traits->clonal && !p->dead)
+		{
 			NPlants++;
+		}
 	}
 	return NPlants;
 } //end CGridclonal::GetNPlants()
-
 
 int CGrid::GetNSeeds()
 {
@@ -1380,9 +1309,6 @@ int CGrid::GetNSeeds()
 		CCell* cell = CellList[i];
 		seedCount = seedCount + cell->SeedBankList.size();
 	}
-
-//	if (SRunPara::RunPara.verbose)
-//		cout << "Before disturbance number of seeds: " << seedCount << endl;
 
 	return seedCount;
 }

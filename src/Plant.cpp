@@ -345,8 +345,6 @@ void CPlant::Grow2() //grow plant one timestep
  dm/dt = growth*(c*m^p - m^q / m_max^r)
  */
 double CPlant::ShootGrow(double shres) {
-	if (SRunPara::RunPara.ITV == on)
-		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 
 	double Assim_shoot, Resp_shoot;
 	double p = 2.0 / 3.0, q = 2.0, r = 4.0 / 3.0; //exponents for growth function
@@ -363,8 +361,6 @@ double CPlant::ShootGrow(double shres) {
  dm/dt = growth*(c*m^p - m^q / m_max^r)
  */
 double CPlant::RootGrow(double rres) {
-	if (SRunPara::RunPara.ITV == on)
-		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 
 	double Assim_root, Resp_root;
 	double q = 2.0, r = 4.0 / 3.0; //exponents for growth function
@@ -501,10 +497,10 @@ double CPlant::RemoveRootMass(const double prop_remove) {
 //	return mass_removed;
 
 	double mass_removed = prop_remove * mroot;
-	assert(!(mass_removed > mroot));
+	assert(mass_removed < mroot);
 	mroot -= mass_removed;
 
-	if (mroot == 0) {
+	if (mroot <= 0) {
 		dead = true;
 	}
 
@@ -524,29 +520,21 @@ void CPlant::WinterLoss() {
 
 //-----------------------------------------------------------------------------
 double CPlant::Radius_shoot() {
-	if (SRunPara::RunPara.ITV == on)
-		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	return sqrt(Traits->SLA * pow(Traits->LMR * mshoot, 2.0 / 3.0) / Pi);
 }
 
 //-----------------------------------------------------------------------------
 double CPlant::Radius_root() {
-	if (SRunPara::RunPara.ITV == on)
-		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	return sqrt(Traits->RAR * pow(mroot, 2.0 / 3.0) / Pi);
 }
 
 //-----------------------------------------------------------------------------
 double CPlant::Area_shoot() {
-	if (SRunPara::RunPara.ITV == on)
-		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	return Traits->SLA * pow(Traits->LMR * mshoot, 2.0 / 3.0);
 }
 
 //-----------------------------------------------------------------------------
 double CPlant::Area_root() {
-	if (SRunPara::RunPara.ITV == on)
-		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	return Traits->RAR * pow(mroot, 2.0 / 3.0);
 }
 
@@ -563,8 +551,6 @@ double CPlant::Area_root() {
  * \since revision
  */
 double CPlant::comp_coef(const int layer, const int symmetry) const {
-	if (SRunPara::RunPara.ITV == on)
-		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
 	switch (symmetry) {
 	case 1:
 		if (layer == 1)

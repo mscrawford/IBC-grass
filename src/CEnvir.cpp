@@ -393,14 +393,11 @@ void CEnvir::WritePftComplete(bool allYears) {
 			i++;
 		for (i; i < PftOutData.size(); ++i)
 		{
-			if(SRunPara::RunPara.verbose) cout << "i: " << i << "; year: " << year << "; week: " << week << endl;
 			typedef map<string, SPftOut::SPftSingle*> mapType;
 			for (mapType::const_iterator it = PftOutData[i]->PFT.begin();
 					it != PftOutData[i]->PFT.end(); ++it)
 			{
 				SPftTraits* traits = SPftTraits::PftLinkList.find(it->first)->second;
-
-//				cout << "PftOutData[i]->year: " << PftOutData[i]->year << " and week " << PftOutData[i]->week <<endl;
 
 				PftOutFile
 							<< SimNr << "\t"
