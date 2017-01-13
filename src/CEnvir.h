@@ -7,6 +7,7 @@
 
 #include "CGrid.h"
 #include "OutStructs.h"
+#include "Output.h"
 
 #include <vector>
 #include <fstream>
@@ -80,6 +81,8 @@ public:
 	//result variables - non-clonal
 	map<string, double> PftCover;  //!< current Grid-cover of Pfts used
 	double NCellsAcover;    ///< Number of Cells shaded by plants on ground
+
+	static Output output;
 
 	//Functions
 	CEnvir();

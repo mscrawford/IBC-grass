@@ -14,8 +14,7 @@ using namespace std;
 /**
  * constructor
  */
-CGridEnvir::CGridEnvir() :
-		CEnvir(), CGrid() {
+CGridEnvir::CGridEnvir() : CEnvir(), CGrid() {
 	ReadLandscape();
 }
 
@@ -88,6 +87,7 @@ void CGridEnvir::OneRun() {
 
 	do {
 		this->NewWeek();
+
 		if(SRunPara::RunPara.verbose) cout << "y " << year << endl;
 
 		OneYear();
@@ -152,20 +152,30 @@ void CGridEnvir::OneWeek() {
 	if (year > 1)
 		Disturb();  //grazing and disturbance
 
-	if (week == 21) {  //general output
-		GetOutput();   //calculate output variables
-		this->writeSpatialGrid();
+	if (CEnvir::output.weekly == 1 || week == 21)
+	{
+		CEnvir::output.print_PFT(PlantList, CellList);
+		if (CEnvir::output.ind_out == 1) {
+			CEnvir::output.print_ind(PlantList);
+		}
 	}
+
+
+//	if (week == 21) {  //general output
+
+//		GetOutput();   //calculate output variables
+//		this->writeSpatialGrid();
+//	}
 
 	if ((SRunPara::RunPara.SeedRainType > 0) && (week == 21)) //seed rain in seed dispersal week
 		SeedRain();
 
-	if (week == 30) {
-		//get cutted biomass
-		GetOutputCutted();
-		//clonal output
-//      GetClonOutput();   //calculate output variables - now in week 20
-	}
+//	if (week == 30) {
+//		//get cutted biomass
+//		GetOutputCutted();
+//		//clonal output
+////      GetClonOutput();   //calculate output variables - now in week 20
+//	}
 
 }   //end CClonalGridEnvir::OneWeek()
 
@@ -200,6 +210,7 @@ int CGridEnvir::exitConditions() {
  */
 void CGridEnvir::GetOutput() //PftOut& PftData, SGridOut& GridData)
 {
+
 	string pft_name;
 	double prop_PFT;
 

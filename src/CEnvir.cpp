@@ -39,6 +39,8 @@ int CEnvir::SimNr;
 int CEnvir::ComNr;
 int CEnvir::RunNr;
 
+Output CEnvir::output;
+
 vector<double> CEnvir::AResMuster;
 vector<double> CEnvir::BResMuster;
 map<string, long> CEnvir::PftInitList;  //!< list of Pfts used
@@ -216,6 +218,12 @@ int CEnvir::GetSim(const int pos, string file) {
 	SSR::NameLDDFile3 = (string) "data/out/LDD-3-5_" + fid + ".txt";
 	SSR::NameLDDFile4 = (string) "data/out/LDD-9-10_" + fid + ".txt";
 	SSR::NameLDDFile5 = (string) "data/out/LDD-19-20_" + fid + ".txt";
+
+	output.setupOutput(1, 1, "data/out/param.txt",
+			"data/out/trait.txt", "data/out/PFT.txt", "data/out/ind.txt");
+
+	output.print_param();
+	output.print_trait();
 
 	return SimFile.tellg();
 }
