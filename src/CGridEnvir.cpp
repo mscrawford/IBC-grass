@@ -1,13 +1,8 @@
-/*
- * CGridEnvir.cpp
- *
- *  Created on: 24.04.2014
- *      Author: KatrinK
- */
 
 #include "CGridEnvir.h"
-#include <sstream>
+
 #include <iostream>
+
 using namespace std;
 
 //------------------------------------------------------------------------------
@@ -68,8 +63,6 @@ void CGridEnvir::InitInds(string file) {
 		InitClonalSeeds(traits, no_init_seeds);
 		PftInitList[traits->name] += no_init_seeds;
 		PftSurvTime[traits->name] = 0;
-		if(SRunPara::RunPara.verbose) cout << "Initializing " << no_init_seeds << " seeds of PFT: " << traits->name << endl;
-		CEnvir::SeedRainGr.PftSeedRainList[traits->name] = SRunPara::RunPara.SeedInput;
 	}
 } //initialization based on file
 
@@ -88,13 +81,9 @@ void CGridEnvir::OneRun() {
 	do {
 		this->NewWeek();
 
-		if(SRunPara::RunPara.verbose) cout << "y " << year << endl;
+		if (SRunPara::RunPara.verbose) cout << "y " << year << endl;
 
 		OneYear();
-
-		WriteOFiles();
-
-//		this->writeSpatialGrid();
 
 		if (endofrun)
 			break;
@@ -126,7 +115,6 @@ void CGridEnvir::OneYear() {
 void CGridEnvir::OneWeek() {
 
 	ResetWeeklyVariables(); //cell loop, removes data from cells
-
 	SetCellResource();      //variability between weeks
 	CoverCells();           //plant loop
 	DistribResource();      //cell loop, resource uptake and competition
@@ -160,22 +148,8 @@ void CGridEnvir::OneWeek() {
 		}
 	}
 
-
-//	if (week == 21) {  //general output
-
-//		GetOutput();   //calculate output variables
-//		this->writeSpatialGrid();
-//	}
-
-	if ((SRunPara::RunPara.SeedRainType > 0) && (week == 21)) //seed rain in seed dispersal week
+	if ((SRunPara::RunPara.SeedRainType > 0) && (week == 21))
 		SeedRain();
-
-//	if (week == 30) {
-//		//get cutted biomass
-//		GetOutputCutted();
-//		//clonal output
-////      GetClonOutput();   //calculate output variables - now in week 20
-//	}
 
 }   //end CClonalGridEnvir::OneWeek()
 
@@ -202,166 +176,6 @@ int CGridEnvir::exitConditions() {
 	return 0;
 } //end CClonalGridEnvir::exitConditions()
 
-//---------------------------------------------------------------------------
-/**
- calculate Output-variables and store in intern 'database'
-
- changed in Version 100715 - for  type-flexible Output
- */
-void CGridEnvir::GetOutput() //PftOut& PftData, SGridOut& GridData)
-{
-
-	string pft_name;
-	double prop_PFT;
-
-	SPftOut* PftWeek = new SPftOut();
-	SGridOut* GridWeek = new SGridOut();
-
-	//calculate sums
-	for (plant_iter iplant = PlantList.begin(); iplant < PlantList.end();
-			++iplant) {
-		CPlant* plant = *iplant;
-		pft_name = plant->pft();
-		//suche pft...
-		if (!plant->dead) {
-//following lines adapted from Internet
-// http://stackoverflow.com/questions/936999/what-is-the-default-constructor-for-c-pointer
-//CHANGED BY KK
-			map<string, SPftOut::SPftSingle*>::const_iterator pos =
-					PftWeek->PFT.find(pft_name);
-			SPftOut::SPftSingle* mi;
-			if (pos == PftWeek->PFT.end())
-				PftWeek->PFT[pft_name] = new SPftOut::SPftSingle();
-			mi = PftWeek->PFT.find(pft_name)->second;
-			mi->totmass += plant->GetMass();
-			++mi->Nind;
-			mi->shootmass += plant->mshoot;
-			mi->rootmass += plant->mroot;
-		}
-	}
-	//calculate mean values
-	typedef map<string, SPftOut::SPftSingle*> mapType;
-
-	for (mapType::const_iterator it = PftWeek->PFT.begin();
-			it != PftWeek->PFT.end(); ++it) {
-		if (it->second->Nind >= 1) {
-
-			//calculate shannon index and proportion of each PFT
-			prop_PFT = (double) it->second->Nind / PlantList.size();
-			GridWeek->shannon += (-1) * prop_PFT * log(prop_PFT);
-		}
-		// cover mit Funktion find()  f�llen -- da sonst evtl adressierungsfehler
-		string type = it->first;
-		double cover = this->PftCover.find(it->first)->second;
-		it->second->cover = cover;
-
-		GridWeek->totmass += it->second->totmass;
-		GridWeek->above_mass += it->second->shootmass;
-		GridWeek->below_mass += it->second->rootmass;
-		GridWeek->Nind += it->second->Nind;
-
-		//add LDDSeeds to PftWeek
-		for (int d = 0; d < NDistClass; ++d) {
-			PftWeek->PFT[it->first]->LDDseeds[d] =
-					(*LDDSeeds)[it->first].NSeeds[d];
-			(*LDDSeeds)[it->first].NSeeds[d] = 0;
-		}
-
-	}
-
-	//summarize seeds on grid...
-	int sumcells = SRunPara::RunPara.GetSumCells();
-	for (int i = 0; i < sumcells; ++i) {
-		CCell* cell = CellList[i];
-		for (seed_iter iter = cell->SeedBankList.begin();
-				iter < cell->SeedBankList.end(); ++iter) {
-			string pft = (*iter)->pft();
-			if (!PftWeek->PFT[pft])
-				PftWeek->PFT[pft] = new SPftOut::SPftSingle();
-			++PftWeek->PFT[pft]->Nseeds;
-		}
-	}
-
-	double sum_above = 0, sum_below = 0;
-	for (int i = 0; i < sumcells; ++i) {
-		CCell* cell = CellList[i];
-		sum_above += cell->AResConc;
-		sum_below += cell->BResConc;
-	}
-	GridWeek->aresmean = sum_above / sumcells;
-	GridWeek->bresmean = sum_below / sumcells;
-
-	double t_acomp = 0;
-	double t_bcomp = 0;
-	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
-		CCell* cell = CellList[i];
-		double acomp = cell->aComp_weekly;
-		double bcomp = cell->bComp_weekly;
-
-		t_acomp += acomp;
-		t_bcomp += bcomp;
-	}
-	GridWeek->aComp = t_acomp / SRunPara::RunPara.GetSumCells();
-	GridWeek->bComp = t_bcomp / SRunPara::RunPara.GetSumCells();
-
-	this->GetClonOutput(*GridWeek);
-
-	NCellsAcover = GetCoveredCells();
-	GridWeek->bareGround = 1.0
-			- (double(NCellsAcover) / (SRunPara::RunPara.GetSumCells())); //bare ground
-
-	PftOutData.push_back(PftWeek);
-	GridWeek->PftCount = PftSurvival(); //get PFT results
-	GridOutData.push_back(GridWeek);
-} //end CClonalGridEnvir::GetOutput(
-//---------------------------------------------------------------------------
-/**
- * get and reset amount of cutted biomass
- *
- * Appends Output struct
- */
-void CGridEnvir::GetOutputCutted() {
-	SGridOut* GridWeek = GridOutData.back();
-	//store cutted biomass and reset value for next mowing
-	GridWeek->cutted = this->getCuttedBM();
-	this->resetCuttedBM();
-
-}
-//---------------------------------------------------------------------------
-/**
- * get clonal variables (grid wide)
- */
-void CGridEnvir::GetClonOutput(SGridOut& GridData) //PftOut& PftData, )
-{
-	GridData.NclonalPlants = GetNclonalPlants();
-	GridData.NGenets = GetNMotherPlants();
-	GridData.MeanGeneration = GetNGeneration();
-	GridData.NPlants = GetNPlants();
-}
-
-//------------------------------------------------------------------------------
-/**
- Saves Pft survival times and returns number of surviving PFTs
-
- changed in version 100716 for type-flexible Output
- \return number of surviving PFTs
- */
-int CGridEnvir::PftSurvival() {
-	typedef map<string, long> mapType;
-	for (mapType::const_iterator it = PftInitList.begin();
-			it != PftInitList.end(); ++it) {
-
-		if (PftOutData.back()->PFT.find(it->first) == PftOutData.back()->PFT.end()) {  // PFT is extinct
-			// That is, it isn't in the output container.
-			// vergleiche mit letztem Stand
-			if (PftSurvTime.find(it->first)->second == 0) //wenn vorher noch existent
-				PftSurvTime[it->first] = CEnvir::year; //GetT(); //get current time
-		} else { //PFT still exists
-			PftSurvTime[it->first] = 0;
-		} // [it->first];
-	}
-	return PftOutData.back()->PFT.size(); //count_pft;
-} //endPftSurvival
 //-Auswertung--------------------------------------------------------------------------
 int CGridEnvir::getGridACover(int i) {
 	return CellList[i]->getCover(1);
@@ -399,33 +213,6 @@ double CGridEnvir::getTypeCover(const string type) const {
  */
 double CGridEnvir::getTypeCover(const int i, const string type) const {
 	return CellList[i]->getCover(type);
-}
-
-/**
- * MSC
- * Saves the spatial state of the grid (one entry for each plant)
- */
-void CGridEnvir::writeSpatialGrid() {
-	if (SRunPara::RunPara.SPAT == 1 &&
-			(CEnvir::year == SRunPara::RunPara.SPATyear || SRunPara::RunPara.SPATyear == 0))
-	{
-		string fn = "data/out/Spat-" +
-				std::to_string(CEnvir::SimNr) + "_" +
-				std::to_string(CEnvir::ComNr) + "_" +
-				std::to_string(CEnvir::RunNr) + ".txt";
-
-		((CGrid*) this)->writeSpatialGrid(fn);
-	}
-
-	if (SRunPara::RunPara.COMP == 1)
-	{
-		string fn = "data/out/Comp-" +
-				std::to_string(CEnvir::SimNr) + "_" +
-				std::to_string(CEnvir::ComNr) + "_" +
-				std::to_string(CEnvir::RunNr) + ".txt";
-
-		((CGrid*) this) -> writeCompetitionGrid(fn);
-	}
 }
 
 //------------------------------------------------------------------------------

@@ -5,15 +5,13 @@
  *      Author: KatrinK
  */
 
-#include <cstdlib>
-#include <string>
-#include <fstream>
-#include <iostream>
-#include <cassert>
-#include <sstream>
-
 #include "SPftTraits.h"
 #include "CEnvir.h"
+
+#include <cassert>
+#include <iostream>
+
+using namespace std;
 
 /*
  * Default constructor
@@ -255,64 +253,4 @@ void SPftTraits::varyTraits() {
 
 //	cout << "Done varying traits!" << endl;
 
-}
-
-string SPftTraits::toString()
-{
-	std::stringstream mystream;
-	mystream << name << '\t'
-			<< AllocSeed << "\t"
-			<< LMR << "\t"
-			<< m0 << "\t"
-			<< MaxMass << "\t"
-			<< SeedMass << "\t"
-			<< Dist << "\t"
-			<< pEstab << "\t"
-			<< Gmax << "\t"
-			<< SLA << "\t"
-			<< palat << "\t"
-			<< memory << "\t"
-			<< RAR << "\t"
-			<< growth << "\t"
-			<< mThres << "\t"
-			<< clonal << "\t"
-			<< PropSex << "\t"
-			<< meanSpacerlength << "\t"
-			<< sdSpacerlength << "\t"
-			<< Resshare << "\t"
-			<< AllocSpacer << "\t"
-			<< mSpacer << "\t"
-			;
-
-	return mystream.str();
-}
-
-string SPftTraits::headerToString()
-{
-	std::stringstream mystream;
-	mystream << "PFT" << "\t"
-			<< "AllocSeed" << "\t"
-			<< "LMR" << "\t"
-			<< "m0" << "\t"
-			<< "MaxMass" << "\t"
-			<< "SeedMass" << "\t"
-			<< "Dist" << "\t"
-			<< "pEstab" << "\t"
-			<< "Gmax" << "\t"
-			<< "SLA" << "\t"
-			<< "palat" << "\t"
-			<< "memory" << "\t"
-			<< "RAR" << "\t"
-			<< "growth" << "\t"
-			<< "mThres" << "\t"
-			<< "clonal" << "\t"
-			<< "PropSex" << "\t"
-			<< "meanSpacerlength" << "\t"
-			<< "sdSpacerlength" << "\t"
-			<< "Resshare" << "\t"
-			<< "AllocSpacer" << "\t"
-			<< "mSpacer" << "\t"
-		;
-
-	return mystream.str();
 }

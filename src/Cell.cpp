@@ -1,13 +1,11 @@
 //---------------------------------------------------------------------------
-//#pragma package(smart_init)
+
 #include <iostream>
-#include <map>
-#include <string>
-#include <sstream>
-//---------------------------------------------------------------------------
+
 #include "Cell.h"
-//#include "CGrid.h"
 #include "CEnvir.h"
+
+using namespace std;
 
 //-----------------------------------------------------------------------------
 /**
@@ -336,6 +334,7 @@ double CCell::prop_res(const string type,const int layer,const int version)const
 	}
    return -1; //should not be reached
 }//end CCell::prop_res
+
 //---------------------------------------------------------------------------
 void CCell::print_map(map<string,int> &mymap){
    typedef map<string,int>::const_iterator CI;
@@ -343,32 +342,6 @@ void CCell::print_map(map<string,int> &mymap){
      cout<<p->first<<'\t' <<p->second<<endl;
    }
 }
-/**
-report cell's content without plants
 
-\note
-\author KK
-\date 1209xx
-*/
-std::string CCell::asString(){
-//coordinates
-std::stringstream dummi;
-dummi<<"\n"<<(x)<<"\t"<<(y);
-//resources (not needed in constant and even resource scenarios)
-//seed bank               
-   typedef vector<CSeed*>::iterator CI;
-   map<string,int> pftlist;
-//   typedef map<string,int>::const_iterator CI;
-   for (CI p=SeedBankList.begin();p!=SeedBankList.end();++p){
-     pftlist[(*p)->pft()]++;
-   }
-   typedef map<string,int>::const_iterator CII;
-   for (CII pie=pftlist.begin();pie!=pftlist.end();++pie){
-     dummi<<"\n"<<pie->first<<"\t"<<pftlist[pie->first];
-   }
-
-dummi<<"\nCE";
-return dummi.str();
-}//return content for file saving
 
 //-eof--------------------------------------------------------------------------

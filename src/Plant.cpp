@@ -1,20 +1,11 @@
-//---------------------------------------------------------------------------
-//#pragma hdrstop
+
+#include <cassert>
+#include <iostream>
 
 #include "Plant.h"
-
-#include <algorithm>
-#include <cstdlib>
-#include <iostream>
-#include <sstream>
-#include <cassert>
-#include <iomanip>
-
-#include "Cell.h"
 #include "CEnvir.h"
-#include "CGrid.h"
-#include "CSeed.h"
-#include "SPftTraits.h"
+
+using namespace std;
 
 //-----------------------------------------------------------------------------
 /**
@@ -102,77 +93,6 @@ void CPlant::setGenet(CGenet* genet) {
 		this->genet = genet;
 		this->genet->AllRametList.push_back(this);
 	}
-}
-
-//---------------------------------------------------------------------------
-/**
- plant report (incl. clonal information)
-
- \note direction not reportet; mReproRamets not reportet - weekly transfered
- directly to Spacerlength
- \author KK
- \date 120905
- */
-string CPlant::toString(bool benchmarkFecundity) {
-
-	if (benchmarkFecundity) {
-		lifetimeFecundity += yearlyFecundity;
-	}
-
-	// MSC
-	std::stringstream dummi;
-	dummi << plantID
-			<< '\t' << xcoord
-			<< '\t' << ycoord
-			<< '\t' << Age
-			<< '\t' << mshoot
-			<< '\t' << mroot
-			<< '\t' << mRepro
-			<< '\t' << yearlyFecundity
-			<< '\t' << lifetimeFecundity
-			<< '\t' << Radius_shoot()
-			<< '\t' << Radius_root()
-			<< '\t' << stress
-			<< '\t' << dead
-			<< '\t' << Traits->toString();
-
-//	generation number and genet - ID
-//	if (this->Traits->clonal) {
-//		dummi << "\t" << Generation << '\t' << genet->number;
-//		// Spacer info Length and Length-to-grow  (only for first spacer)
-//		if (growingSpacerList.size() > 0) {
-//			dummi << '\t' << this->growingSpacerList[0]->Spacerlength << '\t'
-//					<< this->growingSpacerList[0]->SpacerlengthToGrow;
-//		}
-//	}
-
-	// You should print out the Generation if it's a clonal plant, and the
-	// Spacerlengths, maybe?
-
-	if (benchmarkFecundity) {
-		yearlyFecundity = 0;
-	}
-
-	return dummi.str();
-}
-
-string CPlant::headerToString() {
-	std::stringstream dummi;
-	dummi << "plantID"
-			<< '\t' << "xcoord"
-			<< '\t' << "ycoord"
-			<< '\t' << "Age"
-			<< '\t' << "mshoot"
-			<< '\t' << "mroot"
-			<< '\t' << "mRepro"
-			<< '\t' << "yearlyFecundity"
-			<< '\t' << "lifetimeFecundity"
-			<< '\t' << "rShoot"
-			<< '\t' << "rRoot"
-			<< '\t' << "stress"
-			<< '\t' << "dead"
-			<< '\t' << SPftTraits::headerToString();
-	return dummi.str();
 }
 
 //-----------------------------------------------------------------------------

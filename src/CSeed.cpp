@@ -2,14 +2,11 @@
 //#pragma hdrstop
 
 #include <cassert>
+#include <iostream>
 #include <vector>
 
 #include "CSeed.h"
-#include "Cell.h"
-#include "Plant.h"
 #include "CEnvir.h"
-#include "RunPara.h"
-#include "SPftTraits.h"
 
 //---------------------------------------------------------------------------
 
@@ -73,7 +70,7 @@ void CSeed::setCell(CCell* cell) {
 		this->cell = cell;
 		this->cell->SeedBankList.push_back(this); //add to seed bank
 	} else {
-		cerr << "This seed is already on a cell." << endl;
+		std::cerr << "This seed is already on a cell." << std::endl;
 	}
 }
 

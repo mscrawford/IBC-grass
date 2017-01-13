@@ -1,14 +1,6 @@
 #include "Output.h"
-#include "RunPara.h"
-#include "CGridEnvir.h"
-#include "CGrid.h"
 #include "CEnvir.h"
 
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <iterator>
-#include <string>
 #include <sstream>
 #include <cassert>
 

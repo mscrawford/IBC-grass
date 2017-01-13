@@ -1,22 +1,18 @@
 /**\file
  \brief functions of class CGrid
  */
-//#pragma package(smart_init)
-//#pragma hdrstop
+
 #include "CGrid.h"
 #include "CEnvir.h"
-#include <iostream>
-#include <map>
-#include <algorithm>
-#include <cassert>
-#include <random>
-#include <math.h>
 
+#include <iostream>
+#include <cassert>
+
+using namespace std;
 //---------------------------------------------------------------------------
 CGrid::CGrid() :
 		cutted_BM(0) {
 	CellsInit();
-	LDDSeeds = new map<string, LDD_Dist>;
 	//generate ZOIBase...
 	ZOIBase.assign(SRunPara::RunPara.GetSumCells(), 0);
 	for (unsigned int i = 0; i < ZOIBase.size(); i++)
@@ -71,14 +67,6 @@ void CGrid::resetGrid() {
 		delete GenetList[i];
 	GenetList.clear();
 	CGenet::staticID = 0;
-	//init LDD seeds
-	LDDSeeds->clear(); //right or resource leck?
-	for (map<string, SPftTraits*>::const_iterator it =
-			SPftTraits::PftLinkList.begin();
-			it != SPftTraits::PftLinkList.end(); ++it) {
-		for (int d = 0; d < NDistClass; ++d)
-			(*LDDSeeds)[it->first].NSeeds[d] = 0;
-	}
 
 }
 //---------------------------------------------------------------------------
@@ -106,65 +94,6 @@ CGrid::~CGrid() {
 	GenetList.clear();
 	CGenet::staticID = 0;
 } //end ~CGrid
-
-//-----------------------------------------------------------------------------
-/**
- * MSC
- * Record the entire spatial grid (one plant per row)
- */
-void CGrid::writeSpatialGrid(string fn) {
-	ofstream w(fn.c_str(), ios::app);
-	if (!w.good()) {
-		cerr << ("Failure in writeSpatialGrid");
-		exit(3);
-	}
-
-	w.seekp(0, ios::end);
-	long size = w.tellp();
-	if (size == 0) {
-		w << CEnvir::headerToString() << SRunPara::RunPara.headerToString()
-				<< CPlant::headerToString() << endl;
-	}
-
-	string envir = CEnvir::toString();
-	string runpara = SRunPara::RunPara.toString();
-
-	for (int i = 0; i < this->PlantList.size(); ++i) {
-		w << envir << runpara << PlantList[i]->toString(true) << endl;
-	}
-}
-//-----------------------------------------------------------------------------
-/**
- * MSC
- * Record the above- and belowground competition on each grid cell.
- */
-void CGrid::writeCompetitionGrid(string fn) {
-	ofstream w(fn.c_str(), ios::app);
-	if (!w.good()) {
-		cerr << ("Failure in writeCompetitionGrid");
-		exit(3);
-	}
-
-	w.seekp(0, ios::end);
-	long size = w.tellp();
-	if (size == 0) {
-		w << CEnvir::headerToString() << SRunPara::RunPara.headerToString()
-				<< "X" << "\t" << "Y" << "\t" << "AComp" << "\t" << "BComp"
-				<< "\t" << endl;
-	}
-
-	string envir = CEnvir::toString();
-	string runpara = SRunPara::RunPara.toString();
-
-	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
-		CCell* cell = CellList[i];
-		double acomp = cell->aComp_weekly;
-		double bcomp = cell->bComp_weekly;
-
-		w << envir << runpara << cell->x << "\t" << cell->y << "\t" << acomp
-				<< "\t" << bcomp << "\t" << endl;
-	}
-}
 
 //-----------------------------------------------------------------------------
 
@@ -270,17 +199,6 @@ int CGrid::DispersSeeds(CPlant* plant) {
 			dist = Distance(x, y, SRunPara::RunPara.GridSize / 2,
 					SRunPara::RunPara.GridSize / 2);
 			dist = dist / 100;  //convert to m
-
-			if ((dist > 1) && (dist <= 2))
-				++(*LDDSeeds)[plant->pft()].NSeeds[0];
-			else if ((dist > 2) && (dist <= 3))
-				++(*LDDSeeds)[plant->pft()].NSeeds[1];
-			else if ((dist > 4) && (dist <= 5))
-				++(*LDDSeeds)[plant->pft()].NSeeds[2];
-			else if ((dist > 9) && (dist <= 10))
-				++(*LDDSeeds)[plant->pft()].NSeeds[3];
-			else if ((dist > 19) && (dist <= 20))
-				++(*LDDSeeds)[plant->pft()].NSeeds[4];
 
 			if (!SRunPara::RunPara.torus)
 				continue;  //skip seed for absorbing boundaries
@@ -565,7 +483,7 @@ void CGrid::EstabLottery() {
 							cell->PftNSeedling.begin();
 							it != cell->PftNSeedling.end() && (!cell->occupied);
 							++it) { // for each type germinated
-						string pft = it->first;
+						std::string pft = it->first;
 						if (rnum < PftEstabProb[pft]) { //random number < current types' estab Probability?
 							random_shuffle(cell->SeedlingList.begin(),
 									partition(cell->SeedlingList.begin(),
@@ -809,7 +727,6 @@ void CGrid::catastrophicDisturbance()
 
 			c->RemoveSeeds(); //removes and deletes all seeds with remove==true
 		} // for all cells
-
 }
 
 //-----------------------------------------------------------------------------
@@ -929,7 +846,7 @@ void CGrid::GrazingBelGr(const int mode) {
 			CPlant* p = *i;
 			total_root_mass += p->mroot;
 		}
-		assert(!std::isnan(total_root_mass));
+		assert(!isnan(total_root_mass));
 		return total_root_mass;
 	};
 

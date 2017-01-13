@@ -4,7 +4,7 @@
 //---------------------------------------------------------------------------
 
 #include "CGenet.h"
-#include "cmath"
+
 //---------------------------------------------------------------------------
 int CGenet::staticID=0;
 
@@ -23,7 +23,7 @@ void CGenet::ResshareA()
                      *Ramet->Ash_disc
                      *Ramet->Traits->Gmax*2;
        //Uptake - the min resources that the plant need
-       AddtoSum=max(0.0,Ramet->Auptake-minres);
+       AddtoSum=std::max(0.0,Ramet->Auptake-minres);
        //if the plant has enought resources
        //new uptake is the min amount of resources
        if (AddtoSum>0)    Ramet->Auptake=minres;
@@ -49,14 +49,14 @@ void CGenet::ResshareB()
        CPlant* Ramet =AllRametList[m];
        double minres= Ramet->Traits->mThres*Ramet->Art_disc*Ramet->Traits->Gmax*2;
        //Uptake - the min resources that the plant need
-       AddtoSum=max(0.0,Ramet->Buptake-minres);
+       AddtoSum=std::max(0.0,Ramet->Buptake-minres);
        //if the plant has enought resources
        //new uptake is the min amount of resources
        if (AddtoSum>0)Ramet->Buptake=minres;
        sumBuptake+=AddtoSum;
     }
 
-    MeanBuptake=(sumBuptake/(AllRametList.size())); //Mittelwert des Überschusses
+    MeanBuptake=(sumBuptake/(AllRametList.size())); //Mittelwert des ï¿½berschusses
 
     //Add the shared resourses to the uptake
      for (unsigned int m=0; m<AllRametList.size();m++)

@@ -9,8 +9,9 @@
 #define CGRIDENVIR_H_
 
 #include "CEnvir.h"
-#include <vector>
-using namespace std;
+
+#include <string>
+
 //---------------------------------------------------------------------------
 /// simulation service class including grid-, result- and environmental information
 /**
@@ -18,13 +19,14 @@ using namespace std;
  CGridclonal and CEnvir are connected, and some Clonal-specific
  result-variables added.
  */
-class CGridEnvir: public CEnvir, public CGrid {
-protected:
+class CGridEnvir: public CEnvir, public CGrid
+
+{
 public:
 
 	//Constructors, Destructor ...
 	CGridEnvir();
-	CGridEnvir(string id); ///< load from file(s)
+	CGridEnvir(std::string id); ///< load from file(s)
 	virtual ~CGridEnvir(); ///<delete clonalTraits;
 
 	///\name core simulating Functions
@@ -33,19 +35,12 @@ public:
 	void OneYear();   ///< runs one year in default mode
 	void OneRun();    ///< runs one simulation run in default mode
 	void OneWeek();   //!< calls all weekly processes
-	virtual void writeSpatialGrid();
-	int PftSurvival();    ///< from CEnvir
 	///@}
 
-	/// \name collect general results
-	///@{
-	void GetOutput();    //run in 20th week of year
-	void GetClonOutput(SGridOut& GridData); //run in 30th week of year
-	void GetOutputCutted(); ///<get anually cutted biomass (after week 22)
 	///@}
 	///\name init new Individuals/Seeds
 	///@{
-	void InitInds(string file); ///< new way of initializing clonal and other traits at the same time from one file
+	void InitInds(std::string file); ///< new way of initializing clonal and other traits at the same time from one file
 	///@}
 
 	int exitConditions(); ///< get exit conditions //first implemented by Ines
@@ -60,14 +55,15 @@ public:
 	///@{
 	int getACover(int x, int y);
 	int getBCover(int x, int y);
-	double getTypeCover(const string type) const;
-	double getTypeCover(const int i, const string type) const;
+	double getTypeCover(const std::string type) const;
+	double getTypeCover(const int i, const std::string type) const;
 
 	void SeedRain(); //!< distribute seeds on the grid each year
 
 private:
 	int getGridACover(int i);
 	int getGridBCover(int i);
+
 	///set cell state information
 	void setCover();
 	///@}

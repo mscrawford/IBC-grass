@@ -1,27 +1,20 @@
-/**\file
- \brief definition of class CGrid and some typedefs
- */
-//---------------------------------------------------------------------------
+
 #ifndef GridBaseH
 #define GridBaseH
-//---------------------------------------------------------------------------
+
+#include <string>
+#include <vector>
+
 #include "Cell.h"
 #include "Plant.h"
 #include "RunPara.h"
 
-struct PftOut;
-struct GridOut;
 
 //!iterator type for plant list
-typedef vector<CPlant*>::iterator plant_iter;
+typedef std::vector<CPlant*>::iterator plant_iter;
 
 //!size type for plant list
-typedef vector<CPlant*>::size_type plant_size;
-
-//!structure for distance classes of seed output
-struct LDD_Dist {
-	long NSeeds[5];
-};
+typedef std::vector<CPlant*>::size_type plant_size;
 
 //! Class with all spatial algorithms where plant individuals interact in space
 /*! Functions for competition and plant growth are overwritten by inherited classes
@@ -31,15 +24,13 @@ class CGrid {
 //   map<string,long>* LDDSeeds; ///< list of seeds to dispers per LDD; has to be managed manually
 	double cutted_BM;  ///< biomass removed by mowing
 	///List of Genets on Grid
-	vector<CGenet*> GenetList;
+	std::vector<CGenet*> GenetList;
 	//clonal..
 	void RametEstab(CPlant* plant);   ///< establish ramets
 	void Resshare();                ///< share ressources among connected ramets
 	void EstabLott_help(CSeed* seed);
 
 protected:
-	static const int NDistClass = 5; ///< number of distance classes for seed dispersal
-	map<string, LDD_Dist>* LDDSeeds; ///< list of seeds to disperse per LDD; has to be managed manually
 	//! assigns grid cells to plants - which cell is covered by which plant
 	virtual void CoverCells();
 	void CalcRootInteraction();
@@ -75,15 +66,14 @@ protected:
 
 public:
 
-	vector<CPlant*> PlantList;    //!< List of plant individuals
+	std::vector<CPlant*> PlantList;    //!< List of plant individuals
 	CCell** CellList;    //!<array of pointers to CCell
 
 	CGrid(); //!< Konstruktor
-	CGrid(string id); //!< Konstruktor for loading a file saved grid
+	CGrid(std::string id); //!< Konstruktor for loading a file saved grid
 	virtual ~CGrid(); //!< Destruktor
 	virtual void resetGrid();
-	void resetCuttedBM() {cutted_BM = 0;};
-	double getCuttedBM() {return cutted_BM;};
+
 	double GetTotalAboveMass();
 	double GetTotalBelowMass();
 
@@ -91,8 +81,6 @@ public:
 	virtual void InitClonalSeeds(SPftTraits* traits, const int n, double estab = 1.0);
 	void DispersRamets(CPlant* plant); ///<initiate new ramets
 	//service functions...
-	void writeSpatialGrid(string fname); // MSC
-	void writeCompetitionGrid(string fname); // MSC
 	int GetNclonalPlants();   ///< number of living clonal plants
 	int GetNPlants();         ///< number of living non-clonal plants
 	int GetNSeeds();			// number of seeds
@@ -103,7 +91,7 @@ public:
 };
 
 ///vector of cell indices increasing in distance to grid center
-static vector<int> ZOIBase;
+static std::vector<int> ZOIBase;
 //! periodic boundary conditions
 void Boundary(int& xx, int& yy);
 /// test for emmigration

@@ -1,11 +1,11 @@
 #ifndef SRC_OUTPUT_H_
 #define SRC_OUTPUT_H_
 
-#include "CGrid.h"
-#include <iostream>
 #include <fstream>
-#include <vector>
 #include <string>
+#include <vector>
+
+#include "CGrid.h"
 
 class Output
 {
@@ -52,8 +52,8 @@ public:
 
 	void print_param(); // prints general parameterization data
 	void print_trait(); // prints the traits of each PFT
-	void print_PFT(vector<CPlant*> & PlantList, CCell** & CellList); // prints PFT data
-	void print_ind(vector<CPlant*> & PlantList); // prints individual data
+	void print_PFT(std::vector<CPlant*> & PlantList, CCell** & CellList); // prints PFT data
+	void print_ind(std::vector<CPlant*> & PlantList); // prints individual data
 
 };
 

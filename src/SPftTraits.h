@@ -10,10 +10,6 @@
 
 #include <map>
 #include <string>
-#include <vector>
-#include <iostream>
-
-using namespace std;
 
 /**
  * Structure to store all PFT Parameters
@@ -29,10 +25,10 @@ public:
 	};
 
 //general
-	static map<string, SPftTraits*> PftLinkList; //!< links of Pfts(SPftTrais) used
+	static std::map<std::string, SPftTraits*> PftLinkList; //!< links of Pfts(SPftTrais) used
 	traitType myTraitType; // MSC -- the default trait set is a species -- only after being varied is it individualized.
 	int TypeID;     //!< PFT ID same number for all individuals of one PFT
-	string name;    ///< name of functional type
+	std::string name;    ///< name of functional type
 	int MaxAge;     ///< maximum age of plants
 
 //morphology
@@ -100,20 +96,18 @@ public:
 	SPftTraits(const SPftTraits& s);
 	void varyTraits();
 	virtual ~SPftTraits();
-	string toString();
-	static string headerToString();
-	static void ReadPFTDef(const string& file, int n = -1);
-	static SPftTraits* getPftLink(string type); ///get basic type according to string
-	static SPftTraits* createPftInstanceFromPftType(string type);
+	std::string toString();
+	static std::string headerToString();
+	static void ReadPFTDef(const std::string& file, int n = -1);
+	static SPftTraits* getPftLink(std::string type); ///get basic type according to string
+	static SPftTraits* createPftInstanceFromPftType(std::string type);
 	static SPftTraits* createPftInstanceFromPftLink(SPftTraits* traits);
-	static void addPftLink(string type, SPftTraits* link) {
+	static void addPftLink(std::string type, SPftTraits* link) {
 		PftLinkList[type] = link;
-	}
-	;
+	};
 	static int getNPFTInit() {
 		return PftLinkList.size();
-	}
-	;
+	};
 };
 
 #endif /* SPFTTRAITS_H_ */

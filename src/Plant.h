@@ -1,14 +1,14 @@
 #ifndef PlantH
 #define PlantH
 
+#include <vector>
 #include <math.h>
+#include <string>
+
 #include "CObject.h"
 #include "CGenet.h"
 #include "RunPara.h"
 #include "SPftTraits.h"
-//#include "Seed.h"
-#include <vector>
-using namespace std;
 
 //---------------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ public:
 	int stress;     //!< counter for weeks with resource stress exposure
 
 	//--clonal..
-	vector<CPlant*> growingSpacerList;     ///<List of growing Spacer
+	std::vector<CPlant*> growingSpacerList;     ///<List of growing Spacer
 	double Spacerlength;                         ///<real spacer length
 	double Spacerdirection;                      ///<spacer direction
 	double SpacerlengthToGrow;                   ///<length to grow
@@ -83,10 +83,8 @@ public:
 	virtual ~CPlant();  //!<destruktor
 
 //---admin
-	virtual string type();  ///<say what you are
-	virtual string pft();   ///<say what a pft you are
-	virtual string toString(bool benchmarkFecundity);
-	static string headerToString();
+	virtual std::string type();  ///<say what you are
+	virtual std::string pft();   ///<say what a pft you are
 //   void Allometrics(); //!< calculates ZOI areas (above and below) from shoot and root mass
 
 //-2nd order properties
@@ -190,8 +188,6 @@ public:
 		return ((plant1->mroot) > (plant2->mroot));
 	}
 	;
-
-private:
 
 };
 
