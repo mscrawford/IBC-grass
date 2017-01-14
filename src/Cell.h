@@ -23,11 +23,6 @@ public:
 	double aComp_weekly;
 	double bComp_weekly;
 
-	/// returns cell-cover (int-coded)
-	int getCover(const int layer) const;
-	/// returns cell's cover of the given type
-	double getCover(const std::string type) const;
-
 	bool occupied;  //!< is the cell occupied by any plant?
 
 	CPlant* PlantInCell; //!< pointer to plant individual that has its central point in the cell (if any)
@@ -51,13 +46,6 @@ public:
 	//! array of seedling number of each PFT
 	//int *PftNSeedling;
 	std::map<std::string, int> PftNSeedling;
-
-	//! number of different PFTs covering the cell above-ground
-	/*! necessary for niche differentiation version 3 */
-	int NPftA;
-	//! number of different PFTs covering the cell
-	/*! necessary for niche differentiation version 3 */
-	int NPftB;
 
 	CCell(const unsigned int xx,
 			const unsigned int yy,
@@ -85,7 +73,6 @@ public:
 	double prop_res(const std::string type, const int layer, const int version) const;
 
 	void SortTypeID();  //!< sort individuals after PFT ID
-	void print_map(std::map<std::string, int> &mymap); //!< print map content for debugging - can be deleted
 
 };
 

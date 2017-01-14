@@ -94,17 +94,18 @@ public:
 //functions..
 	SPftTraits();
 	SPftTraits(const SPftTraits& s);
-	void varyTraits();
 	virtual ~SPftTraits();
-	std::string toString();
-	static std::string headerToString();
-	static void ReadPFTDef(const std::string& file, int n = -1);
+
+	void varyTraits();
+	static void ReadPFTDef(const std::string& file);
 	static SPftTraits* getPftLink(std::string type); ///get basic type according to string
 	static SPftTraits* createPftInstanceFromPftType(std::string type);
 	static SPftTraits* createPftInstanceFromPftLink(SPftTraits* traits);
+
 	static void addPftLink(std::string type, SPftTraits* link) {
 		PftLinkList[type] = link;
 	};
+
 	static int getNPFTInit() {
 		return PftLinkList.size();
 	};

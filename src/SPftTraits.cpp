@@ -1,9 +1,3 @@
-/*
- * SPftTraits.cpp
- *
- *  Created on: 21.04.2014
- *      Author: KatrinK
- */
 
 #include "SPftTraits.h"
 #include "CEnvir.h"
@@ -12,6 +6,8 @@
 #include <iostream>
 
 using namespace std;
+
+map<string, SPftTraits*> SPftTraits::PftLinkList = map<string, SPftTraits*>();
 
 /*
  * Default constructor
@@ -52,10 +48,6 @@ SPftTraits::~SPftTraits() {
 	// TODO Auto-generated destructor stub
 }
 
-//std::vector<SPftTraits*> SPftTraits::PftList;//(CRunPara::RunPara.NPft,new SPftTraits);
-//std::vector<SclonalTraits*> SclonalTraits::clonalTraits;//(8,new SclonalTraits());
-map<string, SPftTraits*> SPftTraits::PftLinkList = map<string, SPftTraits*>();
-
 /** MSC
  * Records every "individualized" trait syndrome (or rather, the pointer to it).
  * This is used to remove them after each run. By the end of a 100 year run with 128cm grid cells,
@@ -77,16 +69,23 @@ map<string, SPftTraits*> SPftTraits::PftLinkList = map<string, SPftTraits*>();
  * @param type PFT asked for
  * @return Object pointer to PFT definition
  */
-SPftTraits* SPftTraits::getPftLink(string type) {
+SPftTraits* SPftTraits::getPftLink(string type)
+{
+
 	SPftTraits* traits = NULL;
+
 	map<string, SPftTraits*>::iterator pos = PftLinkList.find(type);
-	if (pos == (PftLinkList.end()))
-		cerr << "type not found:" << type << endl;
+
+	if (pos == PftLinkList.end())
+		cerr << "Type not found: " << type << endl;
 	else
 		traits = pos->second;
+
 	if (traits == NULL)
 		cerr << "NULL-pointer error\n";
+
 	return traits;
+
 }
 
 /**
@@ -114,9 +113,8 @@ SPftTraits* SPftTraits::createPftInstanceFromPftLink(SPftTraits* traits) {
 /**
  * Read definition of PFTs used in the simulation
  * @param file file containing PFT definitions
- * @param n default=-1; in case of monoculture runs, nb of PFT to test
  */
-void SPftTraits::ReadPFTDef(const string& file, int n) {
+void SPftTraits::ReadPFTDef(const string& file) {
 	//delete old definitions
 	for (map<string, SPftTraits*>::iterator i = SPftTraits::PftLinkList.begin();
 			i != SPftTraits::PftLinkList.end();
@@ -138,10 +136,6 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 
 	string line;
 	getline(InitFile, line); //skip header line
-	//skip first lines if only one Types should be initiated
-	if (n > -1) // MSC: This is a broken window.
-		for (int x = 0; x < n; x++)
-			getline(InitFile, line);
 
 	int dummi1;
 	string dummi2; // int PFTtype; string Cltype;
@@ -163,7 +157,7 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 
 		SPftTraits::addPftLink(dummi2, traits);
 
-		if (!InitFile.good() || n > -1) {
+		if (!InitFile.good()) {
 			return;
 		}
 	} while (!InitFile.eof());

@@ -38,24 +38,14 @@ struct SRunPara
 
 public:
 
-
-
+	static const bool verbose = true;
 
 	//Input Files
 	static std::string NamePftFile;   ///< Filename of PftTrait-File
 	static std::string NameSimFile;  ///< Filename of Simulation-File
 
-	int SPAT; // Do we record the spatial grid?
-	int SPATyear; // Which year do we record the spatial grid?
-	int PFT; // Do we record the PFT output?
-	int COMP; // Do we record the competition grid?
-
-
-
-
-
-
-
+	int weekly = 0;
+	int ind_out = 0;
 
 	static SRunPara RunPara;  //!> scenario parameters
 
@@ -80,7 +70,6 @@ public:
 	bool torus;       //!< boundary behavior
 
 	// General parameters
-	bool verbose;
 	int Tmax;         //!< simulation time
 	double mort_seeds;     //!< seed mortality per year (in winter)
 	double DiebackWinter; //!< portion of aboveground biomass to be removed in winter
@@ -154,8 +143,8 @@ public:
 		return CellNum * CellNum;
 	};
 
-
-	std::string getFileID(); ///<ID-string for current run
+	std::string getSimID(); // Merge ID for data sets
+	std::string getFileID(); // Output filename (Repetitions go into the same files)
 };
 //---------------------------------------------------------------------------
 #endif

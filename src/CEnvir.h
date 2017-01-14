@@ -50,8 +50,6 @@ public:
 	static int ComNr;///< Community identifier for multiple parameter settings of the same community.
 	static int RunNr;       ///< repitition number
 
-	bool endofrun;			///<end of simulation reached? (flag)
-
 	static Output output;
 
 	//Functions
@@ -85,36 +83,32 @@ public:
 	;
 
 	/**
-	 * \name math and random help functions
+	 * "Random"
 	 */
-	///@{
-	///round a double value
-	inline static int Round(const double& a) {
-		return (int) floor(a + 0.5);
-	}
-	;
+
 	///get a uniformly distributed random number (0-n)
 	inline static int nrand(int n) {
 		return combinedLCG() * n;
 	}
 	;
+
 	///get a uniformly distributed random number (0-1)
 	inline static double rand01() {
 		return combinedLCG();
 	}
-	;   //RandNumGen.rand_halfclosed01()
+	;
+
 	///get a uniformly distributed random number (0-1)
 	inline static double normrand(double mean, double sd) {
 		return normcLCG(mean, sd);
 	}
-	;   //RandNumGen.rand_halfclosed01()
-	///@}
+	;
+
 	/**
 	 * \name core simulation functions (virtual)
 	 * Functions needed for simulation runs.
 	 * To be defined in inheriting classes.
 	 */
-///@{
 	virtual void InitRun();   ///<init a new run
 	virtual void OneWeek()=0;  //!< calls all weekly processes
 	virtual void OneYear()=0; ///<runs one year in default mode

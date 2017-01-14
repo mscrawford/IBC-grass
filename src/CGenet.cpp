@@ -6,7 +6,7 @@
 #include "CGenet.h"
 
 //---------------------------------------------------------------------------
-int CGenet::staticID=0;
+int CGenet::staticID = 0;
 
 /// Calculate the mean of the uptakes of one genet and save this
 /// as the uptake for each plant of this genet.

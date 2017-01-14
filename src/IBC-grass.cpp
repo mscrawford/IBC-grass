@@ -1,6 +1,3 @@
-#include <iostream>
-
-#include "CGridEnvir.h"
 
 //------------------------------------------------------------------------------
 /**\mainpage Grassland Model (for console) - documentation
@@ -70,9 +67,6 @@ ongoing ...
 \par Sources or reasons for parameter values, methods, equations:
 See publications of May(2008) and Steinhauer(2008) and \ref ODDbase (\ref straits and \ref spftdef).
 
-\par bugs and todos
-See additional pages for solved and unsolved bugs (\ref bug) and todos (\ref todo)
-
 \par Model History
 
 \date 2008-02-13 (model)
@@ -105,8 +99,13 @@ Biology group at the University of Potsdam
 */
 //---------------------------------------------------------------------------
 
-CGridEnvir* Envir;   //<environment in which simulations are run
+#include <iostream>
+
+#include "CGridEnvir.h"
+
 using namespace std;
+
+CGridEnvir* Envir;   //<environment in which simulations are run
 
 /**
  * Program launch - Model Design is defined.
@@ -128,25 +127,29 @@ int main(int argc, char* argv[]) {
 		SRunPara::NameSimFile = "data/in/SimFile.txt";
 	}
 
-	if(SRunPara::RunPara.verbose) cout << "New Environment...\n";
 	Envir = new CGridEnvir();
 
-	//do simulations specified in input-file
+	// do simulations specified in input-file
 	int lpos = Envir->GetSim();
 	do {
-		if(SRunPara::RunPara.verbose) cout << "Simulation No. " << Envir->SimNr << "\n";
-		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++) {
-			if(SRunPara::RunPara.verbose) cout << "Run " << Envir->RunNr + 1 << " \n";
+		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++)
+		{
+			if (SRunPara::RunPara.verbose) cout << "Run " << Envir->RunNr + 1 << " \n";
+
 			Envir->InitRun();
 			Envir->OneRun();
 		}
 		lpos = Envir->GetSim(lpos);
+
 	} while (lpos != -1);
 
 	delete Envir;
 	//delete static pointer vectors
 	for (map<string, SPftTraits*>::iterator i = SPftTraits::PftLinkList.begin();
-			i != SPftTraits::PftLinkList.end(); ++i)
+			i != SPftTraits::PftLinkList.end();
+			++i)
+	{
 		delete i->second;
+	}
 	return 0;
 }

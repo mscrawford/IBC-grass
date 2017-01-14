@@ -15,7 +15,8 @@ SRunPara SRunPara::RunPara = SRunPara();
 
 //-------------------------------------------------------------------
 SRunPara::SRunPara() :
-		Version(version1), ITV(off), ITVsd(0), verbose(true),
+		Version(version1), ITV(off), ITVsd(0),
+		weekly(0), ind_out(0),
 		AboveCompMode(sym), BelowCompMode(sym),
 		mort_base(0.007), LitterDecomp(0.5), DiebackWinter(0.5), EstabRamet(1),
 		GridSize(128), CellNum(128), Tmax(100), GrazProb(0), PropRemove(0),
@@ -29,13 +30,21 @@ SRunPara::SRunPara() :
 	;
 }
 
-std::string SRunPara::getFileID() {
+std::string SRunPara::getFileID()
+{
+	std::string s =
+			std::to_string(CEnvir::SimNr) + "_" +
+			std::to_string(CEnvir::ComNr);
+	return s;
+}
 
-	std::string t =
+std::string SRunPara::getSimID()
+{
+	std::string s =
 			std::to_string(CEnvir::SimNr) + "_" +
 			std::to_string(CEnvir::ComNr) + "_" +
 			std::to_string(CEnvir::RunNr);
-	return t;
 
+	return s;
 }
 //eof  ---------------------------------------------------------------------

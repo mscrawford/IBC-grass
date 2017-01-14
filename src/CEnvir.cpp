@@ -36,7 +36,7 @@ map<string, long> CEnvir::PftInitList;  //!< list of Pfts used
 /**
  * constructor for virtual class
  */
-CEnvir::CEnvir() : endofrun(false) {
+CEnvir::CEnvir() {
 	ReadLandscape();
 }
 
@@ -60,10 +60,9 @@ void CEnvir::ReadLandscape() {
 	//100% autocorrelated values
 	AResMuster.clear();
 	BResMuster.clear();
-	AResMuster.assign(SRunPara::RunPara.GetSumCells(),
-			SRunPara::RunPara.meanARes);
-	BResMuster.assign(SRunPara::RunPara.GetSumCells(),
-			SRunPara::RunPara.meanBRes);
+
+	AResMuster = vector<double>(SRunPara::RunPara.GetSumCells(), SRunPara::RunPara.meanARes);
+	BResMuster = vector<double>(SRunPara::RunPara.GetSumCells(), SRunPara::RunPara.meanBRes);
 }  //end ReadLandscape
 
 //------------------------------------------------------------------------------
@@ -87,9 +86,10 @@ int CEnvir::GetSim(const int pos, string file) {
 		cerr << ("error opening SimFile");
 		exit(3);
 	}
-	if(SRunPara::RunPara.verbose) cout << "SimFile: " << SRunPara::NameSimFile << endl;
+
 	int lpos = pos;
-	if (pos == 0) {  //read header
+	if (pos == 0)
+	{  //read header
 		string line; // file_id not used here
 		getline(SimFile, line);
 		SimFile >> NRep;
@@ -128,10 +128,8 @@ int CEnvir::GetSim(const int pos, string file) {
 		>> SRunPara::RunPara.CatastrophicSeedMortality
 		>> SRunPara::RunPara.SeedRainType
 		>> SRunPara::RunPara.SeedInput
-		>> SRunPara::RunPara.SPAT // Print spatial grid
-		>> SRunPara::RunPara.SPATyear // Print spatial grid on a specific year
-		>> SRunPara::RunPara.PFT // Print PFT data
-		>> SRunPara::RunPara.COMP // Print competitive grid
+		>> SRunPara::RunPara.weekly
+		>> SRunPara::RunPara.ind_out
 		>> SRunPara::NamePftFile // Name of PFT input file
 		;
 
@@ -189,9 +187,18 @@ int CEnvir::GetSim(const int pos, string file) {
 	SPftTraits::ReadPFTDef(SRunPara::NamePftFile);
 
 	// Design output file names
-	string fid = SRunPara::RunPara.getFileID();
-	output.setupOutput(1, 1, "data/out/param.txt",
-			"data/out/trait.txt", "data/out/PFT.txt", "data/out/ind.txt");
+
+	const string dir = "data/out/";
+	const string fid = SRunPara::RunPara.getFileID();
+
+	string param = dir + fid + "_param.txt";
+	string trait = dir + fid + "_trait.txt";
+	string PFT = dir + fid + " _PFT.txt";
+	string ind = dir + fid + "_ind.txt";
+
+	string SimID = SRunPara::RunPara.getSimID();
+
+	output.setupOutput(SimID, param, trait, PFT, ind);
 
 	output.print_param();
 	output.print_trait();
@@ -202,14 +209,11 @@ int CEnvir::GetSim(const int pos, string file) {
 //------------------------------------------------------------------------------
 /**
  * refresh output data.
- * \todo used?
  */
 void CEnvir::InitRun() {
 	PftInitList.clear();
 	PftSurvTime.clear();
 
-	endofrun = false;
 	//set resources
 	ReadLandscape();
-
 }

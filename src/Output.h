@@ -30,6 +30,8 @@ private:
 	std::ofstream PFT_stream;
 	std::ofstream ind_stream;
 
+	std::string SimID;
+
 	// Filenames
 	std::string param_fn;
 	std::string trait_fn;
@@ -39,16 +41,12 @@ private:
 	void print_row(std::vector<std::string> row, std::ofstream &stream);
 
 public:
-	int weekly; // weekly (1) or yearly (0) output
-	int ind_out; // print individual level data (1) or not (0)
 
 	// constructors
 	Output();
 	~Output();
 
-	void setupOutput(int weekly, int ind_out,
-			std::string param_fn, std::string trait_fn,
-			std::string PFT_fn, std::string ind_fn);
+	void setupOutput(std::string SimID, std::string param_fn, std::string trait_fn, std::string PFT_fn, std::string ind_fn);
 
 	void print_param(); // prints general parameterization data
 	void print_trait(); // prints the traits of each PFT

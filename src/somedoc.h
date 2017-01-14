@@ -49,7 +49,6 @@ doi:10.1016/j.ecolmodel.2009.09.014<br>
 \page ODDbase ODD-Description of the basic model
  *
  * \subpage ODDox About..
- * \todo cross-link ODD description below and add figures and tables
  *
  * \section sOver Overview
  * The model describes the development of a community of perennial plant functional types (PFTs).
@@ -173,7 +172,7 @@ doi:10.1016/j.ecolmodel.2009.09.014<br>
  *
  * \subsection ssres Resource response
  * The trade-off between competitive ability and stress tolerance (Grime 2001) is integrated in the
- * trait syndrome \“resource response\”. A high relative growth rate in resource-rich environments comes
+ * trait syndrome \ï¿½resource response\ï¿½. A high relative growth rate in resource-rich environments comes
  * along with low stress resistance, i.e. a short period a plant can survive under resource stress.
  *
  * \subsection sspalat Grazing response
@@ -197,13 +196,13 @@ doi:10.1016/j.ecolmodel.2009.09.014<br>
  * in the model as follows (see Table 1 for trait parameters and a complete list of plant species and
  * respective traits in Supplementary Material):
  *
- * The Growth form of a species was defined as rosette, semi-rosette or erect by using the \“rosettes\”
+ * The Growth form of a species was defined as rosette, semi-rosette or erect by using the \ï¿½rosettes\ï¿½
  * attribute from the database BiolFlor. The Resource response strategy (competitor, intermediate or
  * stress tolerator type) of a species was classified following Grime (1974, 1979) by applying the
- * \“ecological strategy\” attribute from BiolFlor. Species\´ Grazing response strategies (tolerator,
- * intermediate, and avoider) were also extracted from BiolFlor by using the attribute \“grazing tolerance\”
- * from the trait group \“grassland utilization indicator value\”. The Maximum plant size of a species
- * (large, medium, and small) was obtained from the trait \“seed release height\” of the LEDA-database
+ * \ï¿½ecological strategy\ï¿½ attribute from BiolFlor. Species\ï¿½ Grazing response strategies (tolerator,
+ * intermediate, and avoider) were also extracted from BiolFlor by using the attribute \ï¿½grazing tolerance\ï¿½
+ * from the trait group \ï¿½grassland utilization indicator value\ï¿½. The Maximum plant size of a species
+ * (large, medium, and small) was obtained from the trait \ï¿½seed release height\ï¿½ of the LEDA-database
  * by classifying three equidistantly spaced levels. Seed release height was used rather than canopy
  * height, as it is more closely correlated to seed mass (REF), which is the relevant parameter
  * in the model. The clonal attributes Spacer length and integration were derived from the CloPla3 database.
@@ -213,7 +212,7 @@ doi:10.1016/j.ecolmodel.2009.09.014<br>
  * selected for the clonal growth organ with maximal lateral spread per year. Clonal integration was
  * approved if connective tissues between mother and daughter ramets persist for two or more years while
  * species with connective tissues persisting less than two years are assumed not to share resources
- * within the individual. Spacer length was grouped via the \“lateral spread\” attribute of Clo-Pla3.
+ * within the individual. Spacer length was grouped via the \ï¿½lateral spread\ï¿½ attribute of Clo-Pla3.
  * Short spacer length was assorted less than 0.01 meters per year, long spacer grow includes
  * Clo-Pla3-classes 0.01-0.25 meters a year and longer. This translation of species into PFT resulted
  * in a list of 86 PFTs that served as species pool for model initialization.
@@ -244,13 +243,13 @@ as a certain PFT with specific trait attribute parameters
 (Table 3). In a simplified model version only two plant
 compartments, vegetative and reproductive mass, are taken
 into consideration. Spatially, plants are described by their
-‘zone-of-influence’ (ZOI), i.e. a circular area around
+ï¿½zone-of-influenceï¿½ (ZOI), i.e. a circular area around
 their location (Schwinning and Weiner 1998, Weiner et
 al. 2001). Within this area the individual can acquire
 resources and if the ZOIs of neighbouring plants overlap,
 the individuals will only compete for resources in the
 overlapping area. For the three compartment model
-version we consider two independent ZOIs for a plant’s
+version we consider two independent ZOIs for a plantï¿½s
 shoot and root, representing above- and below-ground
 resource uptake and competition. The ZOIs radii are
 determined from the biomass of the corresponding plant
@@ -264,7 +263,7 @@ ground (in the simplified model version, only one resource
 is considered). The size of the modelled arena was
 128 by 128 cm. To avoid edge effects, periodic boundary
 conditions were used, i.e. the grid essentially was a torus.
-A model’s time step corresponds to one week; a vegetation
+A modelï¿½s time step corresponds to one week; a vegetation
 period consisted of 30 weeks per year, and simulations
 were run for 100 years.
 
@@ -306,7 +305,7 @@ Seed dispersal and establishment, as well as mortality of
 seeds and plants are modelled stochastically to include
 demographic noise. Grazing events occur randomly during
 the vegetation period and the affected plants are chosen
-randomly, but the individual’s probability of being grazed
+randomly, but the individualï¿½s probability of being grazed
 depends on plant traits (see Submodel: grazing).
 
 \section obs Design concepts: observation
@@ -478,7 +477,7 @@ DresB DresA
 
 where DresA is above-ground and DresB is below-ground
 resource uptake. To assure comparability between the one
-and two layer versions, the ‘value’ of resource units has to be
+and two layer versions, the ï¿½valueï¿½ of resource units has to be
 doubled in the two layer version, as resources are shared
 between two plant compartments.
 
@@ -541,7 +540,7 @@ the other seedlings that germinated within the cell die and
 are removed from the grid.
 
 \section graz Submodel: grazing
-Grazing is modelled as partial removal of an individual’s
+Grazing is modelled as partial removal of an individualï¿½s
 above-ground biomass. The frequency of grazing is specified
 by a constant weekly probability (pgraz) of a grazing
 event. Grazing is a process that acts selectively towards

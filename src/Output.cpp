@@ -46,7 +46,8 @@ const vector<string> Output::ind_header
 			"stress"
 	});
 
-struct Output::PFT_struct {
+struct Output::PFT_struct
+{
 		double Shootmass;
 		double Rootmass;
 		int Pop;
@@ -60,11 +61,10 @@ struct Output::PFT_struct {
 		};
 
 		~PFT_struct(){};
-	};
+};
 
 Output::Output() :
-		weekly(0),
-		ind_out(0),
+		SimID("1"),
 		param_fn("data/out/param.txt"),
 		trait_fn("data/out/trait.txt"),
 		PFT_fn("data/out/PFT.txt"),
@@ -81,11 +81,9 @@ Output::~Output()
 	Output::ind_stream.close();
 }
 
-void Output::setupOutput(int weekly, int ind_out, string param_fn, string trait_fn, string PFT_fn, string ind_fn)
+void Output::setupOutput(string SimID, string param_fn, string trait_fn, string PFT_fn, string ind_fn)
 {
-
-	Output::weekly = weekly;
-	Output::ind_out = ind_out;
+	Output::SimID = SimID;
 
 	Output::param_fn = param_fn;
 	Output::trait_fn = trait_fn;
@@ -95,15 +93,20 @@ void Output::setupOutput(int weekly, int ind_out, string param_fn, string trait_
 	param_stream.open(param_fn.c_str(), ios_base::app);
 	trait_stream.open(trait_fn.c_str(), ios_base::app);
 	PFT_stream.open(PFT_fn.c_str(), ios_base::app);
-	ind_stream.open(ind_fn.c_str(), ios_base::app);
 
-	assert(param_stream.good() && trait_stream.good() && PFT_stream.good() && ind_stream.good());
+	assert(param_stream.good() && trait_stream.good() && PFT_stream.good());
 
 	// Write param_stream's header
 	print_row(param_header, param_stream);
 	print_row(trait_header, trait_stream);
 	print_row(PFT_header, PFT_stream);
-	print_row(ind_header, ind_stream);
+
+	if(SRunPara::RunPara.ind_out)
+	{
+		ind_stream.open(ind_fn.c_str(), ios_base::app);
+		assert(ind_stream.good());
+		print_row(ind_header, ind_stream);
+	}
 
 }
 
@@ -111,7 +114,7 @@ void Output::print_param()
 {
 	vector<string> row = vector<string>();
 
-	row.push_back(to_string(CEnvir::SimNr));
+	row.push_back(SimID);
 	row.push_back(to_string(CEnvir::ComNr));
 	row.push_back(to_string(CEnvir::RunNr));
 	row.push_back(to_string(SRunPara::RunPara.Version));
@@ -143,7 +146,7 @@ void Output::print_trait()
 	for (auto it : SPftTraits::PftLinkList)
 	{
 		vector<string> row = vector<string>();
-		row.push_back(to_string(CEnvir::SimNr));
+		row.push_back(SimID);
 		row.push_back(it.first);
 		row.push_back(to_string(it.second->LMR));
 		row.push_back(to_string(it.second->m0));
@@ -162,6 +165,7 @@ void Output::print_trait()
 
 		print_row(row, trait_stream);
 	}
+
 }
 
 void Output::print_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
@@ -200,7 +204,7 @@ void Output::print_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
 	for (auto it : PFT_map) {
 		vector<string> row = vector<string>();
 
-		row.push_back(to_string(CEnvir::SimNr));
+		row.push_back(SimID);
 		row.push_back(it.first); // PFT name
 		row.push_back(to_string(CEnvir::year));
 		row.push_back(to_string(CEnvir::week));
@@ -229,7 +233,7 @@ void Output::print_ind(vector<CPlant*> & PlantList)
 
 		vector<string> row = vector<string>();
 
-		row.push_back(to_string(CEnvir::SimNr));
+		row.push_back(SimID);
 		row.push_back(to_string(p->plantID));
 		row.push_back(p->pft());
 		row.push_back(to_string(CEnvir::year));

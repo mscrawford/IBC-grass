@@ -9,7 +9,6 @@
 #include "Plant.h"
 #include "RunPara.h"
 
-
 //!iterator type for plant list
 typedef std::vector<CPlant*>::iterator plant_iter;
 
@@ -18,11 +17,11 @@ typedef std::vector<CPlant*>::size_type plant_size;
 
 //! Class with all spatial algorithms where plant individuals interact in space
 /*! Functions for competition and plant growth are overwritten by inherited classes
- to include different degrees of size asymmetry and differen concepts of niche differentiation
+ to include different degrees of size asymmetry and different concepts of niche differentiation
  */
-class CGrid {
-//   map<string,long>* LDDSeeds; ///< list of seeds to dispers per LDD; has to be managed manually
-	double cutted_BM;  ///< biomass removed by mowing
+class CGrid
+{
+
 	///List of Genets on Grid
 	std::vector<CGenet*> GenetList;
 	//clonal..
@@ -33,8 +32,6 @@ class CGrid {
 protected:
 	//! assigns grid cells to plants - which cell is covered by which plant
 	virtual void CoverCells();
-	void CalcRootInteraction();
-	void CalcRootInteraction(CPlant* plant);
 	//! removes dead plants from the grid and deletes them
 	virtual void RemovePlants();
 	virtual void DeletePlant(CPlant* plant1); //!< delete plant object
@@ -65,7 +62,6 @@ protected:
 	void SetCellResource();     ///< set amount of resources the cells serve
 
 public:
-
 	std::vector<CPlant*> PlantList;    //!< List of plant individuals
 	CCell** CellList;    //!<array of pointers to CCell
 

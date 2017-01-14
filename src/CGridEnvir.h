@@ -20,8 +20,8 @@
  result-variables added.
  */
 class CGridEnvir: public CEnvir, public CGrid
-
 {
+
 public:
 
 	//Constructors, Destructor ...
@@ -29,44 +29,16 @@ public:
 	CGridEnvir(std::string id); ///< load from file(s)
 	virtual ~CGridEnvir(); ///<delete clonalTraits;
 
-	///\name core simulating Functions
-	///@{
 	void InitRun();   ///< from CEnvir
 	void OneYear();   ///< runs one year in default mode
 	void OneRun();    ///< runs one simulation run in default mode
 	void OneWeek();   //!< calls all weekly processes
-	///@}
 
-	///@}
-	///\name init new Individuals/Seeds
-	///@{
-	void InitInds(std::string file); ///< new way of initializing clonal and other traits at the same time from one file
-	///@}
+	void InitInds(std::string file);
 
-	int exitConditions(); ///< get exit conditions //first implemented by Ines
-	///\name Functions to get Acover and Bcover of cells.
-	/** It is assumed that coordinates/indices match grid size.
-	 Functions have to be called after function CGrid::CoverCells and before
-	 first function calling delete for established plants in the same week.
-	 else undefined behavior including access violation is possible.
-
-	 \note depends (at least) on an inherited subclass of CGrid
-	 */
-	///@{
-	int getACover(int x, int y);
-	int getBCover(int x, int y);
-	double getTypeCover(const std::string type) const;
-	double getTypeCover(const int i, const std::string type) const;
+	bool exitConditions();
 
 	void SeedRain(); //!< distribute seeds on the grid each year
-
-private:
-	int getGridACover(int i);
-	int getGridBCover(int i);
-
-	///set cell state information
-	void setCover();
-	///@}
 
 };
 
