@@ -5,6 +5,7 @@
 #include "CGrid.h"
 #include "CEnvir.h"
 
+#include <algorithm>
 #include <iostream>
 #include <cassert>
 
@@ -744,22 +745,19 @@ void CGrid::Grazing() {
  */
 void CGrid::Cutting(double cut_height)
 {
-
 	CPlant* p;
-	double mass_removed = 0;
 
 	for (plant_size i = 0; i < PlantList.size(); i++) {
 		p = PlantList[i];
 
 		assert(cut_height != 0 && "In CGrid::Cutting, but cut_height is 0.");
 
-		if (p->getHeight() > cut_height) {
+		if (p->getHeight() > cut_height)
+		{
 			double biomass_at_height = p->getBiomassAtHeight(cut_height);
 
-			mass_removed = p->mshoot - biomass_at_height;
 			p->mshoot = biomass_at_height;
 			p->mRepro = 0.0;
-
 		}
 	}
 } //end cutting
@@ -804,7 +802,6 @@ void CGrid::GrazingBelGr(const int mode) {
 			CPlant* p = *i;
 			total_root_mass += p->mroot;
 		}
-		assert(!isnan(total_root_mass));
 		return total_root_mass;
 	};
 

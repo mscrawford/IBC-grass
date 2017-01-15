@@ -27,6 +27,7 @@ CGridEnvir::~CGridEnvir() {
  */
 void CGridEnvir::InitRun() {
 	CEnvir::InitRun();
+
 	resetGrid();
 
 	InitInds(SRunPara::NamePftFile); // Initialize individuals
@@ -72,6 +73,9 @@ void CGridEnvir::InitInds(string file) {
 void CGridEnvir::OneRun() {
 
 	ResetT(); // reset time
+
+	output.print_param();
+	output.print_trait();
 
 	do {
 		this->NewWeek();

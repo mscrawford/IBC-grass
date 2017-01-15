@@ -187,7 +187,7 @@ int CEnvir::GetSim(const int pos, string file) {
 		break;
 	}
 
-	//Open InitFile,
+	// Setup PFTs
 	SRunPara::NamePftFile = "data/in/" + SRunPara::NamePftFile;
 	SPftTraits::ReadPFTDef(SRunPara::NamePftFile);
 
@@ -204,9 +204,6 @@ int CEnvir::GetSim(const int pos, string file) {
 
 	output.setupOutput(param, trait, srv, PFT, ind);
 
-	output.print_param();
-	output.print_trait();
-
 	return SimFile.tellg();
 }
 
@@ -214,8 +211,10 @@ int CEnvir::GetSim(const int pos, string file) {
 /**
  * refresh output data.
  */
-void CEnvir::InitRun() {
+void CEnvir::InitRun()
+{
 	PftInitList.clear();
+
 	PftSurvTime.clear();
 
 	//set resources

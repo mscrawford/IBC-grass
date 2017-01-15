@@ -51,6 +51,7 @@ public:
 	~Output();
 
 	void setupOutput(std::string param_fn, std::string trait_fn, std::string srv_fn, std::string PFT_fn, std::string ind_fn);
+	void cleanup();
 
 	void print_param(); // prints general parameterization data
 	void print_trait(); // prints the traits of each PFT

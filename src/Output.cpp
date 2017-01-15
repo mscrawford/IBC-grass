@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <iterator>
 #include <cassert>
 
 using namespace std;
@@ -30,7 +31,7 @@ const vector<string> Output::trait_header
 
 const vector<string> Output::srv_header
 	({
-			"SimID", "PFT", "Year", "Pop", "Shootmass", "Rootmass"
+			"SimID", "PFT", "Extinction_Year", "Final_Pop", "Final_Shootmass", "Final_Rootmass"
 	});
 
 const vector<string> Output::PFT_header
@@ -101,7 +102,10 @@ void Output::setupOutput(string param_fn, string trait_fn, string srv_fn, string
 	srv_stream.open(srv_fn.c_str(), ios_base::app);
 	PFT_stream.open(PFT_fn.c_str(), ios_base::app);
 
-	assert(param_stream.good() && srv_stream.good() && trait_stream.good() && PFT_stream.good());
+	assert(param_stream.good() &&
+			srv_stream.good() &&
+			trait_stream.good() &&
+			PFT_stream.good());
 
 	// Write param_stream's header
 
@@ -115,6 +119,34 @@ void Output::setupOutput(string param_fn, string trait_fn, string srv_fn, string
 		ind_stream.open(ind_fn.c_str(), ios_base::app);
 		assert(ind_stream.good());
 		print_row(ind_header, ind_stream);
+	}
+}
+
+void Output::cleanup()
+{
+	if (Output::param_stream.is_open()) {
+		Output::param_stream.close();
+		Output::param_stream.clear();
+	}
+
+	if (Output::trait_stream.is_open()) {
+		Output::trait_stream.close();
+		Output::trait_stream.clear();
+	}
+
+	if (Output::srv_stream.is_open()) {
+		Output::srv_stream.close();
+		Output::srv_stream.clear();
+	}
+
+	if (Output::PFT_stream.is_open()) {
+		Output::PFT_stream.close();
+		Output::PFT_stream.clear();
+	}
+
+	if (Output::ind_stream.is_open()) {
+		Output::ind_stream.close();
+		Output::ind_stream.clear();
 	}
 }
 
@@ -233,7 +265,7 @@ void Output::print_srv_and_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
 		// print each PFT
 		for (auto it : PFT_map)
 		{
-			if (it.second.Pop == 0)
+			if (it.second.Pop == 0 && CEnvir::PftSurvTime[it.first] != CEnvir::year)
 				continue;
 
 			std::ostringstream p_ss;

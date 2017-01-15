@@ -118,7 +118,8 @@ CGridEnvir* Envir;   //<environment in which simulations are run
  * \sa CGridEnvir
  * \sa CGridEnvir::OneRun()
  */
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
 	initLCG(time(NULL), 3487234); // setze den Zufallsgenerator auf einen neuen Wert, 3487234 ist 'zuf�llig' gew�hlt
 
 	if (argc >= 2) {
@@ -129,19 +130,22 @@ int main(int argc, char* argv[]) {
 
 	Envir = new CGridEnvir();
 
-	// do simulations specified in input-file
-	int lpos = Envir->GetSim();
-	do {
+	int SimFile_pos = 0;
+	while (SimFile_pos != -1)
+	{
+		SimFile_pos = Envir->GetSim(SimFile_pos);
+
 		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++)
 		{
 			if (SRunPara::RunPara.verbose) cout << "Run " << Envir->RunNr + 1 << " \n";
 
 			Envir->InitRun();
+
 			Envir->OneRun();
 		}
-		lpos = Envir->GetSim(lpos);
 
-	} while (lpos != -1);
+		Envir->output.cleanup();
+	}
 
 	delete Envir;
 	//delete static pointer vectors

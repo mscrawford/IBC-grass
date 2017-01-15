@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 
 #include <iostream>
+#include <algorithm>
 
 #include "Cell.h"
 #include "CEnvir.h"

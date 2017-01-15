@@ -130,7 +130,7 @@ void SPftTraits::ReadPFTDef(const string& file) {
 
 	if (!InitFile.good()) {
 		cerr << "Failure when opening InitFile\n";
-		cerr << file.c_str();
+		cerr << file.c_str() << endl;
 		exit(3);
 	}
 
