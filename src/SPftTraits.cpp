@@ -126,10 +126,10 @@ void SPftTraits::ReadPFTDef(const string& file) {
 	SPftTraits::PftLinkList.clear();
 
 	//Open InitFile
-
 	ifstream InitFile(file.c_str());
+
 	if (!InitFile.good()) {
-		cerr << ("Fehler beim �ffnen InitFile");
+		cerr << "Failure when opening InitFile\n";
 		cerr << file.c_str();
 		exit(3);
 	}
@@ -144,14 +144,31 @@ void SPftTraits::ReadPFTDef(const string& file) {
 		SPftTraits* traits = new SPftTraits();
 		InitFile >> dummi1;
 		InitFile >> dummi2;
-		InitFile >> traits->MaxAge >> traits->AllocSeed >> traits->LMR
-				>> traits->m0 >> traits->MaxMass >> traits->SeedMass
-				>> traits->Dist >> traits->pEstab >> traits->Gmax >> traits->SLA
-				>> traits->palat >> traits->memory >> traits->RAR
-				>> traits->growth >> traits->mThres >> traits->clonal
-				>> traits->PropSex >> traits->meanSpacerlength
-				>> traits->sdSpacerlength >> traits->Resshare >>
-				traits->AllocSpacer >> traits->mSpacer;
+
+		InitFile
+			>> traits->MaxAge
+			>> traits->AllocSeed
+			>> traits->LMR
+			>> traits->m0
+			>> traits->MaxMass
+			>> traits->SeedMass
+			>> traits->Dist
+			>> traits->pEstab
+			>> traits->Gmax
+			>> traits->SLA
+			>> traits->palat
+			>> traits->memory
+			>> traits->RAR
+			>> traits->growth
+			>> traits->mThres
+			>> traits->clonal
+			>> traits->PropSex
+			>> traits->meanSpacerlength
+			>> traits->sdSpacerlength
+			>> traits->Resshare
+			>> traits->AllocSpacer
+			>> traits->mSpacer;
+
 		traits->name = dummi2;
 		traits->TypeID = dummi1;
 

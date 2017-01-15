@@ -44,8 +44,9 @@ public:
 	static std::string NamePftFile;   ///< Filename of PftTrait-File
 	static std::string NameSimFile;  ///< Filename of Simulation-File
 
-	int weekly = 0;
-	int ind_out = 0;
+	int weekly;
+	int ind_out;
+	int PFT_out;
 
 	static SRunPara RunPara;  //!> scenario parameters
 

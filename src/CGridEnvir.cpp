@@ -29,11 +29,7 @@ void CGridEnvir::InitRun() {
 	CEnvir::InitRun();
 	resetGrid();
 
-	//set initial plants on grid...
-	//new: read from File
-	InitInds(SRunPara::NamePftFile);
-
-//  cout <<" sum of types: "<<PftInitList.size()<<endl;
+	InitInds(SRunPara::NamePftFile); // Initialize individuals
 }
 
 //------------------------------------------------------------------------------
@@ -141,7 +137,7 @@ void CGridEnvir::OneWeek()
 
 	if (SRunPara::RunPara.weekly == 1 || week == 21)
 	{
-		CEnvir::output.print_PFT(PlantList, CellList);
+		CEnvir::output.print_srv_and_PFT(PlantList, CellList);
 
 		if (SRunPara::RunPara.ind_out == 1)
 		{

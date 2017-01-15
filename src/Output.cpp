@@ -1,6 +1,7 @@
 #include "Output.h"
 #include "CEnvir.h"
 
+#include <iostream>
 #include <sstream>
 #include <cassert>
 
@@ -25,6 +26,11 @@ const vector<string> Output::trait_header
 			"SLA", "palat",
 			"Gmax", "memory",
 			"clonal", "meanSpacerlength", "sdSpacerlength"
+	});
+
+const vector<string> Output::srv_header
+	({
+			"SimID", "PFT", "Year", "Pop", "Shootmass", "Rootmass"
 	});
 
 const vector<string> Output::PFT_header
@@ -64,9 +70,9 @@ struct Output::PFT_struct
 };
 
 Output::Output() :
-		SimID("1"),
 		param_fn("data/out/param.txt"),
 		trait_fn("data/out/trait.txt"),
+		srv_fn("data/out/trait.txt"),
 		PFT_fn("data/out/PFT.txt"),
 		ind_fn("data/out/ind.txt")
 {
@@ -77,67 +83,67 @@ Output::~Output()
 {
 	Output::param_stream.close();
 	Output::trait_stream.close();
+	Output::srv_stream.close();
 	Output::PFT_stream.close();
 	Output::ind_stream.close();
 }
 
-void Output::setupOutput(string SimID, string param_fn, string trait_fn, string PFT_fn, string ind_fn)
+void Output::setupOutput(string param_fn, string trait_fn, string srv_fn, string PFT_fn, string ind_fn)
 {
-	Output::SimID = SimID;
-
 	Output::param_fn = param_fn;
 	Output::trait_fn = trait_fn;
+	Output::srv_fn = srv_fn;
 	Output::PFT_fn = PFT_fn;
 	Output::ind_fn = ind_fn;
 
 	param_stream.open(param_fn.c_str(), ios_base::app);
 	trait_stream.open(trait_fn.c_str(), ios_base::app);
+	srv_stream.open(srv_fn.c_str(), ios_base::app);
 	PFT_stream.open(PFT_fn.c_str(), ios_base::app);
 
-	assert(param_stream.good() && trait_stream.good() && PFT_stream.good());
+	assert(param_stream.good() && srv_stream.good() && trait_stream.good() && PFT_stream.good());
 
 	// Write param_stream's header
+
 	print_row(param_header, param_stream);
 	print_row(trait_header, trait_stream);
+	print_row(srv_header, srv_stream);
 	print_row(PFT_header, PFT_stream);
 
-	if(SRunPara::RunPara.ind_out)
+	if (SRunPara::RunPara.ind_out)
 	{
 		ind_stream.open(ind_fn.c_str(), ios_base::app);
 		assert(ind_stream.good());
 		print_row(ind_header, ind_stream);
 	}
-
 }
 
 void Output::print_param()
 {
-	vector<string> row = vector<string>();
+	std::ostringstream ss;
 
-	row.push_back(SimID);
-	row.push_back(to_string(CEnvir::ComNr));
-	row.push_back(to_string(CEnvir::RunNr));
-	row.push_back(to_string(SRunPara::RunPara.Version));
-	row.push_back(to_string(SRunPara::RunPara.ITVsd));
-	row.push_back(to_string(SRunPara::RunPara.Tmax));
-	row.push_back(to_string(SRunPara::RunPara.meanARes));
-	row.push_back(to_string(SRunPara::RunPara.meanBRes));
-	row.push_back(to_string(SRunPara::RunPara.GrazProb));
-	row.push_back(to_string(SRunPara::RunPara.PropRemove));
-	row.push_back(to_string(SRunPara::RunPara.BelGrazProb));
-	row.push_back(to_string(SRunPara::RunPara.BelGrazStartYear));
-	row.push_back(to_string(SRunPara::RunPara.BelGrazWindow));
-	row.push_back(to_string(SRunPara::RunPara.BelGrazMode));
-	row.push_back(to_string(SRunPara::RunPara.BelGrazGrams));
-	row.push_back(to_string(SRunPara::RunPara.catastrophicDistYear));
-	row.push_back(to_string(SRunPara::RunPara.CatastrophicPlantMortality));
-	row.push_back(to_string(SRunPara::RunPara.CatastrophicSeedMortality));
-	row.push_back(to_string(SRunPara::RunPara.SeedRainType));
-	row.push_back(to_string(SRunPara::RunPara.SeedInput));
+	ss << SRunPara::RunPara.getSimID()					<< ", ";
+	ss << CEnvir::ComNr 								<< ", ";
+	ss << CEnvir::RunNr 								<< ", ";
+	ss << SRunPara::RunPara.Version 					<< ", ";
+	ss << SRunPara::RunPara.ITVsd 						<< ", ";
+	ss << SRunPara::RunPara.Tmax 						<< ", ";
+	ss << SRunPara::RunPara.meanARes 					<< ", ";
+	ss << SRunPara::RunPara.meanBRes 					<< ", ";
+	ss << SRunPara::RunPara.GrazProb 					<< ", ";
+	ss << SRunPara::RunPara.PropRemove 					<< ", ";
+	ss << SRunPara::RunPara.BelGrazProb 				<< ", ";
+	ss << SRunPara::RunPara.BelGrazStartYear 			<< ", ";
+	ss << SRunPara::RunPara.BelGrazWindow 				<< ", ";
+	ss << SRunPara::RunPara.BelGrazMode 				<< ", ";
+	ss << SRunPara::RunPara.BelGrazGrams 				<< ", ";
+	ss << SRunPara::RunPara.catastrophicDistYear 		<< ", ";
+	ss << SRunPara::RunPara.CatastrophicPlantMortality 	<< ", ";
+	ss << SRunPara::RunPara.CatastrophicSeedMortality 	<< ", ";
+	ss << SRunPara::RunPara.SeedRainType 				<< ", ";
+	ss << SRunPara::RunPara.SeedInput						   ;
 
-	assert(row.size() == param_header.size());
-
-	print_row(row, param_stream);
+	print_row(ss, param_stream);
 }
 
 void Output::print_trait()
@@ -145,30 +151,29 @@ void Output::print_trait()
 
 	for (auto it : SPftTraits::PftLinkList)
 	{
-		vector<string> row = vector<string>();
-		row.push_back(SimID);
-		row.push_back(it.first);
-		row.push_back(to_string(it.second->LMR));
-		row.push_back(to_string(it.second->m0));
-		row.push_back(to_string(it.second->MaxMass));
-		row.push_back(to_string(it.second->SeedMass));
-		row.push_back(to_string(it.second->Dist));
-		row.push_back(to_string(it.second->SLA));
-		row.push_back(to_string(it.second->palat));
-		row.push_back(to_string(it.second->Gmax));
-		row.push_back(to_string(it.second->memory));
-		row.push_back(to_string(it.second->clonal));
-		row.push_back(to_string(it.second->meanSpacerlength));
-		row.push_back(to_string(it.second->sdSpacerlength));
+		std::ostringstream ss;
 
-		assert(row.size() == trait_header.size());
+		ss << SRunPara::RunPara.getSimID()	<< ", ";
+		ss << it.first 						<< ", ";
+		ss << it.second->LMR 				<< ", ";
+		ss << it.second->m0 				<< ", ";
+		ss << it.second->MaxMass 			<< ", ";
+		ss << it.second->SeedMass 			<< ", ";
+		ss << it.second->Dist 				<< ", ";
+		ss << it.second->SLA 				<< ", ";
+		ss << it.second->palat 				<< ", ";
+		ss << it.second->Gmax 				<< ", ";
+		ss << it.second->memory 			<< ", ";
+		ss << it.second->clonal 			<< ", ";
+		ss << it.second->meanSpacerlength 	<< ", ";
+		ss << it.second->sdSpacerlength 	       ;
 
-		print_row(row, trait_stream);
+		print_row(ss, trait_stream);
 	}
 
 }
 
-void Output::print_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
+void Output::print_srv_and_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
 {
 	// Create the data structure necessary to aggregate individuals
 	map<string, PFT_struct> PFT_map;
@@ -191,7 +196,8 @@ void Output::print_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
 		s->Shootmass = s->Shootmass + p->mshoot;
 	}
 
-	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
+	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
+	{
 		CCell* c = CellList[i];
 		for (auto seed_it : c->SeedBankList)
 		{
@@ -200,24 +206,51 @@ void Output::print_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
 		}
 	}
 
-	// print each PFT
-	for (auto it : PFT_map) {
-		vector<string> row = vector<string>();
+	// If any PFT went extinct, record it in "srv" stream
+	for (auto it : PFT_map)
+	{
+		if ((CEnvir::PftSurvTime[it.first] == 0 && it.second.Pop == 0) ||
+				(CEnvir::PftSurvTime[it.first] == 0 && CEnvir::year == SRunPara::RunPara.Tmax))
+		{
+			CEnvir::PftSurvTime[it.first] = CEnvir::year;
+			std::ostringstream s_ss;
 
-		row.push_back(SimID);
-		row.push_back(it.first); // PFT name
-		row.push_back(to_string(CEnvir::year));
-		row.push_back(to_string(CEnvir::week));
-		row.push_back(to_string(it.second.Pop));
-		row.push_back(to_string(it.second.Shootmass));
-		row.push_back(to_string(it.second.Rootmass));
+			s_ss << SRunPara::RunPara.getSimID()	<< ", ";
+			s_ss << it.first 						<< ", "; // PFT name
+			s_ss << CEnvir::year					<< ", ";
+			s_ss << it.second.Pop 					<< ", ";
+			s_ss << it.second.Shootmass 			<< ", ";
+			s_ss << it.second.Rootmass 					   ;
 
-		assert(row.size() == PFT_header.size());
+			print_row(s_ss, srv_stream);
 
-		print_row(row, PFT_stream);
+		}
 	}
 
-	//	 delete PFT_map
+	// If one should print PFTs, do so.
+	if (SRunPara::RunPara.PFT_out == 1)
+	{
+		// print each PFT
+		for (auto it : PFT_map)
+		{
+			if (it.second.Pop == 0)
+				continue;
+
+			std::ostringstream p_ss;
+
+			p_ss << SRunPara::RunPara.getSimID()	<< ", ";
+			p_ss << it.first 						<< ", "; // PFT name
+			p_ss << CEnvir::year 					<< ", ";
+			p_ss << CEnvir::week 					<< ", ";
+			p_ss << it.second.Pop 					<< ", ";
+			p_ss << it.second.Shootmass 			<< ", ";
+			p_ss << it.second.Rootmass 					   ;
+
+			print_row(p_ss, PFT_stream);
+		}
+	}
+
+	// delete PFT_map
 	PFT_map.clear();
 }
 
@@ -231,50 +264,58 @@ void Output::print_ind(vector<CPlant*> & PlantList)
 
 		SPftTraits* s = p->Traits;
 
-		vector<string> row = vector<string>();
+		std::ostringstream ss;
 
-		row.push_back(SimID);
-		row.push_back(to_string(p->plantID));
-		row.push_back(p->pft());
-		row.push_back(to_string(CEnvir::year));
-		row.push_back(to_string(CEnvir::week));
-		row.push_back(to_string(p->xcoord));
-		row.push_back(to_string(p->ycoord));
-		row.push_back(to_string(s->LMR));
-		row.push_back(to_string(s->m0));
-		row.push_back(to_string(s->MaxMass));
-		row.push_back(to_string(s->SeedMass));
-		row.push_back(to_string(s->Dist));
-		row.push_back(to_string(s->SLA));
-		row.push_back(to_string(s->palat));
-		row.push_back(to_string(s->Gmax));
-		row.push_back(to_string(s->memory));
-		row.push_back(to_string(s->clonal));
-		row.push_back(to_string(s->meanSpacerlength));
-		row.push_back(to_string(s->sdSpacerlength));
-		row.push_back(to_string(p->Age));
-		row.push_back(to_string(p->mshoot));
-		row.push_back(to_string(p->mroot));
-		row.push_back(to_string(p->Radius_shoot()));
-		row.push_back(to_string(p->Radius_root()));
-		row.push_back(to_string(p->mRepro));
-		row.push_back(to_string(p->lifetimeFecundity));
-		row.push_back(to_string(p->stress));
+		ss << SRunPara::RunPara.getSimID()	<< ", ";
+		ss << p->plantID 					<< ", ";
+		ss << p->pft() 						<< ", ";
+		ss << CEnvir::year 					<< ", ";
+		ss << CEnvir::week 					<< ", ";
+		ss << p->xcoord 					<< ", ";
+		ss << p->ycoord 					<< ", ";
+		ss << s->LMR 						<< ", ";
+		ss << s->m0 						<< ", ";
+		ss << s->MaxMass 					<< ", ";
+		ss << s->SeedMass 					<< ", ";
+		ss << s->Dist 						<< ", ";
+		ss << s->SLA 						<< ", ";
+		ss << s->palat 						<< ", ";
+		ss << s->Gmax 						<< ", ";
+		ss << s->memory 					<< ", ";
+		ss << s->clonal 					<< ", ";
+		ss << s->meanSpacerlength 			<< ", ";
+		ss << s->sdSpacerlength 			<< ", ";
+		ss << p->Age 						<< ", ";
+		ss << p->mshoot						<< ", ";
+		ss << p->mroot 						<< ", ";
+		ss << p->Radius_shoot() 			<< ", ";
+		ss << p->Radius_root() 				<< ", ";
+		ss << p->mRepro 					<< ", ";
+		ss << p->lifetimeFecundity 			<< ", ";
+		ss << p->stress							   ;
 
-		assert(row.size() == ind_header.size());
-
-		print_row(row, ind_stream);
+		print_row(ss, ind_stream);
 	}
 }
 
 // Prints a row of data out a string, as a comma separated list with a newline at the end.
+void Output::print_row(std::ostringstream & ss, ofstream & stream)
+{
+	assert(stream.good());
+
+	stream << ss.str() << endl;
+
+	stream.flush();
+}
+
 void Output::print_row(vector<string> row, ofstream & stream)
 {
-	assert(row.size() > 0);
 	assert(stream.good());
 
 	std::ostringstream ss;
+
 	std::copy(row.begin(), row.end() - 1, std::ostream_iterator<string>(ss, ", "));
+
 	ss << row.back();
 
 	stream << ss.str() << endl;

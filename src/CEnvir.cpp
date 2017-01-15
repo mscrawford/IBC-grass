@@ -30,7 +30,9 @@ Output CEnvir::output;
 
 vector<double> CEnvir::AResMuster;
 vector<double> CEnvir::BResMuster;
+
 map<string, long> CEnvir::PftInitList;  //!< list of Pfts used
+map<string, int> CEnvir::PftSurvTime;
 
 //---------------------------------------------------------------------------
 /**
@@ -100,7 +102,6 @@ int CEnvir::GetSim(const int pos, string file) {
 	SimFile.clear();
 	SimFile.seekg(lpos, std::ios_base::beg);
 
-	//ist position g�ltig?, wenn nicht -- Abbruch
 	if (!SimFile.good())
 		return -1;
 
@@ -130,6 +131,7 @@ int CEnvir::GetSim(const int pos, string file) {
 		>> SRunPara::RunPara.SeedInput
 		>> SRunPara::RunPara.weekly
 		>> SRunPara::RunPara.ind_out
+		>> SRunPara::RunPara.PFT_out
 		>> SRunPara::NamePftFile // Name of PFT input file
 		;
 
@@ -148,9 +150,12 @@ int CEnvir::GetSim(const int pos, string file) {
 		break;
 	}
 
-	if (SRunPara::RunPara.ITVsd > 0) {
+	if (SRunPara::RunPara.ITVsd > 0)
+	{
 		SRunPara::RunPara.ITV = on;
-	} else {
+	}
+	else
+	{
 		SRunPara::RunPara.ITV = off;
 	}
 
@@ -193,12 +198,11 @@ int CEnvir::GetSim(const int pos, string file) {
 
 	string param = dir + fid + "_param.txt";
 	string trait = dir + fid + "_trait.txt";
+	string srv = dir + fid + "_srv.txt";
 	string PFT = dir + fid + " _PFT.txt";
 	string ind = dir + fid + "_ind.txt";
 
-	string SimID = SRunPara::RunPara.getSimID();
-
-	output.setupOutput(SimID, param, trait, PFT, ind);
+	output.setupOutput(param, trait, srv, PFT, ind);
 
 	output.print_param();
 	output.print_trait();

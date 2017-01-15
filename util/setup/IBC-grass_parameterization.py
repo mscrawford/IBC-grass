@@ -15,9 +15,10 @@ N_SLOTS = 200
 
 weekly = 0 # print weekly or yearly?
 ind_out = 0 # individual-level output?
+pft_out = 1 # PFT-level output?
 
 N_COMS = 1
-N_REPS = 20
+N_REPS = 1
 n_PFTs = 0
 
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
@@ -159,7 +160,7 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
     SimFile = [] # all the simulations go into one 'SimFile.' This is a list of strings.
 
     community_number = 0
-    sim_number = random.randint(0, 33554432) # This is so that you can run multiple simulations at once. 
+    sim_number = random.randint(0, 2147483647) # This is so that you can run multiple simulations at once. 
     for s in xrange(1, N_COMS+1): # one sim_number per sample of PFTypes. 
         community = random.sample(pfts, n_PFTs)
         community_number += 1
@@ -177,7 +178,7 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
             sim_filename = base_simID + "_" + "COM" + ".txt"
 
             # community's SimFile entry
-            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), str(weekly), str(ind_out), sim_filename, "\n"]))
+            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), str(weekly), str(ind_out), str(pft_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 
@@ -211,7 +212,7 @@ def makeEmpiricalPFTs():
 
     SimFile = [] # all the simulations go into one 'SimFile.' This is a list of strings.
     community_number = 0
-    sim_number = random.randint(0, 33554432) # This is so that you can run multiple simulations at once. 
+    sim_number = random.randint(0, 2147483647) # This is so that you can run multiple simulations at once. 
 
     for s in xrange(1, N_COMS+1): # one sim_number per sample of PFTypes. 
         community = random.sample(pfts, len(pfts) if n_PFTs == 0 else n_PFTs)
@@ -230,7 +231,7 @@ def makeEmpiricalPFTs():
             sim_filename = base_simID + "_" + "COM" + ".txt"
 
             # community's SimFile entry
-            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), str(weekly), str(ind_out), sim_filename, "\n"]))
+            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), str(weekly), str(ind_out), str(pft_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 
@@ -251,7 +252,7 @@ def makeEmpiricalPFTs():
         with open(path + "SimFile.txt", 'w') as w:
             w.write(Sim_header)
             w.writelines(sim for sim in SimFile)
-
+            w.truncate(w.tell()-2) # Delete trailing newline to not trigger hard stop
 
 if __name__ == "__main__":
     if (PFT_type == 0):
