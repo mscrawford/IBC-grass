@@ -10,7 +10,7 @@ from util import *
 
 path = "./tmp/"
 
-PARALLEL = True
+PARALLEL = False
 N_SLOTS = 200
 
 weekly = 0 # print weekly or yearly?
@@ -18,7 +18,7 @@ ind_out = 0 # individual-level output?
 pft_out = 1 # PFT-level output?
 
 N_COMS = 1
-N_REPS = 20
+N_REPS = 1
 n_PFTs = 0
 
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
@@ -39,41 +39,41 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 # and I need to rethink the implementation. I can't think of a better way to do it though, so maybe improve the "input" methodology
 # but not the backend? Maybe create this array behind the scenes and fill it out with some sort of text document.
 
-base_params =  [[1], # IC version
-                [0], # ITVsd
-                [140], # Tmax
-                [90], # ARes
-                [90], # Bres
-                [0.2], # GrazProb
-                [0.5], # propRemove
-                [0, 1], # BelGrazProb
-                [0], # BelGrazStartYear
-                [0], # BelGrazWindow
-                [0], # BelGrazMode
-                [0, 1000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000], # BelGrazGrams
-                [50], # CatastrophicDisYear; 0 is no disturbance
-                [0, 0.25, 0.50, 0.75, 0.90, 0.99, 1], # CatastrophicPlantMortality
-                [0, 0.25, 0.50, 0.75, 0.90, 0.99, 1], # CatastrophicSeedMortality
-                [1], # SeedRainType
-                [10]] # SeedInput
-
 # base_params =  [[1], # IC version
 #                 [0], # ITVsd
-#                 [100], # Tmax
+#                 [140], # Tmax
 #                 [90], # ARes
 #                 [90], # Bres
 #                 [0.2], # GrazProb
 #                 [0.5], # propRemove
-#                 [1], # BelGrazProb
+#                 [0, 1], # BelGrazProb
 #                 [0], # BelGrazStartYear
 #                 [0], # BelGrazWindow
 #                 [0], # BelGrazMode
-#                 [30000], # BelGrazGrams
-#                 [25], # CatastrophicDisYear; 0 is no disturbance
-#                 [0.90], # CatastrophicPlantMortality
-#                 [0], # CatastrophicSeedMortality
+#                 [0, 1000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000], # BelGrazGrams
+#                 [50], # CatastrophicDisYear; 0 is no disturbance
+#                 [0, 0.25, 0.50, 0.75, 0.90, 0.99, 1], # CatastrophicPlantMortality
+#                 [0, 0.25, 0.50, 0.75, 0.90, 0.99, 1], # CatastrophicSeedMortality
 #                 [1], # SeedRainType
 #                 [10]] # SeedInput
+
+base_params =  [[1], # IC version
+                [0, 0.2], # ITVsd
+                [10], # Tmax
+                [90], # ARes
+                [90], # Bres
+                [0.2], # GrazProb
+                [0.5], # propRemove
+                [0], # BelGrazProb
+                [0], # BelGrazStartYear
+                [0], # BelGrazWindow
+                [0], # BelGrazMode
+                [0], # BelGrazGrams
+                [0], # CatastrophicDisYear; 0 is no disturbance
+                [0], # CatastrophicPlantMortality
+                [0], # CatastrophicSeedMortality
+                [0], # SeedRainType
+                [0]] # SeedInput
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
@@ -234,7 +234,6 @@ def makeEmpiricalPFTs():
         with open(path + "SimFile.txt", 'w') as w:
             w.write(Sim_header)
             w.writelines(sim for sim in SimFile)
-            w.truncate(w.tell()-2) # Delete trailing newline to not trigger hard stop
 
 if __name__ == "__main__":
     if (PFT_type == 0):

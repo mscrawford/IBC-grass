@@ -144,6 +144,7 @@ int main(int argc, char* argv[])
 			Envir->OneRun();
 		}
 
+		SRunPara::RunPara.cleanRunPara();
 		Envir->output.cleanup();
 	}
 

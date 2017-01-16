@@ -2,7 +2,6 @@
 \brief constructor of struct SRunPara and Initialization of static Variables
 */
 //---------------------------------------------------------------------------
-//#pragma hdrstop
 
 #include <iostream>
 
@@ -30,6 +29,12 @@ SRunPara::SRunPara() :
 		CatastrophicPlantMortality(0), CatastrophicSeedMortality(0)
 {
 	;
+}
+
+// Reinitializes RunPara to defaults to be overwritten.
+void SRunPara::cleanRunPara()
+{
+	SRunPara::RunPara = SRunPara();
 }
 
 std::string SRunPara::getFileID()

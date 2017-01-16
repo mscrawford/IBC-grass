@@ -50,6 +50,8 @@ public:
 
 	static SRunPara RunPara;  //!> scenario parameters
 
+	void cleanRunPara();
+
 	// Competition mode
 	CompMode AboveCompMode; //!<0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry
 	CompMode BelowCompMode; //!<0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry

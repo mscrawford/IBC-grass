@@ -43,11 +43,11 @@ public:
 
 	static int week;        ///< current week (0-30)
 	static int year;        ///< current year
-	static int WeeksPerYear;  ///< nb of weeks per year (constantly at value 30)
+	static int WeeksPerYear;  ///< number of weeks per year (constantly at value 30)
 	static int NRep;        //!< number of replications -> read from SimFile;
 	static int SimNr;       ///< simulation-ID
 	static int ComNr;///< Community identifier for multiple parameter settings of the same community.
-	static int RunNr;       ///< repitition number
+	static int RunNr;       ///< repetition number
 
 	static Output output;
 

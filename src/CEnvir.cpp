@@ -54,7 +54,7 @@ CEnvir::~CEnvir()
 /**
  Function defined global muster resources, set to gridcells at beginning
  of each Year. At the moment only evenly dirtributed single values for above-
- and belowground ressources are implemented.
+ and belowground resources are implemented.
  Later the function can read source files of values <100\% autocorrelated or
  generate some noise around fixed values etc..
  */
@@ -150,12 +150,10 @@ int CEnvir::GetSim(const int pos, string file) {
 		break;
 	}
 
-	if (SRunPara::RunPara.ITVsd > 0)
-	{
+	if (SRunPara::RunPara.ITVsd > 0) {
 		SRunPara::RunPara.ITV = on;
 	}
-	else
-	{
+	else {
 		SRunPara::RunPara.ITV = off;
 	}
 
@@ -192,15 +190,14 @@ int CEnvir::GetSim(const int pos, string file) {
 	SPftTraits::ReadPFTDef(SRunPara::NamePftFile);
 
 	// Design output file names
-
 	const string dir = "data/out/";
 	const string fid = SRunPara::RunPara.getFileID();
 
-	string param = dir + fid + "_param.txt";
-	string trait = dir + fid + "_trait.txt";
-	string srv = dir + fid + "_srv.txt";
-	string PFT = dir + fid + " _PFT.txt";
-	string ind = dir + fid + "_ind.txt";
+	string param = dir + fid + "_param.csv";
+	string trait = dir + fid + "_trait.csv";
+	string srv = dir + fid + "_srv.csv";
+	string PFT = dir + fid + " _PFT.csv";
+	string ind = dir + fid + "_ind.csv";
 
 	output.setupOutput(param, trait, srv, PFT, ind);
 
