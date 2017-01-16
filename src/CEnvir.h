@@ -6,6 +6,7 @@
 #define environmentH
 
 #include <map>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -59,7 +60,7 @@ public:
 	//! read in fractal below-ground resource distribution (not used)
 	static void ReadLandscape();
 	///reads simulation environment from file
-	int GetSim(const int pos = 0, std::string file = SRunPara::NameSimFile);
+	void GetSim(std::string data);
 	/// returns absolute time horizon
 	static int GetT() {
 		return (year - 1) * WeeksPerYear + week;

@@ -100,6 +100,8 @@ Biology group at the University of Potsdam
 //---------------------------------------------------------------------------
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 #include "CGridEnvir.h"
 
@@ -130,10 +132,20 @@ int main(int argc, char* argv[])
 
 	Envir = new CGridEnvir();
 
-	int SimFile_pos = 0;
-	while (SimFile_pos != -1)
+	ifstream SimFile(SRunPara::NameSimFile.c_str()); // Open Simulation Parameterization file
+
+	// Temporary strings
+	string trash;
+	string data;
+
+	getline(SimFile, data);
+	std::stringstream ss(data);
+	ss >> trash >> Envir->NRep; // Remove "NRep" header, set NRep
+	getline(SimFile, trash); // Remove parameterization header file
+
+	while (getline(SimFile, data))
 	{
-		SimFile_pos = Envir->GetSim(SimFile_pos);
+		Envir->GetSim(data); // Change this to take a string for the parameterization...
 
 		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++)
 		{
@@ -149,12 +161,7 @@ int main(int argc, char* argv[])
 	}
 
 	delete Envir;
-	//delete static pointer vectors
-	for (map<string, SPftTraits*>::iterator i = SPftTraits::PftLinkList.begin();
-			i != SPftTraits::PftLinkList.end();
-			++i)
-	{
-		delete i->second;
-	}
+	SimFile.close();
+
 	return 0;
 }

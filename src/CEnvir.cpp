@@ -11,6 +11,8 @@
 //---------------------------------------------------------------------------
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 #include "CEnvir.h"
 
@@ -49,6 +51,12 @@ CEnvir::CEnvir() {
  */
 CEnvir::~CEnvir()
 {
+	for (map<string, SPftTraits*>::iterator i = SPftTraits::PftLinkList.begin();
+			i != SPftTraits::PftLinkList.end();
+			++i)
+	{
+		delete i->second;
+	}
 }
 //------------------------------------------------------------------------------
 /**
@@ -80,36 +88,15 @@ void CEnvir::ReadLandscape() {
  \param file name of input file (obsolete, NameSimFile is used)
  \return file position of next simulation set
  */
-int CEnvir::GetSim(const int pos, string file) {
-
-	//Open SimFile,
-	ifstream SimFile(SRunPara::NameSimFile.c_str(), ios::binary);
-	if (!SimFile.good()) {
-		cerr << ("error opening SimFile");
-		exit(3);
-	}
-
-	int lpos = pos;
-	if (pos == 0)
-	{  //read header
-		string line; // file_id not used here
-		getline(SimFile, line);
-		SimFile >> NRep;
-		getline(SimFile, line);
-		getline(SimFile, line);
-		lpos = SimFile.tellg();
-	}
-	SimFile.clear();
-	SimFile.seekg(lpos, std::ios_base::beg);
-
-	if (!SimFile.good())
-		return -1;
-
+void CEnvir::GetSim(string data)
+{
 	int IC_version;
 	int acomp = 1; // aboveground competition is asymmetric by default
 	int bcomp = 0; // belowground competition is symmetric by default
 
-	SimFile
+	std::stringstream ss(data);
+
+	ss
 		>> SimNr // Simulation number
 		>> ComNr // Community number
 		>> IC_version // Stabilizing mechanisms
@@ -200,8 +187,6 @@ int CEnvir::GetSim(const int pos, string file) {
 	string ind = dir + fid + "_ind.csv";
 
 	output.setupOutput(param, trait, srv, PFT, ind);
-
-	return SimFile.tellg();
 }
 
 //------------------------------------------------------------------------------
