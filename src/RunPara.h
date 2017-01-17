@@ -89,7 +89,7 @@ public:
 	double MassUngraz;   //!< biomass ungrazable 15300[mg DW/m�]
 
 	// Belowground herbivory
-	int BelGrazMode;
+	double BelGrazResidualPerc;
 	int BelGrazStartYear;
 	int BelGrazWindow;
 	double BelGrazProb;

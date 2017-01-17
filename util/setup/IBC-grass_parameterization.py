@@ -18,15 +18,15 @@ ind_out = 0 # individual-level output?
 pft_out = 1 # PFT-level output?
 
 N_COMS = 1
-N_REPS = 1
+N_REPS = 20
 n_PFTs = 0
 
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
-Sim_header = "NRep\n" + str(N_REPS) + "\n" + \
+Sim_header = "NRep " + str(N_REPS) + "\n" + \
                 "SimNr ComNr IC_vers ITVsd Tmax ARes Bres " + \
                 "GrazProb PropRemove " + \
-                "BelGrazProb BelGrazStartYear BelGrazWindow BelGrazMode BelGrazGrams " + \
+                "BelGrazProb BelGrazStartYear BelGrazWindow BelGrazResidualPerc BelGrazGrams " + \
                 "CatastrophicDistYear CatastrophicPlantMortality CatastrophicSeedMortality " + \
                 "SeedRainType SeedInput " + \
                 "weekly ind_out NameInitFile\n"
@@ -41,7 +41,7 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 
 base_params =  [[1], # IC version
                 [0], # ITVsd
-                [140], # Tmax
+                [150], # Tmax
                 [90], # ARes
                 [90], # Bres
                 [0.2], # GrazProb
@@ -49,16 +49,16 @@ base_params =  [[1], # IC version
                 [0, 1], # BelGrazProb
                 [0], # BelGrazStartYear
                 [0], # BelGrazWindow
-                [0], # BelGrazMode
-                [0, 1000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000], # BelGrazGrams
-                [50], # CatastrophicDisYear; 0 is no disturbance
-                [0, 0.25, 0.50, 0.75, 0.90, 0.99, 1], # CatastrophicPlantMortality
-                [0, 0.25, 0.50, 0.75, 0.90, 0.99, 1], # CatastrophicSeedMortality
-                [1], # SeedRainType
-                [10]] # SeedInput
+                [0, 0.005, 0.01, 0.05], # BelGrazResidualPerc
+                [0, 10000, 30000, 50000, 70000, 90000], # BelGrazGrams
+                [0, 50], # CatastrophicDisYear; 0 is no disturbance
+                [0, 0.50, 0.75, 1], # CatastrophicPlantMortality
+                [0, 0.50, 0.75, 1], # CatastrophicSeedMortality
+                [0, 1], # SeedRainType
+                [0, 10, 20]] # SeedInput
 
 # base_params =  [[1], # IC version
-#                 [0, 0.2], # ITVsd
+#                 [0], # ITVsd
 #                 [10], # Tmax
 #                 [90], # ARes
 #                 [90], # Bres

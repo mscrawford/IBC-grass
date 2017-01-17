@@ -4,6 +4,8 @@
 
 #include <cassert>
 #include <iostream>
+#include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -76,13 +78,17 @@ SPftTraits* SPftTraits::getPftLink(string type)
 
 	map<string, SPftTraits*>::iterator pos = PftLinkList.find(type);
 
-	if (pos == PftLinkList.end())
+	if (pos == PftLinkList.end()) {
 		cerr << "Type not found: " << type << endl;
-	else
-		traits = pos->second;
+		exit(1);
+	}
 
-	if (traits == NULL)
+	traits = pos->second;
+
+	if (traits == NULL) {
 		cerr << "NULL-pointer error\n";
+		exit(1);
+	}
 
 	return traits;
 
@@ -96,16 +102,14 @@ SPftTraits* SPftTraits::getPftLink(string type)
 SPftTraits* SPftTraits::createPftInstanceFromPftType(string type) {
 	SPftTraits* traits = NULL;
 	map<string, SPftTraits*>::iterator pos = PftLinkList.find(type);
-	if (pos == (PftLinkList.end()))
-		cerr << "type not found:" << type << endl;
-	else
-		traits = new SPftTraits(*pos->second);
-	return traits;
-}
 
-SPftTraits* SPftTraits::createPftInstanceFromPftLink(SPftTraits* traits) {
-	assert(traits != NULL);
-	traits = new SPftTraits(*traits);
+	if (pos == PftLinkList.end()) {
+		cerr << "Type not found:" << type << endl;
+		exit(1);
+	}
+
+	traits = new SPftTraits(*pos->second);
+
 	return traits;
 }
 
@@ -122,30 +126,24 @@ void SPftTraits::ReadPFTDef(const string& file) {
 	{
 		delete i->second;
 	}
+
 	//delete static pointer vectors
 	SPftTraits::PftLinkList.clear();
 
 	//Open InitFile
 	ifstream InitFile(file.c_str());
 
-	if (!InitFile.good()) {
-		cerr << "Failure when opening InitFile\n";
-		cerr << file.c_str() << endl;
-		exit(3);
-	}
-
 	string line;
 	getline(InitFile, line); //skip header line
 
-	int dummi1;
-	string dummi2; // int PFTtype; string Cltype;
+	while (getline(InitFile, line))
+	{
+		std::stringstream ss(line);
 
-	do {
 		SPftTraits* traits = new SPftTraits();
-		InitFile >> dummi1;
-		InitFile >> dummi2;
 
-		InitFile
+		ss 	>> traits->TypeID
+			>> traits->name
 			>> traits->MaxAge
 			>> traits->AllocSeed
 			>> traits->LMR
@@ -169,15 +167,8 @@ void SPftTraits::ReadPFTDef(const string& file) {
 			>> traits->AllocSpacer
 			>> traits->mSpacer;
 
-		traits->name = dummi2;
-		traits->TypeID = dummi1;
-
-		SPftTraits::addPftLink(dummi2, traits);
-
-		if (!InitFile.good()) {
-			return;
-		}
-	} while (!InitFile.eof());
+		SPftTraits::addPftLink(traits->name, traits);
+	}
 }
 
 /* MSC

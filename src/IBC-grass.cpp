@@ -152,7 +152,6 @@ int main(int argc, char* argv[])
 			if (SRunPara::RunPara.verbose) cout << "Run " << Envir->RunNr + 1 << " \n";
 
 			Envir->InitRun();
-
 			Envir->OneRun();
 		}
 
@@ -161,6 +160,7 @@ int main(int argc, char* argv[])
 	}
 
 	delete Envir;
+
 	SimFile.close();
 
 	return 0;

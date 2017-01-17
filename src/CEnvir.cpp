@@ -90,14 +90,16 @@ void CEnvir::ReadLandscape() {
  */
 void CEnvir::GetSim(string data)
 {
+	/////////////////////////
+	// Read in simulation parameters
+
 	int IC_version;
 	int acomp = 1; // aboveground competition is asymmetric by default
 	int bcomp = 0; // belowground competition is symmetric by default
 
 	std::stringstream ss(data);
 
-	ss
-		>> SimNr // Simulation number
+	ss	>> SimNr // Simulation number
 		>> ComNr // Community number
 		>> IC_version // Stabilizing mechanisms
 		>> SRunPara::RunPara.ITVsd // Standard deviation of intraspecific variation
@@ -109,7 +111,7 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::RunPara.BelGrazProb // Belowground grazing: probability
 		>> SRunPara::RunPara.BelGrazStartYear // Belowground grazing: year of herbivory introduction
 		>> SRunPara::RunPara.BelGrazWindow // Belowground grazing: timespan in which herbivory takes place
-		>> SRunPara::RunPara.BelGrazMode // Belowground grazing: mode
+		>> SRunPara::RunPara.BelGrazResidualPerc // Belowground grazing: mode
 		>> SRunPara::RunPara.BelGrazGrams // Belowground grazing: proportion of biomass removed
 		>> SRunPara::RunPara.catastrophicDistYear // Year for catastrophic disturbace. Removes all aboveground biomass after seeds are dropped.
 		>> SRunPara::RunPara.CatastrophicPlantMortality
@@ -172,10 +174,12 @@ void CEnvir::GetSim(string data)
 		break;
 	}
 
+	////////////////////
 	// Setup PFTs
 	SRunPara::NamePftFile = "data/in/" + SRunPara::NamePftFile;
 	SPftTraits::ReadPFTDef(SRunPara::NamePftFile);
 
+	////////////////////
 	// Design output file names
 	const string dir = "data/out/";
 	const string fid = SRunPara::RunPara.getFileID();
@@ -196,7 +200,6 @@ void CEnvir::GetSim(string data)
 void CEnvir::InitRun()
 {
 	PftInitList.clear();
-
 	PftSurvTime.clear();
 
 	//set resources

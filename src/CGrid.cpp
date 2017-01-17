@@ -35,7 +35,7 @@ void CGrid::CellsInit()
 {
 	int index;
 	int SideCells = SRunPara::RunPara.CellNum;
-	CellList = new (CCell*[SideCells * SideCells]);
+	CellList = new CCell*[SideCells * SideCells];
 
 	for (int x = 0; x < SideCells; x++)
 	{
@@ -91,10 +91,12 @@ CGrid::~CGrid() {
 		delete cell;
 	}
 	delete[] CellList;
+
 	for (unsigned int i = 0; i < GenetList.size(); i++)
 		delete GenetList[i];
 	GenetList.clear();
 	CGenet::staticID = 0;
+
 } //end ~CGrid
 
 //-----------------------------------------------------------------------------
@@ -627,7 +629,7 @@ bool CGrid::Disturb() {
 				&& (CEnvir::year < SRunPara::RunPara.BelGrazStartYear+ SRunPara::RunPara.BelGrazWindow
 						|| SRunPara::RunPara.BelGrazWindow == 0))
 		{
-			GrazingBelGr(SRunPara::RunPara.BelGrazMode);
+			GrazingBelGr();
 		}
 
 		if (SRunPara::RunPara.NCut > 0) {
@@ -819,75 +821,54 @@ void CGrid::GrazingBelGr(const int mode) {
 	};
 
 	// BelPropRemove is treated as the proportion of rootmass to remove per year
-	if (mode == 0) // BelPropRemove is treated as a set amount of belowground biomass that is removed
+	double bt = sumRootMass(generateLivingPlants(PlantList)); // Total root biomass
+	double fn_o = SRunPara::RunPara.BelGrazGrams; // Forage need (parameterize this and remove BelPropRemove!)
+	double biomass_removed = 0;
+	const double alpha = 2.0;
+
+	if (bt-fn_o < bt*SRunPara::RunPara.BelGrazResidualPerc)
 	{
-		double bt = sumRootMass(generateLivingPlants(PlantList)); // Total root biomass
-		double fn_o = SRunPara::RunPara.BelGrazGrams; // Forage need (parameterize this and remove BelPropRemove!)
-		double biomass_removed = 0;
-		const double alpha = 2.0; // Paramaterize this!
-		const double BASE = 0.01;
+		fn_o = bt - bt*SRunPara::RunPara.BelGrazResidualPerc;
+	}
+	double fn = fn_o;
 
-		if (bt-fn_o < bt*BASE)
+	while (ceil(biomass_removed) < fn_o)
+	{
+		vector<CPlant*> livingPlants = generateLivingPlants(PlantList);
+		bt = sumRootMass(livingPlants);
+
+		double bite = 0;
+		for (auto i = livingPlants.begin(); i != livingPlants.end(); ++i)
 		{
-			fn_o = bt - bt*BASE;
+			CPlant* p = *i;
+			bite += pow(p->mroot / bt, alpha) * fn;
 		}
-		double fn = fn_o;
+		bite = fn / bite;
 
-		while (ceil(biomass_removed) < fn_o)
+		double leftovers = 0; // When a large plant is eaten to death, this is the overshoot from the algorithm
+		for (auto i = livingPlants.begin(); i != livingPlants.end(); ++i)
 		{
-			vector<CPlant*> livingPlants = generateLivingPlants(PlantList);
-			bt = sumRootMass(livingPlants);
+			CPlant* p = *i;
 
-			double bite = 0;
-			for (auto i = livingPlants.begin(); i != livingPlants.end(); ++i)
+			double biomass_to_remove = pow(p->mroot / bt, alpha) * fn * bite;
+			double proportion_to_remove = biomass_to_remove / p->mroot;
+
+			if (proportion_to_remove >= 1.0)
 			{
-				CPlant* p = *i;
-				bite += pow(p->mroot / bt, alpha) * fn;
+				leftovers += biomass_to_remove - p->mroot;
+				biomass_removed += p->mroot;
+				p->mroot = 0;
+				p->dead = true;
 			}
-			bite = fn / bite;
-
-			double leftovers = 0; // When a large plant is eaten to death, this is the overshoot from the algorithm
-			for (auto i = livingPlants.begin(); i != livingPlants.end(); ++i)
+			else
 			{
-				CPlant* p = *i;
-
-				double biomass_to_remove = pow(p->mroot / bt, alpha) * fn * bite;
-				double proportion_to_remove = biomass_to_remove / p->mroot;
-
-				if (proportion_to_remove >= 1.0)
-				{
-					leftovers += biomass_to_remove - p->mroot;
-					biomass_removed += p->mroot;
-					p->mroot = 0;
-					p->dead = true;
-				}
-				else
-				{
-					biomass_removed += p->RemoveRootMass(proportion_to_remove);
-					assert(!p->dead);
-				}
-
+				biomass_removed += p->RemoveRootMass(proportion_to_remove);
+				assert(!p->dead);
+			}
 				assert(sumRootMass(livingPlants) > 0);
-			}
-
-			fn = leftovers;
 		}
-	}
-	else if (mode == 1)
-	{
-		cerr << "BelGrazMode [1] is not yet written." << endl;
 
-		// Remove the old RNG, replace it with STL stuff.
-//		std::random_device rd; // obtain a random number from hardware
-//	    std::mt19937 eng(rd()); // seed the generator
-//	    std::uniform_int_distribution<> distr(0, PlantList.size() - 1); // define the range
-//
-//		random_shuffle(PlantList.begin(), PlantList.end());
-//		CPlant* p = PlantList[distr(eng)];
-	}
-	else
-	{
-		cerr << "Incorrect belowground herbivory mode." << endl;
+		fn = leftovers;
 	}
 }    //end CGrid::GrazingBelGr()
 
