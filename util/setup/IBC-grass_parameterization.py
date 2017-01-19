@@ -49,7 +49,7 @@ base_params =  [[1], # IC version
                 [0, 1], # BelGrazProb
                 [0], # BelGrazStartYear
                 [0], # BelGrazWindow
-                [0, 0.005, 0.01, 0.05], # BelGrazResidualPerc
+                [0, 0.01, 0.05, 0.1], # BelGrazResidualPerc
                 [0, 10000, 30000, 50000, 70000, 90000], # BelGrazGrams
                 [0, 50], # CatastrophicDisYear; 0 is no disturbance
                 [0, 0.50, 0.75, 1], # CatastrophicPlantMortality

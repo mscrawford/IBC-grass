@@ -826,6 +826,7 @@ void CGrid::GrazingBelGr(const int mode) {
 	double biomass_removed = 0;
 	const double alpha = 2.0;
 
+	// Functional response
 	if (bt-fn_o < bt*SRunPara::RunPara.BelGrazResidualPerc)
 	{
 		fn_o = bt - bt*SRunPara::RunPara.BelGrazResidualPerc;
@@ -865,7 +866,8 @@ void CGrid::GrazingBelGr(const int mode) {
 				biomass_removed += p->RemoveRootMass(proportion_to_remove);
 				assert(!p->dead);
 			}
-				assert(sumRootMass(livingPlants) > 0);
+
+			assert(sumRootMass(livingPlants) > 0);
 		}
 
 		fn = leftovers;

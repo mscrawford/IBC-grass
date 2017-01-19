@@ -22,7 +22,8 @@ CPlant::CPlant(CSeed* seed) :
 				++numPlants), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0),
 				Buptake(0), dead(false), remove(false), stress(0), cell(NULL),
 				mReproRamets(0), Spacerlength(0), Spacerdirection(0), Generation(1),
-				SpacerlengthToGrow(0), genet(NULL) {
+				SpacerlengthToGrow(0), genet(NULL)
+{
 
 	Traits = new SPftTraits(*seed->Traits);
 
@@ -34,9 +35,10 @@ CPlant::CPlant(CSeed* seed) :
 
 	//establish this plant on cell
 	setCell(seed->getCell());
-	if (cell) {
-		xcoord = (cell->x * SRunPara::RunPara.CellScale());
-		ycoord = (cell->y * SRunPara::RunPara.CellScale());
+	if (cell)
+	{
+		xcoord = cell->x * SRunPara::RunPara.CellScale();
+		ycoord = cell->y * SRunPara::RunPara.CellScale();
 	}
 	growingSpacerList.clear();
 
@@ -416,8 +418,10 @@ int CPlant::GetNRamets() {
  */
 double CPlant::RemoveMass() {
 	double mass_removed = 0;
+
 	//proportion of mass removed (0.5)
 	const double prop_remove = SRunPara::RunPara.BitSize;
+
 	if (mshoot + mRepro > 1) {   //only remove mass if shoot mas > 1mg
 		mass_removed = prop_remove * mshoot + mRepro;
 		mshoot *= 1 - prop_remove;
@@ -434,18 +438,14 @@ double CPlant::RemoveMass() {
  \since belowground herbivory simulations
  */
 double CPlant::RemoveRootMass(const double prop_remove) {
-//	double mass_removed = 0;
-//	if (mroot > 1) {   //only remove mass if root mass > 1mg
-//		mass_removed = prop_remove * mroot;
-//		mroot -= mass_removed;   //*=1-prop_remove;
-//	}
-//	return mass_removed;
 
 	double mass_removed = prop_remove * mroot;
-	assert(mass_removed < mroot);
+
+	assert(mass_removed <= mroot);
+
 	mroot -= mass_removed;
 
-	if (mroot <= 0) {
+	if (mroot == 0) {
 		dead = true;
 	}
 

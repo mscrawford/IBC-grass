@@ -141,7 +141,7 @@ int main(int argc, char* argv[])
 	getline(SimFile, data);
 	std::stringstream ss(data);
 	ss >> trash >> Envir->NRep; // Remove "NRep" header, set NRep
-	getline(SimFile, trash); // Remove parameterization header file
+	getline(SimFile, trash); 	// Remove parameterization header file
 
 	while (getline(SimFile, data))
 	{
@@ -149,7 +149,11 @@ int main(int argc, char* argv[])
 
 		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++)
 		{
-			if (SRunPara::RunPara.verbose) cout << "Run " << Envir->RunNr + 1 << " \n";
+			if (SRunPara::RunPara.verbose) {
+				cout << "Run " << Envir->RunNr + 1 << " \n";
+			}
+
+			cout << SRunPara::RunPara.getSimID() << endl;
 
 			Envir->InitRun();
 			Envir->OneRun();

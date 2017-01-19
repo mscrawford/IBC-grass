@@ -38,17 +38,17 @@ struct SRunPara
 
 public:
 
-	static const bool verbose = true;
+	static const bool verbose = false;
 
-	//Input Files
-	static std::string NamePftFile;   ///< Filename of PftTrait-File
-	static std::string NameSimFile;  ///< Filename of Simulation-File
+	// Input Files
+	static std::string NamePftFile;   	///< Filename of PftTrait-File
+	static std::string NameSimFile;  	///< Filename of Simulation-File
 
 	int weekly;
 	int ind_out;
 	int PFT_out;
 
-	static SRunPara RunPara;  //!> scenario parameters
+	static SRunPara RunPara;	//!> scenario parameters
 
 	void cleanRunPara();
 
@@ -64,8 +64,8 @@ public:
 	CompVersion Version;
 
 	// Intraspecific trait variation
-	ITV_version ITV; // MSC
-	double ITVsd; // MSC
+	ITV_version ITV; 	// MSC
+	double ITVsd; 		// MSC
 
 	// Gridspace
 	int GridSize;     //!< side length in cm
@@ -73,20 +73,20 @@ public:
 	bool torus;       //!< boundary behavior
 
 	// General parameters
-	int Tmax;         //!< simulation time
-	double mort_seeds;     //!< seed mortality per year (in winter)
-	double DiebackWinter; //!< portion of aboveground biomass to be removed in winter
-	double mort_base;      //!< basic mortality per week
-	double LitterDecomp;   //!< weekly litter decomposition rate
-	double meanARes;       //!< mean above-ground resource availability
-	double meanBRes;       //!< below-ground resourcer availability
-	double EstabRamet;      //!< probability of ramet establishment (1)
+	int Tmax;         		//!< simulation time
+	double mort_seeds;     	//!< seed mortality per year (in winter)
+	double DiebackWinter; 	//!< portion of aboveground biomass to be removed in winter
+	double mort_base;      	//!< basic mortality per week
+	double LitterDecomp;   	//!< weekly litter decomposition rate
+	double meanARes;      	//!< mean above-ground resource availability
+	double meanBRes;       	//!< below-ground resourcer availability
+	double EstabRamet;     	//!< probability of ramet establishment (1)
 
 	// Aboveground herbivory
-	double GrazProb;   //!< grazing probability per week
-	double PropRemove; //!< proportion of above ground mass removed by grazing
-	double BitSize;   //!< Bit size of macro-herbivore
-	double MassUngraz;   //!< biomass ungrazable 15300[mg DW/m�]
+	double GrazProb;   		//!< grazing probability per week
+	double PropRemove; 		//!< proportion of above ground mass removed by grazing
+	double BitSize;   		//!< Bit size of macro-herbivore
+	double MassUngraz;   	//!< biomass ungrazable 15300[mg DW/m�]
 
 	// Belowground herbivory
 	double BelGrazResidualPerc;
@@ -96,7 +96,7 @@ public:
 	double BelGrazGrams;
 
 	// Mowing
-	double CutHeight;     //!< Height to move the grassland to
+	double CutHeight;  //!< Height to cut plants to
 	int NCut;          //!< number cuts per year
 
 	// Catastrophic disturbance
@@ -110,24 +110,16 @@ public:
 	inline double DistProb()
 	{
 		return DistAreaYear / AreaEvent / 30.0;
-	}
-	;
+	};
 
 	// Resource variation
-	double Aampl;    //!< within year above-ground resource amplitude (not used)
+	double Aampl;   //!< within year above-ground resource amplitude (not used)
 	double Bampl;   //!<  within year above-ground resource amplitude (not used)
 
 	// Seed Rain
 	double SeedInput; //!< number of seeds introduced per PFT per year or seed mass introduced per PFT
-	int SeedRainType;  //!< mode of seed input: 0 - no seed rain;
-					   //!< 1 - SeedInput specifies total seed NUMBER + equal number of seeds for each PFT;
-					   //!< 2 - SeedInput specifies total seed MASS + equal number of seeds for each PFT;
-					   //!< 3 - SeedInput specifies total seed NUMBER + equal seed mass for each PFT;
-					   //!< 4 - SeedInput specifies total seed MASS + equal seed mass for each PFT;
-					   //!< 5 - SeedInput specifies total seed NUMBER + non-clonal plants get x-times more seeds than clonal plants
-
-					   //!< 99 - SeedInput specifies FACTOR for seed numbers in PftTraits-File
-					   //!< 111 - SeedInput specifies FACTOR for seed numbers in InitPFTdat-File
+	int SeedRainType; //!< mode of seed input: 0 - no seed rain;
+					  //!< 1 - SeedInput specifies total seed NUMBER + equal number of seeds for each PFT;
 
 	// Functions
 

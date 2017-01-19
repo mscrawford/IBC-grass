@@ -8,13 +8,12 @@
 #include "RunPara.h"
 #include "CEnvir.h"
 
-//Input Files
-std::string SRunPara::NamePftFile; // trait file for experiment species
-std::string SRunPara::NameSimFile = "data/in/SimFile.txt"; //file with simulation scenarios
+// Input Files
+std::string SRunPara::NamePftFile; 							// trait file for experiment species
+std::string SRunPara::NameSimFile = "data/in/SimFile.txt"; 	// file with simulation scenarios
 
 SRunPara SRunPara::RunPara = SRunPara();
 
-//-------------------------------------------------------------------
 SRunPara::SRunPara() :
 		Version(version1), ITV(off), ITVsd(0),
 		weekly(0), ind_out(0), PFT_out(1),
