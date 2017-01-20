@@ -51,11 +51,11 @@ void CGridEnvir::InitInds(string file) {
 	const int no_init_seeds = 10;
 
 	// PFT Traits are read in GetSim()
-	for (map<string, SPftTraits*>::iterator var = SPftTraits::PftLinkList.begin();
-			var != SPftTraits::PftLinkList.end();
-			++var)
+	for (map<string, SPftTraits*>::iterator it = SPftTraits::PftLinkList.begin();
+			it != SPftTraits::PftLinkList.end();
+			++it)
 	{
-		SPftTraits* traits = var->second;
+		SPftTraits* traits = it->second;
 		InitClonalSeeds(traits, no_init_seeds);
 		PftInitList[traits->name] += no_init_seeds;
 		PftSurvTime[traits->name] = 0;
@@ -171,6 +171,10 @@ void CGridEnvir::OneWeek()
  */
 bool CGridEnvir::exitConditions()
 {
+	// Exit conditions do not exist with external seed input
+	if (SRunPara::RunPara.SeedInput > 0)
+		return false;
+
 	int NPlants = GetNPlants();
 	int NClPlants = GetNclonalPlants();
 	int NSeeds = GetNSeeds();

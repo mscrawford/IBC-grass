@@ -55,7 +55,7 @@ protected:
 	void catastrophicDisturbance();
 	void Grazing();
 	/// simulates belowground grazing
-	void GrazingBelGr(const int mode = 0);
+	void GrazingBelGr();
 	void Trampling();           //!< gap formation
 	void Cutting(double CutHeight = 0);         //!< cutting of all plants to equal aboveground mass
 	void CellsInit();           //!< initalization of cells

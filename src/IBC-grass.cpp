@@ -149,11 +149,11 @@ int main(int argc, char* argv[])
 
 		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++)
 		{
+			cout << SRunPara::RunPara.getSimID() << endl;
+
 			if (SRunPara::RunPara.verbose) {
 				cout << "Run " << Envir->RunNr + 1 << " \n";
 			}
-
-			cout << SRunPara::RunPara.getSimID() << endl;
 
 			Envir->InitRun();
 			Envir->OneRun();

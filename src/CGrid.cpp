@@ -796,9 +796,9 @@ void CGrid::Cutting(double cut_height)
  Spatial Heterogeneity is introduced. Only Plants of the left grid part
  are grazed belowground if Heterogeneity-flag is set. (only if mode>0)
  */
-void CGrid::GrazingBelGr(const int mode) {
+void CGrid::GrazingBelGr() {
 
-	auto sumRootMass = [](const vector<CPlant*> l) {
+	auto sumRootMass = [](const vector<CPlant*> & l) {
 		double total_root_mass = 0;
 		for (auto i = l.begin(); i != l.end(); ++i) {
 			CPlant* p = *i;
@@ -808,7 +808,7 @@ void CGrid::GrazingBelGr(const int mode) {
 	};
 
 	auto generateLivingPlants = [](vector<CPlant*> l) {
-		std::vector<CPlant*>::iterator it = l.begin();
+		auto it = l.begin();
 		while (it != l.end()) {
 			CPlant* p = *it;
 			if (p->dead) {
@@ -846,33 +846,31 @@ void CGrid::GrazingBelGr(const int mode) {
 		}
 		bite = fn / bite;
 
-		double leftovers = 0; // When a large plant is eaten to death, this is the overshoot from the algorithm
+		double leftovers = 0; // When a plant is eaten to death, this is the overshoot from the algorithm
 		for (auto i = livingPlants.begin(); i != livingPlants.end(); ++i)
 		{
 			CPlant* p = *i;
 
 			double biomass_to_remove = pow(p->mroot / bt, alpha) * fn * bite;
-			double proportion_to_remove = biomass_to_remove / p->mroot;
 
-			if (proportion_to_remove >= 1.0)
+			if (biomass_to_remove > p->mroot)
 			{
-				leftovers += biomass_to_remove - p->mroot;
+				leftovers += (biomass_to_remove - p->mroot);
 				biomass_removed += p->mroot;
 				p->mroot = 0;
 				p->dead = true;
 			}
 			else
 			{
-				biomass_removed += p->RemoveRootMass(proportion_to_remove);
-				assert(!p->dead);
+				biomass_removed += p->RemoveRootMass(biomass_to_remove);
 			}
-
 			assert(sumRootMass(livingPlants) > 0);
 		}
 
 		fn = leftovers;
 	}
-}    //end CGrid::GrazingBelGr()
+
+}
 
 //-----------------------------------------------------------------------------
 /**

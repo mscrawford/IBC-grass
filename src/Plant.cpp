@@ -219,7 +219,6 @@ void CPlant::SpacerGrow() {
 				Spacer->xcoord = x2 / CmToCell;
 				Spacer->ycoord = y2 / CmToCell;
 				Spacer->SpacerlengthToGrow = 0;
-
 			}
 		}
 	}
@@ -375,7 +374,8 @@ void CPlant::DecomposeDead() {
  the number of seeds produced during the last weeks.
  Subsequently the allocated resources are reset to zero.
  */
-int CPlant::GetNSeeds() {
+int CPlant::GetNSeeds()
+{
 	int NSeeds = 0;
 
 	if (!dead)
@@ -386,8 +386,9 @@ int CPlant::GetNSeeds() {
 
 			mRepro = 0;
 
-			if (Age >= Traits->MaxAge)
+			if (Age >= Traits->MaxAge) {
 				this->dead = true; // kill senescent plants after they reproduced the last time
+			}
 		}
 	}
 
@@ -405,8 +406,12 @@ int CPlant::GetNSeeds() {
  Unlike CPlant::GetNSeeds() no resources are reset due to ongoing growth
  */
 int CPlant::GetNRamets() {
-	if ((mReproRamets > 0) && (!dead) && (growingSpacerList.size() == 0))
+	if (mReproRamets > 0 &&
+			!dead &&
+			growingSpacerList.size() == 0) {
 		return 1;
+	}
+
 	return 0;
 }
 
@@ -437,10 +442,8 @@ double CPlant::RemoveMass() {
  \return mass that was removed
  \since belowground herbivory simulations
  */
-double CPlant::RemoveRootMass(const double prop_remove) {
-
-	double mass_removed = prop_remove * mroot;
-
+double CPlant::RemoveRootMass(const double mass_removed)
+{
 	assert(mass_removed <= mroot);
 
 	mroot -= mass_removed;
