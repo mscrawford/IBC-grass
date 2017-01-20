@@ -219,7 +219,7 @@ void Output::print_srv_and_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
 	{
 		CPlant* p = it;
 
-		if (p->dead) continue;
+		if (SRunPara::RunPara.PFT_out != 2 && p->dead) continue; // If PFT_out is 2, it will print "dead" PFTs
 
 		PFT_struct* s = &(PFT_map[p->pft()]);
 
@@ -239,33 +239,38 @@ void Output::print_srv_and_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
 	}
 
 	// If any PFT went extinct, record it in "srv" stream
-	for (auto it : PFT_map)
+	if (SRunPara::RunPara.srv_out != 0)
 	{
-		if ((CEnvir::PftSurvTime[it.first] == 0 && it.second.Pop == 0) ||
-				(CEnvir::PftSurvTime[it.first] == 0 && CEnvir::year == SRunPara::RunPara.Tmax))
+		for (auto it : PFT_map)
 		{
-			CEnvir::PftSurvTime[it.first] = CEnvir::year;
-			std::ostringstream s_ss;
+			if ((CEnvir::PftSurvTime[it.first] == 0 && it.second.Pop == 0) ||
+					(CEnvir::PftSurvTime[it.first] == 0 && CEnvir::year == SRunPara::RunPara.Tmax))
+			{
+				CEnvir::PftSurvTime[it.first] = CEnvir::year;
 
-			s_ss << SRunPara::RunPara.getSimID()	<< ", ";
-			s_ss << it.first 						<< ", "; // PFT name
-			s_ss << CEnvir::year					<< ", ";
-			s_ss << it.second.Pop 					<< ", ";
-			s_ss << it.second.Shootmass 			<< ", ";
-			s_ss << it.second.Rootmass 					   ;
+				std::ostringstream s_ss;
 
-			print_row(s_ss, srv_stream);
+				s_ss << SRunPara::RunPara.getSimID()	<< ", ";
+				s_ss << it.first 						<< ", "; // PFT name
+				s_ss << CEnvir::year					<< ", ";
+				s_ss << it.second.Pop 					<< ", ";
+				s_ss << it.second.Shootmass 			<< ", ";
+				s_ss << it.second.Rootmass 					   ;
 
+				print_row(s_ss, srv_stream);
+			}
 		}
 	}
 
 	// If one should print PFTs, do so.
-	if (SRunPara::RunPara.PFT_out == 1)
+	if (SRunPara::RunPara.PFT_out != 0)
 	{
 		// print each PFT
 		for (auto it : PFT_map)
 		{
-			if (it.second.Pop == 0 && CEnvir::PftSurvTime[it.first] != CEnvir::year)
+			if (SRunPara::RunPara.PFT_out == 1 &&
+					it.second.Pop == 0 &&
+					CEnvir::PftSurvTime[it.first] != CEnvir::year)
 				continue;
 
 			std::ostringstream p_ss;

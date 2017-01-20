@@ -15,7 +15,8 @@ N_SLOTS = 200
 
 weekly = 0 # print weekly or yearly?
 ind_out = 0 # individual-level output?
-pft_out = 1 # PFT-level output?
+pft_out = 2 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
+srv_out = 0 # Print survival statistics? Bad idea with seed addition
 
 N_COMS = 1
 N_REPS = 20
@@ -29,10 +30,10 @@ Sim_header = "NRep " + str(N_REPS) + "\n" + \
                 "BelGrazProb BelGrazStartYear BelGrazWindow BelGrazResidualPerc BelGrazGrams " + \
                 "CatastrophicDistYear CatastrophicPlantMortality CatastrophicSeedMortality " + \
                 "SeedRainType SeedInput " + \
-                "weekly ind_out NameInitFile\n"
+                "weekly ind_out pft_out srv_out NameInitFile\n"
 
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
-                        "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
+                "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
 
 ## These parameters are specific to the environment and "type" of the simulation
 # Some of these are contingent on the others to not be deemed, "redunant." This is a poor algorithm
@@ -49,31 +50,31 @@ base_params =  [[1], # IC version
                 [0, 1], # BelGrazProb
                 [0], # BelGrazStartYear
                 [0], # BelGrazWindow
-                [0, 0.01, 0.05, 0.1], # BelGrazResidualPerc
+                [0.01, 0.05, 0.1], # BelGrazResidualPerc
                 [0, 10000, 30000, 50000, 70000, 90000], # BelGrazGrams
-                [0, 50], # CatastrophicDisYear; 0 is no disturbance
-                [0, 0.50, 0.75, 1], # CatastrophicPlantMortality
-                [0, 0.50, 0.75, 1], # CatastrophicSeedMortality
-                [0, 1], # SeedRainType
-                [0, 10, 20]] # SeedInput
+                [50], # CatastrophicDisYear; 0 is no disturbance
+                [0, 0.25, 0.50, 0.75, 1], # CatastrophicPlantMortality
+                [0, 0.25, 0.50, 0.75, 1], # CatastrophicSeedMortality
+                [1], # SeedRainType
+                [10]] # SeedInput
 
 # base_params =  [[1], # IC version
 #                 [0], # ITVsd
-#                 [10], # Tmax
+#                 [100], # Tmax
 #                 [90], # ARes
 #                 [90], # Bres
 #                 [0.2], # GrazProb
 #                 [0.5], # propRemove
-#                 [0], # BelGrazProb
+#                 [1], # BelGrazProb
 #                 [0], # BelGrazStartYear
 #                 [0], # BelGrazWindow
-#                 [0], # BelGrazMode
-#                 [0], # BelGrazGrams
-#                 [0], # CatastrophicDisYear; 0 is no disturbance
-#                 [0], # CatastrophicPlantMortality
-#                 [0], # CatastrophicSeedMortality
-#                 [0], # SeedRainType
-#                 [0]] # SeedInput
+#                 [0.1], # BelGrazResidualPerc
+#                 [50000], # BelGrazGrams
+#                 [50], # CatastrophicDisYear; 0 is no disturbance
+#                 [0.75], # CatastrophicPlantMortality
+#                 [0.75], # CatastrophicSeedMortality
+#                 [1], # SeedRainType
+#                 [10]] # SeedInput
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
@@ -160,7 +161,8 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
             sim_filename = base_simID + "_" + "COM" + ".txt"
 
             # community's SimFile entry
-            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), str(weekly), str(ind_out), str(pft_out), sim_filename, "\n"]))
+            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), 
+                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 
@@ -181,7 +183,6 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
         with open(path + "SimFile.txt", 'w') as w:
             w.write(Sim_header)
             w.writelines(sim for sim in SimFile)
-
 
 def makeEmpiricalPFTs():
     # Read in Lina's superset of PFTs
@@ -213,7 +214,8 @@ def makeEmpiricalPFTs():
             sim_filename = base_simID + "_" + "COM" + ".txt"
 
             # community's SimFile entry
-            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), str(weekly), str(ind_out), str(pft_out), sim_filename, "\n"]))
+            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(),
+                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 

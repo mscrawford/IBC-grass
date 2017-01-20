@@ -121,6 +121,7 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::RunPara.weekly
 		>> SRunPara::RunPara.ind_out
 		>> SRunPara::RunPara.PFT_out
+		>> SRunPara::RunPara.srv_out
 		>> SRunPara::NamePftFile // Name of PFT input file
 		;
 
