@@ -1,14 +1,14 @@
 #ifndef PlantH
 #define PlantH
 
+#include <vector>
 #include <math.h>
+#include <string>
+
 #include "CObject.h"
 #include "CGenet.h"
 #include "RunPara.h"
 #include "SPftTraits.h"
-//#include "Seed.h"
-#include <vector>
-using namespace std;
 
 //---------------------------------------------------------------------------
 
@@ -20,16 +20,17 @@ const double Pi = 3.14159265358979323846;
 class CSeed;
 class CCell;
 class CGenet;
+
 //! Class that describes plant individuals
-class CPlant: public CObject {
+class CPlant: public CObject
+{
 protected:
 	CCell* cell;      ///<cell where it sits
 	virtual double ReproGrow(double uptake);
 	virtual double ShootGrow(double shres);
 	virtual double RootGrow(double rres);
 
-	///helping function to set allocation to reproduction
-//   double ReproGrow(double uptake);
+	// helping function to set allocation to reproduction
 	double mReproRamets;                         ///<resources for ramet growth
 	CGenet* genet;                               ///<genet of the clonal plant
 
@@ -38,8 +39,8 @@ public:
 
 	int Age;
 
+	static int numPlants;
 	int plantID;
-	static int numPlants; // MSC
 
 	double xcoord;   //!< location of plant's central point
 	double ycoord;   //!< location of plant's central point
@@ -48,30 +49,19 @@ public:
 	double mroot;    //!< root mass
 	double mRepro;    //!< reproductive mass (which is converted to seeds)
 	int lifetimeFecundity = 0; //!< The total accumulation of seeds.
-	int yearlyFecundity = 0;
-
-//   double alloc_shoot;     //!< root-shoot resource partition coefficient
-
-//   double Ashoot;   //!< area of above-ground ZOI [cm^2]
-//   double Aroot;    //!< area of below-ground ZOI [cm^2]
 
 	double Ash_disc; //!< discrete above-ground ZOI area [number of cells covered * area of one cell]
 	double Art_disc; //!< discrete below-ground ZOI area [number of cells covered * area of one cell]
-	double Aroots_all;  ///<area of all species' roots in ZOI
-	double Aroots_type; ///<area of all PFT's roots in ZOI
-//   double rsh;      //!< radius of above-ground ZOI [cm]
-//   double rrt;      //!< radius of below-ground ZOI [cm]
 
 	double Auptake; //!< uptake of above-ground resource in one time step
 	double Buptake; //!< uptake below-ground resource one time step
 
+	int stress;     //!< counter for weeks with resource stress exposure
 	bool dead;      //!< plant dead or alive?
 	bool remove;    //!< trampled or not - should the plant be removed?
 
-	int stress;     //!< counter for weeks with resource stress exposure
-
 	//--clonal..
-	vector<CPlant*> growingSpacerList;     ///<List of growing Spacer
+	std::vector<CPlant*> growingSpacerList;     ///<List of growing Spacer
 	double Spacerlength;                         ///<real spacer length
 	double Spacerdirection;                      ///<spacer direction
 	double SpacerlengthToGrow;                   ///<length to grow
@@ -82,21 +72,19 @@ public:
 	CPlant(double x, double y, CPlant* plant); // for clonal establishment
 	virtual ~CPlant();  //!<destruktor
 
-//---admin
-	virtual string type();  ///<say what you are
-	virtual string pft();   ///<say what a pft you are
-	virtual string toString(bool benchmarkFecundity);
-	static string headerToString();
-//   void Allometrics(); //!< calculates ZOI areas (above and below) from shoot and root mass
+	virtual std::string type();  ///<say what you are
+	virtual std::string pft();   ///<say what a pft you are
 
 //-2nd order properties
 	double Area_shoot();  //!<ZOI area aboveground
 	double Area_root();   //!<ZOI area belowground
 	double Radius_shoot(); //!<ZOI radius aboveground
 	double Radius_root();  //!<ZOI radius belowground
+
 	///competition coefficient for a plant -needed for AboveComp and BelowComp
 	double comp_coef(const int layer, const int symmetry) const;
 	virtual bool stressed();   ///< return true if plant is stressed
+
 /// lower threshold of aboveground resource uptake (light stress thresh.)
 	virtual double minresA() {
 		return Traits->mThres * Ash_disc * Traits->Gmax;
@@ -132,16 +120,18 @@ public:
 /// \bug since mass relates to 3D-measurements as volume,
 ///   height has to be correlated with mass^(1/3)
 ///
-	virtual double getHeight(double const cheight = 6.5) {
-		return pow(mshoot / (Traits->LMR), 1 / 3.0) * cheight;
+	virtual double getHeight(double const height_conversion_constant = 6.5) {
+		return pow(mshoot / (Traits->LMR), 1 / 3.0) * height_conversion_constant;
 	}
 	;
-	virtual int GetNSeeds(); //!< returns number of seeds of one plant individual
 
-//-----clonal...
-//   virtual string type();              ///<say what you are
-//   virtual string pft();   ///<say what a pft you are
-//   virtual string asString(); ///<report plant's status
+	// MSC: This is derived from "CPlant::getHeight"
+	virtual double getBiomassAtHeight(double const height, double const height_conversion_constant = 6.5)
+	{
+		return ( (pow(height, 3) * Traits->LMR) / pow(height_conversion_constant, 3) );
+	}
+
+	virtual int GetNSeeds(); //!< returns number of seeds of one plant individual
 
 	///set genet and add ramet to its list
 	void setGenet(CGenet* genet);
@@ -183,8 +173,6 @@ public:
 		return ((plant1->mroot) > (plant2->mroot));
 	}
 	;
-
-private:
 
 };
 

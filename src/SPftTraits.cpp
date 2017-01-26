@@ -1,19 +1,15 @@
-/*
- * SPftTraits.cpp
- *
- *  Created on: 21.04.2014
- *      Author: KatrinK
- */
-
-#include <cstdlib>
-#include <string>
-#include <fstream>
-#include <iostream>
-#include <cassert>
-#include <sstream>
 
 #include "SPftTraits.h"
 #include "CEnvir.h"
+
+#include <cassert>
+#include <iostream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+map<string, SPftTraits*> SPftTraits::PftLinkList = map<string, SPftTraits*>();
 
 /*
  * Default constructor
@@ -54,10 +50,6 @@ SPftTraits::~SPftTraits() {
 	// TODO Auto-generated destructor stub
 }
 
-//std::vector<SPftTraits*> SPftTraits::PftList;//(CRunPara::RunPara.NPft,new SPftTraits);
-//std::vector<SclonalTraits*> SclonalTraits::clonalTraits;//(8,new SclonalTraits());
-map<string, SPftTraits*> SPftTraits::PftLinkList = map<string, SPftTraits*>();
-
 /** MSC
  * Records every "individualized" trait syndrome (or rather, the pointer to it).
  * This is used to remove them after each run. By the end of a 100 year run with 128cm grid cells,
@@ -79,16 +71,27 @@ map<string, SPftTraits*> SPftTraits::PftLinkList = map<string, SPftTraits*>();
  * @param type PFT asked for
  * @return Object pointer to PFT definition
  */
-SPftTraits* SPftTraits::getPftLink(string type) {
+SPftTraits* SPftTraits::getPftLink(string type)
+{
+
 	SPftTraits* traits = NULL;
+
 	map<string, SPftTraits*>::iterator pos = PftLinkList.find(type);
-	if (pos == (PftLinkList.end()))
-		cerr << "type not found:" << type << endl;
-	else
-		traits = pos->second;
-	if (traits == NULL)
+
+	if (pos == PftLinkList.end()) {
+		cerr << "Type not found: " << type << endl;
+		exit(1);
+	}
+
+	traits = pos->second;
+
+	if (traits == NULL) {
 		cerr << "NULL-pointer error\n";
+		exit(1);
+	}
+
 	return traits;
+
 }
 
 /**
@@ -99,16 +102,14 @@ SPftTraits* SPftTraits::getPftLink(string type) {
 SPftTraits* SPftTraits::createPftInstanceFromPftType(string type) {
 	SPftTraits* traits = NULL;
 	map<string, SPftTraits*>::iterator pos = PftLinkList.find(type);
-	if (pos == (PftLinkList.end()))
-		cerr << "type not found:" << type << endl;
-	else
-		traits = new SPftTraits(*pos->second);
-	return traits;
-}
 
-SPftTraits* SPftTraits::createPftInstanceFromPftLink(SPftTraits* traits) {
-	assert(traits != NULL);
-	traits = new SPftTraits(*traits);
+	if (pos == PftLinkList.end()) {
+		cerr << "Type not found:" << type << endl;
+		exit(1);
+	}
+
+	traits = new SPftTraits(*pos->second);
+
 	return traits;
 }
 
@@ -116,9 +117,8 @@ SPftTraits* SPftTraits::createPftInstanceFromPftLink(SPftTraits* traits) {
 /**
  * Read definition of PFTs used in the simulation
  * @param file file containing PFT definitions
- * @param n default=-1; in case of monoculture runs, nb of PFT to test
  */
-void SPftTraits::ReadPFTDef(const string& file, int n) {
+void SPftTraits::ReadPFTDef(const string& file) {
 	//delete old definitions
 	for (map<string, SPftTraits*>::iterator i = SPftTraits::PftLinkList.begin();
 			i != SPftTraits::PftLinkList.end();
@@ -126,50 +126,49 @@ void SPftTraits::ReadPFTDef(const string& file, int n) {
 	{
 		delete i->second;
 	}
+
 	//delete static pointer vectors
 	SPftTraits::PftLinkList.clear();
 
 	//Open InitFile
-	cout << file << endl;
 	ifstream InitFile(file.c_str());
-	if (!InitFile.good()) {
-		cerr << ("Fehler beim �ffnen InitFile");
-		cerr << file.c_str();
-		exit(3);
-	}
-	cout << "InitFile: " << file << endl;
 
 	string line;
 	getline(InitFile, line); //skip header line
-	//skip first lines if only one Types should be initiated
-	if (n > -1) // MSC: This is a broken window.
-		for (int x = 0; x < n; x++)
-			getline(InitFile, line);
 
-	int dummi1;
-	string dummi2; // int PFTtype; string Cltype;
+	while (getline(InitFile, line))
+	{
+		std::stringstream ss(line);
 
-	do {
 		SPftTraits* traits = new SPftTraits();
-		InitFile >> dummi1;
-		InitFile >> dummi2;
-		InitFile >> traits->MaxAge >> traits->AllocSeed >> traits->LMR
-				>> traits->m0 >> traits->MaxMass >> traits->SeedMass
-				>> traits->Dist >> traits->pEstab >> traits->Gmax >> traits->SLA
-				>> traits->palat >> traits->memory >> traits->RAR
-				>> traits->growth >> traits->mThres >> traits->clonal
-				>> traits->PropSex >> traits->meanSpacerlength
-				>> traits->sdSpacerlength >> traits->Resshare >>
-				traits->AllocSpacer >> traits->mSpacer;
-		traits->name = dummi2;
-		traits->TypeID = dummi1;
 
-		SPftTraits::addPftLink(dummi2, traits);
+		ss 	>> traits->TypeID
+			>> traits->name
+			>> traits->MaxAge
+			>> traits->AllocSeed
+			>> traits->LMR
+			>> traits->m0
+			>> traits->MaxMass
+			>> traits->SeedMass
+			>> traits->Dist
+			>> traits->pEstab
+			>> traits->Gmax
+			>> traits->SLA
+			>> traits->palat
+			>> traits->memory
+			>> traits->RAR
+			>> traits->growth
+			>> traits->mThres
+			>> traits->clonal
+			>> traits->PropSex
+			>> traits->meanSpacerlength
+			>> traits->sdSpacerlength
+			>> traits->Resshare
+			>> traits->AllocSpacer
+			>> traits->mSpacer;
 
-		if (!InitFile.good() || n > -1) {
-			return;
-		}
-	} while (!InitFile.eof());
+		SPftTraits::addPftLink(traits->name, traits);
+	}
 }
 
 /* MSC
@@ -256,64 +255,4 @@ void SPftTraits::varyTraits() {
 
 //	cout << "Done varying traits!" << endl;
 
-}
-
-string SPftTraits::toString()
-{
-	std::stringstream mystream;
-	mystream << name << '\t'
-			<< AllocSeed << "\t"
-			<< LMR << "\t"
-			<< m0 << "\t"
-			<< MaxMass << "\t"
-			<< SeedMass << "\t"
-			<< Dist << "\t"
-			<< pEstab << "\t"
-			<< Gmax << "\t"
-			<< SLA << "\t"
-			<< palat << "\t"
-			<< memory << "\t"
-			<< RAR << "\t"
-			<< growth << "\t"
-			<< mThres << "\t"
-			<< clonal << "\t"
-			<< PropSex << "\t"
-			<< meanSpacerlength << "\t"
-			<< sdSpacerlength << "\t"
-			<< Resshare << "\t"
-			<< AllocSpacer << "\t"
-			<< mSpacer << "\t"
-			;
-
-	return mystream.str();
-}
-
-string SPftTraits::headerToString()
-{
-	std::stringstream mystream;
-	mystream << "PFT" << "\t"
-			<< "AllocSeed" << "\t"
-			<< "LMR" << "\t"
-			<< "m0" << "\t"
-			<< "MaxMass" << "\t"
-			<< "SeedMass" << "\t"
-			<< "Dist" << "\t"
-			<< "pEstab" << "\t"
-			<< "Gmax" << "\t"
-			<< "SLA" << "\t"
-			<< "palat" << "\t"
-			<< "memory" << "\t"
-			<< "RAR" << "\t"
-			<< "growth" << "\t"
-			<< "mThres" << "\t"
-			<< "clonal" << "\t"
-			<< "PropSex" << "\t"
-			<< "meanSpacerlength" << "\t"
-			<< "sdSpacerlength" << "\t"
-			<< "Resshare" << "\t"
-			<< "AllocSpacer" << "\t"
-			<< "mSpacer" << "\t"
-		;
-
-	return mystream.str();
 }

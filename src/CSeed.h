@@ -1,10 +1,6 @@
-//---------------------------------------------------------------------------
 
 #ifndef CSeedH
 #define CSeedH
-
-#include <iostream>
-#include <string>
 
 #include "CObject.h"
 
@@ -40,13 +36,11 @@ class CSeed: public CObject
 	   CCell* getCell(){ return cell; }; ///<return address of cell
 
 	   //! return type affiliation (necessary to apply algorithms from STL)
-	   bool SeedOfType(string type){ return (this->pft()==type); };
+	   bool SeedOfType(std::string type){ return (this->pft()==type); };
 };
 
 //-----------------------------------------------------------------------------
 //! return seed removed -> necessary to use STL algorithm
 bool GetSeedRemove(const CSeed* seed1);
-//-----------------------------------------------------------------------------
-//! return type affiliation(necessary to apply algorithms from STL) bool SeedOfType(CSeed* seed,string type){return (seed->pft()==type);};
-// SeedOfType(CSeed* seed,string type){return (seed->pft()==type);};
+
 #endif

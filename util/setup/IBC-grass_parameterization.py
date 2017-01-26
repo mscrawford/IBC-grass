@@ -8,26 +8,32 @@ import util
 
 from util import *
 
-PARALLEL = False
-SPAT_out = 0 # print spatial grid
-SPAT_out_year = 0 # Which year to print the spatial grid, 0 for every year
-PFT_out = 1 # print PFT output
-COMP_out = 0 # print comp grid
-N_SLOTS = 400
-
 path = "./tmp/"
+
+PARALLEL = True
+N_SLOTS = 200
+
+weekly = 0 # print weekly or yearly?
+ind_out = 0 # individual-level output?
+pft_out = 2 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
+srv_out = 0 # Print survival statistics? Bad idea with seed addition
+
 N_COMS = 1
-N_REPS = 1
+N_REPS = 20
 n_PFTs = 0
 
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
-Sim_header = "NRep\n" + str(N_REPS) + "\nSimNr ComNr IC_vers ITVsd Tmax ARes Bres " + \
-                "GrazProb PropRemove BelGrazProb BelGrazStartYear BelGrazWindow BelGrazMode BelPropRemove CatastrophicDistYear " + \
-                "SPATout SPAToutYear PFTout COMPout NameInitFile\n"
+Sim_header = "NRep " + str(N_REPS) + "\n" + \
+                "SimNr ComNr IC_vers ITVsd Tmax ARes Bres " + \
+                "GrazProb PropRemove " + \
+                "BelGrazProb BelGrazStartYear BelGrazWindow BelGrazResidualPerc BelGrazPerc " + \
+                "CatastrophicDistYear CatastrophicPlantMortality CatastrophicSeedMortality " + \
+                "SeedRainType SeedInput " + \
+                "weekly ind_out pft_out srv_out NameInitFile\n"
 
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
-                        "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
+                "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
 
 ## These parameters are specific to the environment and "type" of the simulation
 # Some of these are contingent on the others to not be deemed, "redunant." This is a poor algorithm
@@ -36,17 +42,39 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 
 base_params =  [[1], # IC version
                 [0], # ITVsd
-                [100], # Tmax
-                [100], # ARes
-                [60], # Bres
+                [150], # Tmax
+                [90], # ARes
+                [90], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
                 [0, 1], # BelGrazProb
-                [0, 50], # BelGrazStartYear
+                [0], # BelGrazStartYear
                 [0], # BelGrazWindow
-                [0], # BelGrazMode
-                [0, 0.5], # BelPropRemove
-                [0, 50]] # CatastrophicDisYear
+                [0.01, 0.05, 0.1], # BelGrazResidualPerc
+                [0.01, 0.05, 0.1, 0.2], # BelGrazPerc
+                [50], # CatastrophicDisYear; 0 is no disturbance
+                [0, 0.25, 0.50, 0.75, 1], # CatastrophicPlantMortality
+                [0, 0.25, 0.50, 0.75, 1], # CatastrophicSeedMortality
+                [1], # SeedRainType
+                [10]] # SeedInput
+
+# base_params =  [[1], # IC version
+#                 [0], # ITVsd
+#                 [100], # Tmax
+#                 [90], # ARes
+#                 [90], # Bres
+#                 [0.2], # GrazProb
+#                 [0.5], # propRemove
+#                 [1], # BelGrazProb
+#                 [0], # BelGrazStartYear
+#                 [0], # BelGrazWindow
+#                 [0.05], # BelGrazResidualPerc
+#                 [50000], # BelGrazPerc
+#                 [50], # CatastrophicDisYear; 0 is no disturbance
+#                 [0.75], # CatastrophicPlantMortality
+#                 [0.75], # CatastrophicSeedMortality
+#                 [1], # SeedRainType
+#                 [10]] # SeedInput
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
@@ -73,27 +101,6 @@ PFType_params = [[100], # MaxAge
                 [0], # Resshare
                 [0], # AllocSpacer
                 [0]] # mSpacer
-
-# Changing resource response!
-# PFType_params = [[100], # MaxAge
-#                 [0.05], # AllocSeed
-#                 [0.50], # LMR
-#                 [[0.3, 2000, 0.3, 0.3]],# maxPlantSizeSet. Maximum plant size -- large
-#                 [0.5], # pEstab
-#                 [[60, 2],
-#                  [20, 6]], # Resource response -- tolerator
-#                 [[0.50, 0.75]],# grazingResponseSet. Grazing response -- tolerator
-#                 [1], # RAR
-#                 [0.25], # growth
-#                 [0.2], # mThres
-#                 [0], # clonal
-#                 [0], # propSex
-#                 [0], # meanSpacerLength
-#                 [0], # sdSpacerLength
-#                 [0], # Resshare
-#                 [0], # AllocSpacer
-#                 [0]] # mSpacer
-
 
 def buildBatchScripts(SimFile, n_cores, path, Sim_header):
     sims_per_core = int(math.ceil(len(SimFile)/float(n_cores)))
@@ -136,7 +143,7 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
     SimFile = [] # all the simulations go into one 'SimFile.' This is a list of strings.
 
     community_number = 0
-    sim_number = random.randint(0, 33554432) # This is so that you can run multiple simulations at once. 
+    sim_number = random.randint(0, 2147483647) # This is so that you can run multiple simulations at once. 
     for s in xrange(1, N_COMS+1): # one sim_number per sample of PFTypes. 
         community = random.sample(pfts, n_PFTs)
         community_number += 1
@@ -155,7 +162,7 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
 
             # community's SimFile entry
             SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), 
-                str(SPAT_out), str(SPAT_out_year), str(PFT_out), str(COMP_out), sim_filename, "\n"]))
+                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 
@@ -177,7 +184,6 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
             w.write(Sim_header)
             w.writelines(sim for sim in SimFile)
 
-
 def makeEmpiricalPFTs():
     # Read in Lina's superset of PFTs
     with open("./resources/selectWeiss.txt", "r") as r:
@@ -189,7 +195,7 @@ def makeEmpiricalPFTs():
 
     SimFile = [] # all the simulations go into one 'SimFile.' This is a list of strings.
     community_number = 0
-    sim_number = random.randint(0, 33554432) # This is so that you can run multiple simulations at once. 
+    sim_number = random.randint(0, 2147483647) # This is so that you can run multiple simulations at once. 
 
     for s in xrange(1, N_COMS+1): # one sim_number per sample of PFTypes. 
         community = random.sample(pfts, len(pfts) if n_PFTs == 0 else n_PFTs)
@@ -208,8 +214,8 @@ def makeEmpiricalPFTs():
             sim_filename = base_simID + "_" + "COM" + ".txt"
 
             # community's SimFile entry
-            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), 
-                str(SPAT_out), str(SPAT_out_year), str(PFT_out), str(COMP_out), sim_filename, "\n"]))
+            SimFile.append(" ".join([base_simID, ComNr, base_param.toString(),
+                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 
@@ -225,11 +231,11 @@ def makeEmpiricalPFTs():
     if (PARALLEL):
         buildBatchScripts(SimFile, N_SLOTS, path, Sim_header)
         os.system('cp ./resources/queue.sh ./tmp')
+
     else:
         with open(path + "SimFile.txt", 'w') as w:
             w.write(Sim_header)
             w.writelines(sim for sim in SimFile)
-
 
 if __name__ == "__main__":
     if (PFT_type == 0):
