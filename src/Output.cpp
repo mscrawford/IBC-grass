@@ -14,7 +14,7 @@ const vector<string> Output::param_header
 			"IC_vers", "ITVsd", "Tmax",
 			"ARes", "BRes",
 			"GrazProb", "PropRemove",
-			"BelGrazProb", "BelGrazStartYear", "BelGrazWindow", "BelGrazResidualPerc", "BelGrazGrams",
+			"BelGrazProb", "BelGrazStartYear", "BelGrazWindow", "BelGrazResidualPerc", "BelGrazPerc",
 			"catastrophicDistYear", "CatastrophicPlantMortality", "CatastrophicSeedMortality",
 			"SeedRainType", "SeedInput"
 	});
@@ -168,7 +168,7 @@ void Output::print_param()
 	ss << SRunPara::RunPara.BelGrazStartYear 			<< ", ";
 	ss << SRunPara::RunPara.BelGrazWindow 				<< ", ";
 	ss << SRunPara::RunPara.BelGrazResidualPerc			<< ", ";
-	ss << SRunPara::RunPara.BelGrazGrams 				<< ", ";
+	ss << SRunPara::RunPara.BelGrazPerc 				<< ", ";
 	ss << SRunPara::RunPara.catastrophicDistYear 		<< ", ";
 	ss << SRunPara::RunPara.CatastrophicPlantMortality 	<< ", ";
 	ss << SRunPara::RunPara.CatastrophicSeedMortality 	<< ", ";

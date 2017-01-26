@@ -112,7 +112,7 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::RunPara.BelGrazStartYear // Belowground grazing: year of herbivory introduction
 		>> SRunPara::RunPara.BelGrazWindow // Belowground grazing: timespan in which herbivory takes place
 		>> SRunPara::RunPara.BelGrazResidualPerc // Belowground grazing: mode
-		>> SRunPara::RunPara.BelGrazGrams // Belowground grazing: proportion of biomass removed
+		>> SRunPara::RunPara.BelGrazPerc // Belowground grazing: proportion of biomass removed
 		>> SRunPara::RunPara.catastrophicDistYear // Year for catastrophic disturbace. Removes all aboveground biomass after seeds are dropped.
 		>> SRunPara::RunPara.CatastrophicPlantMortality
 		>> SRunPara::RunPara.CatastrophicSeedMortality

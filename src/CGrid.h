@@ -50,7 +50,7 @@ protected:
 	void SeedMortAge();    //!<  seed mortality in winter due to ageing of seeds
 	void SeedMortWinter();      //!< random seed mortality in winter
 	//! disturbance --> calls grazing and gap formation functions
-	bool Disturb();
+	void Disturb();
 	/// simulates aboveground herbivory
 	void catastrophicDisturbance();
 	void Grazing();
@@ -64,6 +64,8 @@ protected:
 public:
 	std::vector<CPlant*> PlantList;    //!< List of plant individuals
 	CCell** CellList;    //!<array of pointers to CCell
+	std::vector<int> above_biomass_history;
+	std::vector<int> below_biomass_history;
 
 	CGrid(); //!< Konstruktor
 	CGrid(std::string id); //!< Konstruktor for loading a file saved grid

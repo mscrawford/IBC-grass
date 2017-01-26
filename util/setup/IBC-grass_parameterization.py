@@ -27,7 +27,7 @@ PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 Sim_header = "NRep " + str(N_REPS) + "\n" + \
                 "SimNr ComNr IC_vers ITVsd Tmax ARes Bres " + \
                 "GrazProb PropRemove " + \
-                "BelGrazProb BelGrazStartYear BelGrazWindow BelGrazResidualPerc BelGrazGrams " + \
+                "BelGrazProb BelGrazStartYear BelGrazWindow BelGrazResidualPerc BelGrazPerc " + \
                 "CatastrophicDistYear CatastrophicPlantMortality CatastrophicSeedMortality " + \
                 "SeedRainType SeedInput " + \
                 "weekly ind_out pft_out srv_out NameInitFile\n"
@@ -51,7 +51,7 @@ base_params =  [[1], # IC version
                 [0], # BelGrazStartYear
                 [0], # BelGrazWindow
                 [0.01, 0.05, 0.1], # BelGrazResidualPerc
-                [0, 10000, 30000, 50000, 70000, 90000], # BelGrazGrams
+                [0.01, 0.05, 0.1, 0.2], # BelGrazPerc
                 [50], # CatastrophicDisYear; 0 is no disturbance
                 [0, 0.25, 0.50, 0.75, 1], # CatastrophicPlantMortality
                 [0, 0.25, 0.50, 0.75, 1], # CatastrophicSeedMortality
@@ -68,8 +68,8 @@ base_params =  [[1], # IC version
 #                 [1], # BelGrazProb
 #                 [0], # BelGrazStartYear
 #                 [0], # BelGrazWindow
-#                 [0.1], # BelGrazResidualPerc
-#                 [50000], # BelGrazGrams
+#                 [0.05], # BelGrazResidualPerc
+#                 [50000], # BelGrazPerc
 #                 [50], # CatastrophicDisYear; 0 is no disturbance
 #                 [0.75], # CatastrophicPlantMortality
 #                 [0.75], # CatastrophicSeedMortality

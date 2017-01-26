@@ -94,7 +94,7 @@ public:
 	int BelGrazStartYear;
 	int BelGrazWindow;
 	double BelGrazProb;
-	double BelGrazGrams;
+	double BelGrazPerc;
 
 	// Mowing
 	double CutHeight;  //!< Height to cut plants to

@@ -108,8 +108,6 @@ void CGridEnvir::OneYear()
 //------------------------------------------------------------------------------
 /**
  calculation of one week's todos
-
- \since 2010-07-07 no invasion version
  */
 void CGridEnvir::OneWeek()
 {
@@ -149,8 +147,10 @@ void CGridEnvir::OneWeek()
 		}
 	}
 
-	if ((SRunPara::RunPara.SeedRainType > 0) && (week == 21))
+	if (SRunPara::RunPara.SeedRainType > 0 && week == 21)
+	{
 		SeedRain();
+	}
 
 	if (week == WeeksPerYear)
 	{

@@ -22,6 +22,9 @@ CGrid::CGrid()
 		ZOIBase[i] = i;
 
 	sort(ZOIBase.begin(), ZOIBase.end(), CompareIndexRel);
+
+	CGrid::above_biomass_history = vector<int>();
+	CGrid::below_biomass_history = vector<int>();
 }
 
 //-----------------------------------------------------------------------------
@@ -604,60 +607,64 @@ void CGrid::SeedMortAge()
 	}   // for all cells
 }   //end SeedMortAge
 
-bool CGrid::Disturb() {
-	if (PlantList.size() > 0) {
+void CGrid::Disturb()
+{
+	if (PlantList.size() == 0)
+		return;
 
-		if (CEnvir::rand01() < SRunPara::RunPara.GrazProb) {
-			Grazing();
-		}
-
-		if (CEnvir::rand01() < SRunPara::RunPara.DistProb()) {
-			Trampling();
-		}
-
-		/**
-		 * If:
-		 * 		The probability is triggered
-		 * 		The year is after the "belowground grazing start year"
-		 * 		The year is either:
-		 * 			Before the window expires
-		 * 			There is no window and belowground infestation is permanent
-		 *
-		 */
-		if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb
-				&& CEnvir::year >= SRunPara::RunPara.BelGrazStartYear
-				&& (CEnvir::year < SRunPara::RunPara.BelGrazStartYear+ SRunPara::RunPara.BelGrazWindow
-						|| SRunPara::RunPara.BelGrazWindow == 0))
-		{
-			GrazingBelGr();
-		}
-
-		if (SRunPara::RunPara.NCut > 0) {
-			switch (SRunPara::RunPara.NCut) {
-			case 1:
-				if (CEnvir::week == 22)
-					Cutting(SRunPara::RunPara.CutHeight);
-				break;
-			case 2:
-				if ((CEnvir::week == 22) || (CEnvir::week == 10))
-					Cutting(SRunPara::RunPara.CutHeight);
-				break;
-			case 3:
-				if ((CEnvir::week == 22) || (CEnvir::week == 10)
-						|| (CEnvir::week == 16))
-					Cutting(SRunPara::RunPara.CutHeight);
-				break;
-			default:
-				cerr << "CGrid::Disturb() - wrong input";
-				exit(3);
-			}
-		}
-
-		return true;
-	}
-	else
+	if (CEnvir::year < SRunPara::RunPara.catastrophicDistYear ||
+			(CEnvir::year == SRunPara::RunPara.catastrophicDistYear && CEnvir::week < 21))
 	{
-		return false;
+		CGrid::above_biomass_history.push_back(GetTotalAboveMass());
+		CGrid::below_biomass_history.push_back(GetTotalBelowMass());
+	}
+
+	if (CEnvir::rand01() < SRunPara::RunPara.GrazProb)
+	{
+		Grazing();
+	}
+
+	if (CEnvir::rand01() < SRunPara::RunPara.DistProb())
+	{
+		Trampling();
+	}
+
+	/**
+	 * If:
+	 * 		The probability is triggered
+	 * 		The year is after the "belowground grazing start year"
+	 * 		The year is either:
+	 * 			Before the window expires
+	 * 			There is no window and belowground infestation is permanent
+	 *
+	 */
+	if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb
+			&& CEnvir::year >= SRunPara::RunPara.BelGrazStartYear
+			&& (CEnvir::year < SRunPara::RunPara.BelGrazStartYear + SRunPara::RunPara.BelGrazWindow
+					|| SRunPara::RunPara.BelGrazWindow == 0))
+	{
+		GrazingBelGr();
+	}
+
+	if (SRunPara::RunPara.NCut > 0) {
+		switch (SRunPara::RunPara.NCut) {
+		case 1:
+			if (CEnvir::week == 22)
+				Cutting(SRunPara::RunPara.CutHeight);
+			break;
+		case 2:
+			if ((CEnvir::week == 22) || (CEnvir::week == 10))
+				Cutting(SRunPara::RunPara.CutHeight);
+			break;
+		case 3:
+			if ((CEnvir::week == 22) || (CEnvir::week == 10)
+					|| (CEnvir::week == 16))
+				Cutting(SRunPara::RunPara.CutHeight);
+			break;
+		default:
+			cerr << "CGrid::Disturb() - wrong input";
+			exit(3);
+		}
 	}
 } //end Disturb
 
@@ -798,15 +805,6 @@ void CGrid::Cutting(double cut_height)
  */
 void CGrid::GrazingBelGr() {
 
-	auto sumRootMass = [](const vector<CPlant*> & l) {
-		double total_root_mass = 0;
-		for (auto i = l.begin(); i != l.end(); ++i) {
-			CPlant* p = *i;
-			total_root_mass += p->mroot;
-		}
-		return total_root_mass;
-	};
-
 	auto generateLivingPlants = [](vector<CPlant*> l) {
 		auto it = l.begin();
 		while (it != l.end()) {
@@ -820,9 +818,19 @@ void CGrid::GrazingBelGr() {
 		return l;
 	};
 
-	// BelPropRemove is treated as the proportion of rootmass to remove per year
+	auto sumRootMass = [](const vector<CPlant*> & l) {
+		double total_root_mass = 0;
+		for (auto i = l.begin(); i != l.end(); ++i) {
+			CPlant* p = *i;
+			total_root_mass += p->mroot;
+		}
+		return total_root_mass;
+	};
+
+	assert(!CGrid::below_biomass_history.empty());
+
 	double bt = sumRootMass(generateLivingPlants(PlantList)); // Total root biomass
-	double fn_o = SRunPara::RunPara.BelGrazGrams; // Forage need (parameterize this and remove BelPropRemove!)
+	double fn_o = SRunPara::RunPara.BelGrazPerc * CGrid::below_biomass_history.back(); // Forage need (mg)
 	double biomass_removed = 0;
 	const double alpha = 2.0;
 
@@ -924,8 +932,9 @@ void CGrid::Trampling() {
 //-----------------------------------------------------------------------------
 void CGrid::RemovePlants() {
 	plant_iter irem = partition(PlantList.begin(), PlantList.end(), mem_fun(&CPlant::GetPlantRemove));
-	for (plant_iter iplant = irem; iplant < PlantList.end(); ++iplant) {
-		CPlant* plant = *iplant;
+	for (plant_iter it = irem; it < PlantList.end(); ++it)
+	{
+		CPlant* plant = *it;
 		DeletePlant(plant);
 	}
 	PlantList.erase(irem, PlantList.end());
@@ -935,20 +944,20 @@ void CGrid::RemovePlants() {
 /**
  Delete a plant from the grid and it's references in genet list and grid cell.
  */
-void CGrid::DeletePlant(CPlant* plant1) {
-	CGenet *Genet = plant1->getGenet();
+void CGrid::DeletePlant(CPlant* p) {
+	CGenet *Genet = p->getGenet();
 	//search ramet in list and erase
 	for (unsigned int j = 0; j < Genet->AllRametList.size(); j++)
 	{
 		CPlant* Ramet;
 		Ramet = Genet->AllRametList[j];
-		if (plant1 == Ramet)
+		if (p == Ramet)
 			Genet->AllRametList.erase(Genet->AllRametList.begin() + j);
 	}   //for all ramets
-	plant1->getCell()->occupied = false;
-	plant1->getCell()->PlantInCell = NULL;
+	p->getCell()->occupied = false;
+	p->getCell()->PlantInCell = NULL;
 
-	delete plant1;
+	delete p;
 } //end CGridclonal::DeletePlant
 
 //-----------------------------------------------------------------------------

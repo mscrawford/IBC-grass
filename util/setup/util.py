@@ -4,7 +4,7 @@ class Base_Parameter():
     def __init__(self, 
         IC_version, ITVsd, Tmax, ARes, Bres, 
         GrazProb, PropRemove, 
-        BelGrazProb, BelGrazStartYear, BelGrazWindow, BelGrazResidualPerc, BelGrazGrams, 
+        BelGrazProb, BelGrazStartYear, BelGrazWindow, BelGrazResidualPerc, BelGrazPerc, 
         catastrophicDistYear, CatastrophicPlantMortality, CatastrophicSeedMortality,
         SeedRainType, SeedInput):
         self.IC_version = IC_version
@@ -18,7 +18,7 @@ class Base_Parameter():
         self.BelGrazStartYear = BelGrazStartYear
         self.BelGrazWindow = BelGrazWindow
         self.BelGrazResidualPerc = BelGrazResidualPerc
-        self.BelGrazGrams = BelGrazGrams
+        self.BelGrazPerc = BelGrazPerc
         self.catastrophicDistYear = catastrophicDistYear
         self.CatastrophicPlantMortality = CatastrophicPlantMortality
         self.CatastrophicSeedMortality = CatastrophicSeedMortality
@@ -47,18 +47,18 @@ class Base_Parameter():
         if (self.BelGrazProb == 0):
             if (self.BelGrazStartYear > 0 or 
                 self.BelGrazResidualPerc > 0 or 
-                self.BelGrazGrams > 0):
+                self.BelGrazPerc > 0):
                 print "Nonsensical or redundant parameterization -- BelGrazProb."
                 raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.BelGrazProb > 0 and (self.BelGrazGrams == 0 or self.BelGrazResidualPerc == 0)):
-            print "Nonsensical or redundant parameterization -- BelGrazProb and BelGrazGrams/BelGrazResidualPerc."
+        if (self.BelGrazProb > 0 and (self.BelGrazPerc == 0 or self.BelGrazResidualPerc == 0)):
+            print "Nonsensical or redundant parameterization -- BelGrazProb and BelGrazPerc/BelGrazResidualPerc."
             raise Exception("Nonsensical or redundant parameterization")
 
     def toString(self):
         return " ".join(map(str, [self.IC_version, self.ITVsd, self.Tmax, self.ARes, self.Bres, 
             self.GrazProb, self.PropRemove, 
-            self.BelGrazProb, self.BelGrazStartYear, self.BelGrazWindow, self.BelGrazResidualPerc, self.BelGrazGrams, 
+            self.BelGrazProb, self.BelGrazStartYear, self.BelGrazWindow, self.BelGrazResidualPerc, self.BelGrazPerc, 
             self.catastrophicDistYear, self.CatastrophicPlantMortality, self.CatastrophicSeedMortality,
             self.SeedRainType, self.SeedInput]))
 
