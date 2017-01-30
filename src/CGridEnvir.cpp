@@ -158,7 +158,7 @@ void CGridEnvir::OneWeek()
 		SeedMortWinter();    	//winter seed mortality
 	}
 
-}   //end CClonalGridEnvir::OneWeek()
+}
 
 //---------------------------------------------------------------------------
 /**
@@ -201,7 +201,6 @@ void CGridEnvir::SeedRain() {
 	// For each PFT, we'll drop N seeds
 	for (map<string, long>::const_iterator it = PftInitList.begin(); it != PftInitList.end(); ++it)
 	{
-
 		PFT_ID = it->first;
 		traits = SPftTraits::getPftLink(PFT_ID);
 

@@ -40,7 +40,7 @@ protected:
 	//! distributes resource to each plant --> calls competition functions
 	virtual void DistribResource();
 
-	virtual int DispersSeeds(CPlant* plant);        //!<  seed dispersal
+	virtual void DispersSeeds(CPlant* plant);        //!<  seed dispersal
 	//!  lottery competition for seedling establishment
 	virtual void EstabLottery();
 	//! calls seed mortality and mass removal of plants

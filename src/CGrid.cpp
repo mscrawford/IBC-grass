@@ -165,8 +165,9 @@ void getTargetCell(int& xx, int& yy, const float mean, const float sd, double ce
 	double sigma = sqrt(log((sd / mean) * (sd / mean) + 1));
 	double mu = log(mean) - 0.5 * sigma;
 	double dist = exp(CEnvir::normrand(mu, sigma)); //RandNumGen.normal
-	if (cellscale == 0)
+	if (cellscale == 0) {
 		cellscale = SRunPara::RunPara.CellScale();
+	}
 	double CmToCell = 1.0 / cellscale;
 
 	//direction uniformly distributed
@@ -188,30 +189,28 @@ void getTargetCell(int& xx, int& yy, const float mean, const float sd, double ce
 
  \return list of seeds to dispers per LDD
  */
-int CGrid::DispersSeeds(CPlant* plant)
+void CGrid::DispersSeeds(CPlant* plant)
 {
-	int px = plant->getCell()->x, py = plant->getCell()->y;
+	int px = plant->getCell()->x;
+	int py = plant->getCell()->y;
 	int NSeeds = 0;
 	double dist = 0;
-	int nb_LDDseeds = 0;
-	int SideCells = SRunPara::RunPara.CellNum;
 
 	NSeeds = plant->GetNSeeds();
 
-	for (int j = 0; j < NSeeds; ++j) {
-		int x = px, y = py; //remember the parent's position
-		//negative exponential dispersal kernel
-		//dist=RandNumGen->exponential(1/(plant->DispDist*100));   //m -> cm
+	for (int j = 0; j < NSeeds; ++j)
+	{
+		int x = px;
+		int y = py; //remember the parent's position
 
-		//lognormal dispersal kernel
-		getTargetCell(x, y, plant->Traits->Dist * 100,        //m -> cm
-		plant->Traits->Dist * 100);       //mean = std (simple assumption)
+		// lognormal dispersal kernel. This function changes X & Y by reference!
+		getTargetCell(x, y, plant->Traits->Dist * 100, plant->Traits->Dist * 100); //mean = std (simple assumption)
+
 		//export LDD-seeds
-		if (Emmigrates(x, y)) {
-			nb_LDDseeds++;
+		if (Emmigrates(x, y))
+		{
 			//Calculate distance between (x,y) and grid-center
-			dist = Distance(x, y, SRunPara::RunPara.GridSize / 2,
-					SRunPara::RunPara.GridSize / 2);
+			dist = Distance(x, y, SRunPara::RunPara.GridSize / 2, SRunPara::RunPara.GridSize / 2);
 			dist = dist / 100;  //convert to m
 
 			if (!SRunPara::RunPara.torus)
@@ -220,10 +219,10 @@ int CGrid::DispersSeeds(CPlant* plant)
 				Boundary(x, y); //recalc position
 		}
 
-		CCell* cell = CellList[x * SideCells + y];
+		CCell* cell = CellList[x * SRunPara::RunPara.CellNum + y];
+
 		new CSeed(plant, cell);
 	} //for NSeeds
-	return nb_LDDseeds;
 } //end DispersSeeds
 
 //---------------------------------------------------------------------------
@@ -613,6 +612,7 @@ void CGrid::Disturb()
 		return;
 
 	if (CEnvir::year < SRunPara::RunPara.catastrophicDistYear ||
+			SRunPara::RunPara.catastrophicDistYear == 0 ||
 			(CEnvir::year == SRunPara::RunPara.catastrophicDistYear && CEnvir::week < 21))
 	{
 		CGrid::above_biomass_history.push_back(GetTotalAboveMass());

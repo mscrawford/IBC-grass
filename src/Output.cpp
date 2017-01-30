@@ -15,7 +15,7 @@ const vector<string> Output::param_header
 			"ARes", "BRes",
 			"GrazProb", "PropRemove",
 			"BelGrazProb", "BelGrazStartYear", "BelGrazWindow", "BelGrazResidualPerc", "BelGrazPerc",
-			"catastrophicDistYear", "CatastrophicPlantMortality", "CatastrophicSeedMortality",
+			"CatastrophicDistYear", "CatastrophicPlantMortality", "CatastrophicSeedMortality",
 			"SeedRainType", "SeedInput"
 	});
 
@@ -41,16 +41,17 @@ const vector<string> Output::PFT_header
 
 const vector<string> Output::ind_header
 	({
-			"SimID", "plantID", "PFT", "Year", "Week", "xcoord", "ycoord",
+			"SimID", "plantID", "PFT", "Year", "Week",
+			"i_X", "i_Y",
 			"i_LMR",
 			"i_m0", "i_MaxMass", "i_SeedMass", "i_Dist",
 			"i_SLA", "i_palat",
 			"i_Gmax", "i_memory",
 			"i_clonal", "i_meanSpacerlength", "i_sdSpacerlength",
-			"Age",
-			"mshoot", "mroot", "rShoot", "rRoot",
-			"mRepro", "lifetimeFecundity",
-			"stress"
+			"i_Age",
+			"i_mShoot", "i_mRoot", "i_rShoot", "i_rRoot",
+			"i_mRepro", "i_lifetimeFecundity",
+			"i_stress"
 	});
 
 struct Output::PFT_struct
@@ -98,27 +99,32 @@ void Output::setupOutput(string param_fn, string trait_fn, string srv_fn, string
 	Output::ind_fn = ind_fn;
 
 	param_stream.open(param_fn.c_str(), ios_base::app);
-	trait_stream.open(trait_fn.c_str(), ios_base::app);
-	srv_stream.open(srv_fn.c_str(), ios_base::app);
-	PFT_stream.open(PFT_fn.c_str(), ios_base::app);
-
-	assert(param_stream.good() &&
-			srv_stream.good() &&
-			trait_stream.good() &&
-			PFT_stream.good());
-
-	// Write param_stream's header
-
+	assert(param_stream.good());
 	print_row(param_header, param_stream);
+
+	trait_stream.open(trait_fn.c_str(), ios_base::app);
+	assert(trait_stream.good());
 	print_row(trait_header, trait_stream);
-	print_row(srv_header, srv_stream);
-	print_row(PFT_header, PFT_stream);
+
+	if (SRunPara::RunPara.PFT_out)
+	{
+		PFT_stream.open(PFT_fn.c_str(), ios_base::app);
+		assert(PFT_stream.good());
+		print_row(PFT_header, PFT_stream);
+	}
 
 	if (SRunPara::RunPara.ind_out)
 	{
 		ind_stream.open(ind_fn.c_str(), ios_base::app);
 		assert(ind_stream.good());
 		print_row(ind_header, ind_stream);
+	}
+
+	if (SRunPara::RunPara.srv_out)
+	{
+		srv_stream.open(srv_fn.c_str(), ios_base::app);
+		assert(srv_stream.good());
+		print_row(srv_header, srv_stream);
 	}
 }
 

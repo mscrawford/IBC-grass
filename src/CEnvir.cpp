@@ -19,11 +19,11 @@
 using namespace std;
 
 //-CEnvir: Init static variables-----------------------------------------------
-int CEnvir::week = 0;
-int CEnvir::year = 1;
-int CEnvir::WeeksPerYear = 30;
+int CEnvir::week 			= 0;
+int CEnvir::year 			= 1;
+int CEnvir::WeeksPerYear 	= 30;
 
-int CEnvir::NRep = 1;        //!> number of replications -> read from SimFile;
+int CEnvir::NRep; // number of replications -> read from SimFile;
 int CEnvir::SimNr;
 int CEnvir::ComNr;
 int CEnvir::RunNr;
@@ -99,30 +99,30 @@ void CEnvir::GetSim(string data)
 
 	std::stringstream ss(data);
 
-	ss	>> SimNr // Simulation number
-		>> ComNr // Community number
-		>> IC_version // Stabilizing mechanisms
-		>> SRunPara::RunPara.ITVsd // Standard deviation of intraspecific variation
-		>> SRunPara::RunPara.Tmax // End of run year
-		>> SRunPara::RunPara.meanARes // Aboveground resources
-		>> SRunPara::RunPara.meanBRes  // Belowground resources
-		>> SRunPara::RunPara.GrazProb // Aboveground grazing: probability
-		>> SRunPara::RunPara.PropRemove // Aboveground grazing: proportion of biomass removed
-		>> SRunPara::RunPara.BelGrazProb // Belowground grazing: probability
-		>> SRunPara::RunPara.BelGrazStartYear // Belowground grazing: year of herbivory introduction
-		>> SRunPara::RunPara.BelGrazWindow // Belowground grazing: timespan in which herbivory takes place
-		>> SRunPara::RunPara.BelGrazResidualPerc // Belowground grazing: mode
-		>> SRunPara::RunPara.BelGrazPerc // Belowground grazing: proportion of biomass removed
-		>> SRunPara::RunPara.catastrophicDistYear // Year for catastrophic disturbace. Removes all aboveground biomass after seeds are dropped.
-		>> SRunPara::RunPara.CatastrophicPlantMortality
-		>> SRunPara::RunPara.CatastrophicSeedMortality
-		>> SRunPara::RunPara.SeedRainType
-		>> SRunPara::RunPara.SeedInput
-		>> SRunPara::RunPara.weekly
-		>> SRunPara::RunPara.ind_out
-		>> SRunPara::RunPara.PFT_out
-		>> SRunPara::RunPara.srv_out
-		>> SRunPara::NamePftFile // Name of PFT input file
+	ss	>> SimNr 										// Simulation number
+		>> ComNr 										// Community number
+		>> IC_version 									// Stabilizing mechanisms
+		>> SRunPara::RunPara.ITVsd 						// Standard deviation of intraspecific variation
+		>> SRunPara::RunPara.Tmax 						// End of run year
+		>> SRunPara::RunPara.meanARes 					// Aboveground resources
+		>> SRunPara::RunPara.meanBRes  					// Belowground resources
+		>> SRunPara::RunPara.GrazProb 					// Aboveground grazing: probability
+		>> SRunPara::RunPara.PropRemove 				// Aboveground grazing: proportion of biomass removed
+		>> SRunPara::RunPara.BelGrazProb 				// Belowground grazing: probability
+		>> SRunPara::RunPara.BelGrazStartYear 			// Belowground grazing: year of herbivory introduction
+		>> SRunPara::RunPara.BelGrazWindow 				// Belowground grazing: timespan in which herbivory takes place
+		>> SRunPara::RunPara.BelGrazResidualPerc 		// Belowground grazing: mode
+		>> SRunPara::RunPara.BelGrazPerc 				// Belowground grazing: proportion of biomass removed
+		>> SRunPara::RunPara.catastrophicDistYear 		// Catastrophic Disturbance: Year for catastrophic disturbace
+		>> SRunPara::RunPara.CatastrophicPlantMortality // Catastrophic Disturbance: Percent of plant removal during Catastrophic Disturbance
+		>> SRunPara::RunPara.CatastrophicSeedMortality	// Catastrophic Disturbance: Percent of seed removal during Catastrophic Disturbance
+		>> SRunPara::RunPara.SeedRainType				// Seed Rain: Off/On/Type
+		>> SRunPara::RunPara.SeedInput					// Seed Rain: Number of seeds to input per SeedRain event
+		>> SRunPara::RunPara.weekly						// Output: Weekly output rather than yearly
+		>> SRunPara::RunPara.ind_out					// Output: Individual-level output
+		>> SRunPara::RunPara.PFT_out					// Output: PFT-level output
+		>> SRunPara::RunPara.srv_out					// Output: End-of-run survival output
+		>> SRunPara::NamePftFile 						// Input: Name of input community (PFT intialization) file
 		;
 
 	// set intraspecific competition version, intraspecific trait variation version, and competition modes
@@ -185,11 +185,11 @@ void CEnvir::GetSim(string data)
 	const string dir = "data/out/";
 	const string fid = SRunPara::RunPara.getFileID();
 
-	string param = dir + fid + "_param.csv";
-	string trait = dir + fid + "_trait.csv";
-	string srv = dir + fid + "_srv.csv";
-	string PFT = dir + fid + " _PFT.csv";
-	string ind = dir + fid + "_ind.csv";
+	string param = 	dir + fid + "_param.csv";
+	string trait = 	dir + fid + "_trait.csv";
+	string srv = 	dir + fid + "_srv.csv";
+	string PFT = 	dir + fid + " _PFT.csv";
+	string ind = 	dir + fid + "_ind.csv";
 
 	output.setupOutput(param, trait, srv, PFT, ind);
 }
@@ -203,6 +203,6 @@ void CEnvir::InitRun()
 	PftInitList.clear();
 	PftSurvTime.clear();
 
-	//set resources
+	// set resources
 	ReadLandscape();
 }

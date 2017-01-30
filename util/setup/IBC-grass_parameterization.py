@@ -10,16 +10,16 @@ from util import *
 
 path = "./tmp/"
 
-PARALLEL = True
+PARALLEL = False
 N_SLOTS = 200
 
-weekly = 0 # print weekly or yearly?
-ind_out = 0 # individual-level output?
+weekly = 1 # print weekly or yearly?
+ind_out = 1 # individual-level output?
 pft_out = 2 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
 srv_out = 0 # Print survival statistics? Bad idea with seed addition
 
 N_COMS = 1
-N_REPS = 20
+N_REPS = 1
 n_PFTs = 0
 
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
@@ -40,41 +40,41 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 # and I need to rethink the implementation. I can't think of a better way to do it though, so maybe improve the "input" methodology
 # but not the backend? Maybe create this array behind the scenes and fill it out with some sort of text document.
 
-base_params =  [[1], # IC version
-                [0], # ITVsd
-                [150], # Tmax
-                [90], # ARes
-                [90], # Bres
-                [0.2], # GrazProb
-                [0.5], # propRemove
-                [0, 1], # BelGrazProb
-                [0], # BelGrazStartYear
-                [0], # BelGrazWindow
-                [0.01, 0.05, 0.1], # BelGrazResidualPerc
-                [0.01, 0.05, 0.1, 0.2], # BelGrazPerc
-                [50], # CatastrophicDisYear; 0 is no disturbance
-                [0, 0.25, 0.50, 0.75, 1], # CatastrophicPlantMortality
-                [0, 0.25, 0.50, 0.75, 1], # CatastrophicSeedMortality
-                [1], # SeedRainType
-                [10]] # SeedInput
-
 # base_params =  [[1], # IC version
 #                 [0], # ITVsd
-#                 [100], # Tmax
+#                 [150], # Tmax
 #                 [90], # ARes
 #                 [90], # Bres
 #                 [0.2], # GrazProb
 #                 [0.5], # propRemove
-#                 [1], # BelGrazProb
+#                 [0, 1], # BelGrazProb
 #                 [0], # BelGrazStartYear
 #                 [0], # BelGrazWindow
-#                 [0.05], # BelGrazResidualPerc
-#                 [50000], # BelGrazPerc
+#                 [0.01, 0.05, 0.1], # BelGrazResidualPerc
+#                 [0.01, 0.05, 0.1, 0.2], # BelGrazPerc
 #                 [50], # CatastrophicDisYear; 0 is no disturbance
-#                 [0.75], # CatastrophicPlantMortality
-#                 [0.75], # CatastrophicSeedMortality
+#                 [0, 0.25, 0.50, 0.75, 1], # CatastrophicPlantMortality
+#                 [0, 0.25, 0.50, 0.75, 1], # CatastrophicSeedMortality
 #                 [1], # SeedRainType
 #                 [10]] # SeedInput
+
+base_params =  [[1], # IC version
+                [0], # ITVsd
+                [100], # Tmax
+                [90], # ARes
+                [90], # Bres
+                [0.2], # GrazProb
+                [0.5], # propRemove
+                [1], # BelGrazProb
+                [0], # BelGrazStartYear
+                [0], # BelGrazWindow
+                [0.05], # BelGrazResidualPerc
+                [0.1], # BelGrazPerc
+                [50], # CatastrophicDisYear; 0 is no disturbance
+                [0.75], # CatastrophicPlantMortality
+                [0.75], # CatastrophicSeedMortality
+                [1], # SeedRainType
+                [10]] # SeedInput
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
