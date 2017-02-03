@@ -668,7 +668,7 @@ void CGrid::Disturb()
 	}
 } //end Disturb
 
-void CGrid::catastrophicDisturbance()
+void CGrid::RunCatastrophicDisturbance()
 {
 		// Disturb plants
 		for (auto i = PlantList.begin(); i < PlantList.end(); ++i)

@@ -2,6 +2,7 @@
 #include "CGridEnvir.h"
 
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -46,17 +47,32 @@ void CGridEnvir::InitRun() {
  \param n position of type initiates for monoculture
  \param file file name of simulation definitions
  */
-void CGridEnvir::InitInds(string file) {
-
+void CGridEnvir::InitInds(string file)
+{
 	const int no_init_seeds = 10;
 
-	// PFT Traits are read in GetSim()
-	for (map<string, SPftTraits*>::iterator it = SPftTraits::PftLinkList.begin();
-			it != SPftTraits::PftLinkList.end();
-			++it)
+	if (SRunPara::RunPara.mode == communityAssembly)
 	{
-		SPftTraits* traits = it->second;
+		// PFT Traits are read in GetSim()
+		for (map<string, SPftTraits*>::iterator it = SPftTraits::PftLinkList.begin();
+				it != SPftTraits::PftLinkList.end();
+				++it)
+		{
+			SPftTraits* traits = it->second;
+			InitClonalSeeds(traits, no_init_seeds);
+			PftInitList[traits->name] += no_init_seeds;
+			PftSurvTime[traits->name] = 0;
+		}
+	}
+	else if (SRunPara::RunPara.mode == invasionCriterion)
+	{
+		assert(SPftTraits::PftLinkList.size() == 2);
+
+		string resident = SPftTraits::pftInsertionOrder[1];
+		SPftTraits* traits = SPftTraits::PftLinkList.find(resident)->second;
+
 		InitClonalSeeds(traits, no_init_seeds);
+
 		PftInitList[traits->name] += no_init_seeds;
 		PftSurvTime[traits->name] = 0;
 	}
@@ -83,6 +99,16 @@ void CGridEnvir::OneRun() {
 		if (SRunPara::RunPara.verbose) cout << "y " << year << endl;
 
 		OneYear();
+
+		if (SRunPara::RunPara.mode == invasionCriterion && year == SRunPara::RunPara.Tmax_monoculture)
+		{
+			const int no_init_seeds = 10;
+			string invader = SPftTraits::pftInsertionOrder[0];
+			SPftTraits* traits = SPftTraits::PftLinkList.find(invader)->second;
+			InitClonalSeeds(traits, no_init_seeds);
+			PftInitList[traits->name] += no_init_seeds;
+			PftSurvTime[traits->name] = 0;
+		}
 
 		if (exitConditions()) break;
 
@@ -125,11 +151,11 @@ void CGridEnvir::OneWeek()
 		SeedMortAge(); // necessary to remove non-dormant seeds before autumn
 	}
 
-	if (SRunPara::RunPara.catastrophicDistYear > 0 				// Catastrophic disturbance is on
-	&& CEnvir::year == SRunPara::RunPara.catastrophicDistYear 	// It is the disturbance year
-	&& CEnvir::week == 21) 										// It is the disturbance week
+	if (SRunPara::RunPara.mode == catastrophicDisturbance 				// Catastrophic disturbance is on
+			&& CEnvir::year == SRunPara::RunPara.catastrophicDistYear 	// It is the disturbance year
+			&& CEnvir::week == 21) 										// It is the disturbance week
 	{
-		catastrophicDisturbance();
+		RunCatastrophicDisturbance();
 	}
 
 	if (year > 1)

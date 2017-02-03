@@ -12,6 +12,7 @@ const vector<string> Output::param_header
 	({
 			"SimID", "ComNr", "RunNr",
 			"IC_vers", "ITVsd", "Tmax",
+			"Invader", "Resident",
 			"ARes", "BRes",
 			"GrazProb", "PropRemove",
 			"BelGrazProb", "BelGrazStartYear", "BelGrazWindow", "BelGrazResidualPerc", "BelGrazPerc",
@@ -166,6 +167,21 @@ void Output::print_param()
 	ss << SRunPara::RunPara.Version 					<< ", ";
 	ss << SRunPara::RunPara.ITVsd 						<< ", ";
 	ss << SRunPara::RunPara.Tmax 						<< ", ";
+
+	if (SRunPara::RunPara.mode == invasionCriterion)
+	{
+		std::string invader 	= SPftTraits::pftInsertionOrder[0];
+		std::string resident 	= SPftTraits::pftInsertionOrder[1];
+
+		ss << invader 									<< ", ";
+		ss << resident 									<< ", ";
+	}
+	else
+	{
+		ss << "NA"	 									<< ", ";
+		ss << "NA"	 									<< ", ";
+	}
+
 	ss << SRunPara::RunPara.meanARes 					<< ", ";
 	ss << SRunPara::RunPara.meanBRes 					<< ", ";
 	ss << SRunPara::RunPara.GrazProb 					<< ", ";

@@ -10,6 +10,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 /**
  * Structure to store all PFT Parameters
@@ -26,6 +27,7 @@ public:
 
 //general
 	static std::map<std::string, SPftTraits*> PftLinkList; //!< links of Pfts(SPftTrais) used
+	static std::vector<std::string> pftInsertionOrder;
 	traitType myTraitType; // MSC -- the default trait set is a species -- only after being varied is it individualized.
 	int TypeID;     //!< PFT ID same number for all individuals of one PFT
 	std::string name;    ///< name of functional type

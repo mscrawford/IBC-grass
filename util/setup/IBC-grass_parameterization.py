@@ -1,8 +1,3 @@
-## TODO:
-# 1. It would be a good move to split up the "runs" so that multiple processors can work on the same simulation.
-# 3. It would be cool to safeguard the skipping parameterizations that are redundant 
-#       functionality so that you don't screw up later without realizing it
-
 import sys, os, subprocess, itertools, csv, copy, math, re, random
 import util
 
@@ -22,10 +17,11 @@ N_COMS = 1
 N_REPS = 1
 n_PFTs = 0
 
+MODE = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
 Sim_header = "NRep " + str(N_REPS) + "\n" + \
-                "SimNr ComNr IC_vers ITVsd Tmax ARes Bres " + \
+                "SimNr ComNr IC_vers Mode ITVsd Tmax ARes Bres " + \
                 "GrazProb PropRemove " + \
                 "BelGrazProb BelGrazStartYear BelGrazWindow BelGrazResidualPerc BelGrazPerc " + \
                 "CatastrophicDistYear CatastrophicPlantMortality CatastrophicSeedMortality " + \
@@ -35,12 +31,8 @@ Sim_header = "NRep " + str(N_REPS) + "\n" + \
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                 "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
 
-## These parameters are specific to the environment and "type" of the simulation
-# Some of these are contingent on the others to not be deemed, "redunant." This is a poor algorithm
-# and I need to rethink the implementation. I can't think of a better way to do it though, so maybe improve the "input" methodology
-# but not the backend? Maybe create this array behind the scenes and fill it out with some sort of text document.
-
 # base_params =  [[1], # IC version
+#                 [MODE],
 #                 [0], # ITVsd
 #                 [150], # Tmax
 #                 [90], # ARes
@@ -59,6 +51,7 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 #                 [10]] # SeedInput
 
 base_params =  [[1], # IC version
+                [MODE],
                 [0], # ITVsd
                 [100], # Tmax
                 [90], # ARes
@@ -70,9 +63,9 @@ base_params =  [[1], # IC version
                 [0], # BelGrazWindow
                 [0.05], # BelGrazResidualPerc
                 [0.1], # BelGrazPerc
-                [50], # CatastrophicDisYear; 0 is no disturbance
-                [0.75], # CatastrophicPlantMortality
-                [0.75], # CatastrophicSeedMortality
+                [0], # CatastrophicDisYear; 0 is no disturbance
+                [0], # CatastrophicPlantMortality
+                [0], # CatastrophicSeedMortality
                 [1], # SeedRainType
                 [10]] # SeedInput
 
@@ -237,11 +230,71 @@ def makeEmpiricalPFTs():
             w.write(Sim_header)
             w.writelines(sim for sim in SimFile)
 
+
+def makePFTPairs():
+
+    # works
+    pfts = []
+    counter = 0
+    for p in itertools.product(*PFType_params):
+        counter += 1
+        pft = PFT(counter, *p)
+        pfts.append(pft)
+
+    for p in pfts:
+        print("PFT:" + str(p))
+
+    pairs = list(itertools.permutations(pfts, 2))
+    for pair in pairs:
+        print ("A: " + str(pair[0].Species) + "; B: " + str(pair[1].Species))
+    print("Total length: " + str(len(pairs)))
+
+    SimFile = [] # all the simulations go into one 'SimFile.' This is a list of strings.
+    sim_number = random.randint(0, 33554432)
+    ComNr = 0
+
+    for pair in pairs:
+        p, q = pair[0], pair[1]
+        ComNr += 1
+
+        for base_param in itertools.product(*base_params):
+            
+            try:
+                base_param = Base_Parameter(*base_param)
+            except:
+                continue
+
+            # PFT pair's SimFile entry
+            sim_number += 1 # IBC-grass will barf if sim_number starts with 0.
+            base_simID = str(sim_number) 
+            
+            PFT_filename = base_simID + ".txt"
+            SimFile.append(" ".join([base_simID, str(ComNr), base_param.toString(), str(SPAT_out), 
+                str(SPAT_out_year), str(PFT_out), str(COMP_out), PFT_filename, "\n"]))
+
+            # PFT pair's PFT file
+            with open(path + PFT_filename, 'w') as w:
+                w.write(PFT_header)
+                w.write("1 " + str(p) + "\n")
+                w.write("2 " + str(q))
+
+    if (PARALLEL):
+        buildBatchScripts(SimFile, N_SLOTS, path, Sim_header)
+        os.system('cp ./resources/queue.sh ./tmp')
+    else:
+        with open(path + "SimFile.txt", 'w') as w:
+            w.write(Sim_header)
+            w.writelines(sim for sim in SimFile)
+
+
 if __name__ == "__main__":
-    if (PFT_type == 0):
-        makeTheoreticalPFTs()
-    elif (PFT_type == 1):
-        makeEmpiricalPFTs()
+    if (MODE == 1):
+        makePFTPairs()
+    else:
+        if (PFT_type == 0):
+            makeTheoreticalPFTs()
+        elif (PFT_type == 1):
+            makeEmpiricalPFTs()
 
     with open('IBC-grass_parameterization.py', 'r') as r:
         words = r.readlines()

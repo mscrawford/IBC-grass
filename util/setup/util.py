@@ -2,12 +2,13 @@ import sys, os, subprocess, itertools, csv, copy, math, re, random
 
 class Base_Parameter():
     def __init__(self, 
-        IC_version, ITVsd, Tmax, ARes, Bres, 
+        IC_version, Mode, ITVsd, Tmax, ARes, Bres, 
         GrazProb, PropRemove, 
         BelGrazProb, BelGrazStartYear, BelGrazWindow, BelGrazResidualPerc, BelGrazPerc, 
         catastrophicDistYear, CatastrophicPlantMortality, CatastrophicSeedMortality,
         SeedRainType, SeedInput):
         self.IC_version = IC_version
+        self.Mode = Mode
         self.ITVsd = ITVsd
         self.Tmax = Tmax
         self.ARes = ARes
@@ -56,7 +57,7 @@ class Base_Parameter():
             raise Exception("Nonsensical or redundant parameterization")
 
     def toString(self):
-        return " ".join(map(str, [self.IC_version, self.ITVsd, self.Tmax, self.ARes, self.Bres, 
+        return " ".join(map(str, [self.IC_version, self.Mode, self.ITVsd, self.Tmax, self.ARes, self.Bres, 
             self.GrazProb, self.PropRemove, 
             self.BelGrazProb, self.BelGrazStartYear, self.BelGrazWindow, self.BelGrazResidualPerc, self.BelGrazPerc, 
             self.catastrophicDistYear, self.CatastrophicPlantMortality, self.CatastrophicSeedMortality,

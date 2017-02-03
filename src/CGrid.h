@@ -52,7 +52,7 @@ protected:
 	//! disturbance --> calls grazing and gap formation functions
 	void Disturb();
 	/// simulates aboveground herbivory
-	void catastrophicDisturbance();
+	void RunCatastrophicDisturbance();
 	void Grazing();
 	/// simulates belowground grazing
 	void GrazingBelGr();

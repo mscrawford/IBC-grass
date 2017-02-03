@@ -15,7 +15,7 @@ std::string SRunPara::NameSimFile = "data/in/SimFile.txt"; 	// file with simulat
 SRunPara SRunPara::RunPara = SRunPara();
 
 SRunPara::SRunPara() :
-		Version(version1), ITV(off), ITVsd(0),
+		Version(version1), ITV(off), ITVsd(0), mode(communityAssembly),
 		weekly(0), ind_out(0), PFT_out(2), srv_out(1),
 		AboveCompMode(sym), BelowCompMode(sym),
 		mort_base(0.007), LitterDecomp(0.5), DiebackWinter(0.5), EstabRamet(1),
@@ -25,7 +25,7 @@ SRunPara::SRunPara() :
 		NCut(0), CutHeight(0), catastrophicDistYear(0), torus(true), DistAreaYear(0),
 		AreaEvent(0), mort_seeds(0.5), meanARes(100), meanBRes(100),
 		Aampl(0), Bampl(0), SeedInput(0), SeedRainType(0),
-		CatastrophicPlantMortality(0), CatastrophicSeedMortality(0)
+		CatastrophicPlantMortality(0), CatastrophicSeedMortality(0), Tmax_monoculture(10)
 {
 	;
 }

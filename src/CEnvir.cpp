@@ -94,6 +94,7 @@ void CEnvir::GetSim(string data)
 	// Read in simulation parameters
 
 	int IC_version;
+	int mode;
 	int acomp = 1; // aboveground competition is asymmetric by default
 	int bcomp = 0; // belowground competition is symmetric by default
 
@@ -102,6 +103,7 @@ void CEnvir::GetSim(string data)
 	ss	>> SimNr 										// Simulation number
 		>> ComNr 										// Community number
 		>> IC_version 									// Stabilizing mechanisms
+		>> mode											// (0) Community assembly (normal), (1) invasion criterion, (2) catastrophic disturbance
 		>> SRunPara::RunPara.ITVsd 						// Standard deviation of intraspecific variation
 		>> SRunPara::RunPara.Tmax 						// End of run year
 		>> SRunPara::RunPara.meanARes 					// Aboveground resources
@@ -113,7 +115,7 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::RunPara.BelGrazWindow 				// Belowground grazing: timespan in which herbivory takes place
 		>> SRunPara::RunPara.BelGrazResidualPerc 		// Belowground grazing: mode
 		>> SRunPara::RunPara.BelGrazPerc 				// Belowground grazing: proportion of biomass removed
-		>> SRunPara::RunPara.catastrophicDistYear 		// Catastrophic Disturbance: Year for catastrophic disturbace
+		>> SRunPara::RunPara.catastrophicDistYear		// Catastrophic Disturbance: Year for catastrophic disturbace
 		>> SRunPara::RunPara.CatastrophicPlantMortality // Catastrophic Disturbance: Percent of plant removal during Catastrophic Disturbance
 		>> SRunPara::RunPara.CatastrophicSeedMortality	// Catastrophic Disturbance: Percent of seed removal during Catastrophic Disturbance
 		>> SRunPara::RunPara.SeedRainType				// Seed Rain: Off/On/Type
@@ -138,6 +140,24 @@ void CEnvir::GetSim(string data)
 		break;
 	default:
 		break;
+	}
+
+	switch (mode) {
+	case 0:
+		SRunPara::RunPara.mode = communityAssembly;
+		break;
+	case 1:
+		SRunPara::RunPara.mode = invasionCriterion;
+		break;
+	case 2:
+		SRunPara::RunPara.mode = catastrophicDisturbance;
+		break;
+	default:
+		cerr << "Invalid mode parameterization" << endl;
+	}
+
+	if (SRunPara::RunPara.mode == invasionCriterion) {
+		SRunPara::RunPara.Tmax += SRunPara::RunPara.Tmax_monoculture;
 	}
 
 	if (SRunPara::RunPara.ITVsd > 0) {
