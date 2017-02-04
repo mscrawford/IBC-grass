@@ -10,6 +10,7 @@
 using namespace std;
 
 map<string, SPftTraits*> SPftTraits::PftLinkList = map<string, SPftTraits*>();
+vector<string> SPftTraits::pftInsertionOrder = vector<string>();
 
 /*
  * Default constructor
@@ -129,6 +130,7 @@ void SPftTraits::ReadPFTDef(const string& file) {
 
 	//delete static pointer vectors
 	SPftTraits::PftLinkList.clear();
+	SPftTraits::pftInsertionOrder.clear(); // MSC
 
 	//Open InitFile
 	ifstream InitFile(file.c_str());
@@ -168,6 +170,7 @@ void SPftTraits::ReadPFTDef(const string& file) {
 			>> traits->mSpacer;
 
 		SPftTraits::addPftLink(traits->name, traits);
+		SPftTraits::pftInsertionOrder.push_back(traits->name); // MSC
 	}
 }
 

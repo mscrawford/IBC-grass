@@ -31,6 +31,10 @@ enum ITV_version {
 	off, on
 };
 
+enum experimentType {
+	communityAssembly, invasionCriterion, catastrophicDisturbance
+};
+
 //---------------------------------------------------------------------------
 //! Structure with all scenario parameters
 struct SRunPara
@@ -63,6 +67,17 @@ public:
 	 * 2 = lower resource availability for intraspecific competition
 	 */
 	CompVersion Version;
+
+	/* Type of experiment
+	 * 0 = Community assembly (traditional)
+	 * 1 = Invasion criterion (Run a monoculture for 20 years, then introduce the other species.
+	 * 	   Repeat with other species as the monoculture)
+	 * 2 = Catastrophic disturbances (At a given year, some proportion of seeds/plants will be killed).
+	 */
+	experimentType mode;
+
+	// Invasion criterion
+	int Tmax_monoculture; // Duration of the monoculture phase
 
 	// Intraspecific trait variation
 	ITV_version ITV; 	// MSC

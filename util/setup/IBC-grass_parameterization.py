@@ -1,8 +1,3 @@
-## TODO:
-# 1. It would be a good move to split up the "runs" so that multiple processors can work on the same simulation.
-# 3. It would be cool to safeguard the skipping parameterizations that are redundant 
-#       functionality so that you don't screw up later without realizing it
-
 import sys, os, subprocess, itertools, csv, copy, math, re, random
 import util
 
@@ -13,19 +8,20 @@ path = "./tmp/"
 PARALLEL = False
 N_SLOTS = 200
 
-weekly = 1 # print weekly or yearly?
-ind_out = 1 # individual-level output?
+weekly = 0 # print yearly (0) or weekly (1)?
+ind_out = 0 # individual-level output (1)? 
 pft_out = 2 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
-srv_out = 0 # Print survival statistics? Bad idea with seed addition
+srv_out = 0 # Print survival statistics (1)? Bad idea with seed addition...
 
 N_COMS = 1
 N_REPS = 1
-n_PFTs = 0
+n_PFTs = 0 # Doesn't matter with pairwise invasion criterion... (FIX THIS...)
 
+MODE = 1 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
 Sim_header = "NRep " + str(N_REPS) + "\n" + \
-                "SimNr ComNr IC_vers ITVsd Tmax ARes Bres " + \
+                "SimNr ComNr IC_vers Mode ITVsd Tmax ARes Bres " + \
                 "GrazProb PropRemove " + \
                 "BelGrazProb BelGrazStartYear BelGrazWindow BelGrazResidualPerc BelGrazPerc " + \
                 "CatastrophicDistYear CatastrophicPlantMortality CatastrophicSeedMortality " + \
@@ -35,12 +31,8 @@ Sim_header = "NRep " + str(N_REPS) + "\n" + \
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                 "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
 
-## These parameters are specific to the environment and "type" of the simulation
-# Some of these are contingent on the others to not be deemed, "redunant." This is a poor algorithm
-# and I need to rethink the implementation. I can't think of a better way to do it though, so maybe improve the "input" methodology
-# but not the backend? Maybe create this array behind the scenes and fill it out with some sort of text document.
-
 # base_params =  [[1], # IC version
+#                 [MODE],
 #                 [0], # ITVsd
 #                 [150], # Tmax
 #                 [90], # ARes
@@ -59,38 +51,58 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 #                 [10]] # SeedInput
 
 base_params =  [[1], # IC version
+                [MODE],
                 [0], # ITVsd
-                [100], # Tmax
+                [40], # Tmax
                 [90], # ARes
                 [90], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
-                [1], # BelGrazProb
+                [0], # BelGrazProb
                 [0], # BelGrazStartYear
                 [0], # BelGrazWindow
-                [0.05], # BelGrazResidualPerc
-                [0.1], # BelGrazPerc
-                [50], # CatastrophicDisYear; 0 is no disturbance
-                [0.75], # CatastrophicPlantMortality
-                [0.75], # CatastrophicSeedMortality
-                [1], # SeedRainType
-                [10]] # SeedInput
+                [0], # BelGrazResidualPerc
+                [0], # BelGrazPerc
+                [0], # CatastrophicDisYear; 0 is no disturbance
+                [0], # CatastrophicPlantMortality
+                [0], # CatastrophicSeedMortality
+                [0], # SeedRainType
+                [0]] # SeedInput
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
+# PFType_params = [[100], # MaxAge
+#                 [0.05], # AllocSeed
+#                 [1.0, 0.75, 0.50], # LMR
+#                 [[1.0, 5000, 1.0, 0.1], # maxPlantSizeSet is a linked trait set
+#                  [0.3, 2000, 0.3, 0.3],# maxPlantSizeSet. Maximum plant size -- large
+#                  [0.1, 1000, 0.1, 0.6]], # Maximum plant size -- small
+#                 [0.5], # pEstab
+#                 [[60, 2],
+#                  [40, 4], # resourceCompetitionSet. Resource response -- competitor
+#                  [20, 6]], # Resource response -- tolerator
+#                 [[1.00, 1.00],
+#                  [0.50, 0.75],# grazingResponseSet. Grazing response -- tolerator
+#                  [0.25, 0.50]], # Grazing response -- avoider
+#                 [1], # RAR
+#                 [0.25], # growth
+#                 [0.2], # mThres
+#                 [0], # clonal
+#                 [0], # propSex
+#                 [0], # meanSpacerLength
+#                 [0], # sdSpacerLength
+#                 [0], # Resshare
+#                 [0], # AllocSpacer
+#                 [0]] # mSpacer
+
 PFType_params = [[100], # MaxAge
                 [0.05], # AllocSeed
-                [1.0, 0.75, 0.50], # LMR
+                [0.75], # LMR
                 [[1.0, 5000, 1.0, 0.1], # maxPlantSizeSet is a linked trait set
-                 [0.3, 2000, 0.3, 0.3],# maxPlantSizeSet. Maximum plant size -- large
                  [0.1, 1000, 0.1, 0.6]], # Maximum plant size -- small
                 [0.5], # pEstab
-                [[60, 2],
-                 [40, 4], # resourceCompetitionSet. Resource response -- competitor
-                 [20, 6]], # Resource response -- tolerator
-                [[1.00, 1.00],
-                 [0.50, 0.75],# grazingResponseSet. Grazing response -- tolerator
-                 [0.25, 0.50]], # Grazing response -- avoider
+                [[40, 4]],
+                [[0.50, 0.75]],
                 [1], # RAR
                 [0.25], # growth
                 [0.2], # mThres
@@ -237,11 +249,72 @@ def makeEmpiricalPFTs():
             w.write(Sim_header)
             w.writelines(sim for sim in SimFile)
 
+
+def makePFTPairs():
+
+    # works
+    pfts = []
+    counter = 0
+    for p in itertools.product(*PFType_params):
+        counter += 1
+        pft = PFT(counter, *p)
+        pfts.append(pft)
+
+    for p in pfts:
+        print("PFT:" + str(p))
+
+    pairs = list(itertools.permutations(pfts, 2))
+    for pair in pairs:
+        print ("A: " + str(pair[0].Species) + "; B: " + str(pair[1].Species))
+    print("Total length: " + str(len(pairs)))
+
+    SimFile = [] # all the simulations go into one 'SimFile.' This is a list of strings.
+    sim_number = random.randint(0, 2147483647)
+    ComNr = 0
+
+    for pair in pairs:
+        p, q = pair[0], pair[1]
+        ComNr += 1
+
+        for base_param in itertools.product(*base_params):
+            
+            try:
+                base_param = Base_Parameter(*base_param)
+            except:
+                continue
+
+            # PFT pair's SimFile entry
+            sim_number += 1 # IBC-grass will barf if sim_number starts with 0.
+            base_simID = str(sim_number) 
+            
+            PFT_filename = base_simID + ".txt"
+            SimFile.append(" ".join([base_simID, str(ComNr), base_param.toString(),
+                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), PFT_filename, "\n"]))
+                       
+
+            # PFT pair's PFT file
+            with open(path + PFT_filename, 'w') as w:
+                w.write(PFT_header)
+                w.write("1 " + str(p) + "\n")
+                w.write("2 " + str(q))
+
+    if (PARALLEL):
+        buildBatchScripts(SimFile, N_SLOTS, path, Sim_header)
+        os.system('cp ./resources/queue.sh ./tmp')
+    else:
+        with open(path + "SimFile.txt", 'w') as w:
+            w.write(Sim_header)
+            w.writelines(sim for sim in SimFile)
+
+
 if __name__ == "__main__":
-    if (PFT_type == 0):
-        makeTheoreticalPFTs()
-    elif (PFT_type == 1):
-        makeEmpiricalPFTs()
+    if (MODE == 1):
+        makePFTPairs()
+    else:
+        if (PFT_type == 0):
+            makeTheoreticalPFTs()
+        elif (PFT_type == 1):
+            makeEmpiricalPFTs()
 
     with open('IBC-grass_parameterization.py', 'r') as r:
         words = r.readlines()
