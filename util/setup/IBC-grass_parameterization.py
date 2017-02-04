@@ -8,16 +8,16 @@ path = "./tmp/"
 PARALLEL = False
 N_SLOTS = 200
 
-weekly = 1 # print weekly or yearly?
-ind_out = 1 # individual-level output?
+weekly = 0 # print yearly (0) or weekly (1)?
+ind_out = 0 # individual-level output (1)? 
 pft_out = 2 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
-srv_out = 0 # Print survival statistics? Bad idea with seed addition
+srv_out = 0 # Print survival statistics (1)? Bad idea with seed addition...
 
 N_COMS = 1
 N_REPS = 1
-n_PFTs = 0
+n_PFTs = 0 # Doesn't matter with pairwise invasion criterion... (FIX THIS...)
 
-MODE = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
+MODE = 1 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
 Sim_header = "NRep " + str(N_REPS) + "\n" + \
@@ -53,37 +53,56 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 base_params =  [[1], # IC version
                 [MODE],
                 [0], # ITVsd
-                [100], # Tmax
+                [40], # Tmax
                 [90], # ARes
                 [90], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
-                [1], # BelGrazProb
+                [0], # BelGrazProb
                 [0], # BelGrazStartYear
                 [0], # BelGrazWindow
-                [0.05], # BelGrazResidualPerc
-                [0.1], # BelGrazPerc
+                [0], # BelGrazResidualPerc
+                [0], # BelGrazPerc
                 [0], # CatastrophicDisYear; 0 is no disturbance
                 [0], # CatastrophicPlantMortality
                 [0], # CatastrophicSeedMortality
-                [1], # SeedRainType
-                [10]] # SeedInput
+                [0], # SeedRainType
+                [0]] # SeedInput
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
+# PFType_params = [[100], # MaxAge
+#                 [0.05], # AllocSeed
+#                 [1.0, 0.75, 0.50], # LMR
+#                 [[1.0, 5000, 1.0, 0.1], # maxPlantSizeSet is a linked trait set
+#                  [0.3, 2000, 0.3, 0.3],# maxPlantSizeSet. Maximum plant size -- large
+#                  [0.1, 1000, 0.1, 0.6]], # Maximum plant size -- small
+#                 [0.5], # pEstab
+#                 [[60, 2],
+#                  [40, 4], # resourceCompetitionSet. Resource response -- competitor
+#                  [20, 6]], # Resource response -- tolerator
+#                 [[1.00, 1.00],
+#                  [0.50, 0.75],# grazingResponseSet. Grazing response -- tolerator
+#                  [0.25, 0.50]], # Grazing response -- avoider
+#                 [1], # RAR
+#                 [0.25], # growth
+#                 [0.2], # mThres
+#                 [0], # clonal
+#                 [0], # propSex
+#                 [0], # meanSpacerLength
+#                 [0], # sdSpacerLength
+#                 [0], # Resshare
+#                 [0], # AllocSpacer
+#                 [0]] # mSpacer
+
 PFType_params = [[100], # MaxAge
                 [0.05], # AllocSeed
-                [1.0, 0.75, 0.50], # LMR
+                [0.75], # LMR
                 [[1.0, 5000, 1.0, 0.1], # maxPlantSizeSet is a linked trait set
-                 [0.3, 2000, 0.3, 0.3],# maxPlantSizeSet. Maximum plant size -- large
                  [0.1, 1000, 0.1, 0.6]], # Maximum plant size -- small
                 [0.5], # pEstab
-                [[60, 2],
-                 [40, 4], # resourceCompetitionSet. Resource response -- competitor
-                 [20, 6]], # Resource response -- tolerator
-                [[1.00, 1.00],
-                 [0.50, 0.75],# grazingResponseSet. Grazing response -- tolerator
-                 [0.25, 0.50]], # Grazing response -- avoider
+                [[40, 4]],
+                [[0.50, 0.75]],
                 [1], # RAR
                 [0.25], # growth
                 [0.2], # mThres
@@ -250,7 +269,7 @@ def makePFTPairs():
     print("Total length: " + str(len(pairs)))
 
     SimFile = [] # all the simulations go into one 'SimFile.' This is a list of strings.
-    sim_number = random.randint(0, 33554432)
+    sim_number = random.randint(0, 2147483647)
     ComNr = 0
 
     for pair in pairs:
@@ -269,8 +288,9 @@ def makePFTPairs():
             base_simID = str(sim_number) 
             
             PFT_filename = base_simID + ".txt"
-            SimFile.append(" ".join([base_simID, str(ComNr), base_param.toString(), str(SPAT_out), 
-                str(SPAT_out_year), str(PFT_out), str(COMP_out), PFT_filename, "\n"]))
+            SimFile.append(" ".join([base_simID, str(ComNr), base_param.toString(),
+                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), PFT_filename, "\n"]))
+                       
 
             # PFT pair's PFT file
             with open(path + PFT_filename, 'w') as w:

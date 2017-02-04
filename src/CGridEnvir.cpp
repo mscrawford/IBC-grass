@@ -102,7 +102,7 @@ void CGridEnvir::OneRun() {
 
 		if (SRunPara::RunPara.mode == invasionCriterion && year == SRunPara::RunPara.Tmax_monoculture)
 		{
-			const int no_init_seeds = 10;
+			const int no_init_seeds = 50;
 			string invader = SPftTraits::pftInsertionOrder[0];
 			SPftTraits* traits = SPftTraits::PftLinkList.find(invader)->second;
 			InitClonalSeeds(traits, no_init_seeds);
@@ -186,15 +186,6 @@ void CGridEnvir::OneWeek()
 
 }
 
-//---------------------------------------------------------------------------
-/**
- Exit conditions for runs,
- where clonal Plants migrate into a non-clonal community or
- vice versa.
- \since clonal version
-
- changed for Lina's realistic-pft-experiments
- */
 bool CGridEnvir::exitConditions()
 {
 	// Exit conditions do not exist with external seed input
@@ -211,14 +202,9 @@ bool CGridEnvir::exitConditions()
 	}
 
 	return false;
-} //end CClonalGridEnvir::exitConditions()
+}
 
-//------------------------------------------------------------------------------
-/**
- * annual seed rain
- *
- * \author FM - seed rain option
- */
+
 void CGridEnvir::SeedRain() {
 	string PFT_ID;
 	SPftTraits *traits;

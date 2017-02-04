@@ -17,7 +17,7 @@ SRunPara SRunPara::RunPara = SRunPara();
 SRunPara::SRunPara() :
 		Version(version1), ITV(off), ITVsd(0), mode(communityAssembly),
 		weekly(0), ind_out(0), PFT_out(2), srv_out(1),
-		AboveCompMode(sym), BelowCompMode(sym),
+		AboveCompMode(asympart), BelowCompMode(sym),
 		mort_base(0.007), LitterDecomp(0.5), DiebackWinter(0.5), EstabRamet(1),
 		GridSize(128), CellNum(128), Tmax(100), GrazProb(0), PropRemove(0),
 		BitSize(0.5), MassUngraz(15300), BelGrazProb(0), BelGrazStartYear(0),

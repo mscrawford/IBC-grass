@@ -95,8 +95,6 @@ void CEnvir::GetSim(string data)
 
 	int IC_version;
 	int mode;
-	int acomp = 1; // aboveground competition is asymmetric by default
-	int bcomp = 0; // belowground competition is symmetric by default
 
 	std::stringstream ss(data);
 
@@ -165,34 +163,6 @@ void CEnvir::GetSim(string data)
 	}
 	else {
 		SRunPara::RunPara.ITV = off;
-	}
-
-	switch (acomp) {
-	case 0:
-		SRunPara::RunPara.AboveCompMode = sym;
-		break;
-	case 1:
-		SRunPara::RunPara.AboveCompMode = asympart;
-		break;
-	case 2:
-		SRunPara::RunPara.AboveCompMode = asymtot;
-		break;
-	default:
-		break;
-	}
-
-	switch (bcomp) {
-	case 0:
-		SRunPara::RunPara.BelowCompMode = sym;
-		break;
-	case 1:
-		SRunPara::RunPara.BelowCompMode = asympart;
-		break;
-	case 2:
-		SRunPara::RunPara.BelowCompMode = asymtot;
-		break;
-	default:
-		break;
 	}
 
 	////////////////////
