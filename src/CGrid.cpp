@@ -378,8 +378,7 @@ void CGrid::Resshare() // resource sharing
 		if (Genet->AllRametList.size() > 1) //!Genet->AllRametList.empty())
 				{
 			CPlant* plant = Genet->AllRametList.front();
-			if (plant->Traits->clonal //type()=="CclonalPlant"
-			&& plant->Traits->Resshare == true) { //only betwen connected ramets
+			if (plant->Traits->clonal && plant->Traits->Resshare == true) { //only betwen connected ramets
 				Genet->ResshareA();  //above ground
 				Genet->ResshareB();  // below ground
 			} //if Resshare true
@@ -653,12 +652,11 @@ void CGrid::Disturb()
 				Cutting(SRunPara::RunPara.CutHeight);
 			break;
 		case 2:
-			if ((CEnvir::week == 22) || (CEnvir::week == 10))
+			if (CEnvir::week == 22 || CEnvir::week == 10)
 				Cutting(SRunPara::RunPara.CutHeight);
 			break;
 		case 3:
-			if ((CEnvir::week == 22) || (CEnvir::week == 10)
-					|| (CEnvir::week == 16))
+			if (CEnvir::week == 22 || CEnvir::week == 10 || CEnvir::week == 16)
 				Cutting(SRunPara::RunPara.CutHeight);
 			break;
 		default:
@@ -670,30 +668,37 @@ void CGrid::Disturb()
 
 void CGrid::catastrophicDisturbance()
 {
-		// Disturb plants
-		for (auto i = PlantList.begin(); i < PlantList.end(); ++i)
+	// Disturb plants
+	for (auto i = PlantList.begin(); i < PlantList.end(); ++i)
+	{
+		CPlant* p = *i;
+
+		if (p->dead) continue;
+
+		if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicPlantMortality)
 		{
-			CPlant* p = *i;
+			p->dead = true;
+		}
+	}
 
-			if (p->dead) continue;
+	// Disturb seeds
+	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
+	{
+		CCell* c = CellList[i];
 
-			if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicPlantMortality) {
-				p->dead = true;
+		for (auto it = c->SeedBankList.begin(); it != c->SeedBankList.end();
+				++it)
+		{
+			CSeed* s = *it;
+
+			if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicSeedMortality)
+			{
+				s->remove = true;
 			}
 		}
 
-		// Disturb seeds
-		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
-			CCell* c = CellList[i];
-			for (auto it = c->SeedBankList.begin(); it != c->SeedBankList.end(); ++it) {
-				CSeed* s = *it;
-				if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicSeedMortality) {
-					s->remove = true;
-				}
-			}
-
-			c->RemoveSeeds(); //removes and deletes all seeds with remove==true
-		} // for all cells
+		c->RemoveSeeds(); //removes and deletes all seeds with remove==true
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -827,12 +832,26 @@ void CGrid::GrazingBelGr() {
 		return total_root_mass;
 	};
 
+	auto mean = [](const vector<double> & l) {
+		double t = 0;
+		for (auto it = l.begin(); it != l.end(); ++it)
+		{
+			t += *it;
+		}
+		return t / l.size();
+	};
+
 	assert(!CGrid::below_biomass_history.empty());
 
 	double bt = sumRootMass(generateLivingPlants(PlantList)); // Total root biomass
 	double fn_o = SRunPara::RunPara.BelGrazPerc * CGrid::below_biomass_history.back(); // Forage need (mg)
 	double biomass_removed = 0;
 	const double alpha = 2.0;
+
+	std::vector<double> rolling_mean(CGrid::below_biomass_history.end() - 5, // parameterize this...
+									 CGrid::below_biomass_history.end());
+
+	fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
 
 	// Functional response
 	if (bt-fn_o < bt*SRunPara::RunPara.BelGrazResidualPerc)
