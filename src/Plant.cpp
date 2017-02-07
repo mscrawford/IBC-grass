@@ -348,7 +348,7 @@ void CPlant::Kill()
 
 	double pmort = double(stress) / Traits->memory + pmin; // stress mortality + random background mortality
 
-	if (CEnvir::rand01() < pmort)
+	if (CEnvir::rng.get01() < pmort)
 	{
 		dead = true;
 	}

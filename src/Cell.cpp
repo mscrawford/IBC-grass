@@ -106,7 +106,7 @@ double CCell::Germinate()
    {
       CSeed* seed = SeedBankList[i];
 
-      if (CEnvir::rand01() < seed->estab)
+      if (CEnvir::rng.get01() < seed->estab)
       {
          //make a copy in seedling list
          SeedlingList.push_back(seed);

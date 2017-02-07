@@ -12,7 +12,7 @@
 
 #include "CGrid.h"
 #include "Output.h"
-#include "LCG.h"
+#include "RandomGenerator.h"
 
 
 //---------------------------------------------------------------------------
@@ -36,6 +36,8 @@ class CEnvir
 {
 
 public:
+	static RandomGenerator rng;
+
 	static std::map<std::string, long> PftInitList; // list of Pfts used
 	static std::map<std::string, int> PftSurvTime;	// array for survival times of PFTs [years];
 
@@ -79,28 +81,6 @@ public:
 			week = 1;
 			year++;
 		};
-	}
-	;
-
-	/**
-	 * "Random"
-	 */
-
-	// get a uniformly distributed random number (0-n)
-	inline static int nrand(int n) {
-		return int(combinedLCG() * n);
-	}
-	;
-
-	// get a uniformly distributed random number (0-1)
-	inline static double rand01() {
-		return combinedLCG();
-	}
-	;
-
-	// get a uniformly distributed random number (0-1)
-	inline static double normrand(double mean, double sd) {
-		return normcLCG(mean, sd);
 	}
 	;
 

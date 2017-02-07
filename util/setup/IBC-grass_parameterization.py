@@ -17,14 +17,14 @@ N_COMS = 1
 N_REPS = 1
 n_PFTs = 0 # Doesn't matter with pairwise invasion criterion... (FIX THIS...)
 
-MODE = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
+MODE = 2 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
 Sim_header = "NRep " + str(N_REPS) + "\n" + \
                 "SimNr ComNr IC_vers Mode ITVsd Tmax ARes Bres " + \
                 "GrazProb PropRemove " + \
                 "BelGrazProb BelGrazResidualPerc BelGrazPerc " + \
-                "CatastrophicDistYear CatastrophicPlantMortality CatastrophicSeedMortality " + \
+                "CatastrophicPlantMortality CatastrophicSeedMortality " + \
                 "SeedRainType SeedInput " + \
                 "weekly ind_out pft_out srv_out NameInitFile\n"
 
@@ -42,7 +42,6 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 #                 [0, 1], # BelGrazProb
 #                 [0.01, 0.05, 0.1], # BelGrazResidualPerc
 #                 [0.01, 0.05, 0.1, 0.2], # BelGrazPerc
-#                 [50], # CatastrophicDisYear; 0 is no disturbance
 #                 [0, 0.25, 0.50, 0.75, 1], # CatastrophicPlantMortality
 #                 [0, 0.25, 0.50, 0.75, 1], # CatastrophicSeedMortality
 #                 [1], # SeedRainType
@@ -51,19 +50,18 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 base_params =  [[1], # IC version
                 [MODE],
                 [0], # ITVsd
-                [50], # Tmax
+                [150], # Tmax
                 [90], # ARes
-                [90], # Bres
+                [30], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
                 [0], # BelGrazProb
                 [0], # BelGrazResidualPerc
                 [0], # BelGrazPerc
-                [0], # CatastrophicDisYear; 0 is no disturbance
-                [0], # CatastrophicPlantMortality
-                [0], # CatastrophicSeedMortality
-                [0], # SeedRainType
-                [0]] # SeedInput
+                [0.90], # CatastrophicPlantMortality
+                [0.90], # CatastrophicSeedMortality
+                [1], # SeedRainType
+                [1]] # SeedInput
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.

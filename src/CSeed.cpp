@@ -9,10 +9,6 @@
 #include "CEnvir.h"
 
 //---------------------------------------------------------------------------
-
-//#pragma package(smart_init)
-
-//---------------------------------------------------------------------------
 CSeed::CSeed(CPlant* plant, CCell* _cell) :
 		cell(NULL), xcoord(plant->xcoord), ycoord(plant->ycoord),
 		Age(1), remove(false)

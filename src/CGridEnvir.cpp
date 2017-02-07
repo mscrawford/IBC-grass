@@ -76,6 +76,7 @@ void CGridEnvir::InitInds()
 		PftInitList[traits->name] += no_init_seeds;
 		PftSurvTime[traits->name] = 0;
 	}
+
 } //initialization based on file
 
 //------------------------------------------------------------------------------

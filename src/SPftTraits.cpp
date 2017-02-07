@@ -188,7 +188,7 @@ void SPftTraits::varyTraits()
 	double LMR_;
 	do
 	{
-		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
+		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
 		LMR_ = LMR + (LMR * dev);
 	} while (dev < -1.0 || dev > 1.0 || LMR_ < 0 || LMR_ > 1);
 	LMR = LMR_;
@@ -198,7 +198,7 @@ void SPftTraits::varyTraits()
 	double m0_, MaxMass_, SeedMass_, Dist_;
 	do
 	{
-		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
+		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
 		m0_ = m0 + (m0 * dev);
 		MaxMass_ = MaxMass + (MaxMass * dev);
 		SeedMass_ = SeedMass + (SeedMass * dev);
@@ -220,7 +220,7 @@ void SPftTraits::varyTraits()
 	do
 	{
 //		cout << "Drawing variate..." << endl;
-		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
+		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
 //		cout << "Setting Gmax ..." << endl;
 		Gmax_ = Gmax + (Gmax * dev);
 //		cout << "Setting memory..." << endl;
@@ -236,7 +236,7 @@ void SPftTraits::varyTraits()
 	double palat_, SLA_;
 	do
 	{
-		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
+		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
 		palat_ = palat + (palat * dev);
 		SLA_ = SLA + (SLA * dev);
 	} while (dev < -1.0 || dev > 1.0 || palat_ < 0 || palat_ > 1 || SLA_ < 0);
@@ -249,7 +249,7 @@ void SPftTraits::varyTraits()
 	double meanSpacerlength_, sdSpacerlength_;
 	do
 	{
-		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
+		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
 		meanSpacerlength_ = meanSpacerlength + (meanSpacerlength * dev);
 		sdSpacerlength_ = sdSpacerlength + (sdSpacerlength * dev);
 	} while (dev < -1.0 || dev > 1.0 || meanSpacerlength_ < 0
