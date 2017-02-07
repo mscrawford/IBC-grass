@@ -71,8 +71,10 @@ void CEnvir::ReadLandscape() {
 	AResMuster.clear();
 	BResMuster.clear();
 
-	AResMuster = vector<double>(SRunPara::RunPara.GetSumCells(), SRunPara::RunPara.meanARes);
-	BResMuster = vector<double>(SRunPara::RunPara.GetSumCells(), SRunPara::RunPara.meanBRes);
+	AResMuster = vector<double>(vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
+								SRunPara::RunPara.meanARes);
+	BResMuster = vector<double>(vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
+								SRunPara::RunPara.meanBRes);
 }  //end ReadLandscape
 
 //------------------------------------------------------------------------------
@@ -109,11 +111,9 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::RunPara.GrazProb 					// Aboveground grazing: probability
 		>> SRunPara::RunPara.PropRemove 				// Aboveground grazing: proportion of biomass removed
 		>> SRunPara::RunPara.BelGrazProb 				// Belowground grazing: probability
-		>> SRunPara::RunPara.BelGrazStartYear 			// Belowground grazing: year of herbivory introduction
-		>> SRunPara::RunPara.BelGrazWindow 				// Belowground grazing: timespan in which herbivory takes place
 		>> SRunPara::RunPara.BelGrazResidualPerc 		// Belowground grazing: mode
 		>> SRunPara::RunPara.BelGrazPerc 				// Belowground grazing: proportion of biomass removed
-		>> SRunPara::RunPara.catastrophicDistYear		// Catastrophic Disturbance: Year for catastrophic disturbace
+		>> SRunPara::RunPara.CatastrophicDistYear		// Catastrophic Disturbance: Year for catastrophic disturbace
 		>> SRunPara::RunPara.CatastrophicPlantMortality // Catastrophic Disturbance: Percent of plant removal during Catastrophic Disturbance
 		>> SRunPara::RunPara.CatastrophicSeedMortality	// Catastrophic Disturbance: Percent of seed removal during Catastrophic Disturbance
 		>> SRunPara::RunPara.SeedRainType				// Seed Rain: Off/On/Type
@@ -154,16 +154,21 @@ void CEnvir::GetSim(string data)
 		cerr << "Invalid mode parameterization" << endl;
 	}
 
-	if (SRunPara::RunPara.mode == invasionCriterion) {
+	if (SRunPara::RunPara.mode == invasionCriterion)
+	{
 		SRunPara::RunPara.Tmax += SRunPara::RunPara.Tmax_monoculture;
 	}
 
-	if (SRunPara::RunPara.ITVsd > 0) {
+	if (SRunPara::RunPara.ITVsd > 0)
+	{
 		SRunPara::RunPara.ITV = on;
 	}
-	else {
+	else
+	{
 		SRunPara::RunPara.ITV = off;
 	}
+
+	SRunPara::RunPara.validateRunPara();
 
 	////////////////////
 	// Setup PFTs
@@ -178,7 +183,7 @@ void CEnvir::GetSim(string data)
 	string param = 	dir + fid + "_param.csv";
 	string trait = 	dir + fid + "_trait.csv";
 	string srv = 	dir + fid + "_srv.csv";
-	string PFT = 	dir + fid + " _PFT.csv";
+	string PFT = 	dir + fid + "_PFT.csv";
 	string ind = 	dir + fid + "_ind.csv";
 
 	output.setupOutput(param, trait, srv, PFT, ind);

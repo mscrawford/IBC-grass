@@ -1,4 +1,3 @@
-
 #include "SPftTraits.h"
 #include "CEnvir.h"
 
@@ -16,12 +15,14 @@ vector<string> SPftTraits::pftInsertionOrder = vector<string>();
  * Default constructor
  */
 SPftTraits::SPftTraits() :
-		TypeID(999), name("default"), MaxAge(100), AllocSeed(0.05), LMR(0), m0(
-				0), MaxMass(0), SeedMass(0), Dist(0), pEstab(0.5), Gmax(0), memory(
-				0), SLA(0), palat(0), RAR(1), growth(0.25), mThres(0.2), Dorm(
-				1), FlowerWeek(16), DispWeek(20), PropSex(0.1), meanSpacerlength(
-				17.5), sdSpacerlength(12.5), Resshare(true), mSpacer(70), AllocSpacer(
-				0.05), clonal(true), myTraitType(SPftTraits::species)
+		myTraitType(SPftTraits::species), TypeID(999), name("default"),
+		MaxAge(100),
+		LMR(0), SLA(0), RAR(1), m0(0), MaxMass(0),
+		AllocSeed(0.05), SeedMass(0), Dist(0), Dorm(1), pEstab(0.5),
+		Gmax(0), palat(0), memory(0),
+		mThres(0.2), growth(0.25), FlowerWeek(16), DispWeek(20),
+		clonal(true), PropSex(0.1), meanSpacerlength(17.5), sdSpacerlength(12.5),
+		AllocSpacer(0.05), Resshare(true), mSpacer(70)
 {
 
 }
@@ -30,24 +31,29 @@ SPftTraits::SPftTraits() :
  * Constructor copying a given set of traits. This is necessary for IBC-grass.ITV.
  */
 SPftTraits::SPftTraits(const SPftTraits& s) :
-		TypeID(s.TypeID), name(s.name), MaxAge(s.MaxAge), AllocSeed(s.AllocSeed), LMR(s.LMR),
-		m0(s.m0), MaxMass(s.MaxMass), SeedMass(s.SeedMass), Dist(s.Dist), pEstab(s.pEstab),
-		Gmax(s.Gmax), memory(s.memory), SLA(s.SLA), palat(s.palat), RAR(s.RAR), growth(s.growth),
-		mThres(s.mThres), Dorm(s.Dorm), FlowerWeek(s.FlowerWeek), DispWeek(s.DispWeek),
-		PropSex(s.PropSex), meanSpacerlength(s.meanSpacerlength),sdSpacerlength(s.sdSpacerlength),
-		Resshare(s.Resshare), mSpacer(s.mSpacer), AllocSpacer(s.AllocSpacer), clonal(s.clonal),
-		myTraitType(s.myTraitType)
+		myTraitType(s.myTraitType), TypeID(s.TypeID), name(s.name),
+		MaxAge(s.MaxAge),
+		LMR(s.LMR), SLA(s.SLA), RAR(s.RAR), m0(s.m0), MaxMass(s.MaxMass),
+		AllocSeed(s.AllocSeed), SeedMass(s.SeedMass), Dist(s.Dist), Dorm(s.Dorm), pEstab(s.pEstab),
+		Gmax(s.Gmax), palat(s.palat), memory(s.memory),
+		mThres(s.mThres), growth(s.growth), FlowerWeek(s.FlowerWeek), DispWeek(s.DispWeek),
+		clonal(s.clonal), PropSex(s.PropSex),
+		meanSpacerlength(s.meanSpacerlength), sdSpacerlength(s.sdSpacerlength),
+		AllocSpacer(s.AllocSpacer), Resshare(s.Resshare), mSpacer(s.mSpacer)
 {
-	if (SRunPara::RunPara.ITV == off) {
+	if (SRunPara::RunPara.ITV == off)
+	{
 		assert(s.myTraitType == SPftTraits::species);
 	}
 
-	if (s.myTraitType == SPftTraits::individualized) {
+	if (s.myTraitType == SPftTraits::individualized)
+	{
 		assert(SRunPara::RunPara.ITV == on);
 	}
 }
 
-SPftTraits::~SPftTraits() {
+SPftTraits::~SPftTraits()
+{
 	// TODO Auto-generated destructor stub
 }
 
@@ -79,14 +85,16 @@ SPftTraits* SPftTraits::getPftLink(string type)
 
 	map<string, SPftTraits*>::iterator pos = PftLinkList.find(type);
 
-	if (pos == PftLinkList.end()) {
+	if (pos == PftLinkList.end())
+	{
 		cerr << "Type not found: " << type << endl;
 		exit(1);
 	}
 
 	traits = pos->second;
 
-	if (traits == NULL) {
+	if (traits == NULL)
+	{
 		cerr << "NULL-pointer error\n";
 		exit(1);
 	}
@@ -100,11 +108,13 @@ SPftTraits* SPftTraits::getPftLink(string type)
  * @param type PFT asked for
  * @return Object instance defining a PFT.
  */
-SPftTraits* SPftTraits::createPftInstanceFromPftType(string type) {
+SPftTraits* SPftTraits::createPftInstanceFromPftType(string type)
+{
 	SPftTraits* traits = NULL;
 	map<string, SPftTraits*>::iterator pos = PftLinkList.find(type);
 
-	if (pos == PftLinkList.end()) {
+	if (pos == PftLinkList.end())
+	{
 		cerr << "Type not found:" << type << endl;
 		exit(1);
 	}
@@ -119,11 +129,11 @@ SPftTraits* SPftTraits::createPftInstanceFromPftType(string type) {
  * Read definition of PFTs used in the simulation
  * @param file file containing PFT definitions
  */
-void SPftTraits::ReadPFTDef(const string& file) {
+void SPftTraits::ReadPFTDef(const string& file)
+{
 	//delete old definitions
 	for (map<string, SPftTraits*>::iterator i = SPftTraits::PftLinkList.begin();
-			i != SPftTraits::PftLinkList.end();
-			++i)
+			i != SPftTraits::PftLinkList.end(); ++i)
 	{
 		delete i->second;
 	}
@@ -144,30 +154,15 @@ void SPftTraits::ReadPFTDef(const string& file) {
 
 		SPftTraits* traits = new SPftTraits();
 
-		ss 	>> traits->TypeID
-			>> traits->name
-			>> traits->MaxAge
-			>> traits->AllocSeed
-			>> traits->LMR
-			>> traits->m0
-			>> traits->MaxMass
-			>> traits->SeedMass
-			>> traits->Dist
-			>> traits->pEstab
-			>> traits->Gmax
-			>> traits->SLA
-			>> traits->palat
-			>> traits->memory
-			>> traits->RAR
-			>> traits->growth
-			>> traits->mThres
-			>> traits->clonal
-			>> traits->PropSex
-			>> traits->meanSpacerlength
-			>> traits->sdSpacerlength
-			>> traits->Resshare
-			>> traits->AllocSpacer
-			>> traits->mSpacer;
+		ss >> traits->TypeID >> traits->name >> traits->MaxAge
+				>> traits->AllocSeed >> traits->LMR >> traits->m0
+				>> traits->MaxMass >> traits->SeedMass >> traits->Dist
+				>> traits->pEstab >> traits->Gmax >> traits->SLA
+				>> traits->palat >> traits->memory >> traits->RAR
+				>> traits->growth >> traits->mThres >> traits->clonal
+				>> traits->PropSex >> traits->meanSpacerlength
+				>> traits->sdSpacerlength >> traits->Resshare
+				>> traits->AllocSpacer >> traits->mSpacer;
 
 		SPftTraits::addPftLink(traits->name, traits);
 		SPftTraits::pftInsertionOrder.push_back(traits->name); // MSC
@@ -181,7 +176,8 @@ void SPftTraits::ReadPFTDef(const string& file) {
  * distribution balanced. Other, trait-specific, requirements are checked as well. (e.g.,
  * LMR cannot be greater than 1, memory cannot be less than 1).
  */
-void SPftTraits::varyTraits() {
+void SPftTraits::varyTraits()
+{
 	assert(myTraitType == SPftTraits::species);
 	assert(SRunPara::RunPara.ITV == on);
 
@@ -190,7 +186,8 @@ void SPftTraits::varyTraits() {
 
 //	cout << "Varying traits! LMR..." << endl;
 	double LMR_;
-	do {
+	do
+	{
 		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 		LMR_ = LMR + (LMR * dev);
 	} while (dev < -1.0 || dev > 1.0 || LMR_ < 0 || LMR_ > 1);
@@ -199,13 +196,15 @@ void SPftTraits::varyTraits() {
 
 //	cout << "Varying traits! Mass..." << endl;
 	double m0_, MaxMass_, SeedMass_, Dist_;
-	do {
+	do
+	{
 		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 		m0_ = m0 + (m0 * dev);
 		MaxMass_ = MaxMass + (MaxMass * dev);
 		SeedMass_ = SeedMass + (SeedMass * dev);
 		Dist_ = Dist - (Dist * dev);
-	} while (dev < -1.0 || dev > 1.0 || m0_ < 0 || MaxMass_ < 0 || SeedMass_ < 0 || Dist_ < 0);
+	} while (dev < -1.0 || dev > 1.0 || m0_ < 0 || MaxMass_ < 0 || SeedMass_ < 0
+			|| Dist_ < 0);
 	m0 = m0_;
 	MaxMass = MaxMass_;
 	SeedMass = SeedMass_;
@@ -218,13 +217,14 @@ void SPftTraits::varyTraits() {
 	//	cout << "Varying traits! Gmax..." << endl;
 	double Gmax_;
 	int memory_;
-	do {
+	do
+	{
 //		cout << "Drawing variate..." << endl;
 		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 //		cout << "Setting Gmax ..." << endl;
 		Gmax_ = Gmax + (Gmax * dev);
 //		cout << "Setting memory..." << endl;
-		memory_ = (int) round((double) memory - ((double) memory * dev));
+		memory_ = int(round(double(memory) - (double(memory) * dev)));
 //		cout << "Testing values: dev: " << dev << " Gmax: " << Gmax_ << " memory: " << memory_  << endl;
 	} while (dev < -1.0 || dev > 1.0 || Gmax_ < 0 || memory_ == 0);
 	Gmax = Gmax_;
@@ -234,7 +234,8 @@ void SPftTraits::varyTraits() {
 
 //	cout << "Varying traits! Palat..." << endl;
 	double palat_, SLA_;
-	do {
+	do
+	{
 		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 		palat_ = palat + (palat * dev);
 		SLA_ = SLA + (SLA * dev);
@@ -246,11 +247,13 @@ void SPftTraits::varyTraits() {
 
 	//	cout << "Varying traits! Spacers..." << endl;
 	double meanSpacerlength_, sdSpacerlength_;
-	do {
+	do
+	{
 		dev = CEnvir::normrand(0, SRunPara::RunPara.ITVsd);
 		meanSpacerlength_ = meanSpacerlength + (meanSpacerlength * dev);
 		sdSpacerlength_ = sdSpacerlength + (sdSpacerlength * dev);
-	} while (dev < -1.0 || dev > 1.0 || meanSpacerlength_ < 0 || sdSpacerlength_ < 0);
+	} while (dev < -1.0 || dev > 1.0 || meanSpacerlength_ < 0
+			|| sdSpacerlength_ < 0);
 	meanSpacerlength = meanSpacerlength_;
 	sdSpacerlength = sdSpacerlength_;
 //	cout << "meanSpacerlength: " << meanSpacerlength << endl;

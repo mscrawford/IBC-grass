@@ -31,7 +31,7 @@ void CGridEnvir::InitRun() {
 
 	resetGrid();
 
-	InitInds(SRunPara::NamePftFile); // Initialize individuals
+	InitInds(); // Initialize individuals
 }
 
 //------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ void CGridEnvir::InitRun() {
  \param n position of type initiates for monoculture
  \param file file name of simulation definitions
  */
-void CGridEnvir::InitInds(string file)
+void CGridEnvir::InitInds()
 {
 	const int no_init_seeds = 10;
 
@@ -140,6 +140,7 @@ void CGridEnvir::OneWeek()
 
 	ResetWeeklyVariables(); //cell loop, removes data from cells
 	SetCellResource();      //variability between weeks
+
 	CoverCells();           //plant loop
 	DistribResource();      //cell loop, resource uptake and competition
 	PlantLoop();            //Growth, Dispersal, Mortality
@@ -152,8 +153,8 @@ void CGridEnvir::OneWeek()
 	}
 
 	if (SRunPara::RunPara.mode == catastrophicDisturbance 				// Catastrophic disturbance is on
-			&& CEnvir::year == SRunPara::RunPara.catastrophicDistYear 	// It is the disturbance year
-			&& CEnvir::week == 21) 										// It is the disturbance week
+			&& CEnvir::year == SRunPara::RunPara.CatastrophicDistYear 	// It is the disturbance year
+			&& CEnvir::week == SRunPara::RunPara.CatastrophicDistWeek) 	// It is the disturbance week
 	{
 		RunCatastrophicDisturbance();
 	}
@@ -205,7 +206,9 @@ bool CGridEnvir::exitConditions()
 }
 
 
-void CGridEnvir::SeedRain() {
+void CGridEnvir::SeedRain()
+{
+
 	string PFT_ID;
 	SPftTraits *traits;
 	double n = 0;

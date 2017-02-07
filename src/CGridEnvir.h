@@ -35,7 +35,7 @@ public:
 	void OneRun();    // runs one simulation run in default mode
 	void OneWeek();   // calls all weekly processes
 
-	void InitInds(std::string file);
+	void InitInds();
 
 	bool exitConditions();
 

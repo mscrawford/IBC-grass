@@ -17,13 +17,13 @@ N_COMS = 1
 N_REPS = 1
 n_PFTs = 0 # Doesn't matter with pairwise invasion criterion... (FIX THIS...)
 
-MODE = 1 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
+MODE = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
 Sim_header = "NRep " + str(N_REPS) + "\n" + \
                 "SimNr ComNr IC_vers Mode ITVsd Tmax ARes Bres " + \
                 "GrazProb PropRemove " + \
-                "BelGrazProb BelGrazStartYear BelGrazWindow BelGrazResidualPerc BelGrazPerc " + \
+                "BelGrazProb BelGrazResidualPerc BelGrazPerc " + \
                 "CatastrophicDistYear CatastrophicPlantMortality CatastrophicSeedMortality " + \
                 "SeedRainType SeedInput " + \
                 "weekly ind_out pft_out srv_out NameInitFile\n"
@@ -40,8 +40,6 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 #                 [0.2], # GrazProb
 #                 [0.5], # propRemove
 #                 [0, 1], # BelGrazProb
-#                 [0], # BelGrazStartYear
-#                 [0], # BelGrazWindow
 #                 [0.01, 0.05, 0.1], # BelGrazResidualPerc
 #                 [0.01, 0.05, 0.1, 0.2], # BelGrazPerc
 #                 [50], # CatastrophicDisYear; 0 is no disturbance
@@ -53,14 +51,12 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 base_params =  [[1], # IC version
                 [MODE],
                 [0], # ITVsd
-                [40], # Tmax
+                [50], # Tmax
                 [90], # ARes
                 [90], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
                 [0], # BelGrazProb
-                [0], # BelGrazStartYear
-                [0], # BelGrazWindow
                 [0], # BelGrazResidualPerc
                 [0], # BelGrazPerc
                 [0], # CatastrophicDisYear; 0 is no disturbance
@@ -197,6 +193,7 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
             w.writelines(sim for sim in SimFile)
 
 def makeEmpiricalPFTs():
+
     # Read in Lina's superset of PFTs
     with open("./resources/selectWeiss.txt", "r") as r:
         pfts = r.read().splitlines()
@@ -252,7 +249,6 @@ def makeEmpiricalPFTs():
 
 def makePFTPairs():
 
-    # works
     pfts = []
     counter = 0
     for p in itertools.product(*PFType_params):

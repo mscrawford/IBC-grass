@@ -18,11 +18,11 @@ using namespace std;
 int CPlant::numPlants = 0;
 
 CPlant::CPlant(CSeed* seed) :
-		xcoord(seed->xcoord), ycoord(seed->ycoord), Age(0), plantID(
-				++numPlants), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0),
-				Buptake(0), dead(false), remove(false), stress(0), cell(NULL),
-				mReproRamets(0), Spacerlength(0), Spacerdirection(0), Generation(1),
-				SpacerlengthToGrow(0), genet(NULL)
+		cell(NULL), mReproRamets(0), genet(NULL), Age(0),
+		plantID(++numPlants), xcoord(seed->xcoord), ycoord(seed->ycoord),
+		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
+		stress(0), dead(false), remove(false),
+		Spacerlength(0), Spacerdirection(0), SpacerlengthToGrow(0), Generation(1)
 {
 
 	Traits = new SPftTraits(*seed->Traits);
@@ -57,10 +57,12 @@ CPlant::CPlant(CSeed* seed) :
  \since revision
  */
 CPlant::CPlant(double x, double y, CPlant* plant) :
-		xcoord(x), ycoord(y), Age(0), plantID(++numPlants), mRepro(0), Ash_disc(0),
-		Art_disc(0), Auptake(0), Buptake(0), dead(false), remove(false), stress(0),
-		cell(NULL), mReproRamets(0), Spacerlength(0), Spacerdirection(0),
-		Generation(plant->Generation + 1), SpacerlengthToGrow(0), genet(plant->genet)
+		cell(NULL), mReproRamets(0), genet(plant->genet), Age(0),
+		plantID(++numPlants), xcoord(x), ycoord(y),
+		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
+		stress(0), dead(false), remove(false),
+		Spacerlength(0), Spacerdirection(0), SpacerlengthToGrow(0),
+		Generation(plant->Generation + 1)
 {
 	Traits = new SPftTraits(*plant->Traits);
 
@@ -89,11 +91,11 @@ CPlant::~CPlant()
 
 //---------------------------------------------------------------------------
 ///set genet and add ramet to its list
-void CPlant::setGenet(CGenet* genet)
+void CPlant::setGenet(CGenet* _genet)
 {
 	if (this->genet == NULL)
 	{
-		this->genet = genet;
+		this->genet = _genet;
 		this->genet->AllRametList.push_back(this);
 	}
 }
@@ -104,10 +106,10 @@ void CPlant::setGenet(CGenet* genet)
  *
  * \param
  */
-void CPlant::setCell(CCell* cell) {
-	if (this->cell == NULL && cell != NULL)
+void CPlant::setCell(CCell* _cell) {
+	if (this->cell == NULL && _cell != NULL)
 	{
-		this->cell = cell;
+		this->cell = _cell;
 		this->cell->occupied = true;
 		this->cell->PlantInCell = this;
 	}
@@ -344,7 +346,7 @@ void CPlant::Kill()
 
 	assert(Traits->memory != 0);
 
-	double pmort = (double) stress / Traits->memory + pmin; // stress mortality + random background mortality
+	double pmort = double(stress) / Traits->memory + pmin; // stress mortality + random background mortality
 
 	if (CEnvir::rand01() < pmort)
 	{

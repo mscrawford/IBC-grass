@@ -160,15 +160,12 @@ void CGrid::PlantLoop()
  int y=CEnvir::Round(plant->getCell()->y+sin(direction)*dist*CmToCell);
  \endcode
  */
-void getTargetCell(int& xx, int& yy, const float mean, const float sd, double cellscale)
+void getTargetCell(int& xx, int& yy, const float mean, const float sd)
 {
 	double sigma = sqrt(log((sd / mean) * (sd / mean) + 1));
 	double mu = log(mean) - 0.5 * sigma;
 	double dist = exp(CEnvir::normrand(mu, sigma)); //RandNumGen.normal
-	if (cellscale == 0) {
-		cellscale = SRunPara::RunPara.CellScale();
-	}
-	double CmToCell = 1.0 / cellscale;
+	double CmToCell = 1.0 / SRunPara::RunPara.CellScale();
 
 	//direction uniformly distributed
 	double direction = 2 * Pi * CEnvir::rand01(); //rnumber;
@@ -411,9 +408,9 @@ void CGrid::Resshare() // resource sharing
  */
 void CGrid::EstabLottery() {
 	//Ramet establishment for all Plants
-	for (int i = 0; i < PlantList.size(); i++) //for all Plants (before Rametestab)
-			{
-		CPlant* plant = PlantList[i];
+	for (auto i = PlantList.begin(); i < PlantList.end(); ++i) //for all Plants (before Rametestab)
+	{
+		CPlant* plant = *i;
 		if (plant->Traits->clonal && !plant->dead) {
 			RametEstab(plant);
 		}
@@ -445,7 +442,7 @@ void CGrid::EstabLottery() {
 						map<string, int>::iterator itr = cell->PftNSeedling.find(pft);
 						if (itr != cell->PftNSeedling.end())
 						{
-							PftEstabProb[pft] = (double) itr->second * SPftTraits::getPftLink(pft)->SeedMass;
+							PftEstabProb[pft] = double(itr->second) * SPftTraits::getPftLink(pft)->SeedMass;
 							PftNSeedling[pft] = itr->second; //(cell->PftNSeedling[pft]);
 						}
 					}
@@ -562,8 +559,8 @@ void CGrid::RametEstab(CPlant* plant) {
 					double dist = Distance(factorx, factory);
 					double direction = acos(factorx / dist);
 
-					int x = round((Ramet->xcoord + factorx) / SRunPara::RunPara.CellScale());
-					int y = round((Ramet->ycoord + factory) / SRunPara::RunPara.CellScale());
+					x = round((Ramet->xcoord + factorx) / SRunPara::RunPara.CellScale());
+					y = round((Ramet->ycoord + factory) / SRunPara::RunPara.CellScale());
 
 					Boundary(x, y);
 
@@ -610,39 +607,25 @@ void CGrid::Disturb()
 	if (PlantList.size() == 0)
 		return;
 
-	if (CEnvir::year < SRunPara::RunPara.catastrophicDistYear ||
-			SRunPara::RunPara.catastrophicDistYear == 0 ||
-			(CEnvir::year == SRunPara::RunPara.catastrophicDistYear && CEnvir::week < 21))
+	if (SRunPara::RunPara.mode != catastrophicDisturbance ||
+			CEnvir::year < SRunPara::RunPara.CatastrophicDistYear ||
+			(CEnvir::year == SRunPara::RunPara.CatastrophicDistYear &&
+					CEnvir::week < SRunPara::RunPara.CatastrophicDistWeek))
 	{
 		CGrid::above_biomass_history.push_back(GetTotalAboveMass());
 		CGrid::below_biomass_history.push_back(GetTotalBelowMass());
 	}
 
-	if (CEnvir::rand01() < SRunPara::RunPara.GrazProb)
-	{
+	if (CEnvir::rand01() < SRunPara::RunPara.GrazProb) {
 		Grazing();
 	}
 
-	if (CEnvir::rand01() < SRunPara::RunPara.DistProb())
-	{
-		Trampling();
+	if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb) {
+		GrazingBelGr();
 	}
 
-	/**
-	 * If:
-	 * 		The probability is triggered
-	 * 		The year is after the "belowground grazing start year"
-	 * 		The year is either:
-	 * 			Before the window expires
-	 * 			There is no window and belowground infestation is permanent
-	 *
-	 */
-	if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb
-			&& CEnvir::year >= SRunPara::RunPara.BelGrazStartYear
-			&& (CEnvir::year < SRunPara::RunPara.BelGrazStartYear + SRunPara::RunPara.BelGrazWindow
-					|| SRunPara::RunPara.BelGrazWindow == 0))
-	{
-		GrazingBelGr();
+	if (CEnvir::rand01() < SRunPara::RunPara.DistProb()) {
+		Trampling();
 	}
 
 	if (SRunPara::RunPara.NCut > 0) {
@@ -763,8 +746,6 @@ void CGrid::Cutting(double cut_height)
 
 	for (plant_size i = 0; i < PlantList.size(); i++) {
 		p = PlantList[i];
-
-		assert(cut_height != 0 && "In CGrid::Cutting, but cut_height is 0.");
 
 		if (p->getHeight() > cut_height)
 		{
@@ -925,12 +906,14 @@ void CGrid::Trampling() {
 	//area of patch [cell number]
 	Apatch /= SRunPara::RunPara.CellScale() * SRunPara::RunPara.CellScale();
 
-	for (int i = 0; i < NTrample; ++i) {
+	for (int i = 0; i < NTrample; ++i)
+	{
 		//get random center of disturbance
 		xcell = CEnvir::nrand(SRunPara::RunPara.CellNum);
 		ycell = CEnvir::nrand(SRunPara::RunPara.CellNum);
 
-		for (int a = 0; a < Apatch; a++) {
+		for (int a = 0; a < Apatch; a++)
+		{
 			//get current position: add random center pos with ZOIBase-pos
 			xhelp = xcell + ZOIBase[a] / SRunPara::RunPara.CellNum
 					- SRunPara::RunPara.CellNum / 2;
@@ -940,8 +923,9 @@ void CGrid::Trampling() {
 			Boundary(xhelp, yhelp);
 			index = xhelp * SRunPara::RunPara.CellNum + yhelp;
 			CCell* cell = CellList[index];
-			if (cell->occupied) {
-				CPlant* plant = (CPlant*) cell->PlantInCell;
+			if (cell->occupied)
+			{
+				CPlant* plant = cell->PlantInCell;
 				plant->remove = true;
 			}   //if occ
 		}   //for all cells in patch
@@ -1057,13 +1041,13 @@ void CGrid::SetCellResource()
 						(-1.0) * SRunPara::RunPara.Aampl
 								* cos(
 										2.0 * Pi * gweek
-												/ (double) CEnvir::WeeksPerYear)
+												/ double(CEnvir::WeeksPerYear))
 								+ CEnvir::AResMuster[i]),
 				max(0.0,
 						SRunPara::RunPara.Bampl
 								* sin(
 										2.0 * Pi * gweek
-												/ (double) CEnvir::WeeksPerYear)
+												/ double(CEnvir::WeeksPerYear))
 								+ CEnvir::BResMuster[i]));
 	}
 }     //end SetCellResource
@@ -1181,7 +1165,7 @@ int CGrid::GetNSeeds()
 	int seedCount = 0;
 	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
 		CCell* cell = CellList[i];
-		seedCount = seedCount + cell->SeedBankList.size();
+		seedCount = seedCount + int(cell->SeedBankList.size());
 	}
 
 	return seedCount;

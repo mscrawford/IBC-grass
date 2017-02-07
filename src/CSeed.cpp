@@ -13,9 +13,10 @@
 //#pragma package(smart_init)
 
 //---------------------------------------------------------------------------
-CSeed::CSeed(CPlant* plant, CCell* cell) :
-		xcoord(plant->xcoord), ycoord(plant->ycoord), Age(1), cell(NULL), remove(
-				false) {
+CSeed::CSeed(CPlant* plant, CCell* _cell) :
+		cell(NULL), xcoord(plant->xcoord), ycoord(plant->ycoord),
+		Age(1), remove(false)
+{
 	if (SRunPara::RunPara.ITV == on) {
 		Traits = SPftTraits::createPftInstanceFromPftType(plant->Traits->name); // general
 		Traits->varyTraits();
@@ -29,13 +30,16 @@ CSeed::CSeed(CPlant* plant, CCell* cell) :
 	estab = Traits->pEstab;
 	mass = Traits->SeedMass;
 
-	setCell(cell);
+	setCell(_cell);
 
 }
 
 //---------------------------------------------------------------------------
-CSeed::CSeed(double estab, SPftTraits* traits, CCell* cell) :
-		xcoord(0), ycoord(0), Age(1), cell(NULL), remove(false), estab(estab) {
+CSeed::CSeed(double new_estab, SPftTraits* traits, CCell* _cell) :
+		cell(NULL),
+		xcoord(0), ycoord(0),
+		Age(1), remove(false)
+{
 
 	if (SRunPara::RunPara.ITV == on) {
 		Traits = SPftTraits::createPftInstanceFromPftType(traits->name); // general
@@ -48,8 +52,9 @@ CSeed::CSeed(double estab, SPftTraits* traits, CCell* cell) :
 	}
 
 	mass = Traits->SeedMass;
+	this->estab = new_estab;
 
-	setCell(cell);
+	setCell(_cell);
 	if (cell) {
 		xcoord = (cell->x * SRunPara::RunPara.CellScale());
 		ycoord = (cell->y * SRunPara::RunPara.CellScale());
@@ -65,10 +70,12 @@ CSeed::~CSeed() {
 }
 
 //-----------------------------------------------------------------------------
-void CSeed::setCell(CCell* cell) {
-	if (this->cell == NULL) {
-		this->cell = cell;
-		this->cell->SeedBankList.push_back(this); //add to seed bank
+void CSeed::setCell(CCell* _cell)
+{
+	if (this->cell == NULL)
+	{
+		this->cell = _cell;
+		this->cell->SeedBankList.push_back(this); // add to seed bank
 	} else {
 		std::cerr << "This seed is already on a cell." << std::endl;
 	}

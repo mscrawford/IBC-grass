@@ -109,7 +109,7 @@ public:
 	};
 
 	static int getNPFTInit() {
-		return PftLinkList.size();
+		return int(PftLinkList.size());
 	};
 };
 

@@ -122,6 +122,7 @@ CGridEnvir* Envir;   //<environment in which simulations are run
  */
 int main(int argc, char* argv[])
 {
+
 	initLCG(time(NULL), 3487234); // setze den Zufallsgenerator auf einen neuen Wert, 3487234 ist 'zuf�llig' gew�hlt
 
 	if (argc >= 2) {

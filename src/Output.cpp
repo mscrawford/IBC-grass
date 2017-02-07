@@ -15,8 +15,8 @@ const vector<string> Output::param_header
 			"Invader", "Resident",
 			"ARes", "BRes",
 			"GrazProb", "PropRemove",
-			"BelGrazProb", "BelGrazStartYear", "BelGrazWindow", "BelGrazResidualPerc", "BelGrazPerc",
-			"CatastrophicDistYear", "CatastrophicPlantMortality", "CatastrophicSeedMortality",
+			"BelGrazProb", "BelGrazResidualPerc", "BelGrazPerc",
+			"CatastrophicPlantMortality", "CatastrophicSeedMortality",
 			"SeedRainType", "SeedInput"
 	});
 
@@ -91,13 +91,13 @@ Output::~Output()
 	Output::ind_stream.close();
 }
 
-void Output::setupOutput(string param_fn, string trait_fn, string srv_fn, string PFT_fn, string ind_fn)
+void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn, string _PFT_fn, string _ind_fn)
 {
-	Output::param_fn = param_fn;
-	Output::trait_fn = trait_fn;
-	Output::srv_fn = srv_fn;
-	Output::PFT_fn = PFT_fn;
-	Output::ind_fn = ind_fn;
+	Output::param_fn = _param_fn;
+	Output::trait_fn = _trait_fn;
+	Output::srv_fn = _srv_fn;
+	Output::PFT_fn = _PFT_fn;
+	Output::ind_fn = _ind_fn;
 
 	param_stream.open(param_fn.c_str(), ios_base::app);
 	assert(param_stream.good());
@@ -187,11 +187,8 @@ void Output::print_param()
 	ss << SRunPara::RunPara.GrazProb 					<< ", ";
 	ss << SRunPara::RunPara.PropRemove 					<< ", ";
 	ss << SRunPara::RunPara.BelGrazProb 				<< ", ";
-	ss << SRunPara::RunPara.BelGrazStartYear 			<< ", ";
-	ss << SRunPara::RunPara.BelGrazWindow 				<< ", ";
 	ss << SRunPara::RunPara.BelGrazResidualPerc			<< ", ";
 	ss << SRunPara::RunPara.BelGrazPerc 				<< ", ";
-	ss << SRunPara::RunPara.catastrophicDistYear 		<< ", ";
 	ss << SRunPara::RunPara.CatastrophicPlantMortality 	<< ", ";
 	ss << SRunPara::RunPara.CatastrophicSeedMortality 	<< ", ";
 	ss << SRunPara::RunPara.SeedRainType 				<< ", ";

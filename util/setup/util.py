@@ -4,7 +4,7 @@ class Base_Parameter():
     def __init__(self, 
         IC_version, Mode, ITVsd, Tmax, ARes, Bres, 
         GrazProb, PropRemove, 
-        BelGrazProb, BelGrazStartYear, BelGrazWindow, BelGrazResidualPerc, BelGrazPerc, 
+        BelGrazProb, BelGrazResidualPerc, BelGrazPerc, 
         catastrophicDistYear, CatastrophicPlantMortality, CatastrophicSeedMortality,
         SeedRainType, SeedInput):
         self.IC_version = IC_version
@@ -16,8 +16,6 @@ class Base_Parameter():
         self.GrazProb = GrazProb
         self.PropRemove = PropRemove
         self.BelGrazProb = BelGrazProb
-        self.BelGrazStartYear = BelGrazStartYear
-        self.BelGrazWindow = BelGrazWindow
         self.BelGrazResidualPerc = BelGrazResidualPerc
         self.BelGrazPerc = BelGrazPerc
         self.catastrophicDistYear = catastrophicDistYear
@@ -26,40 +24,34 @@ class Base_Parameter():
         self.SeedRainType = SeedRainType
         self.SeedInput = SeedInput
 
-        # This only applies to Wireworm scenarios
-
-        if (self.catastrophicDistYear == 0 and (self.CatastrophicSeedMortality > 0 or self.CatastrophicPlantMortality > 0)):
-            print "Nonsensical or redundant parameterization -- catastrophicDistYear and Seed/Plant Mortality."
+        if (self.Mode != 2 and (self.catastrophicDistYear > 0 or 
+                                self.CatastrophicSeedMortality > 0 or 
+                                self.CatastrophicPlantMortality > 0)):
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.catastrophicDistYear > 0 and self.CatastrophicSeedMortality == 0 and self.CatastrophicPlantMortality == 0):
-            print "Nonsensical or redundant parameterization -- catastrophicDistYear and Seed/Plant Mortality."
+        if (self.Mode == 2 and (self.catastrophicDistYear == 0 or
+                                (self.CatastrophicSeedMortality == 0 and self.CatastrophicPlantMortality == 0))):
             raise Exception("Nonsensical or redundant parameterization")
 
         if (self.SeedRainType == 0 and self.SeedInput > 0 or 
             self.SeedRainType > 0 and self.SeedInput == 0):
-            print "Nonsensical or redundant parameterization -- SeedRainType and SeedInput."
             raise Exception("Nonsensical or redundant parameterization")
 
         if (self.GrazProb == 0 and self.PropRemove > 0 or self.GrazProb > 0 and self.PropRemove == 0):
-            print "Nonsensical or redundant parameterization -- GrazProb and PropRemove."
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.BelGrazProb == 0):
-            if (self.BelGrazStartYear > 0 or 
-                self.BelGrazResidualPerc > 0 or 
-                self.BelGrazPerc > 0):
-                print "Nonsensical or redundant parameterization -- BelGrazProb."
-                raise Exception("Nonsensical or redundant parameterization")
+        if (self.BelGrazProb == 0 and (self.BelGrazResidualPerc > 0 or self.BelGrazPerc > 0)):
+            raise Exception("Nonsensical or redundant parameterization")
 
         if (self.BelGrazProb > 0 and (self.BelGrazPerc == 0 or self.BelGrazResidualPerc == 0)):
-            print "Nonsensical or redundant parameterization -- BelGrazProb and BelGrazPerc/BelGrazResidualPerc."
             raise Exception("Nonsensical or redundant parameterization")
 
     def toString(self):
-        return " ".join(map(str, [self.IC_version, self.Mode, self.ITVsd, self.Tmax, self.ARes, self.Bres, 
+        return " ".join(map(str, [self.IC_version, self.Mode, self.ITVsd, 
+            self.Tmax, 
+            self.ARes, self.Bres, 
             self.GrazProb, self.PropRemove, 
-            self.BelGrazProb, self.BelGrazStartYear, self.BelGrazWindow, self.BelGrazResidualPerc, self.BelGrazPerc, 
+            self.BelGrazProb, self.BelGrazResidualPerc, self.BelGrazPerc, 
             self.catastrophicDistYear, self.CatastrophicPlantMortality, self.CatastrophicSeedMortality,
             self.SeedRainType, self.SeedInput]))
 

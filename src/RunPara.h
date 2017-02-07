@@ -1,6 +1,4 @@
-/**\file
- \brief definition of struct SRunPara and enums CompMode and CompVersion
- */
+
 //---------------------------------------------------------------------------
 #ifndef RunParaH
 #define RunParaH
@@ -56,6 +54,7 @@ public:
 	static SRunPara RunPara;	//!> scenario parameters
 
 	void cleanRunPara();
+	void validateRunPara();
 
 	// Competition mode
 	CompMode AboveCompMode; //!<0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry
@@ -106,8 +105,6 @@ public:
 
 	// Belowground herbivory
 	double BelGrazResidualPerc;
-	int BelGrazStartYear;
-	int BelGrazWindow;
 	double BelGrazProb;
 	double BelGrazPerc;
 
@@ -116,7 +113,8 @@ public:
 	int NCut;          //!< number cuts per year
 
 	// Catastrophic disturbance
-	int catastrophicDistYear;
+	int CatastrophicDistYear;
+	int CatastrophicDistWeek;
 	double CatastrophicPlantMortality;
 	double CatastrophicSeedMortality;
 
@@ -143,7 +141,7 @@ public:
 	SRunPara();
 
 	inline double CellScale() {
-		return GridSize / (double) CellNum;
+		return GridSize / double(CellNum);
 	};
 
 	inline int GetGridSize() const {

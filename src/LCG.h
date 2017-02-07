@@ -15,6 +15,6 @@ double normcLCG(double,double); //double mean,double sd);
 void initLCG(long, long);
 
 /// poisson distributed random number with lambda
-const int poissonLCG(const double lambda);
+int poissonLCG(const double lambda);
 
 #endif

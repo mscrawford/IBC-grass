@@ -95,7 +95,7 @@ void Boundary(int& xx, int& yy);
 /// test for emmigration
 bool Emmigrates(int& xx, int& yy);
 ///dispersal kernel for seeds
-void getTargetCell(int& xx, int& yy, const float mean, const float sd, double cellscale = 0);
+void getTargetCell(int& xx, int& yy, const float mean, const float sd);
 //! distance between two points using Pythagoras
 double Distance(const double& xx, const double& yy, const double& x = 0, const double& y = 0);
 ///compare two index-values in their distance to the center of grid

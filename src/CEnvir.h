@@ -88,7 +88,7 @@ public:
 
 	// get a uniformly distributed random number (0-n)
 	inline static int nrand(int n) {
-		return combinedLCG() * n;
+		return int(combinedLCG() * n);
 	}
 	;
 
