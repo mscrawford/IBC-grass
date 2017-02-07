@@ -5,7 +5,7 @@ class Base_Parameter():
         IC_version, Mode, ITVsd, Tmax, ARes, Bres, 
         GrazProb, PropRemove, 
         BelGrazProb, BelGrazResidualPerc, BelGrazPerc, 
-        catastrophicDistYear, CatastrophicPlantMortality, CatastrophicSeedMortality,
+        CatastrophicPlantMortality, CatastrophicSeedMortality,
         SeedRainType, SeedInput):
         self.IC_version = IC_version
         self.Mode = Mode
@@ -18,19 +18,15 @@ class Base_Parameter():
         self.BelGrazProb = BelGrazProb
         self.BelGrazResidualPerc = BelGrazResidualPerc
         self.BelGrazPerc = BelGrazPerc
-        self.catastrophicDistYear = catastrophicDistYear
         self.CatastrophicPlantMortality = CatastrophicPlantMortality
         self.CatastrophicSeedMortality = CatastrophicSeedMortality
         self.SeedRainType = SeedRainType
         self.SeedInput = SeedInput
 
-        if (self.Mode != 2 and (self.catastrophicDistYear > 0 or 
-                                self.CatastrophicSeedMortality > 0 or 
-                                self.CatastrophicPlantMortality > 0)):
+        if (self.Mode != 2 and (self.CatastrophicSeedMortality > 0 or self.CatastrophicPlantMortality > 0)):
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.Mode == 2 and (self.catastrophicDistYear == 0 or
-                                (self.CatastrophicSeedMortality == 0 and self.CatastrophicPlantMortality == 0))):
+        if (self.Mode == 2 and (self.CatastrophicSeedMortality == 0 and self.CatastrophicPlantMortality == 0)):
             raise Exception("Nonsensical or redundant parameterization")
 
         if (self.SeedRainType == 0 and self.SeedInput > 0 or 
@@ -52,7 +48,7 @@ class Base_Parameter():
             self.ARes, self.Bres, 
             self.GrazProb, self.PropRemove, 
             self.BelGrazProb, self.BelGrazResidualPerc, self.BelGrazPerc, 
-            self.catastrophicDistYear, self.CatastrophicPlantMortality, self.CatastrophicSeedMortality,
+            self.CatastrophicPlantMortality, self.CatastrophicSeedMortality,
             self.SeedRainType, self.SeedInput]))
 
 

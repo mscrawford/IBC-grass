@@ -4,6 +4,7 @@
 
 #include "CGrid.h"
 #include "CEnvir.h"
+#include "RandomGenerator.h"
 
 #include <algorithm>
 #include <iostream>
@@ -164,11 +165,11 @@ void getTargetCell(int& xx, int& yy, const float mean, const float sd)
 {
 	double sigma = sqrt(log((sd / mean) * (sd / mean) + 1));
 	double mu = log(mean) - 0.5 * sigma;
-	double dist = exp(CEnvir::normrand(mu, sigma)); //RandNumGen.normal
+	double dist = exp(CEnvir::rng.getGaussian(mu, sigma)); //RandNumGen.normal
 	double CmToCell = 1.0 / SRunPara::RunPara.CellScale();
 
 	//direction uniformly distributed
-	double direction = 2 * Pi * CEnvir::rand01(); //rnumber;
+	double direction = 2 * Pi * CEnvir::rng.get01(); //rnumber;
 	xx = round(xx + cos(direction) * dist * CmToCell);
 	yy = round(yy + sin(direction) * dist * CmToCell);
 }
@@ -238,9 +239,9 @@ void CGrid::DispersRamets(CPlant* plant) {
 			sd = plant->Traits->sdSpacerlength; //mean = std (simple assumption)
 
 			while (dist <= 0)
-				dist = CEnvir::normrand(mean, sd);
+				dist = CEnvir::rng.getGaussian(mean, sd);
 			//direction uniformly distributed
-			direction = 2 * Pi * CEnvir::rand01();
+			direction = 2 * Pi * CEnvir::rng.get01();
 			int x = round(plant->getCell()->x + cos(direction) * dist * CmToCell);
 			int y = round(plant->getCell()->y + sin(direction) * dist * CmToCell);
 
@@ -448,7 +449,7 @@ void CGrid::EstabLottery() {
 					}
 
 					// chose seedling that establishes at random
-					double rnum = CEnvir::rand01() * sum; //random double between 0 and sum of seed mass
+					double rnum = CEnvir::rng.get01() * sum; //random double between 0 and sum of seed mass
 
 					for (mapType::const_iterator it =
 							cell->PftNSeedling.begin();
@@ -540,7 +541,7 @@ void CGrid::RametEstab(CPlant* plant) {
 				plant->growingSpacerList.erase(plant->growingSpacerList.begin() + f);
 
 				//establishment success
-				if (CEnvir::rand01() < (1.0 - SRunPara::RunPara.EstabRamet))
+				if (CEnvir::rng.get01() < (1.0 - SRunPara::RunPara.EstabRamet))
 				{
 					Ramet->dead = true; //tag:SA
 				}
@@ -552,8 +553,8 @@ void CGrid::RametEstab(CPlant* plant) {
 					int factorx;
 					int factory;
 					do {
-						factorx = CEnvir::nrand(5) - 2;
-						factory = CEnvir::nrand(5) - 2;
+						factorx = CEnvir::rng.getUniformInt(5) - 2;
+						factory = CEnvir::rng.getUniformInt(5) - 2;
 					} while (factorx == 0 && factory == 0);
 
 					double dist = Distance(factorx, factory);
@@ -616,15 +617,15 @@ void CGrid::Disturb()
 		CGrid::below_biomass_history.push_back(GetTotalBelowMass());
 	}
 
-	if (CEnvir::rand01() < SRunPara::RunPara.GrazProb) {
+	if (CEnvir::rng.get01() < SRunPara::RunPara.GrazProb) {
 		Grazing();
 	}
 
-	if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb) {
+	if (CEnvir::rng.get01() < SRunPara::RunPara.BelGrazProb) {
 		GrazingBelGr();
 	}
 
-	if (CEnvir::rand01() < SRunPara::RunPara.DistProb()) {
+	if (CEnvir::rng.get01() < SRunPara::RunPara.DistProb()) {
 		Trampling();
 	}
 
@@ -658,7 +659,7 @@ void CGrid::RunCatastrophicDisturbance()
 
 		if (p->dead) continue;
 
-		if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicPlantMortality)
+		if (CEnvir::rng.get01() < SRunPara::RunPara.CatastrophicPlantMortality)
 		{
 			p->dead = true;
 		}
@@ -674,7 +675,7 @@ void CGrid::RunCatastrophicDisturbance()
 		{
 			CSeed* s = *it;
 
-			if (CEnvir::rand01() < SRunPara::RunPara.CatastrophicSeedMortality)
+			if (CEnvir::rng.get01() < SRunPara::RunPara.CatastrophicSeedMortality)
 			{
 				s->remove = true;
 			}
@@ -724,7 +725,7 @@ void CGrid::Grazing() {
 			CPlant* lplant = PlantList[i];
 			grazprob = (lplant->mshoot * lplant->Traits->GrazFac()) / Max;
 
-			if (CEnvir::rand01() < grazprob)
+			if (CEnvir::rng.get01() < grazprob)
 				MassRemoved += lplant->RemoveMass();
 
 			++i;
@@ -909,8 +910,8 @@ void CGrid::Trampling() {
 	for (int i = 0; i < NTrample; ++i)
 	{
 		//get random center of disturbance
-		xcell = CEnvir::nrand(SRunPara::RunPara.CellNum);
-		ycell = CEnvir::nrand(SRunPara::RunPara.CellNum);
+		xcell = CEnvir::rng.getUniformInt(SRunPara::RunPara.CellNum);
+		ycell = CEnvir::rng.getUniformInt(SRunPara::RunPara.CellNum);
 
 		for (int a = 0; a < Apatch; a++)
 		{
@@ -983,7 +984,7 @@ void CGrid::SeedMortWinter()
 		for (seed_iter it = cell->SeedBankList.begin(); it != cell->SeedBankList.end(); ++it)
 		{
 			CSeed* seed = *it;
-			if (CEnvir::rand01() < SRunPara::RunPara.mort_seeds)
+			if (CEnvir::rng.get01() < SRunPara::RunPara.mort_seeds)
 			{
 				seed->remove = true;
 			} //if not seed survive
@@ -1011,12 +1012,12 @@ void CGrid::InitClonalSeeds(SPftTraits* traits, const int n, double estab)
 {
 	int x, y;
 	int SideCells = SRunPara::RunPara.CellNum;
-
 	for (int i = 0; i < n; ++i)
 	{
-		x = CEnvir::nrand(SideCells);
-		y = CEnvir::nrand(SideCells);
+		x = CEnvir::rng.getUniformInt(SideCells);
+		y = CEnvir::rng.getUniformInt(SideCells);
 
+		cout << "x: " << x << "; y: " << y << endl;
 		CCell* cell = CellList[x * SideCells + y];
 		new CSeed(estab, traits, cell);
 	}

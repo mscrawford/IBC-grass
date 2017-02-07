@@ -135,8 +135,6 @@ public:
 	int SeedRainType; //!< mode of seed input: 0 - no seed rain;
 					  //!< 1 - SeedInput specifies total seed NUMBER + equal number of seeds for each PFT;
 
-	// Functions
-
 	// Constructor
 	SRunPara();
 
