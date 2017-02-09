@@ -1,10 +1,6 @@
-/**\file
-\brief constructor of struct SRunPara and Initialization of static Variables
-*/
-//---------------------------------------------------------------------------
 
-#include <iostream>
 #include <cassert>
+#include <iostream>
 
 #include "RunPara.h"
 #include "CEnvir.h"
@@ -20,7 +16,7 @@ SRunPara::SRunPara() :
 		AboveCompMode(asympart), BelowCompMode(sym), Version(version1), mode(communityAssembly),
 		Tmax_monoculture(10),
 		ITV(off), ITVsd(0),
-		GridSize(128), CellNum(128), torus(true),
+		GridSize(128), CellNum(128),
 		Tmax(100),
 		mort_seeds(0.5), DiebackWinter(0.5), mort_base(0.007), LitterDecomp(0.5),
 		meanARes(100), meanBRes(100),
@@ -49,8 +45,8 @@ void SRunPara::validateRunPara()
 	// Mode
 	if (SRunPara::RunPara.mode == communityAssembly)
 	{
-		assert(SRunPara::RunPara.CatastrophicPlantMortality == 0);
-		assert(SRunPara::RunPara.CatastrophicSeedMortality == 0);
+		assert(CEnvir::AreSame(SRunPara::RunPara.CatastrophicPlantMortality, 0));
+		assert(CEnvir::AreSame(SRunPara::RunPara.CatastrophicSeedMortality, 0));
 	}
 	else if (SRunPara::RunPara.mode == invasionCriterion)
 	{
@@ -71,9 +67,9 @@ void SRunPara::validateRunPara()
 
 	////////////////////////////
 	// aboveground grazing
-	if (SRunPara::RunPara.GrazProb == 0)
+	if (CEnvir::AreSame(SRunPara::RunPara.GrazProb, 0))
 	{
-		assert(SRunPara::RunPara.PropRemove == 0);
+		assert(CEnvir::AreSame(SRunPara::RunPara.PropRemove, 0));
 	}
 	else
 	{
@@ -83,10 +79,10 @@ void SRunPara::validateRunPara()
 
 	////////////////////////////
 	// belowground grazing
-	if (SRunPara::RunPara.BelGrazProb == 0)
+	if (CEnvir::AreSame(SRunPara::RunPara.BelGrazProb, 0))
 	{
-		assert(SRunPara::RunPara.BelGrazPerc == 0);
-		assert(SRunPara::RunPara.BelGrazResidualPerc == 0);
+		assert(CEnvir::AreSame(SRunPara::RunPara.BelGrazPerc, 0));
+		assert(CEnvir::AreSame(SRunPara::RunPara.BelGrazResidualPerc, 0));
 	}
 	else
 	{
@@ -104,7 +100,7 @@ void SRunPara::validateRunPara()
 	else
 	{
 		assert(SRunPara::RunPara.SeedRainType == 0);
-		assert(SRunPara::RunPara.SeedInput == 0);
+		assert(CEnvir::AreSame(SRunPara::RunPara.SeedInput, 0));
 	}
 
 }

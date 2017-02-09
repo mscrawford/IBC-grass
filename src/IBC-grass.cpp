@@ -107,7 +107,7 @@ Biology group at the University of Potsdam
 
 using namespace std;
 
-CGridEnvir* Envir;   //<environment in which simulations are run
+CGridEnvir* Envir;   // environment in which simulations are run
 
 /**
  * Program launch - Model Design is defined.
@@ -150,7 +150,8 @@ int main(int argc, char* argv[])
 		{
 			cout << SRunPara::RunPara.getSimID() << endl;
 
-			if (SRunPara::RunPara.verbose) {
+			if (SRunPara::RunPara.verbose)
+			{
 				cout << "Run " << Envir->RunNr + 1 << " \n";
 			}
 

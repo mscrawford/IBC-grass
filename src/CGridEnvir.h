@@ -1,9 +1,3 @@
-/*
- * CGridEnvir.h
- *
- *  Created on: 24.04.2014
- *      Author: KatrinK
- */
 
 #ifndef CGRIDENVIR_H_
 #define CGRIDENVIR_H_
@@ -25,7 +19,6 @@ class CGridEnvir: public CEnvir, public CGrid
 
 public:
 
-	//Constructors, Destructor ...
 	CGridEnvir();
 	CGridEnvir(std::string id); // load from file(s)
 	virtual ~CGridEnvir(); 		// delete clonalTraits;

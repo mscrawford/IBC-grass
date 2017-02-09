@@ -1,7 +1,3 @@
-/**\file
- \brief definition of environmental classes and result structures PftOut and GridOut
- */
-//---------------------------------------------------------------------------
 #ifndef environmentH
 #define environmentH
 
@@ -9,6 +5,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
+#include <limits>
 
 #include "CGrid.h"
 #include "Output.h"
@@ -37,6 +35,7 @@ class CEnvir
 
 public:
 	static RandomGenerator rng;
+	static Output output;
 
 	static std::map<std::string, long> PftInitList; // list of Pfts used
 	static std::map<std::string, int> PftSurvTime;	// array for survival times of PFTs [years];
@@ -52,37 +51,31 @@ public:
 	static int ComNr;			// Community identifier for multiple parameter settings of the same community.
 	static int RunNr;       	// repetition number
 
-	static Output output;
-
-	//Functions
 	CEnvir();
-	CEnvir(std::string id);		// load saved parameter set and state info
 	virtual ~CEnvir();
 
-	// read in fractal below-ground resource distribution (not used)
-	static void ReadLandscape();
-	// reads simulation environment from file
-	void GetSim(std::string data);
-	// returns absolute time horizon
-	static int GetT() {
-		return (year - 1) * WeeksPerYear + week;
-	}
-	;
-	// reset time
+	static void ReadLandscape(); 	// Populated grid space with resources
+	void GetSim(std::string data); 	// Simulation read in
+
 	static void ResetT() {
 		year = 1;
 		week = 0;
-	}
-	;
-	// set new week
+	};
+
 	static void NewWeek() {
 		week++;
 		if (week > WeeksPerYear) {
 			week = 1;
 			year++;
-		};
+		}
+	};
+
+	/*
+	 * Helper function for comparing floating point numbers for equality
+	 */
+	static bool AreSame(double a, double b) {
+	    return std::fabs(a - b) < std::numeric_limits<double>::epsilon();
 	}
-	;
 
 	/**
 	 * \name core simulation functions (virtual)

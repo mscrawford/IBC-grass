@@ -116,11 +116,6 @@ void CPlant::setCell(CCell* _cell) {
 }
 
 //-----------------------------------------------------------------------------
-string CPlant::type() {
-	return "CPlant";
-}
-
-//-----------------------------------------------------------------------------
 /**
  * Say, what PFT you are
  * @return PFT name
@@ -444,17 +439,15 @@ double CPlant::RemoveMass() {
  \return mass that was removed
  \since belowground herbivory simulations
  */
-double CPlant::RemoveRootMass(const double mass_removed)
+void CPlant::RemoveRootMass(const double mass_removed)
 {
 	assert(mass_removed <= mroot);
 
 	mroot -= mass_removed;
 
-	if (mroot == 0) {
+	if (CEnvir::AreSame(mroot, 0)) {
 		dead = true;
 	}
-
-	return mass_removed;
 }
 
 //-----------------------------------------------------------------------------

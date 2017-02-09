@@ -22,82 +22,76 @@ typedef std::vector<CPlant*>::size_type plant_size;
 class CGrid
 {
 
+private:
 	///List of Genets on Grid
 	std::vector<CGenet*> GenetList;
 	//clonal..
-	void RametEstab(CPlant* plant);   ///< establish ramets
-	void Resshare();                ///< share ressources among connected ramets
+	void RametEstab(CPlant* plant);   	// establish ramets
+	void Resshare();                	// share resources among connected ramets
 	void EstabLott_help(CSeed* seed);
 
 protected:
-	//! assigns grid cells to plants - which cell is covered by which plant
-	virtual void CoverCells();
-	//! removes dead plants from the grid and deletes them
-	virtual void RemovePlants();
-	virtual void DeletePlant(CPlant* plant1); //!< delete plant object
-	//!  loop over all plants including growth, seed dispersal and mortality
-	virtual void PlantLoop();
-	//! distributes resource to each plant --> calls competition functions
-	virtual void DistribResource();
+	virtual void CoverCells();			// assigns grid cells to plants - which cell is covered by which plant
+	virtual void RemovePlants(); 		// removes dead plants from the grid and deletes them
+	virtual void DeletePlant(CPlant* plant1);
+	virtual void PlantLoop();			// loop over all plants including growth, seed dispersal and mortality
+	virtual void DistribResource();		// distributes resource to each plant --> calls competition functions
+	virtual void DispersSeeds(CPlant* plant);
+	virtual void EstabLottery();		// lottery competition for seedling establishment
+	virtual void Winter();				// calls seed mortality and mass removal of plants
 
-	virtual void DispersSeeds(CPlant* plant);        //!<  seed dispersal
-	//!  lottery competition for seedling establishment
-	virtual void EstabLottery();
-	//! calls seed mortality and mass removal of plants
-	virtual void Winter();
-
-	void ResetWeeklyVariables(); //!< clears list of plants that cover each cell
-	void SeedMortAge();    //!<  seed mortality in winter due to ageing of seeds
-	void SeedMortWinter();      //!< random seed mortality in winter
-	//! disturbance --> calls grazing and gap formation functions
-	void Disturb();
-	/// simulates aboveground herbivory
-	void RunCatastrophicDisturbance();
-	void Grazing();
-	/// simulates belowground grazing
-	void GrazingBelGr();
-	void Trampling();           //!< gap formation
-	void Cutting(double CutHeight = 0);         //!< cutting of all plants to equal aboveground mass
-	void CellsInit();           //!< initalization of cells
-	void SetCellResource();     ///< set amount of resources the cells serve
+	void ResetWeeklyVariables(); 		// Clears list of plants that cover each cell
+	void SeedMortAge();					// Kills seeds that are too old
+	void SeedMortWinter();				// Kills seeds that die over winter
+	void Disturb();						// Calls grazing (Above- and Belowground), trampling, and other disturbances
+	void RunCatastrophicDisturbance(); 	// Removes some percentage of total plants and seeds
+	void Grazing(); 					// Aboveground grazing
+	void GrazingBelGr();				// Belowground grazing
+	void Trampling();
+	void Cutting(double CutHeight = 0);
+	void CellsInit();					// Creates the cells that make up the grid
+	void SetCellResource();				// Populates the grid with resources (weekly)
 
 public:
-	std::vector<CPlant*> PlantList;    //!< List of plant individuals
-	CCell** CellList;    //!<array of pointers to CCell
+	std::vector<CPlant*> PlantList;    	// List of plant individuals
+	CCell** CellList;    				//	array of pointers to CCell
 	std::vector<int> above_biomass_history;
 	std::vector<int> below_biomass_history;
 
-	CGrid(); //!< Konstruktor
-	CGrid(std::string id); //!< Konstruktor for loading a file saved grid
-	virtual ~CGrid(); //!< Destruktor
+	CGrid();
+	virtual ~CGrid();
 	virtual void resetGrid();
 
 	double GetTotalAboveMass();
 	double GetTotalBelowMass();
 
-	//! initalization of clonal seeds
 	virtual void InitClonalSeeds(SPftTraits* traits, const int n, double estab = 1.0);
-	void DispersRamets(CPlant* plant); ///<initiate new ramets
-	//service functions...
-	int GetNclonalPlants();   ///< number of living clonal plants
-	int GetNPlants();         ///< number of living non-clonal plants
+	void DispersRamets(CPlant* plant); 	// initiate new ramets
+
+	int GetNclonalPlants();   	// number of living clonal plants
+	int GetNPlants();         	// number of living non-clonal plants
 	int GetNSeeds();			// number of seeds
-	int GetNMotherPlants();   ///< number of living genets
-	int GetCoveredCells();    ///< number of cells covered
-	double GetNGeneration();  ///< number of Generations
+	int GetNMotherPlants();   	// number of living genets
+	int GetCoveredCells();    	// number of cells covered
+	double GetNGeneration();  	// number of Generations
 
 };
 
 ///vector of cell indices increasing in distance to grid center
 static std::vector<int> ZOIBase;
+
 //! periodic boundary conditions
 void Boundary(int& xx, int& yy);
+
 /// test for emmigration
 bool Emmigrates(int& xx, int& yy);
+
 ///dispersal kernel for seeds
 void getTargetCell(int& xx, int& yy, const float mean, const float sd);
+
 //! distance between two points using Pythagoras
 double Distance(const double& xx, const double& yy, const double& x = 0, const double& y = 0);
+
 ///compare two index-values in their distance to the center of grid
 bool CompareIndexRel(int i1, int i2);
 

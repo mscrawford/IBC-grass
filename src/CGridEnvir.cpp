@@ -36,7 +36,7 @@ void CGridEnvir::InitRun() {
 
 //------------------------------------------------------------------------------
 
-/**      new, flexible version of initialisation that permits to read clonal and other traits from one file
+/**  new, flexible version of initialisation that permits to read clonal and other traits from one file
 
  this function reads a file, introduces PFTs and initializes seeds on grid
  after file data.
@@ -51,7 +51,7 @@ void CGridEnvir::InitInds()
 {
 	const int no_init_seeds = 10;
 
-	if (SRunPara::RunPara.mode == communityAssembly)
+	if (SRunPara::RunPara.mode == communityAssembly || SRunPara::RunPara.mode == catastrophicDisturbance)
 	{
 		// PFT Traits are read in GetSim()
 		for (map<string, SPftTraits*>::iterator it = SPftTraits::PftLinkList.begin();
@@ -115,7 +115,7 @@ void CGridEnvir::OneRun() {
 
 	} while (year < SRunPara::RunPara.Tmax);
 
-}  // end OneSim
+} // end OneSim
 
 //------------------------------------------------------------------------------
 /**
@@ -125,6 +125,7 @@ void CGridEnvir::OneYear()
 {
 	do {
 //		if (SRunPara::RunPara.verbose) cout << "y " << year << " w " << week << endl;
+
 		OneWeek();
 
 		if (exitConditions()) break;
@@ -139,14 +140,14 @@ void CGridEnvir::OneYear()
 void CGridEnvir::OneWeek()
 {
 
-	ResetWeeklyVariables(); //cell loop, removes data from cells
-	SetCellResource();      //variability between weeks
+	ResetWeeklyVariables(); // cell loop, removes data from cells
+	SetCellResource();      // variability between weeks
 
-	CoverCells();           //plant loop
-	DistribResource();      //cell loop, resource uptake and competition
-	PlantLoop();            //Growth, Dispersal, Mortality
-	RemovePlants();         //remove trampled plants
-	EstabLottery();         //for seeds and ramets
+	CoverCells();           // plant loop
+	DistribResource();      // cell loop, resource uptake and competition
+	PlantLoop();            // Growth, Dispersal, Mortality
+	RemovePlants();         // remove trampled plants
+	EstabLottery();         // for seeds and ramets
 
 	if (week == 20)
 	{
@@ -182,8 +183,8 @@ void CGridEnvir::OneWeek()
 
 	if (week == WeeksPerYear)
 	{
-		Winter();           	//removal of above ground biomass and of dead plants
-		SeedMortWinter();    	//winter seed mortality
+		Winter();           	// removal of above ground biomass and of dead plants
+		SeedMortWinter();    	// winter seed mortality
 	}
 
 }
@@ -215,7 +216,9 @@ void CGridEnvir::SeedRain()
 	double n = 0;
 
 	// For each PFT, we'll drop N seeds
-	for (map<string, long>::const_iterator it = PftInitList.begin(); it != PftInitList.end(); ++it)
+	for (map<string, long>::const_iterator it = PftInitList.begin();
+			it != PftInitList.end();
+			++it)
 	{
 		PFT_ID = it->first;
 		traits = SPftTraits::getPftLink(PFT_ID);

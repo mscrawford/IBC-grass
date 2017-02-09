@@ -1,14 +1,3 @@
-/**\file
- \brief functions and static defaults of environmental classes
-
- Version for Ines' invasion experiments: adapt GetSim, Run and Init functions
- of class CClonalGridEnvir (further: CClonalGridEnvir::exitConditions()).
- \date 03/2010
-
- Version for Linas exploratoria experiments - no invasion; realistic PFTs
- \date 07/2010
- */
-//---------------------------------------------------------------------------
 
 #include <iostream>
 #include <string>
@@ -18,7 +7,6 @@
 
 using namespace std;
 
-//-CEnvir: Init static variables-----------------------------------------------
 int CEnvir::week 			= 0;
 int CEnvir::year 			= 1;
 int CEnvir::WeeksPerYear 	= 30;
@@ -35,7 +23,7 @@ RandomGenerator CEnvir::rng;
 vector<double> CEnvir::AResMuster;
 vector<double> CEnvir::BResMuster;
 
-map<string, long> CEnvir::PftInitList;  //!< list of Pfts used
+map<string, long> CEnvir::PftInitList;	// list of Pfts used
 map<string, int> CEnvir::PftSurvTime;
 
 //---------------------------------------------------------------------------
@@ -126,6 +114,7 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::NamePftFile 						// Input: Name of input community (PFT intialization) file
 		;
 
+
 	// set intraspecific competition version, intraspecific trait variation version, and competition modes
 	switch (IC_version) {
 	case 0:
@@ -141,6 +130,7 @@ void CEnvir::GetSim(string data)
 		break;
 	}
 
+
 	switch (mode) {
 	case 0:
 		SRunPara::RunPara.mode = communityAssembly;
@@ -155,10 +145,12 @@ void CEnvir::GetSim(string data)
 		cerr << "Invalid mode parameterization" << endl;
 	}
 
+
 	if (SRunPara::RunPara.mode == invasionCriterion)
 	{
 		SRunPara::RunPara.Tmax += SRunPara::RunPara.Tmax_monoculture;
 	}
+
 
 	if (SRunPara::RunPara.ITVsd > 0)
 	{
@@ -168,6 +160,7 @@ void CEnvir::GetSim(string data)
 	{
 		SRunPara::RunPara.ITV = off;
 	}
+
 
 	SRunPara::RunPara.validateRunPara();
 

@@ -126,8 +126,8 @@ void CGrid::PlantLoop()
 
 			if (p->Traits->clonal)
 			{
-				DispersRamets(p); // ramet dispersal in every week
-				p->SpacerGrow(); // if the plant has a growing spacer - grow it
+				DispersRamets(p); 	// ramet dispersal in every week
+				p->SpacerGrow(); 	// if the plant has a growing spacer - grow it
 			}
 
 			//seed dispersal (clonal and non-clonal seeds)
@@ -210,11 +210,7 @@ void CGrid::DispersSeeds(CPlant* plant)
 			//Calculate distance between (x,y) and grid-center
 			dist = Distance(x, y, SRunPara::RunPara.GridSize / 2, SRunPara::RunPara.GridSize / 2);
 			dist = dist / 100;  //convert to m
-
-			if (!SRunPara::RunPara.torus)
-				continue;  //skip seed for absorbing boundaries
-			else
-				Boundary(x, y); //recalc position
+			Boundary(x, y); //recalc position for torus
 		}
 
 		CCell* cell = CellList[x * SRunPara::RunPara.CellNum + y];
@@ -373,15 +369,16 @@ void CGrid::Resshare() // resource sharing
 	for (unsigned int i = 0; i < GenetList.size(); i++)
 	{
 		CGenet* Genet = GenetList[i];
-		if (Genet->AllRametList.size() > 1) //!Genet->AllRametList.empty())
-				{
+		if (Genet->AllRametList.size() > 1)
+		{
 			CPlant* plant = Genet->AllRametList.front();
-			if (plant->Traits->clonal && plant->Traits->Resshare == true) { //only betwen connected ramets
+			if (plant->Traits->clonal && plant->Traits->Resshare == true) // only between connected ramets
+			{
 				Genet->ResshareA();  //above ground
 				Genet->ResshareB();  // below ground
-			} //if Resshare true
-		} //if genet>0
-	} //for...
+			}
+		}
+	}
 } //end CGridclonal::Resshare()
 
 //-----------------------------------------------------------------------------
@@ -735,11 +732,7 @@ void CGrid::Grazing() {
 
 //-----------------------------------------------------------------------------
 /**
- Cutting of all plants on the patch
-
- \author Felix May (Jan2010)
- \change 28-10-2010 lw: quadriere LMR    #
- \change 18-11-2010 kk: gebe entfernte BM an Klassenvariable
+ * Cutting of all plants on the patch to a uniform height.
  */
 void CGrid::Cutting(double cut_height)
 {
@@ -758,38 +751,6 @@ void CGrid::Cutting(double cut_height)
 	}
 } //end cutting
 
-//-----------------------------------------------------------------------------
-/**
- The plants on the whole grid are grazed according to the mode given
- A given percentage of RootMass is grazed.
- \param mode mode of belowground grazing
- \arg \c mode=0 general reduction of belowground biomass for all plants
- simultaneously (standard)
- \arg \c mode=1 stochastic reduction of belowground biomass of single plants
- until a given portion is reached (not implemented yet)
- \arg \c mode=2 as '1' but proportional to root mass
- \arg \c mode=3 as '1' but prop. to root mass and taste
- (SPftTraits::palat)
- \arg \c mode=4 as '1' but prop. to root taste (old:mass and 1/taste )
- \arg \c mode=5 as '1' but prop. to root density
- \arg \c mode=6 as '1' but prop. to type-specific root density
- \warning grazing priorities don't change for mode5 and mode6
- within one time step, as they do after first grazing loop
- for modes 1-4
- The inner loop is broken and a log-entry is done
- if no more roots to graze were found in one loop (to
- prevent endless loops).
-
- \since belowground herbivory simulations
- \bug m�glicher Absturz wenn Traits->palat==0 oder rootmass==0
-
- Additional mortality is assumed if root grazing of a  plant exceeds
- a threshold (only if mode>0).  -- obsolete
-
- \date Mar2011
- Spatial Heterogeneity is introduced. Only Plants of the left grid part
- are grazed belowground if Heterogeneity-flag is set. (only if mode>0)
- */
 void CGrid::GrazingBelGr() {
 
 	auto generateLivingPlants = [](vector<CPlant*> l) {
@@ -830,10 +791,10 @@ void CGrid::GrazingBelGr() {
 	double biomass_removed = 0;
 	const double alpha = 2.0;
 
-	std::vector<double> rolling_mean(CGrid::below_biomass_history.end() - 5, // parameterize this...
-									 CGrid::below_biomass_history.end());
-
-	fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
+//	std::vector<double> rolling_mean(CGrid::below_biomass_history.end() - 5, // parameterize this...
+//									 CGrid::below_biomass_history.end());
+//
+//	fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
 
 	// Functional response
 	if (bt-fn_o < bt*SRunPara::RunPara.BelGrazResidualPerc)
@@ -871,7 +832,8 @@ void CGrid::GrazingBelGr() {
 			}
 			else
 			{
-				biomass_removed += p->RemoveRootMass(biomass_to_remove);
+				p->RemoveRootMass(biomass_to_remove);
+				biomass_removed += biomass_to_remove;
 			}
 			assert(sumRootMass(livingPlants) > 0);
 		}
@@ -1017,7 +979,6 @@ void CGrid::InitClonalSeeds(SPftTraits* traits, const int n, double estab)
 		x = CEnvir::rng.getUniformInt(SideCells);
 		y = CEnvir::rng.getUniformInt(SideCells);
 
-		cout << "x: " << x << "; y: " << y << endl;
 		CCell* cell = CellList[x * SideCells + y];
 		new CSeed(estab, traits, cell);
 	}

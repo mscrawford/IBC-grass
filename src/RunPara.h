@@ -1,5 +1,4 @@
 
-//---------------------------------------------------------------------------
 #ifndef RunParaH
 #define RunParaH
 
@@ -85,7 +84,6 @@ public:
 	// Gridspace
 	int GridSize;     //!< side length in cm
 	int CellNum;      //!< side length in cells
-	bool torus;       //!< boundary behavior
 
 	// General parameters
 	int Tmax;         		//!< simulation time
