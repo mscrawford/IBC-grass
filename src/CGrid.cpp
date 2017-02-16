@@ -488,16 +488,10 @@ void CGrid::EstabLottery() {
  */
 void CGrid::EstabLott_help(CSeed* seed)
 {
-	CPlant* plant;
-	CPlant* tempPlant = new CPlant(seed);
-
-	CGenet *Genet = new CGenet();
-	GenetList.push_back(Genet);
-
-	tempPlant->setGenet(Genet);
-	plant = tempPlant;
-	PlantList.push_back(plant);
-	tempPlant = NULL;
+	CPlant* p = new CPlant(seed);
+	CGenet* Genet = new CGenet();
+	p->setGenet(Genet);
+	PlantList.push_back(p);
 }
 //-----------------------------------------------------------------------------
 /**

@@ -3,7 +3,7 @@
 #$ -N IBC-grass
 #$ -S /bin/bash
 
-#$ -l h_rt=336:00:00
+#$ -l h_rt=168:00:00
 #$ -l h_vmem=5G
 
 #$ -binding linear:1
