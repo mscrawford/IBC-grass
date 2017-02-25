@@ -51,15 +51,15 @@ base_params =  [[1], # IC version
                 [MODE],
                 [0], # ITVsd
                 [150], # Tmax
-                [90], # ARes
-                [30], # Bres
+                [100], # ARes
+                [90], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
-                [0], # BelGrazProb
-                [0], # BelGrazResidualPerc
-                [0], # BelGrazPerc
-                [0.90], # CatastrophicPlantMortality
-                [0.90], # CatastrophicSeedMortality
+                [1], # BelGrazProb
+                [0.01], # BelGrazResidualPerc
+                [0.1], # BelGrazPerc
+                [1], # CatastrophicPlantMortality
+                [0], # CatastrophicSeedMortality
                 [1], # SeedRainType
                 [1]] # SeedInput
 

@@ -490,6 +490,7 @@ void CGrid::EstabLott_help(CSeed* seed)
 {
 	CPlant* p = new CPlant(seed);
 	CGenet* Genet = new CGenet();
+	GenetList.push_back(Genet);
 	p->setGenet(Genet);
 	PlantList.push_back(p);
 }
@@ -599,10 +600,10 @@ void CGrid::Disturb()
 	if (PlantList.size() == 0)
 		return;
 
-	if (SRunPara::RunPara.mode != catastrophicDisturbance ||
-			CEnvir::year < SRunPara::RunPara.CatastrophicDistYear ||
-			(CEnvir::year == SRunPara::RunPara.CatastrophicDistYear &&
-					CEnvir::week < SRunPara::RunPara.CatastrophicDistWeek))
+//	if (SRunPara::RunPara.mode != catastrophicDisturbance ||
+//			CEnvir::year < SRunPara::RunPara.CatastrophicDistYear ||
+//			(CEnvir::year == SRunPara::RunPara.CatastrophicDistYear &&
+//					CEnvir::week < SRunPara::RunPara.CatastrophicDistWeek))
 	{
 		CGrid::above_biomass_history.push_back(GetTotalAboveMass());
 		CGrid::below_biomass_history.push_back(GetTotalBelowMass());
@@ -781,14 +782,23 @@ void CGrid::GrazingBelGr() {
 	assert(!CGrid::below_biomass_history.empty());
 
 	double bt = sumRootMass(generateLivingPlants(PlantList)); // Total root biomass
-	double fn_o = SRunPara::RunPara.BelGrazPerc * CGrid::below_biomass_history.back(); // Forage need (mg)
 	double biomass_removed = 0;
 	const double alpha = 2.0;
 
-//	std::vector<double> rolling_mean(CGrid::below_biomass_history.end() - 5, // parameterize this...
-//									 CGrid::below_biomass_history.end());
-//
-//	fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
+	//	double fn_o = SRunPara::RunPara.BelGrazPerc * CGrid::below_biomass_history.back(); // Forage need (mg)
+	double fn_o;
+	if (CGrid::below_biomass_history.size() > 180)
+	{
+		std::vector<double> rolling_mean(CGrid::below_biomass_history.end() - 180, // parameterize this...
+										 CGrid::below_biomass_history.end());
+		fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
+	}
+	else
+	{
+		std::vector<double> rolling_mean(CGrid::below_biomass_history.end(), // parameterize this...
+										 CGrid::below_biomass_history.end());
+		fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
+	}
 
 	// Functional response
 	if (bt-fn_o < bt*SRunPara::RunPara.BelGrazResidualPerc)

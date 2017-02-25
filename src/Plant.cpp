@@ -67,7 +67,7 @@ CPlant::CPlant(double x, double y, CPlant* plant) :
 	Traits = new SPftTraits(*plant->Traits);
 
 	if (SRunPara::RunPara.ITV == on)
-		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
+		assert(Traits->myTraitType == SPftTraits::individualized);
 
 	mshoot = Traits->m0;
 	mroot = Traits->m0;
