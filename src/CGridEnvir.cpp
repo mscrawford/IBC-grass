@@ -92,7 +92,10 @@ void CGridEnvir::OneRun() {
 	ResetT(); // reset time
 
 	output.print_param();
-	output.print_trait();
+	if (SRunPara::RunPara.trait_out)
+	{
+		output.print_trait();
+	}
 
 	do {
 		this->NewWeek();
@@ -103,7 +106,7 @@ void CGridEnvir::OneRun() {
 
 		if (SRunPara::RunPara.mode == invasionCriterion && year == SRunPara::RunPara.Tmax_monoculture)
 		{
-			const int no_init_seeds = 50;
+			const int no_init_seeds = 10;
 			string invader = SPftTraits::pftInsertionOrder[0];
 			SPftTraits* traits = SPftTraits::PftLinkList.find(invader)->second;
 			InitClonalSeeds(traits, no_init_seeds);
@@ -166,9 +169,9 @@ void CGridEnvir::OneWeek()
 		Disturb();  //grazing and disturbance
 	}
 
-	if (SRunPara::RunPara.weekly == 1 || week == 21)
+	if (SRunPara::RunPara.weekly == 1 || week == 20)
 	{
-		CEnvir::output.print_srv_and_PFT(PlantList, CellList);
+		CEnvir::output.print_srv_and_PFT(PlantList);
 
 		if (SRunPara::RunPara.ind_out == 1)
 		{

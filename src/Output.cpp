@@ -59,14 +59,15 @@ struct Output::PFT_struct
 {
 		double Shootmass;
 		double Rootmass;
+		double Repro;
 		int Pop;
-		int Nseeds;
+
 
 		PFT_struct() {
 			Shootmass = 0;
 			Rootmass = 0;
+			Repro = 0;
 			Pop = 0;
-			Nseeds = 0;
 		};
 
 		~PFT_struct(){};
@@ -103,9 +104,12 @@ void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn, str
 	assert(param_stream.good());
 	print_row(param_header, param_stream);
 
-	trait_stream.open(trait_fn.c_str(), ios_base::app);
-	assert(trait_stream.good());
-	print_row(trait_header, trait_stream);
+	if (SRunPara::RunPara.trait_out)
+	{
+		trait_stream.open(trait_fn.c_str(), ios_base::app);
+		assert(trait_stream.good());
+		print_row(trait_header, trait_stream);
+	}
 
 	if (SRunPara::RunPara.PFT_out)
 	{
@@ -224,7 +228,7 @@ void Output::print_trait()
 
 }
 
-void Output::print_srv_and_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
+void Output::print_srv_and_PFT(vector<CPlant*> & PlantList)
 {
 	// Create the data structure necessary to aggregate individuals
 	map<string, PFT_struct> PFT_map;
@@ -245,16 +249,7 @@ void Output::print_srv_and_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
 		s->Pop = s->Pop + 1;
 		s->Rootmass = s->Rootmass + p->mroot;
 		s->Shootmass = s->Shootmass + p->mshoot;
-	}
-
-	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
-	{
-		CCell* c = CellList[i];
-		for (auto seed_it : c->SeedBankList)
-		{
-			PFT_struct pft = PFT_map[seed_it->pft()];
-			pft.Nseeds++;
-		}
+		s->Repro = s->Repro + p->mRepro;
 	}
 
 	// If any PFT went extinct, record it in "srv" stream
@@ -300,7 +295,8 @@ void Output::print_srv_and_PFT(vector<CPlant*> & PlantList, CCell** & CellList)
 			p_ss << CEnvir::week 					<< ", ";
 			p_ss << it.second.Pop 					<< ", ";
 			p_ss << it.second.Shootmass 			<< ", ";
-			p_ss << it.second.Rootmass 					   ;
+			p_ss << it.second.Rootmass 				<< ", ";
+			p_ss << it.second.Repro 					   ;
 
 			print_row(p_ss, PFT_stream);
 		}

@@ -49,6 +49,7 @@ public:
 	int ind_out;
 	int PFT_out;
 	int srv_out;
+	int trait_out;
 
 	static SRunPara RunPara;	//!> scenario parameters
 

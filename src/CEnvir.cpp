@@ -111,6 +111,7 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::RunPara.ind_out					// Output: Individual-level output
 		>> SRunPara::RunPara.PFT_out					// Output: PFT-level output
 		>> SRunPara::RunPara.srv_out					// Output: End-of-run survival output
+		>> SRunPara::RunPara.trait_out					// Output: Trait-level output
 		>> SRunPara::NamePftFile 						// Input: Name of input community (PFT intialization) file
 		;
 

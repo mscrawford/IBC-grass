@@ -12,11 +12,11 @@ std::string SRunPara::NameSimFile = "data/in/SimFile.txt"; 	// file with simulat
 SRunPara SRunPara::RunPara = SRunPara();
 
 SRunPara::SRunPara() :
-		weekly(0), ind_out(0), PFT_out(2), srv_out(1),
+		weekly(0), ind_out(0), PFT_out(2), srv_out(1), trait_out(1),
 		AboveCompMode(asympart), BelowCompMode(sym), Version(version1), mode(communityAssembly),
 		Tmax_monoculture(10),
 		ITV(off), ITVsd(0),
-		GridSize(128), CellNum(128),
+		GridSize(100), CellNum(100),
 		Tmax(100),
 		mort_seeds(0.5), DiebackWinter(0.5), mort_base(0.007), LitterDecomp(0.5),
 		meanARes(100), meanBRes(100),

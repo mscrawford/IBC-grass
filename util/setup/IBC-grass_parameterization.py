@@ -5,20 +5,21 @@ from util import *
 
 path = "./tmp/"
 
-PARALLEL = False
-N_SLOTS = 200
+PARALLEL = True
+N_SLOTS = 500
 
 weekly = 0 # print yearly (0) or weekly (1)?
 ind_out = 0 # individual-level output (1)? 
-pft_out = 2 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
-srv_out = 0 # Print survival statistics (1)? Bad idea with seed addition...
+pft_out = 0 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
+srv_out = 1 # Print survival statistics (1)? Bad idea with seed addition...
+trait_out = 0 # Print trait-level output
 
-N_COMS = 1
-N_REPS = 1
-n_PFTs = 0 # Doesn't matter with pairwise invasion criterion... (FIX THIS...)
+N_COMS = 500
+N_REPS = 50
+n_PFTs = 16 # Doesn't matter with pairwise invasion criterion... (FIX THIS...)
 
-MODE = 2 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
-PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
+MODE = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
+PFT_type = 0 # Theoretical (0) or Empirical (1) PFTs
 
 Sim_header = "NRep " + str(N_REPS) + "\n" + \
                 "SimNr ComNr IC_vers Mode ITVsd Tmax ARes Bres " + \
@@ -26,42 +27,26 @@ Sim_header = "NRep " + str(N_REPS) + "\n" + \
                 "BelGrazProb BelGrazResidualPerc BelGrazPerc " + \
                 "CatastrophicPlantMortality CatastrophicSeedMortality " + \
                 "SeedRainType SeedInput " + \
-                "weekly ind_out pft_out srv_out NameInitFile\n"
+                "weekly ind_out pft_out srv_out trait_out NameInitFile\n"
 
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                 "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
 
-# base_params =  [[1], # IC version
-#                 [MODE],
-#                 [0], # ITVsd
-#                 [150], # Tmax
-#                 [90], # ARes
-#                 [30, 60, 90], # Bres
-#                 [0.2], # GrazProb
-#                 [0.5], # propRemove
-#                 [0, 1], # BelGrazProb
-#                 [0, 0.01], # BelGrazResidualPerc
-#                 [0, 0.01, 0.05, 0.1], # BelGrazPerc
-#                 [0, .50, .75, 1.0], # CatastrophicPlantMortality
-#                 [0], # CatastrophicSeedMortality
-#                 [1], # SeedRainType
-#                 [10]] # SeedInput
-
 base_params =  [[1], # IC version
                 [MODE],
-                [0], # ITVsd
-                [150], # Tmax
+                [0, 0.0125, 0.025, 0.05, 0.1, 0.2, 0.5], # ITVsd
+                [100], # Tmax
                 [100], # ARes
                 [90], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
-                [1], # BelGrazProb
-                [0.01], # BelGrazResidualPerc
-                [0.1], # BelGrazPerc
-                [1], # CatastrophicPlantMortality
+                [0], # BelGrazProb
+                [0], # BelGrazResidualPerc
+                [0], # BelGrazPerc
+                [0], # CatastrophicPlantMortality
                 [0], # CatastrophicSeedMortality
-                [1], # SeedRainType
-                [1]] # SeedInput
+                [0], # SeedRainType
+                [0]] # SeedInput
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
@@ -149,7 +134,7 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
 
             # community's SimFile entry
             SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), 
-                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), sim_filename, "\n"]))
+                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 
@@ -203,7 +188,7 @@ def makeEmpiricalPFTs():
 
             # community's SimFile entry
             SimFile.append(" ".join([base_simID, ComNr, base_param.toString(),
-                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), sim_filename, "\n"]))
+                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), sim_filename, "\n"]))
             
             # community's PFT file    
             with open(path + sim_filename, 'w') as w: 
@@ -264,7 +249,7 @@ def makePFTPairs():
             
             PFT_filename = base_simID + ".txt"
             SimFile.append(" ".join([base_simID, str(ComNr), base_param.toString(),
-                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), PFT_filename, "\n"]))
+                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), PFT_filename, "\n"]))
                        
 
             # PFT pair's PFT file

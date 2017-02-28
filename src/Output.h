@@ -55,7 +55,7 @@ public:
 
 	void print_param(); // prints general parameterization data
 	void print_trait(); // prints the traits of each PFT
-	void print_srv_and_PFT(std::vector<CPlant*> & PlantList, CCell** & CellList); // prints PFT data
+	void print_srv_and_PFT(std::vector<CPlant*> & PlantList); // prints PFT data
 	void print_ind(std::vector<CPlant*> & PlantList); // prints individual data
 
 };
