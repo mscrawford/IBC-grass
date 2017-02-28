@@ -339,9 +339,9 @@ void CPlant::Kill()
 	// pmin->random background mortality
 	const double pmin = SRunPara::RunPara.mort_base;  // 0.007;
 
-	assert(Traits->memory != 0);
+	assert(Traits->memory >= 1);
 
-	double pmort = double(stress) / Traits->memory + pmin; // stress mortality + random background mortality
+	double pmort = (double(stress) / Traits->memory) + pmin; // stress mortality + random background mortality
 
 	if (CEnvir::rng.get01() < pmort)
 	{

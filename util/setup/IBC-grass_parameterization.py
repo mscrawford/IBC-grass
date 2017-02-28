@@ -6,7 +6,7 @@ from util import *
 path = "./tmp/"
 
 PARALLEL = True
-N_SLOTS = 500
+N_SLOTS = 250
 
 weekly = 0 # print yearly (0) or weekly (1)?
 ind_out = 0 # individual-level output (1)? 
@@ -14,8 +14,8 @@ pft_out = 0 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead P
 srv_out = 1 # Print survival statistics (1)? Bad idea with seed addition...
 trait_out = 0 # Print trait-level output
 
-N_COMS = 500
-N_REPS = 50
+N_COMS = 200
+N_REPS = 10
 n_PFTs = 16 # Doesn't matter with pairwise invasion criterion... (FIX THIS...)
 
 MODE = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
@@ -32,9 +32,9 @@ Sim_header = "NRep " + str(N_REPS) + "\n" + \
 PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                 "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
 
-base_params =  [[1], # IC version
+base_params =  [[0, 1], # IC version
                 [MODE],
-                [0, 0.0125, 0.025, 0.05, 0.1, 0.2, 0.5], # ITVsd
+                [0, 0.00625, 0.0125, 0.025, 0.05, 0.1, 0.2, 0.5], # ITVsd
                 [100], # Tmax
                 [100], # ARes
                 [90], # Bres

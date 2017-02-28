@@ -224,9 +224,9 @@ void SPftTraits::varyTraits()
 //		cout << "Setting Gmax ..." << endl;
 		Gmax_ = Gmax + (Gmax * dev);
 //		cout << "Setting memory..." << endl;
-		memory_ = int(round(double(memory) - (double(memory) * dev)));
+		memory_ = memory - (memory * dev);
 //		cout << "Testing values: dev: " << dev << " Gmax: " << Gmax_ << " memory: " << memory_  << endl;
-	} while (dev < -1.0 || dev > 1.0 || Gmax_ < 0 || memory_ == 0);
+	} while (dev < -1.0 || dev > 1.0 || Gmax_ < 0 || memory_ < 1);
 	Gmax = Gmax_;
 	memory = memory_;
 //	cout << "Gmax: " << Gmax << endl;

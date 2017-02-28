@@ -76,7 +76,7 @@ public:
 	;
 
 //stress tolerance
-	int memory; //!< equal to surv_max in the model description -> maximal time of survival under stress
+	double memory; //!< equal to surv_max in the model description -> maximal time of survival under stress
 	double mThres; //!< Fraction of maximum uptake that is considered as resource stress
 	double growth; //!< concersion rate  resource -> biomass [mass/resource unit]
 
