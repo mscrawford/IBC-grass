@@ -41,9 +41,6 @@ CEnvir::CEnvir() {
  */
 CEnvir::~CEnvir()
 {
-	for (auto i : SPftTraits::PftLinkList) {
-		delete i.second;
-	}
 	SPftTraits::PftLinkList.clear();
 
 	SPftTraits::pftInsertionOrder.clear();

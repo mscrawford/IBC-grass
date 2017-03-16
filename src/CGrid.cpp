@@ -972,9 +972,8 @@ void CGrid::SeedMortWinter()
  \since 2010-09-10 estab rate for seeds can be modified (default is 1.0)
 
  */
-void CGrid::InitClonalSeeds(SPftTraits* traits, const int n, double estab)
+void CGrid::InitClonalSeeds(shared_ptr<SPftTraits> traits, const int n, double estab)
 {
-
 	int x, y;
 
 	int SideCells = SRunPara::RunPara.CellNum;

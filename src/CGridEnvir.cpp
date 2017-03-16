@@ -54,11 +54,9 @@ void CGridEnvir::InitInds()
 	if (SRunPara::RunPara.mode == communityAssembly || SRunPara::RunPara.mode == catastrophicDisturbance)
 	{
 		// PFT Traits are read in GetSim()
-		for (map<string, SPftTraits*>::iterator it = SPftTraits::PftLinkList.begin();
-				it != SPftTraits::PftLinkList.end();
-				++it)
+		for (auto it = SPftTraits::PftLinkList.begin(); it != SPftTraits::PftLinkList.end(); ++it)
 		{
-			SPftTraits* traits = it->second;
+			shared_ptr<SPftTraits> traits = it->second;
 			InitClonalSeeds(traits, no_init_seeds);
 			PftInitList[traits->name] += no_init_seeds;
 			PftSurvTime[traits->name] = 0;
@@ -69,7 +67,7 @@ void CGridEnvir::InitInds()
 		assert(SPftTraits::PftLinkList.size() == 2);
 
 		string resident = SPftTraits::pftInsertionOrder[1];
-		SPftTraits* traits = SPftTraits::PftLinkList.find(resident)->second;
+		shared_ptr<SPftTraits> traits = SPftTraits::PftLinkList.find(resident)->second;
 
 		InitClonalSeeds(traits, no_init_seeds);
 
@@ -109,7 +107,7 @@ void CGridEnvir::OneRun() {
 		{
 			const int no_init_seeds = 100;
 			string invader = SPftTraits::pftInsertionOrder[0];
-			SPftTraits* traits = SPftTraits::PftLinkList.find(invader)->second;
+			shared_ptr<SPftTraits> traits = SPftTraits::PftLinkList.find(invader)->second;
 			InitClonalSeeds(traits, no_init_seeds);
 			PftInitList[traits->name] += no_init_seeds;
 			PftSurvTime[traits->name] = 0;
@@ -219,7 +217,7 @@ void CGridEnvir::SeedRain()
 {
 
 	string PFT_ID;
-	SPftTraits *traits;
+	shared_ptr<SPftTraits> traits;
 	double n = 0;
 
 	// For each PFT, we'll drop N seeds
