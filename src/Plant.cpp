@@ -4,6 +4,7 @@
 
 #include "Plant.h"
 #include "CEnvir.h"
+#include "SPftTraits.h"
 
 using namespace std;
 
@@ -25,10 +26,15 @@ CPlant::CPlant(CSeed* seed) :
 		Spacerlength(0), Spacerdirection(0), SpacerlengthToGrow(0), Generation(1)
 {
 
-	Traits = new SPftTraits(*seed->Traits);
+	Traits = SPftTraits::createTraitSetFromPftType(seed->Traits->name);
 
-	if (SRunPara::RunPara.ITV == on)
-		assert(Traits->myTraitType == SPftTraits::individualized); //MSC
+	if (SRunPara::RunPara.ITV == on) {
+		Traits->varyTraits();
+		assert(Traits->myTraitType == SPftTraits::individualized);
+	}
+	else {
+		assert(Traits->myTraitType == SPftTraits::species);
+	}
 
 	mshoot = Traits->m0;
 	mroot = Traits->m0;
@@ -64,7 +70,8 @@ CPlant::CPlant(double x, double y, CPlant* plant) :
 		Spacerlength(0), Spacerdirection(0), SpacerlengthToGrow(0),
 		Generation(plant->Generation + 1)
 {
-	Traits = new SPftTraits(*plant->Traits);
+
+	Traits = SPftTraits::copyTraitSet(plant->Traits);
 
 	if (SRunPara::RunPara.ITV == on)
 		assert(Traits->myTraitType == SPftTraits::individualized);
@@ -73,6 +80,7 @@ CPlant::CPlant(double x, double y, CPlant* plant) :
 	mroot = Traits->m0;
 
 	growingSpacerList.clear();
+
 }
 
 //---------------------------------------------------------------------------
@@ -87,7 +95,6 @@ CPlant::~CPlant()
 
 	growingSpacerList.clear();
 
-	delete Traits;
 }
 
 //---------------------------------------------------------------------------

@@ -2,6 +2,8 @@
 #ifndef CSeedH
 #define CSeedH
 
+#include <memory>
+
 #include "CObject.h"
 
 class CCell;
@@ -17,7 +19,7 @@ class CSeed: public CObject
 	   CCell* cell;
 
 	public:
-	   SPftTraits* Traits;
+	   std::shared_ptr<SPftTraits> Traits;
 
 	   double mass;    //!< seed mass
 	   double estab;   ///< estab-probability (may differ from type-specific value)
@@ -29,7 +31,7 @@ class CSeed: public CObject
 	   virtual std::string pft();
 
 	   CSeed(CPlant* plant, CCell* cell);
-	   CSeed(double estab, SPftTraits* traits, CCell* cell);
+	   CSeed(double estab, std::shared_ptr<SPftTraits> traits, CCell* cell);
 	   virtual ~CSeed();
 
 	   void setCell(CCell* cell);        ///<define cell (only if none defined yet)

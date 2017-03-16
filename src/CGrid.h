@@ -65,7 +65,7 @@ public:
 	double GetTotalAboveMass();
 	double GetTotalBelowMass();
 
-	virtual void InitClonalSeeds(SPftTraits* traits, const int n, double estab = 1.0);
+	virtual void InitClonalSeeds(std::shared_ptr<SPftTraits> traits, const int n, double estab = 1.0);
 	void DispersRamets(CPlant* plant); 	// initiate new ramets
 
 	int GetNclonalPlants();   	// number of living clonal plants

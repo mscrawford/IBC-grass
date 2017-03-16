@@ -33,7 +33,7 @@ protected:
 	CGenet* genet;              // genet of the clonal plant
 
 public:
-	SPftTraits* Traits;			// PFT Traits
+	std::shared_ptr<SPftTraits> Traits;	// PFT Traits
 
 	int Age;
 

@@ -14,8 +14,8 @@ pft_out = 0 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead P
 srv_out = 1 # Print survival statistics (1)? Bad idea with seed addition...
 trait_out = 1 # Print trait-level output
 
-N_COMS = 50
-N_REPS = 20
+N_COMS = 1
+N_REPS = 1
 n_PFTs = 16 # Doesn't matter with pairwise invasion criterion... (FIX THIS...)
 
 MODE = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
@@ -23,7 +23,7 @@ PFT_type = 0 # Theoretical (0) or Empirical (1) PFTs
 
 base_params =  [[1], # IC version
                 [MODE],
-                [0, 0.20, 0.50], # ITVsd
+                [0, 0.20], # ITVsd
                 [100], # Tmax
                 [90], # ARes
                 [90], # Bres

@@ -6,20 +6,14 @@
 #include "CSeed.h"
 #include "CEnvir.h"
 
+using namespace std;
+
 //---------------------------------------------------------------------------
 CSeed::CSeed(CPlant* plant, CCell* _cell) :
 		cell(NULL), xcoord(plant->xcoord), ycoord(plant->ycoord),
 		Age(1), remove(false)
 {
-	Traits = SPftTraits::createPftInstanceFromPftType(plant->Traits->name);
-
-	if (SRunPara::RunPara.ITV == on) {
-		Traits->varyTraits();
-	} else if (SRunPara::RunPara.ITV == off) {
-		assert(plant->Traits->myTraitType == SPftTraits::species);
-	} else {
-		exit(1);
-	}
+	this->Traits = SPftTraits::createTraitSetFromPftType(plant->Traits->name);
 
 	estab = Traits->pEstab;
 	mass = Traits->SeedMass;
@@ -29,21 +23,13 @@ CSeed::CSeed(CPlant* plant, CCell* _cell) :
 }
 
 //---------------------------------------------------------------------------
-CSeed::CSeed(double new_estab, SPftTraits* traits, CCell* _cell) :
+CSeed::CSeed(double new_estab, shared_ptr<SPftTraits> traits, CCell*_cell) :
 		cell(NULL),
 		xcoord(0), ycoord(0),
 		Age(1), remove(false)
 {
 
-	Traits = SPftTraits::createPftInstanceFromPftType(traits->name); // general
-
-	if (SRunPara::RunPara.ITV == on) {
-		Traits->varyTraits();
-	} else if (SRunPara::RunPara.ITV == off) {
-		assert(traits->myTraitType == SPftTraits::species);
-	} else {
-		exit(1);
-	}
+	this->Traits = SPftTraits::createTraitSetFromPftType(traits->name); // general
 
 	mass = Traits->SeedMass;
 	this->estab = new_estab;
@@ -60,7 +46,7 @@ CSeed::CSeed(double new_estab, SPftTraits* traits, CCell* _cell) :
  * Destructor. Every seed contains its own trait set.
  */
 CSeed::~CSeed() {
-	delete Traits;
+
 }
 
 //-----------------------------------------------------------------------------

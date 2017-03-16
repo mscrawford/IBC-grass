@@ -4,31 +4,32 @@
 #include <cassert>
 #include <iostream>
 #include <string>
+#include <memory>
 #include <sstream>
 
 using namespace std;
 
-map<string, SPftTraits*> SPftTraits::PftLinkList = map<string, SPftTraits*>();
+map< string, shared_ptr<SPftTraits> > SPftTraits::PftLinkList = map< string, shared_ptr<SPftTraits> >();
 vector<string> SPftTraits::pftInsertionOrder = vector<string>();
 
 /*
  * Default constructor
  */
 SPftTraits::SPftTraits() :
-		myTraitType(SPftTraits::species), TypeID(999), name("default"),
+		myTraitType(SPftTraits::species), TypeID(NULL), name("EMPTY"),
 		MaxAge(100),
-		LMR(0), SLA(0), RAR(1), m0(0), MaxMass(0),
-		AllocSeed(0.05), SeedMass(0), Dist(0), Dorm(1), pEstab(0.5),
-		Gmax(0), palat(0), memory(0),
+		LMR(NULL), SLA(NULL), RAR(1), m0(NULL), MaxMass(NULL),
+		AllocSeed(0.05), SeedMass(NULL), Dist(NULL), Dorm(1), pEstab(0.5),
+		Gmax(NULL), palat(NULL), memory(NULL),
 		mThres(0.2), growth(0.25), FlowerWeek(16), DispWeek(20),
-		clonal(true), PropSex(0.1), meanSpacerlength(17.5), sdSpacerlength(12.5),
-		AllocSpacer(0.05), Resshare(true), mSpacer(70)
+		clonal(false), PropSex(0.1), meanSpacerlength(NULL), sdSpacerlength(NULL),
+		AllocSpacer(NULL), Resshare(false), mSpacer(NULL)
 {
 
 }
 
 /*
- * Constructor copying a given set of traits. This is necessary for IBC-grass.ITV.
+ * Copy constructor
  */
 SPftTraits::SPftTraits(const SPftTraits& s) :
 		myTraitType(s.myTraitType), TypeID(s.TypeID), name(s.name),
@@ -41,31 +42,8 @@ SPftTraits::SPftTraits(const SPftTraits& s) :
 		meanSpacerlength(s.meanSpacerlength), sdSpacerlength(s.sdSpacerlength),
 		AllocSpacer(s.AllocSpacer), Resshare(s.Resshare), mSpacer(s.mSpacer)
 {
-	if (SRunPara::RunPara.ITV == off)
-	{
-		assert(s.myTraitType == SPftTraits::species);
-	}
 
-	if (s.myTraitType == SPftTraits::individualized)
-	{
-		assert(SRunPara::RunPara.ITV == on);
-	}
 }
-
-/** MSC
- * Records every "individualized" trait syndrome (or rather, the pointer to it).
- * This is used to remove them after each run. By the end of a 100 year run with 128cm grid cells,
- * there will be about 2GB of memory used. To improve this algorithm (though complicating the code),
- * one could delete the trait syndromes after their final use (i.e. a seed does not germinate, or a
- * plant dies). One must be cognizant to ensure that:
- *				0) all plants use individualized traits (though they do not necessarily have to vary) so that the
- *					destructor doesn't accidentally delete a species level trait. Or, if individualization is off (that is,
- *					no traits are actually being varied), all copies can just be deleted with their parent's (plant or seed) destructor.
- *				1) all seeds pass their traits to the plants they become (enabled by the use of SPftTrait's copy constructor) inside
- *					the plant constructor.
- *				2) all seeds and plants, when they die, remove their own traits.
- *				3) they got rid of the individualPftList (as all individualPfts have a very short life).
- */
 
 //------------------------------------------------------------------------------
 /**
@@ -73,12 +51,10 @@ SPftTraits::SPftTraits(const SPftTraits& s) :
  * @param type PFT asked for
  * @return Object pointer to PFT definition
  */
-SPftTraits* SPftTraits::getPftLink(string type)
+shared_ptr<SPftTraits> SPftTraits::getPftLink(string type)
 {
 
-	SPftTraits* traits = NULL;
-
-	map<string, SPftTraits*>::iterator pos = PftLinkList.find(type);
+	auto pos = PftLinkList.find(type);
 
 	if (pos == PftLinkList.end())
 	{
@@ -86,13 +62,7 @@ SPftTraits* SPftTraits::getPftLink(string type)
 		exit(1);
 	}
 
-	traits = pos->second;
-
-	if (traits == NULL)
-	{
-		cerr << "NULL-pointer error\n";
-		exit(1);
-	}
+	shared_ptr<SPftTraits> traits = pos->second;
 
 	return traits;
 
@@ -103,18 +73,31 @@ SPftTraits* SPftTraits::getPftLink(string type)
  * @param type PFT asked for
  * @return Object instance defining a PFT.
  */
-SPftTraits* SPftTraits::createPftInstanceFromPftType(string type)
+shared_ptr<SPftTraits> SPftTraits::createTraitSetFromPftType(string type)
 {
-	SPftTraits* traits = NULL;
-	map<string, SPftTraits*>::iterator pos = PftLinkList.find(type);
 
-	if (pos == PftLinkList.end())
+	const auto pos = PftLinkList.find(type);
+
+	if ( PftLinkList.find(type) == PftLinkList.end() )
 	{
-		cerr << "Type not found:" << type << endl;
+		cerr << "Type not found: " << type << endl;
 		exit(1);
 	}
 
-	traits = new SPftTraits(*pos->second);
+	shared_ptr<SPftTraits> traits = std::make_shared<SPftTraits>(*pos->second);
+
+	return traits;
+
+}
+
+/**
+ * Get - the instance (pass by value) of a specific PFT (as defined by its name)
+ * @param type PFT asked for
+ * @return Object instance defining a PFT.
+ */
+shared_ptr<SPftTraits> SPftTraits::copyTraitSet(const shared_ptr<SPftTraits> t)
+{
+	shared_ptr<SPftTraits> traits = std::make_shared<SPftTraits>(*t);
 
 	return traits;
 }
@@ -135,7 +118,7 @@ void SPftTraits::ReadPFTDef(const string& file)
 	{
 		std::stringstream ss(line);
 
-		SPftTraits* traits = new SPftTraits();
+		shared_ptr<SPftTraits> traits = make_shared<SPftTraits>();
 
 		ss >> traits->TypeID >> traits->name >> traits->MaxAge
 				>> traits->AllocSeed >> traits->LMR >> traits->m0
@@ -147,8 +130,9 @@ void SPftTraits::ReadPFTDef(const string& file)
 				>> traits->sdSpacerlength >> traits->Resshare
 				>> traits->AllocSpacer >> traits->mSpacer;
 
-		SPftTraits::addPftLink(traits->name, traits);
-		SPftTraits::pftInsertionOrder.push_back(traits->name); // MSC
+		SPftTraits::PftLinkList.insert(std::make_pair(traits->name, traits));
+
+		SPftTraits::pftInsertionOrder.push_back(traits->name);
 	}
 }
 

@@ -313,7 +313,7 @@ void Output::print_ind(vector<CPlant*> & PlantList)
 
 		if (p->dead) continue;
 
-		SPftTraits* s = p->Traits;
+		shared_ptr<SPftTraits> s = p->Traits;
 
 		std::ostringstream ss;
 
