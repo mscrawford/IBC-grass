@@ -52,11 +52,6 @@ SPftTraits::SPftTraits(const SPftTraits& s) :
 	}
 }
 
-SPftTraits::~SPftTraits()
-{
-	// TODO Auto-generated destructor stub
-}
-
 /** MSC
  * Records every "individualized" trait syndrome (or rather, the pointer to it).
  * This is used to remove them after each run. By the end of a 100 year run with 128cm grid cells,
@@ -131,23 +126,11 @@ SPftTraits* SPftTraits::createPftInstanceFromPftType(string type)
  */
 void SPftTraits::ReadPFTDef(const string& file)
 {
-	//delete old definitions
-	for (map<string, SPftTraits*>::iterator i = SPftTraits::PftLinkList.begin();
-			i != SPftTraits::PftLinkList.end(); ++i)
-	{
-		delete i->second;
-	}
-
-	//delete static pointer vectors
-	SPftTraits::PftLinkList.clear();
-	SPftTraits::pftInsertionOrder.clear(); // MSC
-
 	//Open InitFile
 	ifstream InitFile(file.c_str());
 
 	string line;
 	getline(InitFile, line); //skip header line
-
 	while (getline(InitFile, line))
 	{
 		std::stringstream ss(line);
@@ -178,6 +161,7 @@ void SPftTraits::ReadPFTDef(const string& file)
  */
 void SPftTraits::varyTraits()
 {
+
 	assert(myTraitType == SPftTraits::species);
 	assert(SRunPara::RunPara.ITV == on);
 

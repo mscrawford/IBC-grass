@@ -20,7 +20,6 @@ class CGridEnvir: public CEnvir, public CGrid
 public:
 
 	CGridEnvir();
-	CGridEnvir(std::string id); // load from file(s)
 	virtual ~CGridEnvir(); 		// delete clonalTraits;
 
 	void InitRun();   // from CEnvir

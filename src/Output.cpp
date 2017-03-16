@@ -37,7 +37,7 @@ const vector<string> Output::srv_header
 
 const vector<string> Output::PFT_header
 	({
-			"SimID", "PFT", "Year", "Week", "Pop", "Shootmass", "Rootmass"
+			"SimID", "PFT", "Year", "Week", "Pop", "Shootmass", "Rootmass", "Repro"
 	});
 
 const vector<string> Output::ind_header
@@ -61,7 +61,6 @@ struct Output::PFT_struct
 		double Rootmass;
 		double Repro;
 		int Pop;
-
 
 		PFT_struct() {
 			Shootmass = 0;

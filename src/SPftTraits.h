@@ -96,7 +96,6 @@ public:
 //functions..
 	SPftTraits();
 	SPftTraits(const SPftTraits& s);
-	virtual ~SPftTraits();
 
 	void varyTraits();
 	static void ReadPFTDef(const std::string& file);

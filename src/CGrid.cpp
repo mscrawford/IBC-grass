@@ -65,8 +65,8 @@ void CGrid::resetGrid()
 	}
 
 	//plants...
-	for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p) {
-		delete *p;
+	for (auto p : PlantList) {
+		delete p;
 	}
 	PlantList.clear();
 	CPlant::numPlants = 0;
@@ -83,11 +83,9 @@ void CGrid::resetGrid()
  * CGrid destructor
  */
 CGrid::~CGrid() {
-	for (plant_iter iplant = PlantList.begin(); iplant < PlantList.end();
-			++iplant) {
-		CPlant* plant = *iplant;
-		delete plant;
-	};
+	for (auto p : PlantList) {
+		delete p;
+	}
 	PlantList.clear();
 
 	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
@@ -976,7 +974,9 @@ void CGrid::SeedMortWinter()
  */
 void CGrid::InitClonalSeeds(SPftTraits* traits, const int n, double estab)
 {
+
 	int x, y;
+
 	int SideCells = SRunPara::RunPara.CellNum;
 	for (int i = 0; i < n; ++i)
 	{

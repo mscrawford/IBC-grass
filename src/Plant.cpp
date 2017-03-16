@@ -81,8 +81,9 @@ CPlant::CPlant(double x, double y, CPlant* plant) :
  */
 CPlant::~CPlant()
 {
-	for (unsigned int i = 0; i < growingSpacerList.size(); ++i)
+	for (unsigned int i = 0; i < growingSpacerList.size(); ++i) {
 		delete growingSpacerList[i];
+	}
 
 	growingSpacerList.clear();
 
@@ -300,7 +301,6 @@ double CPlant::RootGrow(double rres)
 	Assim_root = Traits->growth * min(rres, Traits->Gmax * Art_disc); //growth limited by maximal resource per area -> similar to uptake limitation
 	Resp_root = Traits->growth * Traits->Gmax * Traits->RAR * pow(mroot, q)
 			/ pow(Traits->MaxMass, r);  //respiration proportional to root^2
-
 
 	return max(0.0, Assim_root - Resp_root);
 }

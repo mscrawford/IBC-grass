@@ -11,14 +11,14 @@ CSeed::CSeed(CPlant* plant, CCell* _cell) :
 		cell(NULL), xcoord(plant->xcoord), ycoord(plant->ycoord),
 		Age(1), remove(false)
 {
+	Traits = SPftTraits::createPftInstanceFromPftType(plant->Traits->name);
+
 	if (SRunPara::RunPara.ITV == on) {
-		Traits = SPftTraits::createPftInstanceFromPftType(plant->Traits->name); // general
 		Traits->varyTraits();
 	} else if (SRunPara::RunPara.ITV == off) {
 		assert(plant->Traits->myTraitType == SPftTraits::species);
-		Traits = new SPftTraits(*plant->Traits);
 	} else {
-		exit(3);
+		exit(1);
 	}
 
 	estab = Traits->pEstab;
@@ -35,14 +35,14 @@ CSeed::CSeed(double new_estab, SPftTraits* traits, CCell* _cell) :
 		Age(1), remove(false)
 {
 
+	Traits = SPftTraits::createPftInstanceFromPftType(traits->name); // general
+
 	if (SRunPara::RunPara.ITV == on) {
-		Traits = SPftTraits::createPftInstanceFromPftType(traits->name); // general
 		Traits->varyTraits();
 	} else if (SRunPara::RunPara.ITV == off) {
 		assert(traits->myTraitType == SPftTraits::species);
-		Traits = new SPftTraits(*traits);
 	} else {
-		exit(3);
+		exit(1);
 	}
 
 	mass = Traits->SeedMass;

@@ -102,12 +102,11 @@ Biology group at the University of Potsdam
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <memory>
 
 #include "CGridEnvir.h"
 
 using namespace std;
-
-CGridEnvir* Envir;   // environment in which simulations are run
 
 /**
  * Program launch - Model Design is defined.
@@ -129,9 +128,8 @@ int main(int argc, char* argv[])
 		SRunPara::NameSimFile = "data/in/SimFile.txt";
 	}
 
-	Envir = new CGridEnvir();
-
 	ifstream SimFile(SRunPara::NameSimFile.c_str()); // Open Simulation Parameterization file
+	int _NRep;
 
 	// Temporary strings
 	string trash;
@@ -139,11 +137,16 @@ int main(int argc, char* argv[])
 
 	getline(SimFile, data);
 	std::stringstream ss(data);
-	ss >> trash >> Envir->NRep; // Remove "NRep" header, set NRep
+	ss >> trash >> _NRep; 		// Remove "NRep" header, set NRep
 	getline(SimFile, trash); 	// Remove parameterization header file
 
 	while (getline(SimFile, data))
 	{
+
+		unique_ptr<CGridEnvir> Envir = unique_ptr<CGridEnvir>( new CGridEnvir() );
+
+		Envir->NRep = _NRep;
+
 		Envir->GetSim(data); // Change this to take a string for the parameterization...
 
 		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++)
@@ -156,14 +159,15 @@ int main(int argc, char* argv[])
 			}
 
 			Envir->InitRun();
+
 			Envir->OneRun();
 		}
 
 		SRunPara::RunPara.cleanRunPara();
-		Envir->output.cleanup();
-	}
 
-	delete Envir;
+		Envir->output.cleanup();
+
+	}
 
 	SimFile.close();
 
