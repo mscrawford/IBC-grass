@@ -10,20 +10,21 @@
 using namespace std;
 
 map< string, shared_ptr<SPftTraits> > SPftTraits::PftLinkList = map< string, shared_ptr<SPftTraits> >();
+
 vector<string> SPftTraits::pftInsertionOrder = vector<string>();
 
 /*
  * Default constructor
  */
 SPftTraits::SPftTraits() :
-		myTraitType(SPftTraits::species), TypeID(NULL), name("EMPTY"),
+		myTraitType(SPftTraits::species), TypeID(-1), name("EMPTY"),
 		MaxAge(100),
-		LMR(NULL), SLA(NULL), RAR(1), m0(NULL), MaxMass(NULL),
-		AllocSeed(0.05), SeedMass(NULL), Dist(NULL), Dorm(1), pEstab(0.5),
-		Gmax(NULL), palat(NULL), memory(NULL),
+		LMR(-1), SLA(-1), RAR(1), m0(-1), MaxMass(-1),
+		AllocSeed(0.05), SeedMass(-1), Dist(-1), Dorm(1), pEstab(0.5),
+		Gmax(-1), palat(-1), memory(-1),
 		mThres(0.2), growth(0.25), FlowerWeek(16), DispWeek(20),
-		clonal(false), PropSex(0.1), meanSpacerlength(NULL), sdSpacerlength(NULL),
-		AllocSpacer(NULL), Resshare(false), mSpacer(NULL)
+		clonal(false), PropSex(0.1), meanSpacerlength(0), sdSpacerlength(0),
+		AllocSpacer(0), Resshare(false), mSpacer(0)
 {
 
 }
@@ -75,11 +76,9 @@ shared_ptr<SPftTraits> SPftTraits::getPftLink(string type)
  */
 shared_ptr<SPftTraits> SPftTraits::createTraitSetFromPftType(string type)
 {
-
 	const auto pos = PftLinkList.find(type);
 
-	if ( PftLinkList.find(type) == PftLinkList.end() )
-	{
+	if ( PftLinkList.find(type) == PftLinkList.end() ) {
 		cerr << "Type not found: " << type << endl;
 		exit(1);
 	}
@@ -87,7 +86,6 @@ shared_ptr<SPftTraits> SPftTraits::createTraitSetFromPftType(string type)
 	shared_ptr<SPftTraits> traits = std::make_shared<SPftTraits>(*pos->second);
 
 	return traits;
-
 }
 
 /**

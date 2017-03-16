@@ -24,7 +24,7 @@ class CGrid
 
 private:
 	///List of Genets on Grid
-	std::vector<CGenet*> GenetList;
+	std::vector< std::shared_ptr<CGenet> > GenetList;
 	//clonal..
 	void RametEstab(CPlant* plant);   	// establish ramets
 	void Resshare();                	// share resources among connected ramets

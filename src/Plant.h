@@ -5,6 +5,7 @@
 #include <cmath>
 #include <math.h>
 #include <string>
+#include <memory>
 
 #include "CObject.h"
 #include "CGenet.h"
@@ -30,7 +31,7 @@ protected:
 	virtual double RootGrow(double rres);
 
 	double mReproRamets;		// resources for ramet growth
-	CGenet* genet;              // genet of the clonal plant
+	std::shared_ptr<CGenet> genet;              // genet of the clonal plant
 
 public:
 	std::shared_ptr<SPftTraits> Traits;	// PFT Traits
@@ -132,8 +133,9 @@ public:
 	virtual int GetNSeeds(); 		// returns number of seeds of one plant individual
 
 	///set genet and add ramet to its list
-	void setGenet(CGenet* genet);
-	CGenet* getGenet() {
+	void setGenet(std::shared_ptr<CGenet> genet);
+
+	std::shared_ptr<CGenet> getGenet() {
 		return genet;
 	}
 	;

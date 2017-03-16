@@ -99,12 +99,17 @@ CPlant::~CPlant()
 
 //---------------------------------------------------------------------------
 ///set genet and add ramet to its list
-void CPlant::setGenet(CGenet* _genet)
+void CPlant::setGenet(shared_ptr<CGenet>_genet)
 {
 	if (this->genet == NULL)
 	{
 		this->genet = _genet;
 		this->genet->AllRametList.push_back(this);
+	}
+	else
+	{
+		cerr << "Genet does not exist." << endl;
+		exit(0);
 	}
 }
 

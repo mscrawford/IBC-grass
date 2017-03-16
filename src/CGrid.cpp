@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iostream>
 #include <cassert>
+#include <memory>
 
 using namespace std;
 
@@ -71,10 +72,6 @@ void CGrid::resetGrid()
 	PlantList.clear();
 	CPlant::numPlants = 0;
 
-	//Genet list..
-	for (unsigned int i = 0; i < GenetList.size(); i++)
-		delete GenetList[i];
-
 	GenetList.clear();
 	CGenet::staticID = 0;
 }
@@ -94,8 +91,6 @@ CGrid::~CGrid() {
 	}
 	delete[] CellList;
 
-	for (unsigned int i = 0; i < GenetList.size(); i++)
-		delete GenetList[i];
 	GenetList.clear();
 	CGenet::staticID = 0;
 
@@ -366,7 +361,7 @@ void CGrid::Resshare() // resource sharing
 {
 	for (unsigned int i = 0; i < GenetList.size(); i++)
 	{
-		CGenet* Genet = GenetList[i];
+		shared_ptr<CGenet> Genet = GenetList[i];
 		if (Genet->AllRametList.size() > 1)
 		{
 			CPlant* plant = Genet->AllRametList.front();
@@ -487,7 +482,7 @@ void CGrid::EstabLottery() {
 void CGrid::EstabLott_help(CSeed* seed)
 {
 	CPlant* p = new CPlant(seed);
-	CGenet* Genet = new CGenet();
+	shared_ptr<CGenet> Genet = make_shared<CGenet>();
 	GenetList.push_back(Genet);
 	p->setGenet(Genet);
 	PlantList.push_back(p);
@@ -913,7 +908,7 @@ void CGrid::RemovePlants() {
  Delete a plant from the grid and it's references in genet list and grid cell.
  */
 void CGrid::DeletePlant(CPlant* p) {
-	CGenet *Genet = p->getGenet();
+	std::shared_ptr<CGenet> Genet = p->getGenet();
 	//search ramet in list and erase
 	for (unsigned int j = 0; j < Genet->AllRametList.size(); j++)
 	{
@@ -1145,7 +1140,7 @@ int CGrid::GetNMotherPlants() //count genets
 	int NMotherPlants = 0;
 	if (GenetList.size() > 0) {
 		for (unsigned int i = 0; i < GenetList.size(); i++) {
-			CGenet* Genet = GenetList[i];
+			shared_ptr<CGenet> Genet = GenetList[i];
 			if ((Genet->AllRametList.size() > 0)) {
 				unsigned int g = 0;
 				do {
@@ -1191,7 +1186,7 @@ double CGrid::GetNGeneration() {
 
 	if (GenetList.size() > 0) {
 		for (unsigned int i = 0; i < GenetList.size(); i++) {
-			CGenet* Genet;
+			shared_ptr<CGenet> Genet;
 			Genet = GenetList[i];
 			if ((Genet->AllRametList.size() > 0)) {
 				highestGeneration = 0;
