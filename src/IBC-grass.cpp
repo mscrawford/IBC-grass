@@ -1,6 +1,3 @@
-#include <iostream>
-#include <ctime>
-#include "CGridEnvir.h"
 
 //------------------------------------------------------------------------------
 /**\mainpage Grassland Model (for console) - documentation
@@ -45,7 +42,7 @@ with following structure:
   -# DistAreaYear: Trampling
   -# AreaEvent: Trampling
   -# NCut: Cutting number of Cuttings
-  -# CutMass: residual Mass - Cutting depth
+  -# CutHeight: Height to cut plants to
   -# SeedRainType SRunPara::SeedRainType
   -# SeedInput SRunPara::SeedInput
   -# file name of PFT-definitions (SRunPara::NamePftFile)
@@ -69,9 +66,6 @@ ongoing ...
 
 \par Sources or reasons for parameter values, methods, equations:
 See publications of May(2008) and Steinhauer(2008) and \ref ODDbase (\ref straits and \ref spftdef).
-
-\par bugs and todos
-See additional pages for solved and unsolved bugs (\ref bug) and todos (\ref todo)
 
 \par Model History
 
@@ -105,7 +99,13 @@ Biology group at the University of Potsdam
 */
 //---------------------------------------------------------------------------
 
-CGridEnvir* Envir;   //<environment in which simulations are run
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <memory>
+
+#include "CGridEnvir.h"
+
 using namespace std;
 
 /**
@@ -119,8 +119,8 @@ using namespace std;
  * \sa CGridEnvir
  * \sa CGridEnvir::OneRun()
  */
-int main(int argc, char* argv[]) {
-	initLCG(time(NULL), 3487234); // setze den Zufallsgenerator auf einen neuen Wert, 3487234 ist 'zuf�llig' gew�hlt
+int main(int argc, char* argv[])
+{
 
 	if (argc >= 2) {
 		SRunPara::NameSimFile = argv[1];
@@ -128,25 +128,48 @@ int main(int argc, char* argv[]) {
 		SRunPara::NameSimFile = "data/in/SimFile.txt";
 	}
 
-	cout << "New Environment...\n";
-	Envir = new CGridEnvir();
+	ifstream SimFile(SRunPara::NameSimFile.c_str()); // Open Simulation Parameterization file
+	int _NRep;
 
-	//do simulations specified in input-file
-	int lpos = Envir->GetSim();
-	do {
-		cout << "Simulation No. " << Envir->SimNr << "\n";
-		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++) {
-			cout << "Run " << Envir->RunNr + 1 << " \n";
+	// Temporary strings
+	string trash;
+	string data;
+
+	getline(SimFile, data);
+	std::stringstream ss(data);
+	ss >> trash >> _NRep; 		// Remove "NRep" header, set NRep
+	getline(SimFile, trash); 	// Remove parameterization header file
+
+	while (getline(SimFile, data))
+	{
+
+		unique_ptr<CGridEnvir> Envir = unique_ptr<CGridEnvir>( new CGridEnvir() );
+
+		Envir->NRep = _NRep;
+
+		Envir->GetSim(data); // Change this to take a string for the parameterization...
+
+		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++)
+		{
+			cout << SRunPara::RunPara.getSimID() << endl;
+
+			if (SRunPara::RunPara.verbose)
+			{
+				cout << "Run " << Envir->RunNr + 1 << " \n";
+			}
+
 			Envir->InitRun();
+
 			Envir->OneRun();
 		}
-		lpos = Envir->GetSim(lpos);
-	} while (lpos != -1);
 
-	delete Envir;
-	//delete static pointer vectors
-	for (map<string, SPftTraits*>::iterator i = SPftTraits::PftLinkList.begin();
-			i != SPftTraits::PftLinkList.end(); ++i)
-		delete i->second;
+		SRunPara::RunPara.cleanRunPara();
+
+		Envir->output.cleanup();
+
+	}
+
+	SimFile.close();
+
 	return 0;
 }

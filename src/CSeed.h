@@ -1,10 +1,8 @@
-//---------------------------------------------------------------------------
 
 #ifndef CSeedH
 #define CSeedH
 
-#include <iostream>
-#include <string>
+#include <memory>
 
 #include "CObject.h"
 
@@ -21,7 +19,7 @@ class CSeed: public CObject
 	   CCell* cell;
 
 	public:
-	   SPftTraits* Traits;
+	   std::shared_ptr<SPftTraits> Traits;
 
 	   double mass;    //!< seed mass
 	   double estab;   ///< estab-probability (may differ from type-specific value)
@@ -33,20 +31,18 @@ class CSeed: public CObject
 	   virtual std::string pft();
 
 	   CSeed(CPlant* plant, CCell* cell);
-	   CSeed(double estab, SPftTraits* traits, CCell* cell);
+	   CSeed(double estab, std::shared_ptr<SPftTraits> traits, CCell* cell);
 	   virtual ~CSeed();
 
 	   void setCell(CCell* cell);        ///<define cell (only if none defined yet)
 	   CCell* getCell(){ return cell; }; ///<return address of cell
 
 	   //! return type affiliation (necessary to apply algorithms from STL)
-	   bool SeedOfType(string type){ return (this->pft()==type); };
+	   bool SeedOfType(std::string type){ return (this->pft()==type); };
 };
 
 //-----------------------------------------------------------------------------
 //! return seed removed -> necessary to use STL algorithm
 bool GetSeedRemove(const CSeed* seed1);
-//-----------------------------------------------------------------------------
-//! return type affiliation(necessary to apply algorithms from STL) bool SeedOfType(CSeed* seed,string type){return (seed->pft()==type);};
-// SeedOfType(CSeed* seed,string type){return (seed->pft()==type);};
+
 #endif

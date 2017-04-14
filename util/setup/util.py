@@ -1,11 +1,15 @@
 import sys, os, subprocess, itertools, csv, copy, math, re, random
 
 class Base_Parameter():
-    def __init__(self, IC_version, ITVsd, resilience, removalPerc, Tmax, ARes, Bres, 
+    def __init__(self, 
+        IC_version, Mode, ITVsd, resilience, removalPerc,
+        Tmax, ARes, Bres, 
         GrazProb, PropRemove, 
-        BelGrazProb, BelGrazStartYear, BelGrazWindow, BelGrazMode, BelPropRemove, 
-        catastophicDistYear):
+        BelGrazProb, BelGrazResidualPerc, BelGrazPerc, 
+        CatastrophicPlantMortality, CatastrophicSeedMortality,
+        SeedRainType, SeedInput):
         self.IC_version = IC_version
+        self.Mode = Mode
         self.ITVsd = ITVsd
         self.resilience = resilience
         self.removalPerc = removalPerc
@@ -15,41 +19,45 @@ class Base_Parameter():
         self.GrazProb = GrazProb
         self.PropRemove = PropRemove
         self.BelGrazProb = BelGrazProb
-        self.BelGrazStartYear = BelGrazStartYear
-        self.BelGrazWindow = BelGrazWindow
-        self.BelGrazMode = BelGrazMode
-        self.BelPropRemove = BelPropRemove
-        self.catastophicDistYear = catastophicDistYear
+        self.BelGrazResidualPerc = BelGrazResidualPerc
+        self.BelGrazPerc = BelGrazPerc
+        self.CatastrophicPlantMortality = CatastrophicPlantMortality
+        self.CatastrophicSeedMortality = CatastrophicSeedMortality
+        self.SeedRainType = SeedRainType
+        self.SeedInput = SeedInput
 
         if (self.resilience == 0 and self.removalPerc > 0 or self.resilience > 0 and self.removalPerc == 0):
             print "Nonsensical or redundant parameterization -- resilience and removalPerc."
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.GrazProb == 0 and self.PropRemove > 0 or self.GrazProb > 0 and self.PropRemove == 0):
-            print "Nonsensical or redundant parameterization -- GrazProb and PropRemove."
+        if (self.Mode != 2 and (self.CatastrophicSeedMortality > 0 or self.CatastrophicPlantMortality > 0)):
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.BelGrazProb == 0):
-            if (self.BelGrazStartYear > 0 or 
-                self.BelGrazWindow > 0 or 
-                self.BelGrazMode > 0 or 
-                self.BelPropRemove > 0):
-                print "Nonsensical or redundant parameterization -- BelGrazProb."
-                raise Exception("Nonsensical or redundant parameterization")
+        if (self.Mode == 2 and (self.CatastrophicSeedMortality == 0 and self.CatastrophicPlantMortality == 0)):
+            raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.BelGrazProb > 0 and self.BelPropRemove == 0):
-            print "Nonsensical or redundant parameterization -- BelGrazProb and BelPropRemove."
+        if (self.SeedRainType == 0 and self.SeedInput > 0 or 
+            self.SeedRainType > 0 and self.SeedInput == 0):
+            raise Exception("Nonsensical or redundant parameterization")
+
+        if (self.GrazProb == 0 and self.PropRemove > 0 or self.GrazProb > 0 and self.PropRemove == 0):
+            raise Exception("Nonsensical or redundant parameterization")
+
+        if (self.BelGrazProb == 0 and (self.BelGrazResidualPerc > 0 or self.BelGrazPerc > 0)):
+            raise Exception("Nonsensical or redundant parameterization")
+
+        if (self.BelGrazProb > 0 and (self.BelGrazPerc == 0 or self.BelGrazResidualPerc == 0)):
             raise Exception("Nonsensical or redundant parameterization")
 
     def toString(self):
-        return " ".join(map(str, [self.IC_version, self.ITVsd, self.resilience, self.removalPerc,
-            self.Tmax, self.ARes, 
-            self.Bres, self.GrazProb, self.PropRemove, self.BelGrazProb, self.BelGrazStartYear, 
-            self.BelGrazWindow, self.BelGrazMode, self.BelPropRemove, self.catastophicDistYear]))
-
-
-
-
+        return " ".join(map(str, [self.IC_version, self.Mode, self.ITVsd, 
+            self.Tmax, 
+            self.ARes, self.Bres, 
+            self.GrazProb, self.PropRemove, 
+            self.BelGrazProb, self.BelGrazResidualPerc, self.BelGrazPerc, 
+            self.CatastrophicPlantMortality, self.CatastrophicSeedMortality, 
+            self.SeedRainType, self.SeedInput, 
+            self.resilience, self.removalPerc,]))
 
 
 class PFT():
@@ -87,3 +95,4 @@ class PFT():
                                     self.palat, self.memo, self.RAR, self.growth, self.mThres, self.clonal,
                                     self.propSex, self.meanSpacerLength, self.sdSpacerlength, self.Resshare,
                                     self.AllocSpacer, self.mSpacer])) 
+

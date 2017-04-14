@@ -11,9 +11,7 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <iostream>
-
-using namespace std;
+#include <memory>
 
 /**
  * Structure to store all PFT Parameters
@@ -29,10 +27,11 @@ public:
 	};
 
 //general
-	static map<string, SPftTraits*> PftLinkList; //!< links of Pfts(SPftTrais) used
+	static std::map< std::string, std::shared_ptr<SPftTraits> > PftLinkList; //!< links of Pfts(SPftTrais) used
+	static std::vector< std::string > pftInsertionOrder;
 	traitType myTraitType; // MSC -- the default trait set is a species -- only after being varied is it individualized.
 	int TypeID;     //!< PFT ID same number for all individuals of one PFT
-	string name;    ///< name of functional type
+	std::string name;    ///< name of functional type
 	int MaxAge;     ///< maximum age of plants
 
 //morphology
@@ -78,7 +77,7 @@ public:
 	;
 
 //stress tolerance
-	int memory; //!< equal to surv_max in the model description -> maximal time of survival under stress
+	double memory; //!< equal to surv_max in the model description -> maximal time of survival under stress
 	double mThres; //!< Fraction of maximum uptake that is considered as resource stress
 	double growth; //!< concersion rate  resource -> biomass [mass/resource unit]
 
@@ -98,22 +97,13 @@ public:
 //functions..
 	SPftTraits();
 	SPftTraits(const SPftTraits& s);
+
 	void varyTraits();
-	virtual ~SPftTraits();
-	string toString();
-	static string headerToString();
-	static void ReadPFTDef(const string& file, int n = -1);
-	static SPftTraits* getPftLink(string type); ///get basic type according to string
-	static SPftTraits* createPftInstanceFromPftType(string type);
-	static SPftTraits* createPftInstanceFromPftLink(SPftTraits* traits);
-	static void addPftLink(string type, SPftTraits* link) {
-		PftLinkList[type] = link;
-	}
-	;
-	static int getNPFTInit() {
-		return PftLinkList.size();
-	}
-	;
+	static void ReadPFTDef(const std::string& file);
+	static std::shared_ptr<SPftTraits> getPftLink(std::string type); ///get basic type according to string
+	static std::shared_ptr<SPftTraits> createTraitSetFromPftType(std::string type);
+	static std::shared_ptr<SPftTraits> copyTraitSet(std::shared_ptr<SPftTraits> t);
+
 };
 
 #endif /* SPFTTRAITS_H_ */
