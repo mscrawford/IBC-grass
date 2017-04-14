@@ -20,7 +20,7 @@ std::string SRunPara::NameSimFile = "data/in/SimFile.txt"; //file with simulatio
 SRunPara SRunPara::RunPara=SRunPara();
 //-------------------------------------------------------------------
 SRunPara::SRunPara() :
-		Version(version1), ITV(off), ITVsd(0),
+		Version(version1), ITV(off), ITVsd(0), resilience(control), resilience_removal_perc(0),
 		AboveCompMode(sym), BelowCompMode(sym), PFT(1), SPAT(0), SPATyear(0), COMP(0),
 		mort_base(0.007), LitterDecomp(0.5), DiebackWinter(0.5), EstabRamet(1),
 		GridSize(128), CellNum(128), Tmax(100), GrazProb(0.2), PropRemove(0.5),
@@ -43,6 +43,8 @@ std::string SRunPara::toString(){
 	mystream
 			<< Version << "\t"
 			<< ITVsd << "\t"
+			<< resilience << "\t"
+			<< resilience_removal_perc << "\t"
 			<< Tmax << "\t"
 			<< meanARes << "\t"
 			<< meanBRes << "\t"
@@ -68,6 +70,8 @@ std::string SRunPara::headerToString() {
 	mystream
 			<< "IC_vers" << "\t"
 			<< "ITVsd" << "\t"
+			<< "resilience_vers" << "\t"
+			<< "resilience_removal_perc" << "\t"
 			<< "Tmax" << "\t"
 			<< "ARes" << "\t"
 			<< "BRes" << "\t"

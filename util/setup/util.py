@@ -1,12 +1,14 @@
 import sys, os, subprocess, itertools, csv, copy, math, re, random
 
 class Base_Parameter():
-    def __init__(self, IC_version, ITVsd, Tmax, ARes, Bres, 
+    def __init__(self, IC_version, ITVsd, resilience, removalPerc, Tmax, ARes, Bres, 
         GrazProb, PropRemove, 
         BelGrazProb, BelGrazStartYear, BelGrazWindow, BelGrazMode, BelPropRemove, 
         catastophicDistYear):
         self.IC_version = IC_version
         self.ITVsd = ITVsd
+        self.resilience = resilience
+        self.removalPerc = removalPerc
         self.Tmax = Tmax
         self.ARes = ARes
         self.Bres = Bres
@@ -18,6 +20,10 @@ class Base_Parameter():
         self.BelGrazMode = BelGrazMode
         self.BelPropRemove = BelPropRemove
         self.catastophicDistYear = catastophicDistYear
+
+        if (self.resilience == 0 and self.removalPerc > 0 or self.resilience > 0 and self.removalPerc == 0):
+            print "Nonsensical or redundant parameterization -- resilience and removalPerc."
+            raise Exception("Nonsensical or redundant parameterization")
 
         if (self.GrazProb == 0 and self.PropRemove > 0 or self.GrazProb > 0 and self.PropRemove == 0):
             print "Nonsensical or redundant parameterization -- GrazProb and PropRemove."
@@ -36,7 +42,8 @@ class Base_Parameter():
             raise Exception("Nonsensical or redundant parameterization")
 
     def toString(self):
-        return " ".join(map(str, [self.IC_version, self.ITVsd, self.Tmax, self.ARes, 
+        return " ".join(map(str, [self.IC_version, self.ITVsd, self.resilience, self.removalPerc,
+            self.Tmax, self.ARes, 
             self.Bres, self.GrazProb, self.PropRemove, self.BelGrazProb, self.BelGrazStartYear, 
             self.BelGrazWindow, self.BelGrazMode, self.BelPropRemove, self.catastophicDistYear]))
 

@@ -121,6 +121,7 @@ int CEnvir::GetSim(const int pos, string file) {
 		return -1;
 
 	int IC_version;
+	int resilience_version;
 	int acomp = 1; // aboveground competition is asymmetric by default
 	int bcomp = 0; // belowground competition is symmetric by default
 
@@ -129,6 +130,8 @@ int CEnvir::GetSim(const int pos, string file) {
 		>> ComNr // Community number
 		>> IC_version // Stabilizing mechanisms
 		>> SRunPara::RunPara.ITVsd // Standard deviation of intraspecific variation
+		>> resilience_version // Viktoriia's resilience version
+		>> SRunPara::RunPara.resilience_removal_perc // Viktoriia's percent to remove
 		>> SRunPara::RunPara.Tmax // End of run year
 		>> SRunPara::RunPara.meanARes // Aboveground resources
 		>> SRunPara::RunPara.meanBRes  // Belowground resources
@@ -166,6 +169,23 @@ int CEnvir::GetSim(const int pos, string file) {
 		SRunPara::RunPara.ITV = on;
 	} else {
 		SRunPara::RunPara.ITV = off;
+	}
+
+	switch(resilience_version) {
+	case 0:
+		SRunPara::RunPara.resilience = control;
+		break;
+	case 1:
+		SRunPara::RunPara.resilience = random_removal;
+		break;
+	case 2:
+		SRunPara::RunPara.resilience = abundance_removal;
+		break;
+	case 3:
+		SRunPara::RunPara.resilience = spatial_random_removal;
+		break;
+	default:
+		cerr << "Invalid resilience parameterization" << endl;
 	}
 
 	switch (acomp) {
@@ -396,7 +416,7 @@ void CEnvir::WritePftComplete(bool allYears) {
 			{
 				SPftTraits* traits = SPftTraits::PftLinkList.find(it->first)->second;
 
-				cout << "PftOutData[i]->year: " << PftOutData[i]->year << " and week " << PftOutData[i]->week <<endl;
+//				cout << "PftOutData[i]->year: " << PftOutData[i]->year << " and week " << PftOutData[i]->week <<endl;
 
 				PftOutFile
 							<< SimNr << "\t"

@@ -8,7 +8,7 @@ import util
 
 from util import *
 
-PARALLEL = False
+PARALLEL = True
 SPAT_out = 0 # print spatial grid
 SPAT_out_year = 0 # Which year to print the spatial grid, 0 for every year
 PFT_out = 1 # print PFT output
@@ -16,13 +16,13 @@ COMP_out = 0 # print comp grid
 N_SLOTS = 400
 
 path = "./tmp/"
-N_COMS = 1
+N_COMS = 30
 N_REPS = 1
 n_PFTs = 0
 
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
-Sim_header = "NRep\n" + str(N_REPS) + "\nSimNr ComNr IC_vers ITVsd Tmax ARes Bres " + \
+Sim_header = "NRep\n" + str(N_REPS) + "\nSimNr ComNr IC_vers ITVsd resilience removalPerc Tmax ARes Bres " + \
                 "GrazProb PropRemove BelGrazProb BelGrazStartYear BelGrazWindow BelGrazMode BelPropRemove CatastrophicDistYear " + \
                 "SPATout SPAToutYear PFTout COMPout NameInitFile\n"
 
@@ -35,18 +35,20 @@ PFT_header = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax 
 # but not the backend? Maybe create this array behind the scenes and fill it out with some sort of text document.
 
 base_params =  [[1], # IC version
-                [0], # ITVsd
-                [100], # Tmax
+                [0, 0.2], # ITVsd
+                [0, 1, 2, 3], # resilience
+                [0, 0.10, 0.20, 0.30, .40], # resilience removal percent
+                [90], # Tmax
                 [100], # ARes
-                [60], # Bres
+                [90], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
-                [0, 1], # BelGrazProb
-                [0, 50], # BelGrazStartYear
+                [0], # BelGrazProb
+                [0], # BelGrazStartYear
                 [0], # BelGrazWindow
                 [0], # BelGrazMode
-                [0, 0.5], # BelPropRemove
-                [0, 50]] # CatastrophicDisYear
+                [0], # BelPropRemove
+                [0]] # CatastrophicDisYear
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.

@@ -32,6 +32,13 @@ enum ITV_version {
 	off, on
 };
 
+/** MSC
+ * Viktoriia's resilience stuff
+ */
+enum resilience_version {
+	control, random_removal, abundance_removal, spatial_random_removal, spatial_abundance_removal
+};
+
 //---------------------------------------------------------------------------
 //! Structure with all scenario parameters
 struct SRunPara {
@@ -59,6 +66,9 @@ public:
 	CompVersion Version;
 	ITV_version ITV; // MSC
 	double ITVsd; // MSC
+
+	resilience_version resilience;
+	double resilience_removal_perc;
 
 	int GridSize;     //!< side length in cm
 	int CellNum;      //!< side length in cells

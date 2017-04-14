@@ -739,41 +739,293 @@ void CGrid::SeedMortAge()
 */
 bool CGrid::Disturb()
 {
-   if (PlantList.size()>0){
-      if (CEnvir::rand01() < SRunPara::RunPara.GrazProb){
-         Grazing();
-      }
-      if (CEnvir::rand01() < SRunPara::RunPara.DistProb()){
-         Trampling();
-      }
-      if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb &&
-    		  CEnvir::year >= SRunPara::RunPara.BelGrazStartYear &&
-			  (CEnvir::year < SRunPara::RunPara.BelGrazStartYear + SRunPara::RunPara.BelGrazWindow ||
-					 SRunPara::RunPara.BelGrazWindow == 0)){
-         GrazingBelGr(SRunPara::RunPara.BelGrazMode);
-      }
-      int week = CEnvir::week;
-      if (SRunPara::RunPara.NCut > 0){
-         switch (SRunPara::RunPara.NCut){
-            case 1: if (week==22) Cutting(SRunPara::RunPara.CutMass); break;
-            case 2: if ((week==22) || (week==10)) Cutting(SRunPara::RunPara.CutMass); break;
-            case 3: if ((week==22) || (week==10) || (week==16)) Cutting(SRunPara::RunPara.CutMass); break;
-            default: cerr << "CGrid::Disturb() - wrong input"; exit(3);
-         }
-      }
-      if (SRunPara::RunPara.catastrophicDistYear > 0 &&
-    		  CEnvir::year == SRunPara::RunPara.catastrophicDistYear) {
-    	  if (week == 22) {
-    			for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p) {
-    				CPlant* plant = *p;
-    				DeletePlant(plant);
-    			}
-    			PlantList.erase(PlantList.begin(), PlantList.end());
-    	  }
-      }
-      return true;
-   }
-   else return false;
+	if (PlantList.size() > 0){
+		if (CEnvir::rand01() < SRunPara::RunPara.GrazProb){
+			Grazing();
+		}
+		if (CEnvir::rand01() < SRunPara::RunPara.DistProb()){
+			Trampling();
+		}
+		if (CEnvir::rand01() < SRunPara::RunPara.BelGrazProb &&
+				CEnvir::year >= SRunPara::RunPara.BelGrazStartYear &&
+				(CEnvir::year < SRunPara::RunPara.BelGrazStartYear + SRunPara::RunPara.BelGrazWindow ||
+						SRunPara::RunPara.BelGrazWindow == 0)){
+			GrazingBelGr(SRunPara::RunPara.BelGrazMode);
+		}
+		int week = CEnvir::week;
+		if (SRunPara::RunPara.NCut > 0){
+			switch (SRunPara::RunPara.NCut){
+			case 1: if (week==22) Cutting(SRunPara::RunPara.CutMass); break;
+			case 2: if ((week==22) || (week==10)) Cutting(SRunPara::RunPara.CutMass); break;
+			case 3: if ((week==22) || (week==10) || (week==16)) Cutting(SRunPara::RunPara.CutMass); break;
+			default: cerr << "CGrid::Disturb() - wrong input"; exit(3);
+			}
+		}
+
+
+
+
+
+
+
+
+
+		// Viktoriia's algorithm -- removing some percentage of all individuals to model a disturbance
+		// Question: When should I remove these? Clearly only once (Year 30), but what week? Probably before
+		// they reproduce...
+		if (SRunPara::RunPara.resilience != control && CEnvir::year == 30 && week == 10)
+		{
+			int toRemove = int(floor(PlantList.size() * SRunPara::RunPara.resilience_removal_perc));
+
+//			cout << "Runtype: SRunPara::RunPara.resilience" << endl;
+//
+//			cout << "Total: " << PlantList.size() << endl;
+//			cout << "To remove: " << toRemove << endl;
+//			cout << "To remove %: " << double(toRemove) / PlantList.size() << endl;
+
+			if (SRunPara::RunPara.resilience == random_removal)
+			{
+				random_shuffle(PlantList.begin(), PlantList.end());
+				for (plant_iter p = PlantList.begin(); p < PlantList.begin() + toRemove; ++p)
+				{
+					CPlant* plant = *p;
+//					cout << "Removing plant: " << plant->plantID << " of type: " << plant->pft() << endl;
+					DeletePlant(plant);
+				}
+				PlantList.erase(PlantList.begin(), PlantList.begin() + toRemove);
+
+			}
+			else if (SRunPara::RunPara.resilience == abundance_removal)
+			{
+				map<string, int> abundances = map<string, int>();
+				for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p)
+				{
+					CPlant* plant = *p;
+					abundances[plant->pft()]++;
+				}
+
+//				for (auto PFT = abundances.cbegin(); PFT != abundances.cend(); ++PFT)
+//				{
+//					cout << "PFT: " << PFT->first << "; Nind: " << PFT->second << endl;
+//				}
+
+				do {
+					string smallest_PFT;
+					int s = std::numeric_limits<int>::max();
+					for (auto PFT = abundances.cbegin(); PFT != abundances.cend(); ++PFT)
+					{
+						if (PFT->second < s) {
+							s = PFT->second;
+							smallest_PFT = PFT->first;
+						}
+					}
+					cout << "Smallest PFT: " << smallest_PFT << endl;
+					for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p)
+					{
+						CPlant* plant = *p;
+						if (plant->pft() == smallest_PFT)
+						{
+//							cout << "Deleting plant: " << plant->plantID << " of type: " << plant->pft() << endl;
+							DeletePlant(plant);
+							PlantList.erase(p);
+							abundances[smallest_PFT]--;
+							toRemove--;
+							break;
+						}
+					}
+					if (abundances[smallest_PFT] == 0) {
+//						cout << "Erasing PFT: " << smallest_PFT << " with abundance: " << abundances[smallest_PFT] << endl;
+						abundances.erase(smallest_PFT);
+					}
+				} while (toRemove > 0);
+
+//				cout << "Done removing plants. New PlantList size: " << PlantList.size() << endl;
+//				for (auto PFT = abundances.cbegin(); PFT != abundances.cend(); ++PFT)
+//				{
+//					cout << "PFT: " << PFT->first << "; Nind: " << PFT->second << endl;
+//				}
+
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			else if (SRunPara::RunPara.resilience == spatial_random_removal)
+			{
+				int x, y, xhelp, yhelp, index;   //central point
+
+				//get random center of disturbance
+				x = CEnvir::nrand(SRunPara::RunPara.CellNum);
+				y = CEnvir::nrand(SRunPara::RunPara.CellNum);
+
+//				cout << "Center of disturbance: " << x << ", " << y << endl;
+
+				double radius = 0, Apatch;
+				vector<CPlant*> plantsToKill = vector<CPlant*>();
+
+				do
+				{
+					plantsToKill.clear();
+
+					radius += 1.0;               //radius of disturbance [cm]
+					Apatch = (Pi * radius * radius);   //area of patch [cm�]
+					Apatch /= SRunPara::RunPara.CellScale() * SRunPara::RunPara.CellScale();
+
+//					cout << "Radius: " << radius << "; Apatch: " << Apatch << endl;
+
+					for (int a = 0; a < Apatch; a++)
+					{
+						//get current position: add random center pos with ZOIBase-pos
+						xhelp = x + ZOIBase[a] / SRunPara::RunPara.CellNum - SRunPara::RunPara.CellNum / 2;
+						yhelp = y + ZOIBase[a] % SRunPara::RunPara.CellNum - SRunPara::RunPara.CellNum / 2;
+
+						Boundary(xhelp, yhelp);
+						index = xhelp * SRunPara::RunPara.CellNum + yhelp;
+						CCell* cell = CellList[index];
+
+						if (cell->occupied) {
+							CPlant* plant = (CPlant*) cell->PlantInCell;
+							plantsToKill.push_back(plant);
+						}
+					} // for all cells in patch
+
+				} while (plantsToKill.size() < toRemove);
+
+//				cout << "Size of PlantList " << PlantList.size() << endl;
+//				cout << "Final size of plantsToKill: " << plantsToKill.size() << endl;
+
+				for (plant_iter p = plantsToKill.begin(); p < plantsToKill.end(); ++p)
+				{
+					CPlant* plant = *p;
+//					cout << "Removing plant: " << plant->plantID << " of type: " << plant->pft() << endl;
+
+					auto it = std::find(PlantList.begin(), PlantList.end(), plant);
+//					cout << "PlantList iterator points to: " << ((CPlant*) *it)->plantID << " of type: " << ((CPlant*) *it)->pft() << endl;
+
+					DeletePlant(plant);
+					PlantList.erase(it);
+				}
+
+//				cout << "New PlantList size: " << PlantList.size() << endl;
+
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			else if (SRunPara::RunPara.resilience == spatial_abundance_removal)
+			{
+				int x, y, xhelp, yhelp, index;   //central point
+
+				//get random center of disturbance
+				x = CEnvir::nrand(SRunPara::RunPara.CellNum);
+				y = CEnvir::nrand(SRunPara::RunPara.CellNum);
+
+				cout << "Center of disturbance: " << x << ", " << y << endl;
+
+				double radius = 0, Apatch;
+				vector<CPlant*> plantsToKill = vector<CPlant*>();
+
+				do
+				{
+					plantsToKill.clear();
+
+					radius += 1.0;               //radius of disturbance [cm]
+					Apatch = (Pi * radius * radius);   //area of patch [cm�]
+					Apatch /= SRunPara::RunPara.CellScale() * SRunPara::RunPara.CellScale();
+
+					cout << "Radius: " << radius << "; Apatch: " << Apatch << endl;
+
+					for (int a = 0; a < Apatch; a++)
+					{
+						//get current position: add random center pos with ZOIBase-pos
+						xhelp = x + ZOIBase[a] / SRunPara::RunPara.CellNum - SRunPara::RunPara.CellNum / 2;
+						yhelp = y + ZOIBase[a] % SRunPara::RunPara.CellNum - SRunPara::RunPara.CellNum / 2;
+
+						Boundary(xhelp, yhelp);
+						index = xhelp * SRunPara::RunPara.CellNum + yhelp;
+						CCell* cell = CellList[index];
+
+						if (cell->occupied)
+						{
+							CPlant* plant = (CPlant*) cell->PlantInCell;
+							plantsToKill.push_back(plant);
+						}
+					} // for all cells in patch
+
+				} while (plantsToKill.size() < toRemove);
+
+				cout << "Size of PlantList " << PlantList.size() << endl;
+				cout << "Final size of plantsToKill: " << plantsToKill.size() << endl;
+
+				for (plant_iter p = plantsToKill.begin(); p < plantsToKill.end(); ++p)
+				{
+					CPlant* plant = *p;
+					cout << "Removing plant: " << plant->plantID << " of type: " << plant->pft() << endl;
+
+					auto it = std::find(PlantList.begin(), PlantList.end(), plant);
+					cout << "PlantList iterator points to: " << ((CPlant*) *it)->plantID << " of type: " << ((CPlant*) *it)->pft() << endl;
+
+					DeletePlant(plant);
+					PlantList.erase(it);
+				}
+
+				cout << "New PlantList size: " << PlantList.size() << endl;
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+			else
+			{
+				cerr << "Not a valid resilience type." << endl;
+			}
+		}
+
+		if (SRunPara::RunPara.catastrophicDistYear > 0 &&
+				CEnvir::year == SRunPara::RunPara.catastrophicDistYear) {
+			if (week == 22) {
+				for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p) {
+					CPlant* plant = *p;
+					DeletePlant(plant);
+				}
+				PlantList.erase(PlantList.begin(), PlantList.end());
+			}
+		}
+		return true;
+	}
+	else return false;
 }//end Disturb
 
 //-----------------------------------------------------------------------------

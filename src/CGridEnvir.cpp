@@ -148,9 +148,9 @@ void CGridEnvir::OneWeek() {
 		SeedMortWinter();    //winter seed mortality
 	}
 
-//	if (week == 20) {        //general output
+	if (week == 20) {        //general output
 		GetOutput();   //calculate output variables
-//	}
+	}
 
 	if (week == 30) {
 		//get cutted biomass
