@@ -6,24 +6,24 @@ from util import *
 path = "./tmp/"
 
 PARALLEL = False
-N_SLOTS = 250
+N_SLOTS  = 400
 
-weekly = 0 # print yearly (0) or weekly (1)?
-ind_out = 1 # individual-level output (1)? 
-pft_out = 0 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
-srv_out = 1 # Print survival statistics (1)? Bad idea with seed addition...
+weekly    = 0 # print yearly (0) or weekly (1)?
+ind_out   = 1 # individual-level output (1)? 
+pft_out   = 2 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
+srv_out   = 1 # Print survival statistics (1)? Bad idea with seed addition...
 trait_out = 1 # Print trait-level output
 
-N_COMS = 1
-N_REPS = 1
-n_PFTs = 16 # Doesn't matter with pairwise invasion criterion... (FIX THIS...)
+N_COMS = 1 # Doesn't matter with pairwise invasion criterion.
+N_REPS = 3
+n_PFTs = 2 # Doesn't matter with pairwise invasion criterion.
 
-MODE = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
+MODE     = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
 PFT_type = 0 # Theoretical (0) or Empirical (1) PFTs
 
 base_params =  [[1], # IC version
                 [MODE],
-                [0, 0.20], # ITVsd
+                [0, 0.5], # ITVsd
                 [100], # Tmax
                 [90], # ARes
                 [90], # Bres
@@ -39,30 +39,31 @@ base_params =  [[1], # IC version
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
-PFType_params = [[100], # MaxAge
-                [0.05], # AllocSeed
-                [1.0, 0.75, 0.50], # LMR
-                [[1.0, 5000, 1.0, 0.1], # maxPlantSizeSet is a linked trait set
-                 [0.3, 2000, 0.3, 0.3],# maxPlantSizeSet. Maximum plant size -- large
-                 [0.1, 1000, 0.1, 0.6]], # Maximum plant size -- small
-                [0.5], # pEstab
-                [[60, 2],
-                 [40, 4], # resourceCompetitionSet. Resource response -- competitor
-                 [20, 6]], # Resource response -- tolerator
-                [[1.00, 1.00],
-                 [0.50, 0.75],# grazingResponseSet. Grazing response -- tolerator
-                 [0.25, 0.50]], # Grazing response -- avoider
-                [1], # RAR
-                [0.25], # growth
-                [0.2], # mThres
-                [0], # clonal
-                [0], # propSex
-                [0], # meanSpacerLength
-                [0], # sdSpacerLength
-                [0], # Resshare
-                [0], # AllocSpacer
-                [0]] # mSpacer
+# PFType_params = [[100], # MaxAge
+#                 [0.05], # AllocSeed
+#                 [1.0, 0.75, 0.50], # LMR
+#                 [[1.0, 5000, 1.0, 0.1], # maxPlantSizeSet is a linked trait set
+#                  [0.3, 2000, 0.3, 0.3],# maxPlantSizeSet. Maximum plant size -- large
+#                  [0.1, 1000, 0.1, 0.6]], # Maximum plant size -- small
+#                 [0.5], # pEstab
+#                 [[60, 2],
+#                  [40, 4], # resourceCompetitionSet. Resource response -- competitor
+#                  [20, 6]], # Resource response -- tolerator
+#                 [[1.00, 1.00],
+#                  [0.50, 0.75],# grazingResponseSet. Grazing response -- tolerator
+#                  [0.25, 0.50]], # Grazing response -- avoider
+#                 [1], # RAR
+#                 [0.25], # growth
+#                 [0.2], # mThres
+#                 [0], # clonal
+#                 [0], # propSex
+#                 [0], # meanSpacerLength
+#                 [0], # sdSpacerLength
+#                 [0], # Resshare
+#                 [0], # AllocSpacer
+#                 [0]] # mSpacer
 
+# 16x16 PFT sets
 # PFType_params = [[100], # MaxAge
 #                 [0.05], # AllocSeed
 #                 [1.0, 0.50], # LMR
@@ -83,6 +84,26 @@ PFType_params = [[100], # MaxAge
 #                 [0], # Resshare
 #                 [0], # AllocSpacer
 #                 [0]] # mSpacer
+
+# Selected trait comparison
+PFType_params = [[100], # MaxAge
+                [0.05], # AllocSeed
+                [0.75], # LMR
+                [[0.3, 2000, 0.3, 0.3]], # Maximum plant size -- small
+                [0.5], # pEstab
+                [[40, 4]], # Resource response -- tolerator
+                [[1.00, 1.00],
+                [0.50, 0.75]], # Grazing response -- avoider
+                [1], # RAR
+                [0.25], # growth
+                [0.2], # mThres
+                [0], # clonal
+                [0], # propSex
+                [0], # meanSpacerLength
+                [0], # sdSpacerLength
+                [0], # Resshare
+                [0], # AllocSpacer
+                [0]] # mSpacer
 
 Sim_header = "NRep " + str(N_REPS) + "\n" + \
                 "SimNr ComNr IC_vers Mode ITVsd Tmax ARes Bres " + \
