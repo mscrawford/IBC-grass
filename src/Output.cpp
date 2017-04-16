@@ -10,14 +10,15 @@ using namespace std;
 
 const vector<string> Output::param_header
 	({
-			"SimID", "ComNr", "RunNr",
+			"SimID", "ComNr", "RunNr", "nPFTs",
 			"IC_vers", "ITVsd", "Tmax",
 			"Invader", "Resident",
 			"ARes", "BRes",
 			"GrazProb", "PropRemove",
 			"BelGrazProb", "BelGrazResidualPerc", "BelGrazPerc",
 			"CatastrophicPlantMortality", "CatastrophicSeedMortality",
-			"SeedRainType", "SeedInput"
+			"SeedRainType", "SeedInput",
+			"ResilienceVers", "ResRemovalPerc"
 	});
 
 const vector<string> Output::trait_header
@@ -167,6 +168,7 @@ void Output::print_param()
 	ss << SRunPara::RunPara.getSimID()					<< ", ";
 	ss << CEnvir::ComNr 								<< ", ";
 	ss << CEnvir::RunNr 								<< ", ";
+	ss << CEnvir::PftInitList.size()					<< ", ";
 	ss << SRunPara::RunPara.Version 					<< ", ";
 	ss << SRunPara::RunPara.ITVsd 						<< ", ";
 	ss << SRunPara::RunPara.Tmax 						<< ", ";
@@ -195,7 +197,9 @@ void Output::print_param()
 	ss << SRunPara::RunPara.CatastrophicPlantMortality 	<< ", ";
 	ss << SRunPara::RunPara.CatastrophicSeedMortality 	<< ", ";
 	ss << SRunPara::RunPara.SeedRainType 				<< ", ";
-	ss << SRunPara::RunPara.SeedInput						   ;
+	ss << SRunPara::RunPara.SeedInput					<< ", ";
+	ss << SRunPara::RunPara.resilience					<< ", ";
+	ss << SRunPara::RunPara.resilience_removal_perc		;
 
 	print_row(ss, param_stream);
 }

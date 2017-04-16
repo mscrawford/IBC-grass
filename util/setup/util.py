@@ -2,17 +2,16 @@ import sys, os, subprocess, itertools, csv, copy, math, re, random
 
 class Base_Parameter():
     def __init__(self, 
-        IC_version, Mode, ITVsd, resilience, removalPerc,
+        IC_version, Mode, ITVsd, 
         Tmax, ARes, Bres, 
         GrazProb, PropRemove, 
         BelGrazProb, BelGrazResidualPerc, BelGrazPerc, 
         CatastrophicPlantMortality, CatastrophicSeedMortality,
-        SeedRainType, SeedInput):
+        SeedRainType, SeedInput,
+        resilience, removalPerc):
         self.IC_version = IC_version
         self.Mode = Mode
         self.ITVsd = ITVsd
-        self.resilience = resilience
-        self.removalPerc = removalPerc
         self.Tmax = Tmax
         self.ARes = ARes
         self.Bres = Bres
@@ -25,6 +24,8 @@ class Base_Parameter():
         self.CatastrophicSeedMortality = CatastrophicSeedMortality
         self.SeedRainType = SeedRainType
         self.SeedInput = SeedInput
+        self.resilience = resilience
+        self.removalPerc = removalPerc
 
         if (self.resilience == 0 and self.removalPerc > 0 or self.resilience > 0 and self.removalPerc == 0):
             print "Nonsensical or redundant parameterization -- resilience and removalPerc."
@@ -57,7 +58,7 @@ class Base_Parameter():
             self.BelGrazProb, self.BelGrazResidualPerc, self.BelGrazPerc, 
             self.CatastrophicPlantMortality, self.CatastrophicSeedMortality, 
             self.SeedRainType, self.SeedInput, 
-            self.resilience, self.removalPerc,]))
+            self.resilience, self.removalPerc]))
 
 
 class PFT():

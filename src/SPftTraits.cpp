@@ -132,6 +132,8 @@ void SPftTraits::ReadPFTDef(const string& file)
 
 		SPftTraits::pftInsertionOrder.push_back(traits->name);
 	}
+
+
 }
 
 /* MSC

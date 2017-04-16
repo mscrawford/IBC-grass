@@ -84,14 +84,14 @@ void CEnvir::GetSim(string data)
 
 	int IC_version;
 	int mode;
+	int resilience_version;
 
 	std::stringstream ss(data);
 
 	ss	>> SimNr 										// Simulation number
 		>> ComNr 										// Community number
 		>> IC_version 									// Stabilizing mechanisms
-		>> mode											// (0) Community assembly (normal), (1) invasion criterion, (2) catastrophic disturbance
-		>> resilience_version // Viktoriia's resilience version
+		>> mode											// (0) Community assembly (normal), (1) invasion criterion, (2) catastrophic disturbance, (3) resilience
 		>> SRunPara::RunPara.ITVsd 						// Standard deviation of intraspecific variation
 		>> SRunPara::RunPara.Tmax 						// End of run year
 		>> SRunPara::RunPara.meanARes 					// Aboveground resources
@@ -105,14 +105,14 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::RunPara.CatastrophicSeedMortality	// Catastrophic Disturbance: Percent of seed removal during Catastrophic Disturbance
 		>> SRunPara::RunPara.SeedRainType				// Seed Rain: Off/On/Type
 		>> SRunPara::RunPara.SeedInput					// Seed Rain: Number of seeds to input per SeedRain event
-		>> SRunPara::RunPara.resilience_removal_perc // Viktoriia's percent to remove
+		>> resilience_version 							// Viktoriia's resilience version
+		>> SRunPara::RunPara.resilience_removal_perc 	// Viktoriia's percent to remove
 		>> SRunPara::RunPara.weekly						// Output: Weekly output rather than yearly
 		>> SRunPara::RunPara.ind_out					// Output: Individual-level output
 		>> SRunPara::RunPara.PFT_out					// Output: PFT-level output
 		>> SRunPara::RunPara.srv_out					// Output: End-of-run survival output
 		>> SRunPara::RunPara.trait_out					// Output: Trait-level output
 		>> SRunPara::NamePftFile 						// Input: Name of input community (PFT intialization) file
->>>>>>> master
 		;
 
 	// set intraspecific competition version, intraspecific trait variation version, and competition modes
@@ -140,8 +140,31 @@ void CEnvir::GetSim(string data)
 	case 2:
 		SRunPara::RunPara.mode = catastrophicDisturbance;
 		break;
+	case 3:
+		SRunPara::RunPara.mode = resilience;
+		break;
 	default:
 		cerr << "Invalid mode parameterization" << endl;
+	}
+
+	switch (resilience_version) {
+	case 0:
+		SRunPara::RunPara.resilience = control;
+		break;
+	case 1:
+		SRunPara::RunPara.resilience = random_removal;
+		break;
+	case 2:
+		SRunPara::RunPara.resilience = abundance_removal;
+		break;
+	case 3:
+		SRunPara::RunPara.resilience = spatial_random_removal;
+		break;
+	case 4:
+		SRunPara::RunPara.resilience = spatial_abundance_removal;
+		break;
+	default:
+		cerr << "Invalid resilience version" << endl;
 	}
 
 	if (SRunPara::RunPara.mode == invasionCriterion)
@@ -149,15 +172,11 @@ void CEnvir::GetSim(string data)
 		SRunPara::RunPara.Tmax += SRunPara::RunPara.Tmax_monoculture;
 	}
 
-	if (SRunPara::RunPara.ITVsd > 0)
-	{
+	if (SRunPara::RunPara.ITVsd > 0) {
 		SRunPara::RunPara.ITV = on;
-	}
-	else
-	{
+	} else {
 		SRunPara::RunPara.ITV = off;
 	}
-
 
 	SRunPara::RunPara.validateRunPara();
 

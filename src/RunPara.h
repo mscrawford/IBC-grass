@@ -34,7 +34,7 @@ enum experimentType {
 
 enum resilience_version {
 	control, random_removal, abundance_removal, spatial_random_removal, spatial_abundance_removal
-
+};
 
 //---------------------------------------------------------------------------
 //! Structure with all scenario parameters
@@ -87,10 +87,6 @@ public:
 	double ITVsd; 		// MSC
 
 	// Gridspace
-
-	resilience_version resilience;
-	double resilience_removal_perc;
-
 	int GridSize;     //!< side length in cm
 	int CellNum;      //!< side length in cells
 
@@ -141,6 +137,10 @@ public:
 	double SeedInput; //!< number of seeds introduced per PFT per year or seed mass introduced per PFT
 	int SeedRainType; //!< mode of seed input: 0 - no seed rain;
 					  //!< 1 - SeedInput specifies total seed NUMBER + equal number of seeds for each PFT;
+
+	// Resilience experiments
+	resilience_version resilience;
+	double resilience_removal_perc;
 
 	// Constructor
 	SRunPara();

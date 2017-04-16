@@ -51,18 +51,7 @@ void CGridEnvir::InitInds()
 {
 	const int no_init_seeds = 10;
 
-	if (SRunPara::RunPara.mode == communityAssembly || SRunPara::RunPara.mode == catastrophicDisturbance)
-	{
-		// PFT Traits are read in GetSim()
-		for (auto it = SPftTraits::PftLinkList.begin(); it != SPftTraits::PftLinkList.end(); ++it)
-		{
-			shared_ptr<SPftTraits> traits = it->second;
-			InitClonalSeeds(traits, no_init_seeds);
-			PftInitList[traits->name] += no_init_seeds;
-			PftSurvTime[traits->name] = 0;
-		}
-	}
-	else if (SRunPara::RunPara.mode == invasionCriterion)
+	if (SRunPara::RunPara.mode == invasionCriterion)
 	{
 		assert(SPftTraits::PftLinkList.size() == 2);
 
@@ -73,6 +62,17 @@ void CGridEnvir::InitInds()
 
 		PftInitList[traits->name] += no_init_seeds;
 		PftSurvTime[traits->name] = 0;
+	}
+	else
+	{
+		// PFT Traits are read in GetSim()
+		for (auto it = SPftTraits::PftLinkList.begin(); it != SPftTraits::PftLinkList.end(); ++it)
+		{
+			shared_ptr<SPftTraits> traits = it->second;
+			InitClonalSeeds(traits, no_init_seeds);
+			PftInitList[traits->name] += no_init_seeds;
+			PftSurvTime[traits->name] = 0;
+		}
 	}
 
 } //initialization based on file
@@ -141,10 +141,8 @@ void CGridEnvir::OneYear()
  */
 void CGridEnvir::OneWeek()
 {
-
 	ResetWeeklyVariables(); // cell loop, removes data from cells
 	SetCellResource();      // variability between weeks
-
 	CoverCells();           // plant loop
 	DistribResource();      // cell loop, resource uptake and competition
 	PlantLoop();            // Growth, Dispersal, Mortality
@@ -163,6 +161,14 @@ void CGridEnvir::OneWeek()
 		RunCatastrophicDisturbance();
 	}
 
+	if (SRunPara::RunPara.mode == resilience)
+	{
+		if (SRunPara::RunPara.resilience != control && CEnvir::year == 30 && CEnvir::week == 10)
+		{
+			RunResilienceExperiment();
+		}
+	}
+
 	if (year > 1)
 	{
 		Disturb();  //grazing and disturbance
@@ -172,7 +178,6 @@ void CGridEnvir::OneWeek()
 			!(SRunPara::RunPara.mode == invasionCriterion &&
 					CEnvir::year <= SRunPara::RunPara.Tmax_monoculture)) // Not a monoculture
 	{
-
 		CEnvir::output.print_srv_and_PFT(PlantList);
 
 		if (SRunPara::RunPara.ind_out == 1)

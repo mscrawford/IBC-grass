@@ -44,6 +44,7 @@ protected:
 	void SeedMortAge();					// Kills seeds that are too old
 	void SeedMortWinter();				// Kills seeds that die over winter
 	void Disturb();						// Calls grazing (Above- and Belowground), trampling, and other disturbances
+	void RunResilienceExperiment();
 	void RunCatastrophicDisturbance(); 	// Removes some percentage of total plants and seeds
 	void Grazing(); 					// Aboveground grazing
 	void GrazingBelGr();				// Belowground grazing
