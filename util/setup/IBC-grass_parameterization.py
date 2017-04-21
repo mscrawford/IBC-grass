@@ -6,24 +6,24 @@ from util import *
 path = "./tmp/"
 
 PARALLEL = False
-N_SLOTS  = 400
+N_SLOTS  = 200
 
 weekly    = 0 # print yearly (0) or weekly (1)?
 ind_out   = 0 # individual-level output (1)? 
 pft_out   = 2 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
 srv_out   = 1 # Print survival statistics (1)? Bad idea with seed addition...
-trait_out = 1 # Print trait-level output
+trait_out = 0 # Print trait-level output
 
-N_COMS = 1 # Doesn't matter with pairwise invasion criterion.
+N_COMS = 100 # Doesn't matter with pairwise invasion criterion.
 N_REPS = 1
-n_PFTs_list = [8, 42] # Doesn't matter with pairwise invasion criterion.
+n_PFTs_list = [2, 4, 8, 16, 42] # Doesn't matter with pairwise invasion criterion.
 
-MODE     = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2), Resilience (3)
+MODE     = 3 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2), Resilience (3)
 PFT_type = 1 # Theoretical (0) or Empirical (1) PFTs
 
 base_params =  [[1], # IC version
                 [MODE],
-                [0, 0.25], # ITVsd
+                [0, 0.20], # ITVsd
                 [90], # Tmax
                 [100], # ARes
                 [90], # Bres
@@ -36,8 +36,8 @@ base_params =  [[1], # IC version
                 [0], # CatastrophicSeedMortality
                 [0], # SeedRainType
                 [0], # SeedInput
-                [0, 3], # resilience
-                [0, .40]] # resilience removal percent
+                [0, 1, 2, 3], # resilience
+                [0, 0.1, 0.2, 0.3, 0.4]] # resilience removal percent
 
 # These parameters are specific to each plant functional type. That is, this details the composition
 # of functional traits.
@@ -103,6 +103,62 @@ def buildBatchScripts(SimFile, n_cores, path, Sim_header):
                 w.write(re.sub('@SIMFILE@', replace_string, base))
             batch_number += 1
 
+
+def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
+    
+
+    # compose the superset of PFTs
+    pfts = []
+    counter = 0
+    for p in itertools.product(*PFType_params):
+        counter += 1
+        pft = PFT(counter, *p)
+        pfts.append(pft)
+
+    SimFile = [] # all the simulations go into one 'SimFile.' This is a list of strings.
+
+    community_number = 0
+    sim_number = random.randint(0, 2147483647) # This is so that you can run multiple simulations at once. 
+    for s in xrange(1, N_COMS+1): # one sim_number per sample of PFTypes. 
+        for n_PFTs in n_PFTs_list:
+            community = random.sample(pfts, len(pfts) if n_PFTs == 0 else n_PFTs)
+            community_number += 1
+            
+            for base_param in itertools.product(*base_params):
+                
+                try:
+                    base_param = Base_Parameter(*base_param)
+                except:
+                    continue
+
+                sim_number += 1 # IBC-grass will barf if sim_number starts with 0.
+                base_simID = str(sim_number)
+                ComNr = str(community_number)
+                sim_filename = base_simID + "_" + "COM" + ".txt"
+
+                # community's SimFile entry
+                SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), 
+                                        str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), sim_filename, "\n"]))
+                
+                # community's PFT file    
+                with open(path + sim_filename, 'w') as w: 
+                    w.write(PFT_header)
+                    counter = 0
+                    for p in community:
+                        w.write(str(counter) + " " + str(p))
+                        counter += 1
+
+                        # This is critical. There can be no trailing newline on the end of the PFT file.
+                        if (community.index(p) != len(community)-1): 
+                            w.write("\n")
+
+    if (PARALLEL):
+        buildBatchScripts(SimFile, N_SLOTS, path, Sim_header)
+        os.system('cp ./resources/queue.sh ./tmp')
+    else:
+        with open(path + "SimFile.txt", 'w') as w:
+            w.write(Sim_header)
+            w.writelines(sim for sim in SimFile)
 
 
 def makeEmpiricalPFTs():

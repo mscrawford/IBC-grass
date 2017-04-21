@@ -81,7 +81,7 @@ void CGrid::resetGrid()
  */
 CGrid::~CGrid() {
 	for (auto p : PlantList) {
-		delete p;
+		delete(p);
 	}
 	PlantList.clear();
 
@@ -237,7 +237,7 @@ void CGrid::DispersRamets(CPlant* plant) {
 			Boundary(x, y);   //periodic boundary condition
 
 			// save dist and direction in the plant
-			CPlant *Spacer = new CPlant(x / CmToCell, y / CmToCell, plant);
+			CPlant* Spacer = new CPlant(x / CmToCell, y / CmToCell, plant);
 			Spacer->SpacerlengthToGrow = dist;
 			Spacer->Spacerlength = dist;
 			Spacer->Spacerdirection = direction;
@@ -398,12 +398,13 @@ void CGrid::Resshare() // resource sharing
  \todo find a faster algorithm for choosing the winning seedling
  */
 void CGrid::EstabLottery() {
-	//Ramet establishment for all Plants
-	for (auto i = PlantList.begin(); i < PlantList.end(); ++i) //for all Plants (before Rametestab)
+
+	int PLsize = PlantList.size();
+	for (int i = 0; i < PLsize; i++)
 	{
-		CPlant* plant = *i;
+		CPlant* plant = PlantList[i];
 		if (plant->Traits->clonal && !plant->dead) {
-			RametEstab(plant);
+			RametEstab(plant); // This appends to PlantList. Fix?
 		}
 	}
 	//for Seeds (for clonal and non-klonal plants)
@@ -514,6 +515,7 @@ void CGrid::RametEstab(CPlant* plant) {
 
 			if (!cell->occupied) //establish if cell is not central point of another plant
 			{
+
 				Ramet->getGenet()->AllRametList.push_back(Ramet);
 				Ramet->setCell(cell);
 
@@ -527,6 +529,7 @@ void CGrid::RametEstab(CPlant* plant) {
 				{
 					Ramet->dead = true; //tag:SA
 				}
+
 			} //if cell ist not occupied
 			else //find another random cell in the area around
 			{
@@ -556,8 +559,8 @@ void CGrid::RametEstab(CPlant* plant) {
 				}
 				if (CEnvir::week == CEnvir::WeeksPerYear)
 				{
-					delete Ramet;
 					plant->growingSpacerList.erase(plant->growingSpacerList.begin() + f);
+					delete Ramet;
 				}
 			} //else
 		} //end if pos reached
@@ -1116,11 +1119,13 @@ void CGrid::Trampling() {
 //-----------------------------------------------------------------------------
 void CGrid::RemovePlants() {
 	plant_iter irem = partition(PlantList.begin(), PlantList.end(), mem_fun(&CPlant::GetPlantRemove));
+
 	for (plant_iter it = irem; it < PlantList.end(); ++it)
 	{
 		CPlant* plant = *it;
 		DeletePlant(plant);
 	}
+
 	PlantList.erase(irem, PlantList.end());
 }
 
@@ -1130,14 +1135,14 @@ void CGrid::RemovePlants() {
  */
 void CGrid::DeletePlant(CPlant* p) {
 	std::shared_ptr<CGenet> Genet = p->getGenet();
-	//search ramet in list and erase
-	for (unsigned int j = 0; j < Genet->AllRametList.size(); j++)
-	{
-		CPlant* Ramet;
-		Ramet = Genet->AllRametList[j];
-		if (p == Ramet)
-			Genet->AllRametList.erase(Genet->AllRametList.begin() + j);
-	}   //for all ramets
+
+	auto it = std::find(Genet->AllRametList.begin(), Genet->AllRametList.end(), p);
+	if (it != Genet->AllRametList.end()) {
+		Genet->AllRametList.erase(it);
+	} else {
+		cerr << "Plant does not exist within its Genet's AllRametList." << endl;
+	}
+
 	p->getCell()->occupied = false;
 	p->getCell()->PlantInCell = NULL;
 

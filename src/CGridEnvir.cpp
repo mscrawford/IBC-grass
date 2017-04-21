@@ -126,7 +126,7 @@ void CGridEnvir::OneRun() {
 void CGridEnvir::OneYear()
 {
 	do {
-//		if (SRunPara::RunPara.verbose) cout << "y " << year << " w " << week << endl;
+		if (SRunPara::RunPara.verbose) cout << "y " << year << " w " << week << endl;
 
 		OneWeek();
 

@@ -89,8 +89,8 @@ CPlant::CPlant(double x, double y, CPlant* plant) :
  */
 CPlant::~CPlant()
 {
-	for (unsigned int i = 0; i < growingSpacerList.size(); ++i) {
-		delete growingSpacerList[i];
+	for (auto i : growingSpacerList) {
+		delete(i);
 	}
 
 	growingSpacerList.clear();
@@ -191,26 +191,22 @@ double CPlant::ReproGrow(double uptake)
  */
 void CPlant::SpacerGrow() {
 
-	double mGrowSpacer = 0;
-
-	int SpacerListSize = this->growingSpacerList.size();
-
-	if (SpacerListSize == 0)
+	if (this->growingSpacerList.size() == 0)
 		return;
 
 	if (mReproRamets > 0)
 	{
-		mGrowSpacer = mReproRamets / SpacerListSize; //resources for one spacer
+		double mGrowSpacer = mReproRamets / this->growingSpacerList.size(); //resources for one spacer
 
-		for (int g = 0; g < SpacerListSize; g++) //loop for all growing Spacer of one plant
+		for (auto i : this->growingSpacerList) //loop for all growing Spacer of one plant
 		{
-			CPlant* Spacer = this->growingSpacerList[g];
+			CPlant* Spacer = i;
 
-			double lengthtogrow = Spacer->SpacerlengthToGrow;
+			double lengthToGrow = Spacer->SpacerlengthToGrow;
 
-			lengthtogrow -= (mGrowSpacer / Traits->mSpacer); //spacer growth
+			lengthToGrow = lengthToGrow - (mGrowSpacer / Traits->mSpacer); //spacer growth
 
-			Spacer->SpacerlengthToGrow = max(0.0, lengthtogrow);
+			Spacer->SpacerlengthToGrow = max(0.0, lengthToGrow);
 
 			//Estab for all growing Spacers in the last week of the year
 
