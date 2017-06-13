@@ -399,9 +399,10 @@ void CGrid::Resshare() // resource sharing
  */
 void CGrid::EstabLottery() {
 	//Ramet establishment for all Plants
-	for (auto i = PlantList.begin(); i < PlantList.end(); ++i) //for all Plants (before Rametestab)
+	int PLsize = PlantList.size();
+	for (int i = 0; i < PLsize; i++)
 	{
-		CPlant* plant = *i;
+		CPlant* plant = PlantList[i];
 		if (plant->Traits->clonal && !plant->dead) {
 			RametEstab(plant);
 		}

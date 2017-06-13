@@ -169,8 +169,7 @@ void SPftTraits::varyTraits()
 		MaxMass_ = MaxMass + (MaxMass * dev);
 		SeedMass_ = SeedMass + (SeedMass * dev);
 		Dist_ = Dist - (Dist * dev);
-	} while (dev < -1.0 || dev > 1.0 || m0_ < 0 || MaxMass_ < 0 || SeedMass_ < 0
-			|| Dist_ < 0);
+	} while (dev < -1.0 || dev > 1.0 || m0_ < 0 || MaxMass_ < 0 || SeedMass_ < 0 || Dist_ < 0);
 	m0 = m0_;
 	MaxMass = MaxMass_;
 	SeedMass = SeedMass_;
