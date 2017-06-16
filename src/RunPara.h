@@ -42,8 +42,9 @@ public:
 	static const bool verbose = true;
 
 	// Input Files
-	static std::string NamePftFile;   	///< Filename of PftTrait-File
-	static std::string NameSimFile;  	///< Filename of Simulation-File
+	static std::string NamePftFile;   	// Filename of PftTrait-File
+	static std::string NameSimFile;  	// Filename of Simulation-File
+	static std::string outputPrefix;	// Prefix for the output file, empty is single core, something user-supplied if multi-core
 
 	int weekly;
 	int ind_out;

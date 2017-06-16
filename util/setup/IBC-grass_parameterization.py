@@ -10,18 +10,18 @@ N_SLOTS  = 300
 
 weekly    = 0 # print yearly (0) or weekly (1)?
 ind_out   = 0 # individual-level output (1)? 
-pft_out   = 0 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
+pft_out   = 1 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
 srv_out   = 1 # Print survival statistics (1)? Bad idea with seed addition...
-trait_out = 0 # Print trait-level output
+trait_out = 1 # Print trait-level output
 
-N_COMS = 100 # Doesn't matter with pairwise invasion criterion.
-N_REPS = 25 
-n_PFTs = 16 # Doesn't matter with pairwise invasion criterion.
+N_COMS = 0 # Doesn't matter with pairwise invasion criterion.
+N_REPS = 15 
+n_PFTs = 0 # Doesn't matter with pairwise invasion criterion.
 
-MODE     = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
+MODE     = 1 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
 PFT_type = 0 # Theoretical (0) or Empirical (1) PFTs
 
-base_params =  [[0, 1], # IC version
+base_params =  [[0], # IC version
                 [MODE],
                 [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50], # ITVsd
                 [100], # Tmax
@@ -85,26 +85,6 @@ PFType_params = [[100], # MaxAge
 #                 [0], # AllocSpacer
 #                 [0]] # mSpacer
 
-# Selected trait comparison
-# PFType_params = [[100], # MaxAge
-#                 [0.05], # AllocSeed
-#                 [0.75], # LMR
-#                 [[0.3, 2000, 0.3, 0.3],
-#                  [0.1, 1000, 0.1, 0.6]], # Maximum plant size -- small
-#                 [0.5], # pEstab
-#                 [[60, 2]], # Resource response -- tolerator
-#                 [[1.00, 1.00]], # Grazing response -- avoider
-#                 [1], # RAR
-#                 [0.25], # growth
-#                 [0.2], # mThres
-#                 [0], # clonal
-#                 [0], # propSex
-#                 [0], # meanSpacerLength
-#                 [0], # sdSpacerLength
-#                 [0], # Resshare
-#                 [0], # AllocSpacer
-#                 [0]] # mSpacer
-
 Sim_header = "NRep " + str(N_REPS) + "\n" + \
                 "SimNr ComNr IC_vers Mode ITVsd Tmax ARes Bres " + \
                 "GrazProb PropRemove " + \
@@ -138,10 +118,11 @@ def buildBatchScripts(SimFile, n_cores, path, Sim_header):
         for s in sim_files:
             batch_name = "batch_" + str(batch_number)
             replace_string = s
+            batch_text = re.sub('@SIMFILE@', replace_string, base)
+            batch_text = re.sub('@PREFIX@', batch_name, batch_text)
             with open('./tmp/' + batch_name + ".sub", 'w') as w:
-                w.write(re.sub('@SIMFILE@', replace_string, base))
+                w.write(batch_text)
             batch_number += 1
-
 
 def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
     assert(n_PFTs <= 81)
@@ -172,23 +153,23 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
             sim_number += 1 # IBC-grass will barf if sim_number starts with 0.
             base_simID = str(sim_number)
             ComNr = str(community_number)
-            sim_filename = base_simID + "_" + "COM" + ".txt"
+            com_filename = "COM_" + ComNr + ".txt"
 
             # community's SimFile entry
             SimFile.append(" ".join([base_simID, ComNr, base_param.toString(), 
-                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), sim_filename, "\n"]))
+                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), com_filename, "\n"]))
             
             # community's PFT file    
-            with open(path + sim_filename, 'w') as w: 
-                w.write(PFT_header)
-                counter = 0
-                for p in community:
-                    w.write(str(counter) + " " + str(p))
-                    counter += 1
+        with open(path + com_filename, 'w') as w: 
+            w.write(PFT_header)
+            counter = 0
+            for p in community:
+                w.write(str(counter) + " " + str(p))
+                counter += 1
 
-                    # This is critical. There can be no trailing newline on the end of the PFT file.
-                    if (community.index(p) != len(community)-1): 
-                        w.write("\n")
+                # This is critical. There can be no trailing newline on the end of the PFT file.
+                if (community.index(p) != len(community)-1): 
+                    w.write("\n")
 
     if (PARALLEL):
         buildBatchScripts(SimFile, N_SLOTS, path, Sim_header)
@@ -198,7 +179,7 @@ def makeTheoreticalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
             w.write(Sim_header)
             w.writelines(sim for sim in SimFile)
 
-def makeEmpiricalPFTs():
+def makeEmpiricalPFTs(parallel = PARALLEL, N_SLOTS = N_SLOTS):
 
     # Read in Lina's superset of PFTs
     with open("./resources/selectWeiss.txt", "r") as r:
@@ -226,22 +207,22 @@ def makeEmpiricalPFTs():
             sim_number += 1 # IBC-grass will barf if sim_number starts with 0.
             base_simID = str(sim_number)
             ComNr = str(community_number)
-            sim_filename = base_simID + "_" + "COM" + ".txt"
+            com_filename = "COM_" + ComNr + ".txt"
 
             # community's SimFile entry
             SimFile.append(" ".join([base_simID, ComNr, base_param.toString(),
-                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), sim_filename, "\n"]))
+                                    str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), com_filename, "\n"]))
             
             # community's PFT file    
-            with open(path + sim_filename, 'w') as w: 
-                w.write(PFT_header)
-                counter = 0
-                for p in community:
-                    w.write(str(counter) + " " + str(p))
-                    counter += 1
+        with open(path + com_filename, 'w') as w: 
+            w.write(PFT_header)
+            counter = 0
+            for p in community:
+                w.write(str(counter) + " " + str(p))
+                counter += 1
 
-                    if (community.index(p) != len(community)-1): # This is critical. There can be no trailing newline on the end of the PFT file.
-                        w.write("\n")
+                if (community.index(p) != len(community)-1): # This is critical. There can be no trailing newline on the end of the PFT file.
+                    w.write("\n")
 
     if (PARALLEL):
         buildBatchScripts(SimFile, N_SLOTS, path, Sim_header)
@@ -289,16 +270,16 @@ def makePFTPairs():
             sim_number += 1 # IBC-grass will barf if sim_number starts with 0.
             base_simID = str(sim_number) 
             
-            PFT_filename = base_simID + ".txt"
+            PFT_filename = "Pair_" + str(ComNr) + ".txt"
             SimFile.append(" ".join([base_simID, str(ComNr), base_param.toString(),
                                     str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), PFT_filename, "\n"]))
                        
 
             # PFT pair's PFT file
-            with open(path + PFT_filename, 'w') as w:
-                w.write(PFT_header)
-                w.write("1 " + str(p) + "\n")
-                w.write("2 " + str(q))
+        with open(path + PFT_filename, 'w') as w:
+            w.write(PFT_header)
+            w.write("1 " + str(p) + "\n")
+            w.write("2 " + str(q))
 
     if (PARALLEL):
         buildBatchScripts(SimFile, N_SLOTS, path, Sim_header)

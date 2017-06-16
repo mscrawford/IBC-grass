@@ -8,6 +8,7 @@
 // Input Files
 std::string SRunPara::NamePftFile; 							// trait file for experiment species
 std::string SRunPara::NameSimFile = "data/in/SimFile.txt"; 	// file with simulation scenarios
+std::string SRunPara::outputPrefix = "default";
 
 SRunPara SRunPara::RunPara = SRunPara();
 
@@ -107,9 +108,8 @@ void SRunPara::validateRunPara()
 
 std::string SRunPara::getFileID()
 {
-	std::string s =
-			std::to_string(CEnvir::SimNr) + "_" +
-			std::to_string(CEnvir::ComNr);
+	std::string s = SRunPara::outputPrefix;
+
 	return s;
 }
 

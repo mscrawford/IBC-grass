@@ -124,8 +124,10 @@ int main(int argc, char* argv[])
 
 	if (argc >= 2) {
 		SRunPara::NameSimFile = argv[1];
+		SRunPara::outputPrefix = argv[2];
 	} else {
 		SRunPara::NameSimFile = "data/in/SimFile.txt";
+		SRunPara::outputPrefix = "default";
 	}
 
 	ifstream SimFile(SRunPara::NameSimFile.c_str()); // Open Simulation Parameterization file
