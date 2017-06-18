@@ -99,37 +99,45 @@ void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn, str
 	Output::PFT_fn = _PFT_fn;
 	Output::ind_fn = _ind_fn;
 
+	bool mid_batch = is_file_exist(param_fn.c_str());
+
 	param_stream.open(param_fn.c_str(), ios_base::app);
 	assert(param_stream.good());
-	print_row(param_header, param_stream);
+	if (!mid_batch) print_row(param_header, param_stream);
 
 	if (SRunPara::RunPara.trait_out)
 	{
 		trait_stream.open(trait_fn.c_str(), ios_base::app);
 		assert(trait_stream.good());
-		print_row(trait_header, trait_stream);
+		if (!mid_batch) print_row(trait_header, trait_stream);
 	}
 
 	if (SRunPara::RunPara.PFT_out)
 	{
 		PFT_stream.open(PFT_fn.c_str(), ios_base::app);
 		assert(PFT_stream.good());
-		print_row(PFT_header, PFT_stream);
+		if (!mid_batch) print_row(PFT_header, PFT_stream);
 	}
 
 	if (SRunPara::RunPara.ind_out)
 	{
 		ind_stream.open(ind_fn.c_str(), ios_base::app);
 		assert(ind_stream.good());
-		print_row(ind_header, ind_stream);
+		if (!mid_batch) print_row(ind_header, ind_stream);
 	}
 
 	if (SRunPara::RunPara.srv_out)
 	{
 		srv_stream.open(srv_fn.c_str(), ios_base::app);
 		assert(srv_stream.good());
-		print_row(srv_header, srv_stream);
+		if (!mid_batch) print_row(srv_header, srv_stream);
 	}
+}
+
+bool Output::is_file_exist(const char *fileName)
+{
+    std::ifstream infile(fileName);
+    return infile.good();
 }
 
 void Output::cleanup()

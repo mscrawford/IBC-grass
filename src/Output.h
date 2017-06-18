@@ -41,6 +41,7 @@ private:
 	std::string PFT_fn;
 	std::string ind_fn;
 
+	bool is_file_exist(const char *fileName);
 	void print_row(std::ostringstream &ss, std::ofstream &stream);
 	void print_row(std::vector<std::string> row, std::ofstream &stream);
 

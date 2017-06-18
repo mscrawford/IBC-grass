@@ -5,22 +5,35 @@ from util import *
 
 PATH = "./tmp/"
 
+
+####################################################################
+#### Parameters
+####################################################################
+
+# For computing clusters
 PARALLEL = True
-N_SLOTS  = 300
+N_SLOTS  = 300 # UNUSED WITH SERIAL RUNS
 
-weekly    = 0 # print yearly (0) or weekly (1)?
-ind_out   = 0 # individual-level output (1)? 
-pft_out   = 0 # PFT-level output? 0: No, 1: Yes, no dead PFTs, 2: Yes, even dead PFTs
-srv_out   = 1 # Print survival statistics (1)? Bad idea with seed addition...
-trait_out = 0 # Print trait-level output
+# Frequency and type of output
+weekly    = 0 # Print output yearly (0) or weekly (1)?
 
-N_COMS = 100 # Doesn't matter with pairwise invasion criterion.
-N_REPS = 25
-N_PFTs = [4, 8, 16, 32, 64] # Doesn't matter with pairwise invasion criterion.
+ind_out   = 0 # Print individual-level output?  (0) No; (1) Yes
+pft_out   = 0 # Print PFT-level output:         (0) No; (1) Yes, but without repeating dead PFTs; (2) Yes, repeating dead PFTs
+srv_out   = 1 # Print PFT-survival output:      (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
+trait_out = 0 # Print trait-level output:       (0) No; (1) Yes
 
-MODE     = 0 # Community Assembly (0), Invasion criterion (1), Catastrophic disturbance (2)
+# Number of repetitions
+N_REPS = 15
+
+# Number of communities, how many individuals per community, and what kind of PFTs to use
+N_COMS = 150                # UNUSED WITH PAIRWISE INVASION CRITERION
+N_PFTs = [4, 8, 16, 32, 64] # UNUSED WITH PAIRWISE INVASION CRITERION
 PFT_type = "THEORETICAL" # "THEORETICAL" or "EMPIRICAL"
 
+# IBC-grass run mode
+MODE     = 0 # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
+
+# Environmental parameters
 base_params =  [[0], # IC version
                 [MODE],
                 [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50], # ITVsd
@@ -37,8 +50,12 @@ base_params =  [[0], # IC version
                 [0], # SeedRainType
                 [0]] # SeedInput
 
-# These parameters are specific to each plant functional type. That is, this details the composition
-# of functional traits.
+
+####################################################################
+#### Theoretical PFTs
+####################################################################
+
+# When creating the theoretical PFTs, each PFT is a permutation of the below nested list of traits
 PFType_params = [[100], # MaxAge
                 [0.05], # AllocSeed
                 [1.0, 0.75, 0.50], # LMR
@@ -63,6 +80,11 @@ PFType_params = [[100], # MaxAge
                 [0], # AllocSpacer
                 [0]] # mSpacer
 
+
+####################################################################
+#### Header strings
+####################################################################
+
 SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
                 "SimID ComNr IC_vers Mode ITVsd Tmax ARes Bres " + \
                 "GrazProb PropRemove " + \
@@ -73,6 +95,11 @@ SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
 
 PFT_HEADER = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                 "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
+
+
+####################################################################
+#### Parallel setup helper-function
+####################################################################
 
 def buildBatchScripts(SimFile):
     sims_per_core = int( math.ceil( len(SimFile)/float(N_SLOTS) ) )
@@ -102,7 +129,12 @@ def buildBatchScripts(SimFile):
                 w.write(batch_text)
             batch_number += 1
 
-def buildPFTs(PFT_type = "THEORETICAL"):
+
+####################################################################
+#### Default setup
+####################################################################
+
+def buildPFTs():
 
     # Compose the superset of PFTs
     PFTs = []
@@ -121,6 +153,9 @@ def buildPFTs(PFT_type = "THEORETICAL"):
             [pft.pop(1) for pft in PFTs]
             PFTs = [" ".join(pft) for pft in PFTs]
 
+    else:
+        raise Exception("Wrong PFT type.")
+
     SimFile = [] # All the simulations go into one 'SimFile.' This is a list of strings.
     ComNr = 0 
     SimNr = random.randint(0, 2147483647) # Used to join datasets
@@ -131,7 +166,6 @@ def buildPFTs(PFT_type = "THEORETICAL"):
             ComNr += 1
             
             for base_param in itertools.product(*base_params):
-                
                 try:
                     base_param = Base_Parameter(*base_param)
                 except:
@@ -139,8 +173,6 @@ def buildPFTs(PFT_type = "THEORETICAL"):
 
                 SimNr += 1 # IBC-grass will barf if SimNr starts with 0.
                 Com_FN = "COM_" + str(ComNr) + ".txt"
-
-                # community's SimFile entry
                 SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), Com_FN, "\n"]))
                 
                 # community's PFT file    
@@ -155,16 +187,14 @@ def buildPFTs(PFT_type = "THEORETICAL"):
                     if (community.index(p) != len(community)-1): 
                         w.write("\n")
 
-    if (PARALLEL):
-        buildBatchScripts(SimFile)
-        os.system('cp ./resources/queue.sh ./tmp')
-    else:
-        with open(PATH + "SimFile.txt", 'w') as w:
-            w.write(SIM_HEADER)
-            w.writelines(sim for sim in SimFile)
+    return (SimFile)
 
 
-def buildPairs(PFT_type = "THEORETICAL"):
+####################################################################
+#### Pairwise setup
+####################################################################
+
+def buildPairs():
 
     PFTs = []
     counter = 0
@@ -204,6 +234,22 @@ def buildPairs(PFT_type = "THEORETICAL"):
             w.write("1 " + str(p) + "\n")
             w.write("2 " + str(q))
 
+    return (SimFile)
+
+
+####################################################################
+#### MAIN
+####################################################################
+
+if __name__ == "__main__":
+    
+    SimFile = []
+    if (MODE == 1):
+        SimFile = buildPairs()
+    else:
+        SimFile = buildPFTs()
+
+
     if (PARALLEL):
         buildBatchScripts(SimFile)
         os.system('cp ./resources/queue.sh ./tmp')
@@ -212,12 +258,6 @@ def buildPairs(PFT_type = "THEORETICAL"):
             w.write(SIM_HEADER)
             w.writelines(sim for sim in SimFile)
 
-
-if __name__ == "__main__":
-    if (MODE == 1):
-        buildPairs(PFT_type)
-    else:
-        buildPFTs(PFT_type)
 
     with open('IBC-grass_parameterization.py', 'r') as r:
         words = r.readlines()
