@@ -11,35 +11,41 @@ PATH = "./tmp/"
 ####################################################################
 
 # For computing clusters
-PARALLEL = True
-N_SLOTS  = 300 # UNUSED WITH SERIAL RUNS
+PARALLEL  = True
+N_SLOTS   = 350 # UNUSED WITH SERIAL RUNS
 
 # Frequency and type of output
 weekly    = 0 # Print output yearly (0) or weekly (1)?
 
 ind_out   = 0 # Print individual-level output?  (0) No; (1) Yes
-pft_out   = 0 # Print PFT-level output:         (0) No; (1) Yes, but without repeating dead PFTs; (2) Yes, repeating dead PFTs
+pft_out   = 0 # Print PFT-level output:         (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
 srv_out   = 1 # Print PFT-survival output:      (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
 trait_out = 0 # Print trait-level output:       (0) No; (1) Yes
 
 # Number of repetitions
-N_REPS = 15
+N_REPS    = 10
 
 # Number of communities, how many individuals per community, and what kind of PFTs to use
-N_COMS = 150                # UNUSED WITH PAIRWISE INVASION CRITERION
-N_PFTs = [4, 8, 16, 32, 64] # UNUSED WITH PAIRWISE INVASION CRITERION
-PFT_type = "THEORETICAL" # "THEORETICAL" or "EMPIRICAL"
+N_COMS    = 150  # UNUSED WITH PAIRWISE INVASION CRITERION
+N_PFTs    = [16] # UNUSED WITH PAIRWISE INVASION CRITERION
+PFT_type  = "THEORETICAL" # "THEORETICAL" or "EMPIRICAL"
 
 # IBC-grass run mode
-MODE     = 0 # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
+MODE      = 0 # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
+
+# Custom environment time series
+ENV       = 1 # (0) Static environment; (1) IBC-grass uses custom environmental time series
+SIGMA     = 0.1
 
 # Environmental parameters
-base_params =  [[0], # IC version
+base_params =  [[0, 1], # IC version
                 [MODE],
-                [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50], # ITVsd
+                [0, 0.10, 0.20, 0.30, 0.40, 0.50], # ITVsd
                 [100], # Tmax
+                [ENV], # Environmental variation
+                [SIGMA],
                 [90], # ARes
-                [90], # Bres
+                ['NA'], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
                 [0], # BelGrazProb
@@ -86,7 +92,7 @@ PFType_params = [[100], # MaxAge
 ####################################################################
 
 SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
-                "SimID ComNr IC_vers Mode ITVsd Tmax ARes Bres " + \
+                "SimID ComNr IC_vers Mode ITVsd Tmax Env Sigma ARes Bres " + \
                 "GrazProb PropRemove " + \
                 "BelGrazProb BelGrazResidualPerc BelGrazPerc " + \
                 "CatastrophicPlantMortality CatastrophicSeedMortality " + \
@@ -109,7 +115,7 @@ def buildBatchScripts(SimFile):
         fn = "SimFile_" + str(core) + ".txt"
         with open(PATH + fn, 'w') as w:
             w.write(SIM_HEADER)
-            while (i < sims_per_core and len(SimFile) > 0):
+            while ( i < sims_per_core and len(SimFile) > 0 ):
                 w.write(SimFile.pop())
                 i += 1
         if (i == 0):
@@ -129,6 +135,18 @@ def buildBatchScripts(SimFile):
                 w.write(batch_text)
             batch_number += 1
 
+####################################################################
+#### Generating environmental variation
+#### Notes:
+####    - Make sure that there is only one level of Tmax
+####    - Make sure that "Bres" is set to 'NA'
+####################################################################
+
+def generateEnvironmentalVariation():
+    assert(base_params[7][0] == 'NA') # Belowground resources = 'NA'
+    assert(base_params[5][0] > 0) # Sigma is non-zero
+    assert(len(base_params[3]) == 1) # Environmental variation will only work if the length of the simulation is uniform
+    subprocess.call(['Rscript', '--vanilla', 'BrownianMotion.R', str(N_REPS), str(base_params[3][0]), str(SIGMA)])
 
 ####################################################################
 #### Default setup
@@ -164,7 +182,8 @@ def buildPFTs():
         for n in N_PFTs:
             community = random.sample(PFTs, len(PFTs) if n == 0 else n)
             ComNr += 1
-            
+            Com_FN = "COM_" + str(ComNr) + ".txt"
+
             for base_param in itertools.product(*base_params):
                 try:
                     base_param = Base_Parameter(*base_param)
@@ -172,7 +191,6 @@ def buildPFTs():
                     continue
 
                 SimNr += 1 # IBC-grass will barf if SimNr starts with 0.
-                Com_FN = "COM_" + str(ComNr) + ".txt"
                 SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), Com_FN, "\n"]))
                 
                 # community's PFT file    
@@ -249,6 +267,8 @@ if __name__ == "__main__":
     else:
         SimFile = buildPFTs()
 
+    if (ENV == 1):
+        generateEnvironmentalVariation()
 
     if (PARALLEL):
         buildBatchScripts(SimFile)

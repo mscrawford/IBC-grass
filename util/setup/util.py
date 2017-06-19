@@ -2,7 +2,8 @@ import sys, os, subprocess, itertools, csv, copy, math, re, random
 
 class Base_Parameter():
     def __init__(self, 
-        IC_version, Mode, ITVsd, Tmax, ARes, Bres, 
+        IC_version, Mode, ITVsd, Tmax, 
+        Env, Sigma, ARes, Bres, 
         GrazProb, PropRemove, 
         BelGrazProb, BelGrazResidualPerc, BelGrazPerc, 
         CatastrophicPlantMortality, CatastrophicSeedMortality,
@@ -11,6 +12,8 @@ class Base_Parameter():
         self.Mode = Mode
         self.ITVsd = ITVsd
         self.Tmax = Tmax
+        self.Env = Env
+        self.Sigma = Sigma
         self.ARes = ARes
         self.Bres = Bres
         self.GrazProb = GrazProb
@@ -45,7 +48,7 @@ class Base_Parameter():
     def toString(self):
         return " ".join(map(str, [self.IC_version, self.Mode, self.ITVsd, 
             self.Tmax, 
-            self.ARes, self.Bres, 
+            self.Env, self.Sigma, self.ARes, self.Bres, 
             self.GrazProb, self.PropRemove, 
             self.BelGrazProb, self.BelGrazResidualPerc, self.BelGrazPerc, 
             self.CatastrophicPlantMortality, self.CatastrophicSeedMortality,

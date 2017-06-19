@@ -10,7 +10,7 @@ using namespace std;
 
 const vector<string> Output::param_header
 	({
-			"SimID", "ComNr", "RunNr",
+			"SimID", "ComNr", "RunNr", "nPFTs",
 			"IC_vers", "ITVsd", "Tmax",
 			"Invader", "Resident",
 			"ARes", "BRes",
@@ -175,6 +175,7 @@ void Output::print_param()
 	ss << SRunPara::RunPara.getSimID()					<< ", ";
 	ss << CEnvir::ComNr 								<< ", ";
 	ss << CEnvir::RunNr 								<< ", ";
+	ss << CEnvir::PftInitList.size()					<< ", ";
 	ss << SRunPara::RunPara.Version 					<< ", ";
 	ss << SRunPara::RunPara.ITVsd 						<< ", ";
 	ss << SRunPara::RunPara.Tmax 						<< ", ";
