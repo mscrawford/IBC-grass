@@ -8,9 +8,12 @@
 // Input Files
 std::string SRunPara::NamePftFile; 							// trait file for experiment species
 std::string SRunPara::NameSimFile = "data/in/SimFile.txt"; 	// file with simulation scenarios
+std::string SRunPara::NameEnvironmentFile = "data/in/Environment.csv";
 std::string SRunPara::outputPrefix = "default";
 
 SRunPara SRunPara::RunPara = SRunPara();
+
+std::vector<double> BelGrndVariability;
 
 SRunPara::SRunPara() :
 		weekly(0), ind_out(0), PFT_out(2), srv_out(1), trait_out(1),
@@ -19,8 +22,9 @@ SRunPara::SRunPara() :
 		ITV(off), ITVsd(0),
 		GridSize(100), CellNum(100),
 		Tmax(100),
-		mort_seeds(0.5), DiebackWinter(0.5), mort_base(0.007), LitterDecomp(0.5),
+		EnvVariability(0), Sigma(0),
 		meanARes(100), meanBRes(100),
+		mort_seeds(0.5), DiebackWinter(0.5), mort_base(0.007), LitterDecomp(0.5),
 		EstabRamet(1),
 		GrazProb(0), PropRemove(0), BitSize(0.5), MassUngraz(15300),
 		BelGrazResidualPerc(0), BelGrazProb(0), BelGrazPerc(0),

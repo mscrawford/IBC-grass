@@ -13,7 +13,7 @@ const vector<string> Output::param_header
 			"SimID", "ComNr", "RunNr", "nPFTs",
 			"IC_vers", "ITVsd", "Tmax",
 			"Invader", "Resident",
-			"ARes", "BRes",
+			"Env", "Sigma", "ARes", "BRes",
 			"GrazProb", "PropRemove",
 			"BelGrazProb", "BelGrazResidualPerc", "BelGrazPerc",
 			"CatastrophicPlantMortality", "CatastrophicSeedMortality",
@@ -194,6 +194,8 @@ void Output::print_param()
 		ss << "NA"	 									<< ", ";
 	}
 
+	ss << SRunPara::RunPara.EnvVariability				<< ", ";
+	ss << SRunPara::RunPara.Sigma 						<< ", ";
 	ss << SRunPara::RunPara.meanARes 					<< ", ";
 	ss << SRunPara::RunPara.meanBRes 					<< ", ";
 	ss << SRunPara::RunPara.GrazProb 					<< ", ";

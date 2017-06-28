@@ -58,10 +58,27 @@ void CEnvir::ReadLandscape() {
 	AResMuster.clear();
 	BResMuster.clear();
 
-	AResMuster = vector<double>(vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
-								SRunPara::RunPara.meanARes);
-	BResMuster = vector<double>(vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
-								SRunPara::RunPara.meanBRes);
+
+	if (SRunPara::RunPara.EnvVariability == 1)
+	{
+		AResMuster = vector<double>(
+				vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
+				SRunPara::RunPara.meanARes);
+//		BResMuster = vector<double>(
+//				vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
+//				SRunPara::);
+
+	}
+	else
+	{
+		AResMuster = vector<double>(
+				vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
+				SRunPara::RunPara.meanARes);
+		BResMuster = vector<double>(
+				vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
+				SRunPara::RunPara.meanBRes);
+	}
+
 }  //end ReadLandscape
 
 //------------------------------------------------------------------------------
@@ -93,6 +110,8 @@ void CEnvir::GetSim(string data)
 		>> mode											// (0) Community assembly (normal), (1) invasion criterion, (2) catastrophic disturbance
 		>> SRunPara::RunPara.ITVsd 						// Standard deviation of intraspecific variation
 		>> SRunPara::RunPara.Tmax 						// End of run year
+		>> SRunPara::RunPara.EnvVariability				// Is the environment variable?
+		>> SRunPara::RunPara.Sigma						// How variable is the environment? (ONLY USED FOR PRINTING SO FAR)
 		>> SRunPara::RunPara.meanARes 					// Aboveground resources
 		>> SRunPara::RunPara.meanBRes  					// Belowground resources
 		>> SRunPara::RunPara.GrazProb 					// Aboveground grazing: probability

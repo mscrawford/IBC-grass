@@ -43,17 +43,55 @@ write.table(x = d, file = "Environment.csv", sep = ", ", col.names = F, row.name
 # library(ggplot2)
 # library(ggthemes)
 # library(cowplot)
+# library(dplyr)
+# library(sde)
+# library(reshape2)
+#
+# WEEKS = 30
+#
+# YEARS <- 100
+# SIGMA <- seq(from = 0.05, to = 0.20, by = 0.05)
+#
+# d = data.frame(cyclic = 50 +
+#                    rep(sapply(seq(0,
+#                                   pi,
+#                                   length.out = WEEKS),
+#                               sin) * 20,
+#                        YEARS)
+# )
+#
+# brownian.processes <- sapply(X = SIGMA,
+#                              function(x) c(replicate(YEARS, GBM(N = WEEKS, sigma = x)[2:31])))
+#
+# colnames(brownian.processes) <- SIGMA
+#
+# d <- cbind(d, brownian.processes)
+# d[(2:ncol(d))] <- d[[1]] * d[2:ncol(d)]
+#
+# lapply(d[2:ncol(d)],
+#        function(x) ifelse(x > 100,
+#                           100,
+#                           ifelse(x < 10,
+#                                  10,
+#                                  x)))
+#
+# d = d %>% mutate(t = 1:n())
+#
+# d <- melt(d, id.vars = c("t", "cyclic"))
 #
 # p <- ggplot(d %>% filter(t < WEEKS * 10)) +
-#     geom_line(aes(x = t,
-#                   y = b,
-#                   color = "Cyclic")) +
-#     geom_line(aes(x = t,
-#                   y = gbm,
-#                   color = "Red noise")) +
-#     labs(x = "Time (weeks)",
+#     geom_line(aes(x = t / WEEKS,
+#                   y = cyclic,
+#                   group = "Cyclic",
+#                   linetype = "Cyclic")) +
+#     geom_line(aes(x = t / WEEKS,
+#                   y = value,
+#                   color = variable)) +
+#     facet_wrap(~ variable, ncol = 2) +
+#     labs(x = "Time (years)",
 #          y = "Resources",
-#          color = "Variation type") +
+#          color = "Sigma",
+#          linetype = "") +
 #     ylim(c(10, 100)) +
 #     theme_few() +
 #     theme(aspect.ratio = 0.5)
@@ -61,4 +99,3 @@ write.table(x = d, file = "Environment.csv", sep = ", ", col.names = F, row.name
 # p
 #
 # ggsave(plot = p, filename = "Resource_variation.PDF")
-

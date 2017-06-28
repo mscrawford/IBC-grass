@@ -31,8 +31,21 @@ CCell::CCell(const unsigned int xx, const unsigned int yy, double ares, double b
    PftNSeedling.clear();
    
    const unsigned int index = xx*SRunPara::RunPara.CellNum + yy;
-   AResConc=CEnvir::AResMuster.at(index);
-   BResConc=CEnvir::BResMuster[index];
+
+   if (SRunPara::RunPara.EnvVariability == 1)
+   {
+	   AResConc = CEnvir::AResMuster.at(index);
+	   	   // Year begins at 1, so to index the array one must substract by 1.
+	   BResConc = SRunPara::RunPara.BelGrndVariability[(CEnvir::year-1) * CEnvir::WeeksPerYear + CEnvir::week];
+
+   }
+   else
+   {
+	   AResConc = CEnvir::AResMuster.at(index);
+	   BResConc=CEnvir::BResMuster[index];
+   }
+
+
 }
 //---------------------------------------------------------------------------
 /**

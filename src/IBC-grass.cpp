@@ -151,8 +151,27 @@ int main(int argc, char* argv[])
 
 		Envir->GetSim(data); // Change this to take a string for the parameterization...
 
+		ifstream EnvironmentFile = ifstream();
+
+		if (SRunPara::RunPara.EnvVariability > 0)
+		{
+			EnvironmentFile.open(SRunPara::NameEnvironmentFile.c_str());
+		}
+
 		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++)
 		{
+			if (SRunPara::RunPara.EnvVariability > 0)
+			{
+				std::string BelGrndVariability_;
+				getline(EnvironmentFile, BelGrndVariability_);
+
+				std::istringstream iss(BelGrndVariability_);
+
+				SRunPara::RunPara.BelGrndVariability =
+						std::vector<double> { std::istream_iterator<double>(iss),
+											  std::istream_iterator<double>() };
+			}
+
 			cout << SRunPara::RunPara.getSimID() << endl;
 
 			if (SRunPara::RunPara.verbose)

@@ -3,6 +3,7 @@
 #define RunParaH
 
 #include <string>
+#include <vector>
 
 //---------------------------------------------------------------------------
 //! Enumeration type to specify size asymmetry/symmetry of competition
@@ -44,6 +45,7 @@ public:
 	// Input Files
 	static std::string NamePftFile;   	// Filename of PftTrait-File
 	static std::string NameSimFile;  	// Filename of Simulation-File
+	static std::string NameEnvironmentFile;
 	static std::string outputPrefix;	// Prefix for the output file, empty is single core, something user-supplied if multi-core
 
 	int weekly;
@@ -89,12 +91,17 @@ public:
 
 	// General parameters
 	int Tmax;         		//!< simulation time
+
+	int EnvVariability;
+	double Sigma;
+	std::vector< double > BelGrndVariability;
+	double meanARes;      	//!< mean above-ground resource availability
+	double meanBRes;       	//!< below-ground resourcer availability
+
 	double mort_seeds;     	//!< seed mortality per year (in winter)
 	double DiebackWinter; 	//!< portion of aboveground biomass to be removed in winter
 	double mort_base;      	//!< basic mortality per week
 	double LitterDecomp;   	//!< weekly litter decomposition rate
-	double meanARes;      	//!< mean above-ground resource availability
-	double meanBRes;       	//!< below-ground resourcer availability
 	double EstabRamet;     	//!< probability of ramet establishment (1)
 
 	// Aboveground herbivory
