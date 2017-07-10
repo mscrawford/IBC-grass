@@ -98,7 +98,6 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::RunPara.GrazProb 					// Aboveground grazing: probability
 		>> SRunPara::RunPara.PropRemove 				// Aboveground grazing: proportion of biomass removed
 		>> SRunPara::RunPara.BelGrazProb 				// Belowground grazing: probability
-		>> SRunPara::RunPara.BelGrazResidualPerc 		// Belowground grazing: mode
 		>> SRunPara::RunPara.BelGrazPerc 				// Belowground grazing: proportion of biomass removed
 		>> SRunPara::RunPara.CatastrophicPlantMortality // Catastrophic Disturbance: Percent of plant removal during Catastrophic Disturbance
 		>> SRunPara::RunPara.CatastrophicSeedMortality	// Catastrophic Disturbance: Percent of seed removal during Catastrophic Disturbance
@@ -136,6 +135,7 @@ void CEnvir::GetSim(string data)
 		break;
 	case 2:
 		SRunPara::RunPara.mode = catastrophicDisturbance;
+		SRunPara::RunPara.BelGrazResidualPerc = 1 - exp(-1 * (SRunPara::RunPara.BelGrazPerc / 0.0651));
 		break;
 	default:
 		cerr << "Invalid mode parameterization" << endl;

@@ -12,50 +12,48 @@ PATH = "./tmp/"
 
 # For computing clusters
 PARALLEL  = True
-N_SLOTS   = 350 # UNUSED WITH SERIAL RUNS
+N_SLOTS   = 300 # UNUSED WITH SERIAL RUNS
 
 # Frequency and type of output
 weekly    = 0 # Print output yearly (0) or weekly (1)?
 
 ind_out   = 0 # Print individual-level output?  (0) No; (1) Yes
-pft_out   = 0 # Print PFT-level output:         (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
-srv_out   = 1 # Print PFT-survival output:      (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
-trait_out = 0 # Print trait-level output:       (0) No; (1) Yes
+pft_out   = 1 # Print PFT-level output:         (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
+srv_out   = 0 # Print PFT-survival output:      (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
+trait_out = 1 # Print trait-level output:       (0) No; (1) Yes
 
 # Number of repetitions
 N_REPS    = 10
 
 # Number of communities, how many individuals per community, and what kind of PFTs to use
-N_COMS    = 150  # UNUSED WITH PAIRWISE INVASION CRITERION
-N_PFTs    = [16] # UNUSED WITH PAIRWISE INVASION CRITERION
-PFT_type  = "THEORETICAL" # "THEORETICAL" or "EMPIRICAL"
+N_COMS    = 150 # UNUSED WITH PAIRWISE INVASION CRITERION
+N_PFTs    = [16, 32, 64] # UNUSED WITH PAIRWISE INVASION CRITERION
+PFT_type  = "EMPIRICAL" # "THEORETICAL" or "EMPIRICAL"
 
 # IBC-grass run mode
-MODE      = 0 # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
+MODE      = 2 # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
 
 # Custom environment time series
-ENV       = 1 # (0) Static environment; (1) IBC-grass uses custom environmental time series
-SIGMA     = 0.1
+ENV       = 0 # (0) Static environment; (1) IBC-grass uses custom environmental time series
+SIGMA     = 0
 
 # Environmental parameters
-base_params =  [[0, 1], # IC version
+base_params =  [[1], # IC version
                 [MODE],
-                [0, 0.10, 0.20, 0.30, 0.40, 0.50], # ITVsd
+                [0], # ITVsd
                 [100], # Tmax
                 [ENV], # Environmental variation
                 [SIGMA],
-                [90], # ARes
-                ['NA'], # Bres
+                [30, 60, 90], # ARes
+                [30, 60, 90], # Bres
                 [0.2], # GrazProb
                 [0.5], # propRemove
-                [0], # BelGrazProb
-                [0], # BelGrazResidualPerc
-                [0], # BelGrazPerc
-                [0], # CatastrophicPlantMortality
+                [0, 1], # BelGrazProb
+                [0, 0.1, 0.2, 0.3, 0.4], # BelGrazPerc
+                [0, 1], # CatastrophicPlantMortality
                 [0], # CatastrophicSeedMortality
-                [0], # SeedRainType
-                [0]] # SeedInput
-
+                [1], # SeedRainType
+                [10]] # SeedInput
 
 ####################################################################
 #### Theoretical PFTs
@@ -92,9 +90,11 @@ PFType_params = [[100], # MaxAge
 ####################################################################
 
 SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
-                "SimID ComNr IC_vers Mode ITVsd Tmax Env Sigma ARes Bres " + \
+                "SimID ComNr IC_vers Mode ITVsd Tmax " + \
+                "Env Sigma " + \
+                "ARes Bres " + \
                 "GrazProb PropRemove " + \
-                "BelGrazProb BelGrazResidualPerc BelGrazPerc " + \
+                "BelGrazProb BelGrazPerc " + \
                 "CatastrophicPlantMortality CatastrophicSeedMortality " + \
                 "SeedRainType SeedInput " + \
                 "weekly ind_out pft_out srv_out trait_out NameInitFile\n"

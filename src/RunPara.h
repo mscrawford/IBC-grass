@@ -39,7 +39,7 @@ struct SRunPara
 
 public:
 
-	static const bool verbose = true;
+	static const bool verbose = false;
 
 	// Input Files
 	static std::string NamePftFile;   	// Filename of PftTrait-File
@@ -104,9 +104,9 @@ public:
 	double MassUngraz;   	//!< biomass ungrazable 15300[mg DW/m�]
 
 	// Belowground herbivory
-	double BelGrazResidualPerc;
 	double BelGrazProb;
 	double BelGrazPerc;
+	double BelGrazResidualPerc;
 
 	// Mowing
 	double CutHeight;  //!< Height to cut plants to

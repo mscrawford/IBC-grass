@@ -8,8 +8,8 @@
 
 #$ -binding linear:1
 
-#$ -o /work/$USER/$JOB_NAME-$JOB_ID.out
-#$ -e /work/$USER/$JOB_NAME-$JOB_ID.err
+#$ -o /work/$USER/@PREFIX@.out
+#$ -e /work/$USER/@PREFIX@.err
 
 module load gcc/4.9.2-2
 

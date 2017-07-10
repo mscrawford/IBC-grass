@@ -23,7 +23,7 @@ SRunPara::SRunPara() :
 		meanARes(100), meanBRes(100),
 		EstabRamet(1),
 		GrazProb(0), PropRemove(0), BitSize(0.5), MassUngraz(15300),
-		BelGrazResidualPerc(0), BelGrazProb(0), BelGrazPerc(0),
+		BelGrazProb(0), BelGrazPerc(0),
 		CutHeight(0), NCut(0),
 		CatastrophicDistYear(50), CatastrophicDistWeek(21),
 		CatastrophicPlantMortality(0), CatastrophicSeedMortality(0),
@@ -53,11 +53,6 @@ void SRunPara::validateRunPara()
 	{
 		assert(SRunPara::RunPara.Tmax_monoculture > 0);
 	}
-	else if (SRunPara::RunPara.mode == catastrophicDisturbance)
-	{
-		assert(SRunPara::RunPara.CatastrophicPlantMortality > 0 ||
-				SRunPara::RunPara.CatastrophicSeedMortality > 0);
-	}
 
 	////////////////////////////
 	// Valid ITVsd
@@ -83,13 +78,11 @@ void SRunPara::validateRunPara()
 	if (CEnvir::AreSame(SRunPara::RunPara.BelGrazProb, 0))
 	{
 		assert(CEnvir::AreSame(SRunPara::RunPara.BelGrazPerc, 0));
-		assert(CEnvir::AreSame(SRunPara::RunPara.BelGrazResidualPerc, 0));
 	}
 	else
 	{
 		assert(SRunPara::RunPara.BelGrazProb > 0 && SRunPara::RunPara.BelGrazProb <= 1);
 		assert(SRunPara::RunPara.BelGrazPerc > 0 && SRunPara::RunPara.BelGrazPerc <= 1);
-		assert(SRunPara::RunPara.BelGrazResidualPerc > 0 && SRunPara::RunPara.BelGrazResidualPerc <= 1);
 	}
 
 	////////////////////////////

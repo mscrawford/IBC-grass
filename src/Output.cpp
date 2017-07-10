@@ -15,7 +15,7 @@ const vector<string> Output::param_header
 			"Invader", "Resident",
 			"ARes", "BRes",
 			"GrazProb", "PropRemove",
-			"BelGrazProb", "BelGrazResidualPerc", "BelGrazPerc",
+			"BelGrazProb", "BelGrazPerc",
 			"CatastrophicPlantMortality", "CatastrophicSeedMortality",
 			"SeedRainType", "SeedInput"
 	});
@@ -199,7 +199,6 @@ void Output::print_param()
 	ss << SRunPara::RunPara.GrazProb 					<< ", ";
 	ss << SRunPara::RunPara.PropRemove 					<< ", ";
 	ss << SRunPara::RunPara.BelGrazProb 				<< ", ";
-	ss << SRunPara::RunPara.BelGrazResidualPerc			<< ", ";
 	ss << SRunPara::RunPara.BelGrazPerc 				<< ", ";
 	ss << SRunPara::RunPara.CatastrophicPlantMortality 	<< ", ";
 	ss << SRunPara::RunPara.CatastrophicSeedMortality 	<< ", ";

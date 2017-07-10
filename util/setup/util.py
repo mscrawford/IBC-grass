@@ -5,7 +5,7 @@ class Base_Parameter():
         IC_version, Mode, ITVsd, Tmax, 
         Env, Sigma, ARes, Bres, 
         GrazProb, PropRemove, 
-        BelGrazProb, BelGrazResidualPerc, BelGrazPerc, 
+        BelGrazProb, BelGrazPerc, 
         CatastrophicPlantMortality, CatastrophicSeedMortality,
         SeedRainType, SeedInput):
         self.IC_version = IC_version
@@ -19,7 +19,6 @@ class Base_Parameter():
         self.GrazProb = GrazProb
         self.PropRemove = PropRemove
         self.BelGrazProb = BelGrazProb
-        self.BelGrazResidualPerc = BelGrazResidualPerc
         self.BelGrazPerc = BelGrazPerc
         self.CatastrophicPlantMortality = CatastrophicPlantMortality
         self.CatastrophicSeedMortality = CatastrophicSeedMortality
@@ -39,18 +38,19 @@ class Base_Parameter():
         if (self.GrazProb == 0 and self.PropRemove > 0 or self.GrazProb > 0 and self.PropRemove == 0):
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.BelGrazProb == 0 and (self.BelGrazResidualPerc > 0 or self.BelGrazPerc > 0)):
+        if (self.BelGrazProb == 0 and self.BelGrazPerc > 0):
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.BelGrazProb > 0 and (self.BelGrazPerc == 0 or self.BelGrazResidualPerc == 0)):
+        if (self.BelGrazProb > 0 and self.BelGrazPerc == 0):
             raise Exception("Nonsensical or redundant parameterization")
 
     def toString(self):
         return " ".join(map(str, [self.IC_version, self.Mode, self.ITVsd, 
             self.Tmax, 
-            self.Env, self.Sigma, self.ARes, self.Bres, 
+            #self.Env, self.Sigma, 
+            self.ARes, self.Bres, 
             self.GrazProb, self.PropRemove, 
-            self.BelGrazProb, self.BelGrazResidualPerc, self.BelGrazPerc, 
+            self.BelGrazProb, self.BelGrazPerc, 
             self.CatastrophicPlantMortality, self.CatastrophicSeedMortality,
             self.SeedRainType, self.SeedInput]))
 

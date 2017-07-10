@@ -10,6 +10,7 @@
 #include <iostream>
 #include <cassert>
 #include <memory>
+#include <math.h>
 
 using namespace std;
 
@@ -781,15 +782,15 @@ void CGrid::GrazingBelGr() {
 
 	//	double fn_o = SRunPara::RunPara.BelGrazPerc * CGrid::below_biomass_history.back(); // Forage need (mg)
 	double fn_o;
-	if (CGrid::below_biomass_history.size() > 180)
+	if (CGrid::below_biomass_history.size() > 90)
 	{
-		std::vector<double> rolling_mean(CGrid::below_biomass_history.end() - 180, // parameterize this...
+		std::vector<double> rolling_mean(CGrid::below_biomass_history.end() - 90, // parameterize this...
 										 CGrid::below_biomass_history.end());
 		fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
 	}
 	else
 	{
-		std::vector<double> rolling_mean(CGrid::below_biomass_history.end(), // parameterize this...
+		std::vector<double> rolling_mean(CGrid::below_biomass_history.begin(), // parameterize this...
 										 CGrid::below_biomass_history.end());
 		fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
 	}
