@@ -108,6 +108,7 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::RunPara.PFT_out					// Output: PFT-level output
 		>> SRunPara::RunPara.srv_out					// Output: End-of-run survival output
 		>> SRunPara::RunPara.trait_out					// Output: Trait-level output
+		// Output: Meta-level output
 		>> SRunPara::NamePftFile 						// Input: Name of input community (PFT intialization) file
 		;
 
@@ -135,7 +136,7 @@ void CEnvir::GetSim(string data)
 		break;
 	case 2:
 		SRunPara::RunPara.mode = catastrophicDisturbance;
-		SRunPara::RunPara.BelGrazResidualPerc = 1 - exp(-1 * (SRunPara::RunPara.BelGrazPerc / 0.0651));
+		SRunPara::RunPara.BelGrazResidualPerc = exp(-1 * (SRunPara::RunPara.BelGrazPerc / 0.0651));
 		break;
 	default:
 		cerr << "Invalid mode parameterization" << endl;
@@ -173,8 +174,9 @@ void CEnvir::GetSim(string data)
 	string srv = 	dir + fid + "_srv.csv";
 	string PFT = 	dir + fid + "_PFT.csv";
 	string ind = 	dir + fid + "_ind.csv";
+	string meta =   dir + fid + "_meta.csv";
 
-	output.setupOutput(param, trait, srv, PFT, ind);
+	output.setupOutput(param, trait, srv, PFT, ind, meta);
 }
 
 //------------------------------------------------------------------------------

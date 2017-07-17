@@ -40,6 +40,11 @@ const vector<string> Output::PFT_header
 			"SimID", "PFT", "Year", "Week", "Pop", "Shootmass", "Rootmass", "Repro"
 	});
 
+const vector<string> Output::meta_header
+	({
+			"SimID", "Year", "Week", "FeedingPressure"
+	});
+
 const vector<string> Output::ind_header
 	({
 			"SimID", "plantID", "PFT", "Year", "Week",
@@ -77,7 +82,8 @@ Output::Output() :
 		trait_fn("data/out/trait.txt"),
 		srv_fn("data/out/trait.txt"),
 		PFT_fn("data/out/PFT.txt"),
-		ind_fn("data/out/ind.txt")
+		ind_fn("data/out/ind.txt"),
+		meta_fn("data/out/meta.txt")
 {
 	;
 }
@@ -89,15 +95,17 @@ Output::~Output()
 	Output::srv_stream.close();
 	Output::PFT_stream.close();
 	Output::ind_stream.close();
+	Output::meta_stream.close();
 }
 
-void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn, string _PFT_fn, string _ind_fn)
+void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn, string _PFT_fn, string _ind_fn, string _meta_fn)
 {
 	Output::param_fn = _param_fn;
 	Output::trait_fn = _trait_fn;
 	Output::srv_fn = _srv_fn;
 	Output::PFT_fn = _PFT_fn;
 	Output::ind_fn = _ind_fn;
+	Output::meta_fn = _meta_fn;
 
 	bool mid_batch = is_file_exist(param_fn.c_str());
 
@@ -132,6 +140,13 @@ void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn, str
 		assert(srv_stream.good());
 		if (!mid_batch) print_row(srv_header, srv_stream);
 	}
+
+	if (SRunPara::RunPara.meta_out)
+	{
+		meta_stream.open(meta_fn.c_str(), ios_base::app);
+		assert(meta_stream.good());
+		if (!mid_batch) print_row(meta_header, meta_stream);
+	}
 }
 
 bool Output::is_file_exist(const char *fileName)
@@ -165,6 +180,11 @@ void Output::cleanup()
 	if (Output::ind_stream.is_open()) {
 		Output::ind_stream.close();
 		Output::ind_stream.clear();
+	}
+
+	if (Output::meta_stream.is_open()) {
+		Output::meta_stream.close();
+		Output::meta_stream.clear();
 	}
 }
 
@@ -237,6 +257,7 @@ void Output::print_trait()
 
 void Output::print_srv_and_PFT(vector<CPlant*> & PlantList)
 {
+
 	// Create the data structure necessary to aggregate individuals
 	map<string, PFT_struct> PFT_map;
 
@@ -253,10 +274,13 @@ void Output::print_srv_and_PFT(vector<CPlant*> & PlantList)
 
 		PFT_struct* s = &(PFT_map[p->pft()]);
 
-		s->Pop = s->Pop + 1;
-		s->Rootmass = s->Rootmass + p->mroot;
-		s->Shootmass = s->Shootmass + p->mshoot;
-		s->Repro = s->Repro + p->mRepro;
+		if (!p->dead)
+		{
+			s->Pop = s->Pop + 1;
+			s->Rootmass = s->Rootmass + p->mroot;
+			s->Shootmass = s->Shootmass + p->mshoot;
+			s->Repro = s->Repro + p->mRepro;
+		}
 	}
 
 	// If any PFT went extinct, record it in "srv" stream
@@ -355,6 +379,20 @@ void Output::print_ind(vector<CPlant*> & PlantList)
 
 		print_row(ss, ind_stream);
 	}
+}
+
+void Output::print_meta()
+{
+
+	std::ostringstream ss;
+
+	ss << SRunPara::RunPara.getSimID()					<< ", ";
+	ss << CEnvir::year 									<< ", ";
+	ss << CEnvir::week 									<< ", ";
+	ss << blwgrnd_graz_pressure_history.back()				   ;
+
+	print_row(ss, meta_stream);
+
 }
 
 // Prints a row of data out a string, as a comma separated list with a newline at the end.

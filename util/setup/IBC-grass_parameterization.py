@@ -10,50 +10,84 @@ PATH = "./tmp/"
 #### Parameters
 ####################################################################
 
+##########################################
+### Hyperparameters
+
 # For computing clusters
-PARALLEL  = True
-N_SLOTS   = 300 # UNUSED WITH SERIAL RUNS
+PARALLEL = False         # IF SERIES THIS -> FALSE
+N_SLOTS  = 300          # Number of cores to split between
+H_RT     = "08:00:00"   # Maximum runtime for simulations (08:00:00 = 8 hours)
+H_VMEM   = "2G"         # Memory for each simulation run
 
 # Frequency and type of output
-weekly    = 0 # Print output yearly (0) or weekly (1)?
+weekly    = 1 # Print output yearly (0) or weekly (1)?
 
-ind_out   = 0 # Print individual-level output?  (0) No; (1) Yes
-pft_out   = 1 # Print PFT-level output:         (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
-srv_out   = 0 # Print PFT-survival output:      (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
-trait_out = 1 # Print trait-level output:       (0) No; (1) Yes
+ind_out   = 0 # Print individual-level output?           (0) No; (1) Yes
+pft_out   = 2 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
+srv_out   = 0 # Print PFT-survival output:               (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
+trait_out = 1 # Print trait-level output:                (0) No; (1) Yes
+meta_out  = 1 # Print output about the environment, etc. (0) No; (1) Year
 
 # Number of repetitions
-N_REPS    = 10
+N_REPS    = 1
 
-# Number of communities, how many individuals per community, and what kind of PFTs to use
-N_COMS    = 150 # UNUSED WITH PAIRWISE INVASION CRITERION
-N_PFTs    = [16, 32, 64] # UNUSED WITH PAIRWISE INVASION CRITERION
+# Number of communities and what kind of PFTs to use
+N_COMS    = 1           # UNUSED WITH PAIRWISE INVASION CRITERION
 PFT_type  = "EMPIRICAL" # "THEORETICAL" or "EMPIRICAL"
 
-# IBC-grass run mode
-MODE      = 2 # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
+##########################################
+### Environmental parameters
 
-# Custom environment time series
-ENV       = 0 # (0) Static environment; (1) IBC-grass uses custom environmental time series
-SIGMA     = 0
+IC_vers = [1] # IBC-grass run mode -- Negative frequency dependence
+MODE    = [2] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
+N_PFTs  = [0] # UNUSED WITH PAIRWISE INVASION CRITERION
+ITVsd   = [0]
+Tmax    = [100]
 
-# Environmental parameters
-base_params =  [[1], # IC version
-                [MODE],
-                [0], # ITVsd
-                [100], # Tmax
-                [ENV], # Environmental variation
-                [SIGMA],
-                [30, 60, 90], # ARes
-                [30, 60, 90], # Bres
-                [0.2], # GrazProb
-                [0.5], # propRemove
-                [0, 1], # BelGrazProb
-                [0, 0.1, 0.2, 0.3, 0.4], # BelGrazPerc
-                [0, 1], # CatastrophicPlantMortality
-                [0], # CatastrophicSeedMortality
-                [1], # SeedRainType
-                [10]] # SeedInput
+# Custom environment time series --- PLEASE ONLY SINGLE VALUES
+ENV   = [0] # (0) Static environment; (1) IBC-grass uses custom environmental time series
+SIGMA = [0] # Variability with which the time series changes
+
+# Resource levels
+ARes  = [90]
+BRes  = [90] # With belowground environmental variation, this MUST be NA
+
+# Aboveground grazing 
+GrazProb   = [0.2]
+propRemove = [0.5]
+
+# Belowground grazing
+BelGrazProb = [1]
+BelGrazPerc = [0.10, 0.20, 0.30, .40]
+
+# Catastrophic disturbance
+CatastrMort_Plant = [1]
+CatastrMort_Seed  = [0]
+
+# Seed introduction
+SeedRainType = [1]
+SeedInput    = [10]
+
+##########################################
+### Permutable list...
+
+base_params =  [IC_vers,
+                MODE,
+                ITVsd,
+                Tmax,
+                ENV,
+                SIGMA,
+                ARes,
+                BRes,
+                GrazProb,
+                propRemove,
+                BelGrazProb,
+                BelGrazPerc,
+                CatastrMort_Plant,
+                CatastrMort_Seed,
+                SeedRainType,
+                SeedInput]
+
 
 ####################################################################
 #### Theoretical PFTs
@@ -126,6 +160,8 @@ def buildBatchScripts(SimFile):
     with open('./resources/BatchTemplate.txt', 'r') as r:
         base = r.read()
         batch_number = 1
+        base = re.sub('@RUNTIME@', H_RT, base)
+        base = re.sub('@MEMORY@', H_VMEM, base)
         for s in sim_files:
             batch_name = "batch_" + str(batch_number)
             replace_string = s
@@ -134,6 +170,7 @@ def buildBatchScripts(SimFile):
             with open('./tmp/' + batch_name + ".sub", 'w') as w:
                 w.write(batch_text)
             batch_number += 1
+
 
 ####################################################################
 #### Generating environmental variation
@@ -147,6 +184,7 @@ def generateEnvironmentalVariation():
     assert(base_params[5][0] > 0) # Sigma is non-zero
     assert(len(base_params[3]) == 1) # Environmental variation will only work if the length of the simulation is uniform
     subprocess.call(['Rscript', '--vanilla', 'BrownianMotion.R', str(N_REPS), str(base_params[3][0]), str(SIGMA)])
+
 
 ####################################################################
 #### Default setup
@@ -277,7 +315,6 @@ if __name__ == "__main__":
         with open(PATH + "SimFile.txt", 'w') as w:
             w.write(SIM_HEADER)
             w.writelines(sim for sim in SimFile)
-
 
     with open('IBC-grass_parameterization.py', 'r') as r:
         words = r.readlines()

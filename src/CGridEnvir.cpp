@@ -175,6 +175,8 @@ void CGridEnvir::OneWeek()
 
 		CEnvir::output.print_srv_and_PFT(PlantList);
 
+		CEnvir::output.print_meta();
+
 		if (SRunPara::RunPara.ind_out == 1)
 		{
 			CEnvir::output.print_ind(PlantList);

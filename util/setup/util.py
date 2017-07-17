@@ -28,9 +28,6 @@ class Base_Parameter():
         if (self.Mode != 2 and (self.CatastrophicSeedMortality > 0 or self.CatastrophicPlantMortality > 0)):
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.Mode == 2 and (self.CatastrophicSeedMortality == 0 and self.CatastrophicPlantMortality == 0)):
-            raise Exception("Nonsensical or redundant parameterization")
-
         if (self.SeedRainType == 0 and self.SeedInput > 0 or 
             self.SeedRainType > 0 and self.SeedInput == 0):
             raise Exception("Nonsensical or redundant parameterization")

@@ -13,7 +13,7 @@ std::string SRunPara::outputPrefix = "default";
 SRunPara SRunPara::RunPara = SRunPara();
 
 SRunPara::SRunPara() :
-		weekly(0), ind_out(0), PFT_out(2), srv_out(1), trait_out(1),
+		weekly(0), ind_out(0), PFT_out(2), srv_out(1), trait_out(1), meta_out(1),
 		AboveCompMode(asympart), BelowCompMode(sym), Version(version1), mode(communityAssembly),
 		Tmax_monoculture(10),
 		ITV(off), ITVsd(0),
@@ -23,7 +23,7 @@ SRunPara::SRunPara() :
 		meanARes(100), meanBRes(100),
 		EstabRamet(1),
 		GrazProb(0), PropRemove(0), BitSize(0.5), MassUngraz(15300),
-		BelGrazProb(0), BelGrazPerc(0),
+		BelGrazProb(0), BelGrazPerc(0), BelGrazResidualPerc(0),
 		CutHeight(0), NCut(0),
 		CatastrophicDistYear(50), CatastrophicDistWeek(21),
 		CatastrophicPlantMortality(0), CatastrophicSeedMortality(0),

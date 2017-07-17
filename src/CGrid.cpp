@@ -595,14 +595,8 @@ void CGrid::Disturb()
 	if (PlantList.size() == 0)
 		return;
 
-//	if (SRunPara::RunPara.mode != catastrophicDisturbance ||
-//			CEnvir::year < SRunPara::RunPara.CatastrophicDistYear ||
-//			(CEnvir::year == SRunPara::RunPara.CatastrophicDistYear &&
-//					CEnvir::week < SRunPara::RunPara.CatastrophicDistWeek))
-	{
-		CGrid::above_biomass_history.push_back(GetTotalAboveMass());
-		CGrid::below_biomass_history.push_back(GetTotalBelowMass());
-	}
+	CGrid::above_biomass_history.push_back(GetTotalAboveMass());
+	CGrid::below_biomass_history.push_back(GetTotalBelowMass());
 
 	if (CEnvir::rng.get01() < SRunPara::RunPara.GrazProb) {
 		Grazing();
@@ -726,17 +720,14 @@ void CGrid::Grazing() {
  */
 void CGrid::Cutting(double cut_height)
 {
-	CPlant* p;
-
-	for (plant_size i = 0; i < PlantList.size(); i++) {
-		p = PlantList[i];
-
-		if (p->getHeight() > cut_height)
+	for (auto i : PlantList)
+	{
+		if (i->getHeight() > cut_height)
 		{
-			double biomass_at_height = p->getBiomassAtHeight(cut_height);
+			double biomass_at_height = i->getBiomassAtHeight(cut_height);
 
-			p->mshoot = biomass_at_height;
-			p->mRepro = 0.0;
+			i->mshoot = biomass_at_height;
+			i->mRepro = 0.0;
 		}
 	}
 } //end cutting
@@ -780,11 +771,10 @@ void CGrid::GrazingBelGr() {
 	double biomass_removed = 0;
 	const double alpha = 2.0;
 
-	//	double fn_o = SRunPara::RunPara.BelGrazPerc * CGrid::below_biomass_history.back(); // Forage need (mg)
 	double fn_o;
-	if (CGrid::below_biomass_history.size() > 90)
+	if (CGrid::below_biomass_history.size() > 60)
 	{
-		std::vector<double> rolling_mean(CGrid::below_biomass_history.end() - 90, // parameterize this...
+		std::vector<double> rolling_mean(CGrid::below_biomass_history.end() - 60, // parameterize this...
 										 CGrid::below_biomass_history.end());
 		fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
 	}
@@ -801,6 +791,8 @@ void CGrid::GrazingBelGr() {
 		fn_o = bt - bt*SRunPara::RunPara.BelGrazResidualPerc;
 	}
 	double fn = fn_o;
+
+	CEnvir::output.blwgrnd_graz_pressure_history.push_back(fn_o);
 
 	while (ceil(biomass_removed) < fn_o)
 	{
@@ -839,7 +831,6 @@ void CGrid::GrazingBelGr() {
 
 		fn = leftovers;
 	}
-
 }
 
 //-----------------------------------------------------------------------------

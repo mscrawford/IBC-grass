@@ -39,7 +39,7 @@ struct SRunPara
 
 public:
 
-	static const bool verbose = false;
+	static const bool verbose = true;
 
 	// Input Files
 	static std::string NamePftFile;   	// Filename of PftTrait-File
@@ -51,6 +51,7 @@ public:
 	int PFT_out;
 	int srv_out;
 	int trait_out;
+	int meta_out;
 
 	static SRunPara RunPara;	//!> scenario parameters
 
