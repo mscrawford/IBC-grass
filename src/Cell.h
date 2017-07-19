@@ -7,9 +7,6 @@
 
 #include <vector>
 
-//! iterator type for seed list
-typedef std::vector<CSeed*>::iterator seed_iter;
-
 //! class for cell objects (surprisingly)
 class CCell {
 

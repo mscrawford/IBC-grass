@@ -29,7 +29,7 @@ CCell::CCell(const unsigned int xx, const unsigned int yy, double ares, double b
    PftNIndA.clear();
    PftNIndB.clear();
    PftNSeedling.clear();
-   
+
    const unsigned int index = xx*SRunPara::RunPara.CellNum + yy;
    AResConc=CEnvir::AResMuster.at(index);
    BResConc=CEnvir::BResMuster[index];
@@ -97,36 +97,31 @@ void CCell::SetResource(double Ares, double Bres)
 double CCell::Germinate()
 {
 
-   double sumseedmass=0;
+	double sum_SeedMass = 0;
 
-   unsigned int sbsize=SeedBankList.size();
+	for (auto seed : SeedBankList)
+	{
+		if (CEnvir::rng.get01() < seed->estab)
+		{
+			//make a copy in seedling list
+			SeedlingList.push_back(seed);
+			PftNSeedling[seed->pft()]++;
 
-   //Germination
-   for (unsigned int i = 0; i < sbsize; i++)
-   {
-      CSeed* seed = SeedBankList[i];
-
-      if (CEnvir::rng.get01() < seed->estab)
-      {
-         //make a copy in seedling list
-         SeedlingList.push_back(seed);
-         PftNSeedling[seed->pft()]++;
-
-         seed->remove=true;
-      }
-   }
+			seed->remove = true;
+		}
+	}
 
    //remove germinated seeds from SeedBankList
-   seed_iter iter_rem = partition(SeedBankList.begin(), SeedBankList.end(), GetSeedRemove);
+   auto iter_rem = partition(SeedBankList.begin(), SeedBankList.end(), GetSeedRemove);
 
    SeedBankList.erase(iter_rem, SeedBankList.end());
 
     //get Mass of all seedlings in cell
-   for (seed_iter iter = SeedlingList.begin(); iter != SeedlingList.end(); ++iter)
+   for (auto seed : SeedlingList)
    {
-      sumseedmass += (*iter)->mass;
+	   sum_SeedMass += seed->mass;
    }
-   return sumseedmass;
+   return sum_SeedMass;
 
 }
 
@@ -137,9 +132,8 @@ void CCell::RemoveSeedlings()
    PftNIndB.clear();
    PftNSeedling.clear();
 
-   for (seed_iter iter=SeedlingList.begin(); iter!=SeedlingList.end(); ++iter)
+   for (auto seed : SeedlingList)
    {
-      CSeed* seed = *iter;
       delete seed;
    }
    SeedlingList.clear();
@@ -148,9 +142,9 @@ void CCell::RemoveSeedlings()
 //---------------------------------------------------------------------------
 void CCell::RemoveSeeds()
 {
-   seed_iter irem = partition(SeedBankList.begin(),SeedBankList.end(),GetSeedRemove);
+   auto irem = partition(SeedBankList.begin(),SeedBankList.end(),GetSeedRemove);
 
-   for (seed_iter iter=irem; iter!=SeedBankList.end(); ++iter){
+   for (auto iter=irem; iter!=SeedBankList.end(); ++iter){
       CSeed* seed = *iter;
       delete seed;
    }
@@ -184,18 +178,16 @@ void CCell::AboveComp()
    double comp_c = 0;
 
    //1. sum of resource requirement
-   for (plant_iter iter=AbovePlantList.begin(); iter!=AbovePlantList.end(); ++iter)
-   {
-      CPlant* plant = *iter;
-      comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
-   }
+	for (auto plant : AbovePlantList)
+	{
+		comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
+	}
    //2. distribute resources
-   for (plant_iter iter=AbovePlantList.begin(); iter!=AbovePlantList.end(); ++iter)
-   {
-      CPlant* plant=*iter;
-      comp_c = plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
-      plant->Auptake += AResConc*comp_c/comp_tot;
-   }
+	for (auto plant : AbovePlantList)
+	{
+		comp_c = plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
+		plant->Auptake += AResConc * comp_c / comp_tot;
+	}
 
    aComp_weekly = comp_tot;
 }//end above_comp
@@ -227,13 +219,13 @@ void CCell::BelowComp()
 	double comp_c = 0;
 
 	//1. sum of resource requirement
-	for (plant_iter iter = BelowPlantList.begin(); iter != BelowPlantList.end(); ++iter) {
-		CPlant* plant = *iter;
+	for (auto plant : BelowPlantList)
+	{
 		comp_tot += plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, SRunPara::RunPara.Version);
 	}
 	//2. distribute resources
-	for (plant_iter iter = BelowPlantList.begin(); iter != BelowPlantList.end(); ++iter) {
-		CPlant* plant = *iter;
+	for (auto plant : BelowPlantList)
+	{
 		comp_c = plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, SRunPara::RunPara.Version);
 		plant->Buptake += BResConc * comp_c / comp_tot;
 	}

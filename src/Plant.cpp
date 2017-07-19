@@ -394,10 +394,6 @@ int CPlant::GetNSeeds()
 			NSeeds = floor(mRepro / Traits->SeedMass);
 
 			mRepro = 0;
-
-			if (Age >= Traits->MaxAge) {
-				this->dead = true; // kill senescent plants after they reproduced the last time
-			}
 		}
 	}
 

@@ -9,12 +9,6 @@
 #include "Plant.h"
 #include "RunPara.h"
 
-//!iterator type for plant list
-typedef std::vector<CPlant*>::iterator plant_iter;
-
-//!size type for plant list
-typedef std::vector<CPlant*>::size_type plant_size;
-
 //! Class with all spatial algorithms where plant individuals interact in space
 /*! Functions for competition and plant growth are overwritten by inherited classes
  to include different degrees of size asymmetry and different concepts of niche differentiation
