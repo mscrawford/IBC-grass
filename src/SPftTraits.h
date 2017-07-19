@@ -32,7 +32,6 @@ public:
 	traitType myTraitType; // MSC -- the default trait set is a species -- only after being varied is it individualized.
 	int TypeID;     //!< PFT ID same number for all individuals of one PFT
 	std::string name;    ///< name of functional type
-	int MaxAge;     ///< maximum age of plants
 
 //morphology
 	double LMR;     //!< leaf mass ratio (LMR) (leaf mass per shoot mass) [0;1] 1 -> only leafs, 0 -> only stem

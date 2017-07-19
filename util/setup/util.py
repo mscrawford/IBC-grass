@@ -53,12 +53,11 @@ class Base_Parameter():
 
 
 class PFT():
-    def __init__(self, counter, MaxAge, AllocSeed, LMR, maxPlantSizeSet, pEstab,
+    def __init__(self, counter, AllocSeed, LMR, maxPlantSizeSet, pEstab,
                  resourceCompetitionSet, grazingResponseSet, RAR, growth, mThres,
                  clonal, propSex, meanSpacerLength, sdSpacerlength, Resshare,
                  AllocSpacer, mSpacer):
         self.Species = counter
-        self.MaxAge = MaxAge
         self.AllocSeed = AllocSeed
         self.LMR = LMR # fLeaf
         self.m0 = maxPlantSizeSet[0] # m0 (initial seedling mass). Usually the same as mSeed.
@@ -82,7 +81,7 @@ class PFT():
         self.mSpacer = mSpacer
 
     def __str__(self):
-        return " ".join(map(str, [self.Species, self.MaxAge, self.AllocSeed, self.LMR, self.m0,
+        return " ".join(map(str, [self.Species, self.AllocSeed, self.LMR, self.m0,
                                     self.MaxMass, self.mSeed, self.Dist, self.pEstab, self.Gmax, self.SLA,
                                     self.palat, self.memo, self.RAR, self.growth, self.mThres, self.clonal,
                                     self.propSex, self.meanSpacerLength, self.sdSpacerlength, self.Resshare,

@@ -22,7 +22,7 @@ H_VMEM   = "2G"         # Memory for each simulation run
 # Frequency and type of output
 weekly    = 1 # Print output yearly (0) or weekly (1)?
 
-ind_out   = 0 # Print individual-level output?           (0) No; (1) Yes
+ind_out   = 1 # Print individual-level output?           (0) No; (1) Yes
 pft_out   = 2 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
 srv_out   = 0 # Print PFT-survival output:               (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
 trait_out = 1 # Print trait-level output:                (0) No; (1) Yes
@@ -33,7 +33,7 @@ N_REPS    = 1
 
 # Number of communities and what kind of PFTs to use
 N_COMS    = 1           # UNUSED WITH PAIRWISE INVASION CRITERION
-PFT_type  = "EMPIRICAL" # "THEORETICAL" or "EMPIRICAL"
+PFT_type  = "THEORETICAL" # "THEORETICAL" or "EMPIRICAL"
 
 ##########################################
 ### Environmental parameters
@@ -58,7 +58,7 @@ propRemove = [0.5]
 
 # Belowground grazing
 BelGrazProb = [1]
-BelGrazPerc = [0.10, 0.20, 0.30, .40]
+BelGrazPerc = [0.10]
 
 # Catastrophic disturbance
 CatastrMort_Plant = [1]
@@ -94,8 +94,7 @@ base_params =  [IC_vers,
 ####################################################################
 
 # When creating the theoretical PFTs, each PFT is a permutation of the below nested list of traits
-PFType_params = [[100], # MaxAge
-                [0.05], # AllocSeed
+PFType_params = [[0.05], # AllocSeed
                 [1.0, 0.75, 0.50], # LMR
                 [[1.0, 5000, 1.0, 0.1], # maxPlantSizeSet is a linked trait set
                  [0.3, 2000, 0.3, 0.3],# maxPlantSizeSet. Maximum plant size -- large
