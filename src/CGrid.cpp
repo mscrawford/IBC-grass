@@ -237,7 +237,7 @@ void CGrid::DispersRamets(CPlant* plant) {
 
 			// save dist and direction in the plant
 			CPlant *Spacer = new CPlant(x / CmToCell, y / CmToCell, plant);
-			Spacer->SpacerlengthToGrow = dist;
+			Spacer->spacerLengthToGrow = dist;
 			Spacer->Spacerlength = dist;
 			Spacer->Spacerdirection = direction;
 			plant->growingSpacerList.push_back(Spacer);
@@ -493,76 +493,72 @@ void CGrid::EstabLott_help(CSeed* seed)
  the genet's ramet list as well as erased
  from the spacer list of the mother plant.
  */
-void CGrid::RametEstab(CPlant* plant) {
-	//  using CEnvir::rand01;
-	int RametListSize = plant->growingSpacerList.size();
+void CGrid::RametEstab(CPlant* plant)
+{
+	vector<CPlant*> rametsToKeep;
 
-	if (RametListSize == 0)
-		return;
-
-	for (int f = 0; f < RametListSize; f++)
+	for (auto Ramet : plant->growingSpacerList)
 	{
-		CPlant* Ramet = plant->growingSpacerList[f];
-		if (Ramet->SpacerlengthToGrow <= 0)
+		if (Ramet->spacerLengthToGrow > 0)
 		{
-			int x = round(Ramet->xcoord / SRunPara::RunPara.CellScale());
-			int y = round(Ramet->ycoord / SRunPara::RunPara.CellScale());
+			continue;
+		}
 
-			//find the number of the cell in the List with x,y
-			CCell* cell = CellList[x * SRunPara::RunPara.CellNum + y];
+		int x = round(Ramet->xcoord / SRunPara::RunPara.CellScale());
+		int y = round(Ramet->ycoord / SRunPara::RunPara.CellScale());
+		CCell* cell = CellList[x * SRunPara::RunPara.CellNum + y];
 
-			if (!cell->occupied) //establish if cell is not central point of another plant
+		if (!cell->occupied)
+		{
+			Ramet->getGenet()->AllRametList.push_back(Ramet);
+			Ramet->setCell(cell);
+
+			PlantList.push_back(Ramet);
+
+			if ( CEnvir::rng.get01() < (1.0 - SRunPara::RunPara.EstabRamet) )
 			{
-				Ramet->getGenet()->AllRametList.push_back(Ramet);
-				Ramet->setCell(cell);
-
-				PlantList.push_back(Ramet);
-
-				//delete from list but not the element itself
-				plant->growingSpacerList.erase(plant->growingSpacerList.begin() + f);
-
-				//establishment success
-				if (CEnvir::rng.get01() < (1.0 - SRunPara::RunPara.EstabRamet))
-				{
-					Ramet->dead = true; //tag:SA
-				}
-			} //if cell ist not occupied
-			else //find another random cell in the area around
+				Ramet->dead = true;
+			}
+		}
+		else
+		{
+			if (CEnvir::week == CEnvir::WeeksPerYear)
 			{
-				if (CEnvir::week < CEnvir::WeeksPerYear)
+				delete Ramet;
+			}
+			else
+			{
+				int factorx;
+				int factory;
+				do
 				{
-					int factorx;
-					int factory;
-					do {
-						factorx = CEnvir::rng.getUniformInt(5) - 2;
-						factory = CEnvir::rng.getUniformInt(5) - 2;
-					} while (factorx == 0 && factory == 0);
+					factorx = CEnvir::rng.getUniformInt(5) - 2;
+					factory = CEnvir::rng.getUniformInt(5) - 2;
+				} while (factorx == 0 && factory == 0);
 
-					double dist = Distance(factorx, factory);
-					double direction = acos(factorx / dist);
+				double dist = Distance(factorx, factory);
+				double direction = acos(factorx / dist);
 
-					x = round((Ramet->xcoord + factorx) / SRunPara::RunPara.CellScale());
-					y = round((Ramet->ycoord + factory) / SRunPara::RunPara.CellScale());
+				x = round( (Ramet->xcoord + factorx) / SRunPara::RunPara.CellScale() );
+				y = round( (Ramet->ycoord + factory) / SRunPara::RunPara.CellScale() );
 
-					Boundary(x, y);
+				Boundary(x, y);
 
-					//new position, dist and direction
-					Ramet->xcoord = x * SRunPara::RunPara.CellScale();
-					Ramet->ycoord = y * SRunPara::RunPara.CellScale();
-					Ramet->SpacerlengthToGrow = dist;
-					Ramet->Spacerlength = dist;
-					Ramet->Spacerdirection = direction;
-				}
-				if (CEnvir::week == CEnvir::WeeksPerYear)
-				{
-					delete Ramet;
-					plant->growingSpacerList.erase(plant->growingSpacerList.begin() + f);
-				}
-			} //else
-		} //end if pos reached
-	} //loop for all Ramets
-} //end CGridclonal::RametEstab()
-//-----------------------------------------------------------------------------
+				//new position, dist and direction
+				Ramet->xcoord = x * SRunPara::RunPara.CellScale();
+				Ramet->ycoord = y * SRunPara::RunPara.CellScale();
+				Ramet->spacerLengthToGrow = dist;
+				Ramet->Spacerlength = dist;
+				Ramet->Spacerdirection = direction;
+
+				rametsToKeep.push_back(Ramet);
+			}
+
+		}
+	}
+
+	plant->growingSpacerList = rametsToKeep;
+}
 
 /**
  * seedling mortality
@@ -692,7 +688,6 @@ void CGrid::Grazing() {
 
 		random_shuffle(PlantList.begin(), PlantList.end());
 
-		auto i = 0;
 		for (auto lplant : PlantList)
 		{
 			if (MassRemoved >= MaxMassRemove)
