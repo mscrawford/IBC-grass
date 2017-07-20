@@ -63,7 +63,7 @@ public:
 	std::vector<CPlant*> growingSpacerList;	// List of growing Spacer
 	double Spacerlength;                    // real spacer length
 	double Spacerdirection;                 // spacer direction
-	double spacerLengthToGrow;              // length to grow
+	double SpacerlengthToGrow;              // length to grow
 	int Generation;                         // clonal generation
 
 	// Constructors

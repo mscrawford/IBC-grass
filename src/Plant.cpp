@@ -23,7 +23,7 @@ CPlant::CPlant(CSeed* seed) :
 		plantID(++numPlants), xcoord(seed->xcoord), ycoord(seed->ycoord),
 		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
 		stress(0), dead(false), remove(false),
-		Spacerlength(0), Spacerdirection(0), spacerLengthToGrow(0), Generation(1)
+		Spacerlength(0), Spacerdirection(0), SpacerlengthToGrow(0), Generation(1)
 {
 
 	Traits = SPftTraits::createTraitSetFromPftType(seed->Traits->name);
@@ -67,7 +67,7 @@ CPlant::CPlant(double x, double y, CPlant* plant) :
 		plantID(++numPlants), xcoord(x), ycoord(y),
 		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
 		stress(0), dead(false), remove(false),
-		Spacerlength(0), Spacerdirection(0), spacerLengthToGrow(0),
+		Spacerlength(0), Spacerdirection(0), SpacerlengthToGrow(0),
 		Generation(plant->Generation + 1)
 {
 
@@ -206,19 +206,19 @@ void CPlant::SpacerGrow() {
 		{
 			CPlant* Spacer = this->growingSpacerList[g];
 
-			double lengthtogrow = Spacer->spacerLengthToGrow;
+			double lengthtogrow = Spacer->SpacerlengthToGrow;
 
 			lengthtogrow -= (mGrowSpacer / Traits->mSpacer); //spacer growth
 
-			Spacer->spacerLengthToGrow = max(0.0, lengthtogrow);
+			Spacer->SpacerlengthToGrow = max(0.0, lengthtogrow);
 
 			//Estab for all growing Spacers in the last week of the year
 
-			if (CEnvir::week == CEnvir::WeeksPerYear && Spacer->spacerLengthToGrow > 0)
+			if (CEnvir::week == CEnvir::WeeksPerYear && Spacer->SpacerlengthToGrow > 0)
 			{
 				double direction = Spacer->Spacerdirection;
 				double complDist = Spacer->Spacerlength; //should be positive
-				double dist = complDist - Spacer->spacerLengthToGrow;
+				double dist = complDist - Spacer->SpacerlengthToGrow;
 				double CmToCell = 1.0 / SRunPara::RunPara.CellScale();
 
 				int x2 = round(this->cell->x + cos(direction) * dist * CmToCell);
@@ -228,7 +228,7 @@ void CPlant::SpacerGrow() {
 
 				Spacer->xcoord = x2 / CmToCell;
 				Spacer->ycoord = y2 / CmToCell;
-				Spacer->spacerLengthToGrow = 0;
+				Spacer->SpacerlengthToGrow = 0;
 			}
 		}
 	}
