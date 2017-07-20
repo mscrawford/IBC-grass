@@ -33,7 +33,7 @@ N_REPS    = 1
 
 # Number of communities and what kind of PFTs to use
 N_COMS    = 1           # UNUSED WITH PAIRWISE INVASION CRITERION
-PFT_type  = "THEORETICAL" # "THEORETICAL" or "EMPIRICAL"
+PFT_type  = "EMPIRICAL" # "THEORETICAL" or "EMPIRICAL"
 
 ##########################################
 ### Environmental parameters

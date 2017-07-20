@@ -107,10 +107,8 @@ CGrid::~CGrid() {
  */
 void CGrid::PlantLoop()
 {
-	for (plant_iter it = PlantList.begin(); it < PlantList.end(); ++it)
+	for (auto p : PlantList)
 	{
-		CPlant* p = *it;
-
 		if (SRunPara::RunPara.ITV == on)
 			assert(p->Traits->myTraitType == SPftTraits::individualized);
 
@@ -266,10 +264,8 @@ void CGrid::CoverCells() {
 	double CellScale = SRunPara::RunPara.CellScale();
 	double CellArea = CellScale * CellScale;
 	//loop for all plants
-	for (plant_iter iplant = PlantList.begin(); iplant < PlantList.end();
-			++iplant) {
-		CPlant* plant = *iplant;
-
+	for (auto plant : PlantList)
+	{
 		double Ashoot = plant->Area_shoot() / CellArea;
 		plant->Ash_disc = floor(plant->Area_shoot()) + 1;
 
@@ -326,10 +322,8 @@ void CGrid::ResetWeeklyVariables()
 	}
 
 	//loop for all plants
-	for (plant_iter it = PlantList.begin(); it < PlantList.end(); ++it)
+	for (auto p : PlantList)
 	{
-		CPlant* p = *it;
-
 		//reset weekly variables
 		p->Auptake = 0;
 		p->Buptake = 0;
@@ -579,10 +573,8 @@ void CGrid::SeedMortAge()
 	{
 		CCell* cell = CellList[i];
 
-		for (seed_iter it = cell->SeedBankList.begin(); it != cell->SeedBankList.end(); ++it)
+		for (auto seed : cell->SeedBankList)
 		{
-			CSeed* seed = *it;
-
 			if (seed->Age >= seed->Traits->Dorm)
 				seed->remove = true;
 		}
@@ -700,16 +692,17 @@ void CGrid::Grazing() {
 
 		random_shuffle(PlantList.begin(), PlantList.end());
 
-		plant_size i = 0;
-		while (i < PlantList.size() && MassRemoved < MaxMassRemove)
+		auto i = 0;
+		for (auto lplant : PlantList)
 		{
-			CPlant* lplant = PlantList[i];
+			if (MassRemoved >= MaxMassRemove)
+			{
+				break;
+			}
 			grazprob = (lplant->mshoot * lplant->Traits->GrazFac()) / Max;
 
 			if (CEnvir::rng.get01() < grazprob)
 				MassRemoved += lplant->RemoveMass();
-
-			++i;
 		}
 	}
 } //end CGrid::Grazing()
@@ -887,8 +880,8 @@ void CGrid::Trampling() {
 
 //-----------------------------------------------------------------------------
 void CGrid::RemovePlants() {
-	plant_iter irem = partition(PlantList.begin(), PlantList.end(), mem_fun(&CPlant::GetPlantRemove));
-	for (plant_iter it = irem; it < PlantList.end(); ++it)
+	auto irem = partition(PlantList.begin(), PlantList.end(), mem_fun(&CPlant::GetPlantRemove));
+	for (auto it = irem; it < PlantList.end(); ++it)
 	{
 		CPlant* plant = *it;
 		DeletePlant(plant);
@@ -921,9 +914,9 @@ void CGrid::Winter()
 {
 	RemovePlants();
 	//mass removal in wintertime
-	for (plant_iter p = PlantList.begin(); p < PlantList.end(); ++p)
+	for (auto p : PlantList)
 	{
-		(*p)->WinterLoss();
+		p->WinterLoss();
 	}
 }
 
@@ -933,7 +926,7 @@ void CGrid::SeedMortWinter()
 	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) // loop for all cells
 	{
 		CCell* cell = CellList[i];
-		for (seed_iter it = cell->SeedBankList.begin(); it != cell->SeedBankList.end(); ++it)
+		for (auto it = cell->SeedBankList.begin(); it != cell->SeedBankList.end(); ++it)
 		{
 			CSeed* seed = *it;
 			if (CEnvir::rng.get01() < SRunPara::RunPara.mort_seeds)
@@ -1059,8 +1052,8 @@ bool Emmigrates(int& xx, int& yy)
 double CGrid::GetTotalAboveMass() {
 	double above_mass = 0;
 
-	for (plant_iter i = PlantList.begin(); i < PlantList.end(); ++i) {
-		CPlant* p = *i;
+	for (auto p : PlantList)
+	{
 		above_mass += p->mshoot + p->mRepro;
 	}
 	return above_mass;
@@ -1072,8 +1065,8 @@ double CGrid::GetTotalAboveMass() {
 double CGrid::GetTotalBelowMass() {
 	double below_mass = 0;
 
-	for (plant_iter i = PlantList.begin(); i < PlantList.end(); ++i) {
-		CPlant* p = *i;
+	for (auto p : PlantList)
+	{
 		below_mass += p->mroot;
 	}
 	return below_mass;
@@ -1085,8 +1078,8 @@ double CGrid::GetTotalBelowMass() {
 int CGrid::GetNclonalPlants() //count clonal plants
 {
 	int NClonalPlants = 0;
-	for (plant_iter i = PlantList.begin(); i < PlantList.end(); ++i) {
-		CPlant* p = *i;
+	for (auto p : PlantList)
+	{
 		if (p->Traits->clonal && !p->dead)
 		{
 			NClonalPlants++;
@@ -1102,8 +1095,8 @@ int CGrid::GetNclonalPlants() //count clonal plants
 int CGrid::GetNPlants() //count non-clonal plants
 {
 	int NPlants = 0;
-	for (plant_iter i = PlantList.begin(); i < PlantList.end(); ++i) {
-		CPlant* p = *i;
+	for (auto p : PlantList)
+	{
 		//only if its a non-clonal plant
 		if (!p->Traits->clonal && !p->dead)
 		{
