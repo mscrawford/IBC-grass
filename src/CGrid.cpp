@@ -378,12 +378,10 @@ void CGrid::Resshare()
  \todo find a faster algorithm for choosing the winning seedling
  */
 void CGrid::EstabLottery() {
-	//Ramet establishment for all Plants
-	int PLsize = PlantList.size();
-	for (int i = 0; i < PLsize; i++)
+	for (auto plant : PlantList)
 	{
-		CPlant* plant = PlantList[i];
-		if (plant->Traits->clonal && !plant->dead) {
+		if (plant->Traits->clonal && !plant->dead)
+		{
 			RametEstab(plant);
 		}
 	}
@@ -486,6 +484,7 @@ void CGrid::RametEstab(CPlant* plant)
 	{
 		if (Ramet->spacerLengthToGrow > 0)
 		{
+			rametsToKeep.push_back(Ramet);
 			continue;
 		}
 
