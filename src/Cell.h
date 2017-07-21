@@ -1,18 +1,17 @@
-//---------------------------------------------------------------------------
+
 #ifndef CellH
 #define CellH
-//---------------------------------------------------------------------------
+
 #include "Plant.h"
 #include "CSeed.h"
 
 #include <vector>
 
-//! class for cell objects (surprisingly)
 class CCell {
 
 public:
-	int x;  //!< x location [grid cells]
-	int y;  //!< y location [grid cells]
+	int x;
+	int y;
 
 	double AResConc;  //!< above-ground resource availability
 	double BResConc;  //!< below-ground resource availability
@@ -20,16 +19,16 @@ public:
 	double aComp_weekly;
 	double bComp_weekly;
 
-	bool occupied;  //!< is the cell occupied by any plant?
+	bool occupied;  // is the cell occupied by any plant?
 
-	CPlant* PlantInCell; //!< pointer to plant individual that has its central point in the cell (if any)
-//   CSeed* seed;     //!< pointer to seed object
+	CPlant* PlantInCell; // pointer to plant individual that has its central point in the cell (if any)
 
-	std::vector<CPlant*> AbovePlantList; //!< List of all plant individuals that cover the cell ABOVE ground
-	std::vector<CPlant*> BelowPlantList; //!< List of all plant individuals that cover the cell BELOW ground
+	std::vector<CPlant*> AbovePlantList; // List of all plant individuals that cover the cell ABOVE ground
+	std::vector<CPlant*> BelowPlantList; // List of all plant individuals that cover the cell BELOW ground
 
-	std::vector<CSeed*> SeedBankList; //!< List of all (ungerminated) seeds in the cell
-	std::vector<CSeed*> SeedlingList; //!< List of all freshly germinated seedlings in the cell
+	std::vector<CSeed*> SeedBankList; // List of all (ungerminated) seeds in the cell
+
+	std::vector<CSeed*> SeedlingList; // List of all freshly germinated seedlings in the cell
 
 	//! array with individual numbers of each PFT covering the cell above-ground
 	/*! necessary for niche differentiation version 2
@@ -49,7 +48,7 @@ public:
 			double ares = 0,
 			double bres = 0);
 
-	virtual ~CCell(); //!< Destructor
+	virtual ~CCell();
 
 	void clear(); ///<reset
 	void SetResource(double Ares, double Bres); ///<set resources
@@ -68,8 +67,6 @@ public:
 
 	///portion cell resources the plant is gaining
 	double prop_res(const std::string type, const int layer, const int version) const;
-
-	void SortTypeID();  //!< sort individuals after PFT ID
 
 };
 

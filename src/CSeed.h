@@ -10,9 +10,6 @@ class CCell;
 class CPlant;
 class SPftTraits;
 
-//---------------------------------------------------------------------------
-//struct CPftTraits;
-//! class of seed individuals
 class CSeed: public CObject
 {
 	protected:
@@ -21,12 +18,10 @@ class CSeed: public CObject
 	public:
 	   std::shared_ptr<SPftTraits> Traits;
 
-	   double mass;    //!< seed mass
-	   double estab;   ///< estab-probability (may differ from type-specific value)
-	   double xcoord;  //!< x position on the grid
-	   double ycoord;  //!< y position on the grid
-	   int Age;      //!< seed age [years]
-	   bool remove;  //!< should the seed be removed? (because it is dead)
+	   double mass;
+	   double estab;
+	   int Age;
+	   bool remove;
 	   virtual std::string type();
 	   virtual std::string pft();
 
@@ -34,11 +29,11 @@ class CSeed: public CObject
 	   CSeed(double estab, std::shared_ptr<SPftTraits> traits, CCell* cell);
 	   virtual ~CSeed();
 
-	   void setCell(CCell* cell);        ///<define cell (only if none defined yet)
-	   CCell* getCell(){ return cell; }; ///<return address of cell
+	   void setCell(CCell* cell);
+	   CCell* getCell(){ return cell; };
 
 	   //! return type affiliation (necessary to apply algorithms from STL)
-	   bool SeedOfType(std::string type){ return (this->pft()==type); };
+	   bool SeedOfType(std::string type) { return (this->pft()==type); };
 };
 
 //-----------------------------------------------------------------------------

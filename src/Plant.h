@@ -14,9 +14,6 @@
 
 const double Pi = std::atan(1) * 4;
 
-//---------------------------------------------------------------------------
-//! Structure to store all PFT Parameters
-
 class CSeed;
 class CCell;
 class CGenet;
@@ -30,8 +27,8 @@ protected:
 	virtual double ShootGrow(double shres);
 	virtual double RootGrow(double rres);
 
-	double mReproRamets;		// resources for ramet growth
-	std::shared_ptr<CGenet> genet;              // genet of the clonal plant
+	double mReproRamets;			// resources for ramet growth
+	std::shared_ptr<CGenet> genet;  // genet of the clonal plant
 
 public:
 	std::shared_ptr<SPftTraits> Traits;	// PFT Traits
@@ -61,10 +58,9 @@ public:
 
 	// Clonal
 	std::vector<CPlant*> growingSpacerList;	// List of growing Spacer
-	double Spacerlength;                    // real spacer length
-	double Spacerdirection;                 // spacer direction
+	double spacerLength;                    // real spacer length
+	double spacerDirection;                 // spacer direction
 	double spacerLengthToGrow;              // length to grow
-	int Generation;                         // clonal generation
 
 	// Constructors
 	CPlant(CSeed* seed); 						// from a germinated seed

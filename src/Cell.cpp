@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <cassert>
 
 #include "Cell.h"
 #include "CEnvir.h"
@@ -57,10 +58,6 @@ void CCell::clear()
    PlantInCell = NULL;
 }
 
-//---------------------------------------------------------------------------
-/**
- * destructor
- */
 CCell::~CCell()
 {
    for (unsigned int i=0; i<SeedBankList.size();i++) delete SeedBankList[i];
@@ -75,35 +72,24 @@ CCell::~CCell()
    PftNSeedling.clear();
 }
 
-//---------------------------------------------------------------------------
-/**
- * Set cell resources
- *
- * @param Ares aboveground
- * @param Bres belowground
- */
 void CCell::SetResource(double Ares, double Bres)
 {
-   double SideLength=SRunPara::RunPara.CellScale();
+   double SideLength = SRunPara::RunPara.CellScale();
 
-   AResConc=Ares*(SideLength*SideLength);       //resource units per cell (usually 1)
-   BResConc=Bres*(SideLength*SideLength);
-}//end setResource
-//---------------------------------------------------------------------------
-/**
- * Germination on cell.
- * @return biomass of germinated seeds
- */
+   AResConc = Ares*(SideLength*SideLength);
+   BResConc = Bres*(SideLength*SideLength);
+
+}
+
 double CCell::Germinate()
 {
-
 	double sum_SeedMass = 0;
 
 	for (auto seed : SeedBankList)
 	{
 		if (CEnvir::rng.get01() < seed->estab)
 		{
-			//make a copy in seedling list
+			// make a copy in seedling list
 			SeedlingList.push_back(seed);
 			PftNSeedling[seed->pft()]++;
 
@@ -113,10 +99,8 @@ double CCell::Germinate()
 
    //remove germinated seeds from SeedBankList
    auto iter_rem = partition(SeedBankList.begin(), SeedBankList.end(), GetSeedRemove);
-
    SeedBankList.erase(iter_rem, SeedBankList.end());
 
-    //get Mass of all seedlings in cell
    for (auto seed : SeedlingList)
    {
 	   sum_SeedMass += seed->mass;
@@ -132,9 +116,9 @@ void CCell::RemoveSeedlings()
    PftNIndB.clear();
    PftNSeedling.clear();
 
-   for (auto seed : SeedlingList)
+   for (auto seedling : SeedlingList)
    {
-      delete seed;
+      delete seedling;
    }
    SeedlingList.clear();
 }
@@ -142,13 +126,13 @@ void CCell::RemoveSeedlings()
 //---------------------------------------------------------------------------
 void CCell::RemoveSeeds()
 {
-   auto irem = partition(SeedBankList.begin(),SeedBankList.end(),GetSeedRemove);
+   auto irem = partition(SeedBankList.begin(), SeedBankList.end(), GetSeedRemove);
 
-   for (auto iter=irem; iter!=SeedBankList.end(); ++iter){
+   for (auto iter = irem; iter != SeedBankList.end(); ++iter){
       CSeed* seed = *iter;
       delete seed;
    }
-   SeedBankList.erase(irem,SeedBankList.end());
+   SeedBankList.erase(irem, SeedBankList.end());
 }
 
 //-----------------------------------------------------------------------------
@@ -171,8 +155,15 @@ void CCell::AboveComp()
       return;
    }
 
-   int symm = 1;
-   if (SRunPara::RunPara.AboveCompMode == asympart) symm = 2;
+	int symm;
+	if (SRunPara::RunPara.AboveCompMode == asympart)
+	{
+		symm = 2;
+	}
+	else
+	{
+		symm = 1;
+	}
 
    double comp_tot = 0;
    double comp_c = 0;
@@ -182,6 +173,7 @@ void CCell::AboveComp()
 	{
 		comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
 	}
+
    //2. distribute resources
 	for (auto plant : AbovePlantList)
 	{
@@ -190,7 +182,7 @@ void CCell::AboveComp()
 	}
 
    aComp_weekly = comp_tot;
-}//end above_comp
+}
 
 //-----------------------------------------------------------------------------
 /**
@@ -202,18 +194,20 @@ virtual function will be substituted by comp function from sub class
 */
 void CCell::BelowComp()
 {
+	assert(SRunPara::RunPara.BelowCompMode != asymtot);
+
 	if (BelowPlantList.empty())
 		return;
 
-	if (SRunPara::RunPara.BelowCompMode == asymtot)
-	{
-		cerr << "CCell::BelowComp() - no total asymetric belowground competition allowed";
-		exit(3);
-	}
-	int symm = 1;
-
+	int symm;
 	if (SRunPara::RunPara.BelowCompMode == asympart)
+	{
 		symm = 2;
+	}
+	else
+	{
+		symm = 1;
+	}
 
 	double comp_tot = 0;
 	double comp_c = 0;
@@ -231,7 +225,7 @@ void CCell::BelowComp()
 	}
 
 	bComp_weekly = comp_tot;
-}//end below_comp
+}
 
 //---------------------------------------------------------------------------
 /**
@@ -240,34 +234,46 @@ void CCell::BelowComp()
   \param version  one of [0,1,2]
   \since revision
 */
-double CCell::prop_res(const string type,const int layer,const int version)const{
-	switch (version) {
+double CCell::prop_res(const string type, const int layer, const int version) const
+{
+	switch (version)
+	{
 	case 0:
-		return 1;break;
+		return 1;
+		break;
 	case 1:
-		if (layer == 1) {
+		if (layer == 1)
+		{
 			map<string, int>::const_iterator noa = PftNIndA.find(type);
 			if (noa != PftNIndA.end())
+			{
 				return 1.0 / sqrt(noa->second);
+			}
 		}
-		if (layer == 2) {
+		if (layer == 2)
+		{
 			map<string, int>::const_iterator nob = PftNIndB.find(type);
 			if (nob != PftNIndB.end())
+			{
 				return 1.0 / sqrt(nob->second);
+			}
 
 		}
 		break;
 	case 2:
 		if (layer == 1)
+		{
 			return PftNIndA.size() / (1.0 + PftNIndA.size());
+		}
 		if (layer == 2)
+		{
 			return PftNIndB.size() / (1.0 + PftNIndB.size());
+		}
 		break;
 	default:
 		cerr << "CCell::prop_res() - wrong input";
-		exit(3);break;
+		exit(3);
+		break;
 	}
-   return -1; //should not be reached
-}//end CCell::prop_res
-
-//-eof--------------------------------------------------------------------------
+	return -1;
+}

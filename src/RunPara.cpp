@@ -27,7 +27,6 @@ SRunPara::SRunPara() :
 		CutHeight(0), NCut(0),
 		CatastrophicDistYear(50), CatastrophicDistWeek(21),
 		CatastrophicPlantMortality(0), CatastrophicSeedMortality(0),
-		DistAreaYear(0), AreaEvent(0),
 		Aampl(0), Bampl(0),
 		SeedInput(0), SeedRainType(0)
 {

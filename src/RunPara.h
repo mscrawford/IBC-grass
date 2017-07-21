@@ -119,14 +119,6 @@ public:
 	double CatastrophicPlantMortality;
 	double CatastrophicSeedMortality;
 
-	// Trampling parameters
-	double DistAreaYear;   //!< fraction of grid area disturbed per year;
-	double AreaEvent;      //!< fraction of grid area disturbed in one event
-	inline double DistProb()
-	{
-		return DistAreaYear / AreaEvent / 30.0;
-	};
-
 	// Resource variation
 	double Aampl;   //!< within year above-ground resource amplitude (not used)
 	double Bampl;   //!<  within year above-ground resource amplitude (not used)

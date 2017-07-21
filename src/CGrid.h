@@ -17,9 +17,7 @@ class CGrid
 {
 
 private:
-	///List of Genets on Grid
 	std::vector< std::shared_ptr<CGenet> > GenetList;
-	//clonal..
 	void RametEstab(CPlant* plant);   	// establish ramets
 	void Resshare();                	// share resources among connected ramets
 	void EstabLott_help(CSeed* seed);
@@ -41,14 +39,13 @@ protected:
 	void RunCatastrophicDisturbance(); 	// Removes some percentage of total plants and seeds
 	void Grazing(); 					// Aboveground grazing
 	void GrazingBelGr();				// Belowground grazing
-	void Trampling();
 	void Cutting(double CutHeight = 0);
 	void CellsInit();					// Creates the cells that make up the grid
 	void SetCellResource();				// Populates the grid with resources (weekly)
 
 public:
 	std::vector<CPlant*> PlantList;    	// List of plant individuals
-	CCell** CellList;    				//	array of pointers to CCell
+	CCell** CellList;    				// array of pointers to CCell
 	std::vector<int> above_biomass_history;
 	std::vector<int> below_biomass_history;
 
@@ -65,9 +62,6 @@ public:
 	int GetNclonalPlants();   	// number of living clonal plants
 	int GetNPlants();         	// number of living non-clonal plants
 	int GetNSeeds();			// number of seeds
-	int GetNMotherPlants();   	// number of living genets
-	int GetCoveredCells();    	// number of cells covered
-	double GetNGeneration();  	// number of Generations
 
 };
 

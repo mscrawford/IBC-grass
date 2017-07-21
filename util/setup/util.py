@@ -8,6 +8,7 @@ class Base_Parameter():
         BelGrazProb, BelGrazPerc, 
         CatastrophicPlantMortality, CatastrophicSeedMortality,
         SeedRainType, SeedInput):
+
         self.IC_version = IC_version
         self.Mode = Mode
         self.ITVsd = ITVsd
@@ -57,6 +58,7 @@ class PFT():
                  resourceCompetitionSet, grazingResponseSet, RAR, growth, mThres,
                  clonal, propSex, meanSpacerLength, sdSpacerlength, Resshare,
                  AllocSpacer, mSpacer):
+
         self.Species = counter
         self.AllocSeed = AllocSeed
         self.LMR = LMR # fLeaf

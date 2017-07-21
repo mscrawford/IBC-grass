@@ -20,11 +20,11 @@ H_RT     = "08:00:00"   # Maximum runtime for simulations (08:00:00 = 8 hours)
 H_VMEM   = "2G"         # Memory for each simulation run
 
 # Frequency and type of output
-weekly    = 1 # Print output yearly (0) or weekly (1)?
+weekly    = 0 # Print output yearly (0) or weekly (1)?
 
-ind_out   = 1 # Print individual-level output?           (0) No; (1) Yes
+ind_out   = 0 # Print individual-level output?           (0) No; (1) Yes
 pft_out   = 2 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
-srv_out   = 0 # Print PFT-survival output:               (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
+srv_out   = 1 # Print PFT-survival output:               (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
 trait_out = 1 # Print trait-level output:                (0) No; (1) Yes
 meta_out  = 1 # Print output about the environment, etc. (0) No; (1) Year
 
@@ -50,23 +50,23 @@ SIGMA = [0] # Variability with which the time series changes
 
 # Resource levels
 ARes  = [90]
-BRes  = [90] # With belowground environmental variation, this MUST be NA
+BRes  = [30, 60, 90] # With belowground environmental variation, this MUST be NA
 
 # Aboveground grazing 
-GrazProb   = [0.2]
-propRemove = [0.5]
+GrazProb   = [0, 0.1, 0.3]
+propRemove = [0, 0.3]
 
 # Belowground grazing
-BelGrazProb = [1]
-BelGrazPerc = [0.10]
+BelGrazProb = [0]
+BelGrazPerc = [0]
 
 # Catastrophic disturbance
-CatastrMort_Plant = [1]
+CatastrMort_Plant = [0]
 CatastrMort_Seed  = [0]
 
 # Seed introduction
-SeedRainType = [1]
-SeedInput    = [10]
+SeedRainType = [0]
+SeedInput    = [0]
 
 ##########################################
 ### Permutable list...
@@ -222,6 +222,7 @@ def buildPFTs():
             Com_FN = "COM_" + str(ComNr) + ".txt"
 
             for base_param in itertools.product(*base_params):
+                
                 try:
                     base_param = Base_Parameter(*base_param)
                 except:
@@ -229,7 +230,7 @@ def buildPFTs():
 
                 SimNr += 1 # IBC-grass will barf if SimNr starts with 0.
                 SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), Com_FN, "\n"]))
-                
+
                 # community's PFT file    
             with open(PATH + Com_FN, 'w') as w: 
                 w.write(PFT_HEADER)

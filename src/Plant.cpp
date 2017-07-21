@@ -20,10 +20,10 @@ int CPlant::numPlants = 0;
 
 CPlant::CPlant(CSeed* seed) :
 		cell(NULL), mReproRamets(0), genet(NULL), Age(0),
-		plantID(++numPlants), xcoord(seed->xcoord), ycoord(seed->ycoord),
+		plantID(++numPlants), xcoord(0), ycoord(0),
 		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
 		stress(0), dead(false), remove(false),
-		Spacerlength(0), Spacerdirection(0), spacerLengthToGrow(0), Generation(1)
+		spacerLength(0), spacerDirection(0), spacerLengthToGrow(0)
 {
 
 	Traits = SPftTraits::createTraitSetFromPftType(seed->Traits->name);
@@ -46,8 +46,6 @@ CPlant::CPlant(CSeed* seed) :
 		xcoord = cell->x * SRunPara::RunPara.CellScale();
 		ycoord = cell->y * SRunPara::RunPara.CellScale();
 	}
-	growingSpacerList.clear();
-
 }
 
 //-----------------------------------------------------------------------------
@@ -67,8 +65,7 @@ CPlant::CPlant(double x, double y, CPlant* plant) :
 		plantID(++numPlants), xcoord(x), ycoord(y),
 		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
 		stress(0), dead(false), remove(false),
-		Spacerlength(0), Spacerdirection(0), spacerLengthToGrow(0),
-		Generation(plant->Generation + 1)
+		spacerLength(0), spacerDirection(0), spacerLengthToGrow(0)
 {
 
 	Traits = SPftTraits::copyTraitSet(plant->Traits);
@@ -79,8 +76,6 @@ CPlant::CPlant(double x, double y, CPlant* plant) :
 	mshoot = Traits->m0;
 	mroot = Traits->m0;
 
-	growingSpacerList.clear();
-
 }
 
 //---------------------------------------------------------------------------
@@ -89,8 +84,9 @@ CPlant::CPlant(double x, double y, CPlant* plant) :
  */
 CPlant::~CPlant()
 {
-	for (unsigned int i = 0; i < growingSpacerList.size(); ++i) {
-		delete growingSpacerList[i];
+	for (auto Spacer : growingSpacerList)
+	{
+		delete Spacer;
 	}
 
 	growingSpacerList.clear();
@@ -99,18 +95,12 @@ CPlant::~CPlant()
 
 //---------------------------------------------------------------------------
 ///set genet and add ramet to its list
-void CPlant::setGenet(shared_ptr<CGenet>_genet)
+void CPlant::setGenet(shared_ptr<CGenet> _genet)
 {
-	if (this->genet == NULL)
-	{
-		this->genet = _genet;
-		this->genet->AllRametList.push_back(this);
-	}
-	else
-	{
-		cerr << "Genet does not exist." << endl;
-		exit(0);
-	}
+	assert(this->genet == NULL);
+
+	this->genet = _genet;
+	this->genet->AllRametList.push_back(this);
 }
 
 //-----------------------------------------------------------------------------
@@ -148,27 +138,26 @@ string CPlant::pft() {
  */
 double CPlant::ReproGrow(double uptake)
 {
-	double SpacerRes, SeedRes, VegRes, dm_seeds, dummy1;
+	double VegRes;
+
 	//fixed Proportion of resource to seed production
 	if (mRepro <= Traits->AllocSeed * mshoot) //calculate mRepro for every week
 	{
-		SeedRes = uptake * Traits->AllocSeed;
-		SpacerRes = uptake * Traits->AllocSpacer;
+		double SeedRes = uptake * Traits->AllocSeed;
+		double SpacerRes = uptake * Traits->AllocSpacer;
 
-		int pweek = CEnvir::week;
-
-		//during the seed-production-weeks
-		if (pweek >= Traits->FlowerWeek && pweek < Traits->DispWeek)
+		// during the seed-production-weeks
+		if (CEnvir::week >= Traits->FlowerWeek && CEnvir::week < Traits->DispWeek)
 		{
 			//seed production
-			dm_seeds = max(0.0, Traits->growth * SeedRes);
+			double dm_seeds = max(0.0, Traits->growth * SeedRes);
 			mRepro += dm_seeds;
 
 			//clonal growth
-			dummy1 = max(0.0, min(SpacerRes, uptake - SeedRes)); // for large AllocSeed, resources may be < SpacerRes, then only take remaining resources
-			mReproRamets += max(0.0, Traits->growth * dummy1);
-			VegRes = uptake - SeedRes - dummy1;
+			double d = max(0.0, min(SpacerRes, uptake - SeedRes)); // for large AllocSeed, resources may be < SpacerRes, then only take remaining resources
+			mReproRamets += max(0.0, Traits->growth * d);
 
+			VegRes = uptake - SeedRes - d;
 		}
 		else
 		{
@@ -191,46 +180,38 @@ double CPlant::ReproGrow(double uptake)
  */
 void CPlant::SpacerGrow() {
 
-	double mGrowSpacer = 0;
-
-	int SpacerListSize = this->growingSpacerList.size();
-
-	if (SpacerListSize == 0)
+	if (growingSpacerList.size() == 0 || mReproRamets <= 0) {
 		return;
+	}
 
-	if (mReproRamets > 0)
+	assert(mReproRamets > 0);
+
+	double mGrowSpacer = mReproRamets / growingSpacerList.size(); //resources for one spacer
+
+	for (auto Spacer : growingSpacerList)
 	{
-		mGrowSpacer = mReproRamets / SpacerListSize; //resources for one spacer
+		double lengthToGrow = Spacer->spacerLengthToGrow - (mGrowSpacer / Traits->mSpacer);
 
-		for (int g = 0; g < SpacerListSize; g++) //loop for all growing Spacer of one plant
+		Spacer->spacerLengthToGrow = max(0.0, lengthToGrow);
+
+		// Advancement for all growing Spacers in the last week of the year
+
+		if (CEnvir::week == CEnvir::WeeksPerYear && Spacer->spacerLengthToGrow > 0)
 		{
-			CPlant* Spacer = this->growingSpacerList[g];
+			double direction = Spacer->spacerDirection;
+			double dist = Spacer->spacerLength - Spacer->spacerLengthToGrow;
+			double CmToCell = 1.0 / SRunPara::RunPara.CellScale();
 
-			double lengthtogrow = Spacer->spacerLengthToGrow;
+			int x2 = round(this->cell->x + cos(direction) * dist * CmToCell);
+			int y2 = round(this->cell->y + sin(direction) * dist * CmToCell);
 
-			lengthtogrow -= (mGrowSpacer / Traits->mSpacer); //spacer growth
+			Boundary(x2, y2);
 
-			Spacer->spacerLengthToGrow = max(0.0, lengthtogrow);
-
-			//Estab for all growing Spacers in the last week of the year
-
-			if (CEnvir::week == CEnvir::WeeksPerYear && Spacer->spacerLengthToGrow > 0)
-			{
-				double direction = Spacer->Spacerdirection;
-				double complDist = Spacer->Spacerlength; //should be positive
-				double dist = complDist - Spacer->spacerLengthToGrow;
-				double CmToCell = 1.0 / SRunPara::RunPara.CellScale();
-
-				int x2 = round(this->cell->x + cos(direction) * dist * CmToCell);
-				int y2 = round(this->cell->y + sin(direction) * dist * CmToCell);
-
-				Boundary(x2, y2);
-
-				Spacer->xcoord = x2 / CmToCell;
-				Spacer->ycoord = y2 / CmToCell;
-				Spacer->spacerLengthToGrow = 0;
-			}
+			Spacer->xcoord = x2 / CmToCell;
+			Spacer->ycoord = y2 / CmToCell;
+			Spacer->spacerLengthToGrow = 0;
 		}
+
 	}
 	mReproRamets = 0;
 }
@@ -249,27 +230,26 @@ void CPlant::SpacerGrow() {
 void CPlant::Grow2() //grow plant one timestep
 {
 	double dm_shoot, dm_root, alloc_shoot;
-//   double Assim_shoot, Resp_shoot, Assim_root, Resp_root;
 	double LimRes, ShootRes, RootRes, VegRes;
 
 	/********************************************/
 	/*  dm/dt = growth*(c*m^p - m^q / m_max^r)  */
 	/********************************************/
 
-	//which resource is limiting growth ?
-	LimRes = min(Buptake, Auptake);   //two layers
+	// which resource is limiting growth?
+	LimRes = min(Buptake, Auptake); // two layers
 	VegRes = ReproGrow(LimRes);
 
-	//allocation to shoot and root growth
-	alloc_shoot = Buptake / (Buptake + Auptake); //allocation coefficient
+	// allocation to shoot and root growth
+	alloc_shoot = Buptake / (Buptake + Auptake); // allocation coefficient
 
 	ShootRes = alloc_shoot * VegRes;
 	RootRes = VegRes - ShootRes;
 
-	//Shoot growth
+	// Shoot growth
 	dm_shoot = this->ShootGrow(ShootRes);
 
-	//Root growth
+	// Root growth
 	dm_root = this->RootGrow(RootRes);
 
 	mshoot += dm_shoot;
@@ -289,11 +269,16 @@ void CPlant::Grow2() //grow plant one timestep
 double CPlant::ShootGrow(double shres)
 {
 
-	double Assim_shoot, Resp_shoot;
-	double p = 2.0 / 3.0, q = 2.0, r = 4.0 / 3.0; //exponents for growth function
+	double Assim_shoot;
+	double Resp_shoot;
+
+	// exponents for growth function
+	double p = 2.0 / 3.0;
+	double q = 2.0;
+	double r = 4.0 / 3.0;
+
 	Assim_shoot = Traits->growth * min(shres, Traits->Gmax * Ash_disc); //growth limited by maximal resource per area -> similar to uptake limitation
-	Resp_shoot = Traits->growth * Traits->SLA * pow(Traits->LMR, p)
-			* Traits->Gmax * pow(mshoot, q) / pow(Traits->MaxMass, r); //respiration proportional to mshoot^2
+	Resp_shoot = Traits->growth * Traits->SLA * pow(Traits->LMR, p) * Traits->Gmax * pow(mshoot, q) / pow(Traits->MaxMass, r); //respiration proportional to mshoot^2
 
 	return max(0.0, Assim_shoot - Resp_shoot);
 
@@ -307,12 +292,14 @@ double CPlant::ShootGrow(double shres)
  */
 double CPlant::RootGrow(double rres)
 {
-
 	double Assim_root, Resp_root;
-	double q = 2.0, r = 4.0 / 3.0; //exponents for growth function
+
+	//exponents for growth function
+	double q = 2.0;
+	double r = 4.0 / 3.0;
+
 	Assim_root = Traits->growth * min(rres, Traits->Gmax * Art_disc); //growth limited by maximal resource per area -> similar to uptake limitation
-	Resp_root = Traits->growth * Traits->Gmax * Traits->RAR * pow(mroot, q)
-			/ pow(Traits->MaxMass, r);  //respiration proportional to root^2
+	Resp_root = Traits->growth * Traits->Gmax * Traits->RAR * pow(mroot, q) / pow(Traits->MaxMass, r);  //respiration proportional to root^2
 
 	return max(0.0, Assim_root - Resp_root);
 }
@@ -347,13 +334,9 @@ bool CPlant::stressed() {
  */
 void CPlant::Kill()
 {
-	// resource deficiency mortality
-	// pmin->random background mortality
-	const double pmin = SRunPara::RunPara.mort_base;  // 0.007;
-
 	assert(Traits->memory >= 1);
 
-	double pmort = (double(stress) / Traits->memory) + pmin; // stress mortality + random background mortality
+	double pmort = (double(stress) / Traits->memory) + SRunPara::RunPara.mort_base; // stress mortality + random background mortality
 
 	if (CEnvir::rng.get01() < pmort)
 	{
@@ -365,15 +348,18 @@ void CPlant::Kill()
  * Litter decomposition with deletion at 10mg.
  */
 void CPlant::DecomposeDead() {
-	const double minmass = 10; // mass at which dead plants are removed
-	const double rate = SRunPara::RunPara.LitterDecomp; //0.5;
 
-	if (dead) {
-		mRepro = 0;
-		mshoot *= rate;
-		mroot *= rate;
-		if (GetMass() < minmass)
-			remove = true;
+	assert(dead);
+
+	const double minmass = 10; // mass at which dead plants are removed
+
+	mRepro = 0;
+	mshoot *= SRunPara::RunPara.LitterDecomp;
+	mroot *= SRunPara::RunPara.LitterDecomp;
+
+	if (GetMass() < minmass)
+	{
+		remove = true;
 	}
 }
 
@@ -429,14 +415,13 @@ int CPlant::GetNRamets() {
 double CPlant::RemoveMass() {
 	double mass_removed = 0;
 
-	//proportion of mass removed (0.5)
-	const double prop_remove = SRunPara::RunPara.BitSize;
-
-	if (mshoot + mRepro > 1) {   //only remove mass if shoot mas > 1mg
-		mass_removed = prop_remove * mshoot + mRepro;
-		mshoot *= 1 - prop_remove;
+	if (mshoot + mRepro > 1) // only remove mass if shootmass > 1 mg
+	{
+		mass_removed = SRunPara::RunPara.BitSize * mshoot + mRepro;
+		mshoot *= 1 - SRunPara::RunPara.BitSize;
 		mRepro = 0;
 	}
+
 	return mass_removed;
 }
 
@@ -460,12 +445,11 @@ void CPlant::RemoveRootMass(const double mass_removed)
 
 //-----------------------------------------------------------------------------
 /**
- * Winter dieback of aboveground biomass. Ageing of Plant.
+ * Winter dieback of aboveground biomass. Aging of Plant.
  */
 void CPlant::WinterLoss()
 {
-	double prop_remove = SRunPara::RunPara.DiebackWinter; // 0.5
-	mshoot *= 1 - prop_remove;
+	mshoot *= 1 - SRunPara::RunPara.DiebackWinter;
 	mRepro = 0;
 	Age++;
 }
@@ -502,8 +486,10 @@ double CPlant::Area_root() {
  * @return competitive strength
  * \since revision
  */
-double CPlant::comp_coef(const int layer, const int symmetry) const {
-	switch (symmetry) {
+double CPlant::comp_coef(const int layer, const int symmetry) const
+{
+	switch (symmetry)
+	{
 	case 1:
 		if (layer == 1)
 			return Traits->Gmax; //CompPowerA();
@@ -522,6 +508,3 @@ double CPlant::comp_coef(const int layer, const int symmetry) const {
 	}
 	return -1;  //should not be reached
 }
-
-//-eof----------------------------------------------------------------------------
-

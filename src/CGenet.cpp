@@ -1,64 +1,67 @@
-/** \file
-    \brief functions of class CGenet
-*/
-//---------------------------------------------------------------------------
 
 #include "CGenet.h"
 
-//---------------------------------------------------------------------------
 int CGenet::staticID = 0;
 
-/// Calculate the mean of the uptakes of one genet and save this
-/// as the uptake for each plant of this genet.
+/*
+ * If the ramet has enough resources to fulfill its minimum requirements,
+ * it will "donate" the rest of its resources to a pool that is then equally
+ * shared across all the genet's ramets.
+ *
+ * This is for aboveground
+ */
 void CGenet::ResshareA()
 {
   double sumAuptake=0;
   double MeanAuptake=0;
 
-  for (auto i = AllRametList.begin(); i < AllRametList.end(); ++i)//for all ramets of the genet
-  {
-       double AddtoSum=0;
-       CPlant* Ramet = *i;
-       double minres= Ramet->Traits->mThres * Ramet->Ash_disc * Ramet->Traits->Gmax*2;
-       //Uptake - the min resources that the plant need
-       AddtoSum=std::max(0.0,Ramet->Auptake-minres);
-       //if the plant has enought resources
-       //new uptake is the min amount of resources
-       if (AddtoSum>0)    Ramet->Auptake=minres;
-       sumAuptake+=AddtoSum;
-  }
-  MeanAuptake = sumAuptake / double(AllRametList.size()); //mean
+	for (auto ramet : AllRametList)
+	{
+		double AddtoSum = 0;
+		double minres = ramet->Traits->mThres * ramet->Ash_disc * ramet->Traits->Gmax * 2;
 
-  //Add the shared resourses (MeanAuptake) to the uptake
-  for (auto i = AllRametList.begin(); i < AllRametList.end(); ++i)//for all ramets of the genet
-  {
-      (*i)->Auptake+=MeanAuptake;
-  } //end CGridclonal::ResshareA
+		AddtoSum = std::max(0.0, ramet->Auptake - minres);
+
+		if (AddtoSum > 0)
+		{
+			ramet->Auptake = minres;
+			sumAuptake += AddtoSum;
+		}
+	}
+	MeanAuptake = sumAuptake / AllRametList.size();
+
+	for (auto ramet : AllRametList)
+	{
+		ramet->Auptake += MeanAuptake;
+	}
 }
-//-----------------------------------------------------------------------------
-/// Calculate the mean of the uptakes of one genet and save this
-/// as the uptake for each plant of this genet.
+/*
+ * This is for belowground.
+ */
 void CGenet::ResshareB()
 {
- double sumBuptake=0;
- double MeanBuptake=0;
-    for (unsigned int m=0; m<AllRametList.size();m++)//for all ramets of the genet
-    {
-       double AddtoSum=0;
-       CPlant* Ramet =AllRametList[m];
-       double minres= Ramet->Traits->mThres*Ramet->Art_disc*Ramet->Traits->Gmax*2;
-       //Uptake - the min resources that the plant need
-       AddtoSum=std::max(0.0,Ramet->Buptake-minres);
-       //if the plant has enought resources
-       //new uptake is the min amount of resources
-       if (AddtoSum>0)Ramet->Buptake=minres;
-       sumBuptake+=AddtoSum;
-    }
+	double sumBuptake = 0;
+	double MeanBuptake = 0;
 
-    MeanBuptake=(sumBuptake/(AllRametList.size())); //Mittelwert des �berschusses
+	for (auto ramet : AllRametList)
+	{
+		double AddtoSum = 0;
+		double minres = ramet->Traits->mThres * ramet->Art_disc * ramet->Traits->Gmax * 2;
 
-    //Add the shared resourses to the uptake
-     for (unsigned int m=0; m<AllRametList.size();m++)
-       AllRametList[m]->Buptake+=MeanBuptake;
-}//end CGridclonal::ResshareB
-//eof---------------------------------------------------------------------
+		AddtoSum = std::max(0.0, ramet->Buptake - minres);
+
+		if (AddtoSum > 0)
+		{
+			ramet->Buptake = minres;
+			sumBuptake += AddtoSum;
+		}
+	}
+
+	MeanBuptake = sumBuptake / AllRametList.size();
+
+	for (auto ramet : AllRametList)
+	{
+		ramet->Buptake += MeanBuptake;
+	}
+}
+
