@@ -31,7 +31,7 @@ CCell::CCell(const unsigned int xx, const unsigned int yy, double ares, double b
    PftNIndB.clear();
    PftNSeedling.clear();
 
-   const unsigned int index = xx*SRunPara::RunPara.CellNum + yy;
+   const unsigned int index = xx*SRunPara::RunPara.GridSize + yy;
    AResConc=CEnvir::AResMuster.at(index);
    BResConc=CEnvir::BResMuster[index];
 }
@@ -74,11 +74,8 @@ CCell::~CCell()
 
 void CCell::SetResource(double Ares, double Bres)
 {
-   double SideLength = SRunPara::RunPara.CellScale();
-
-   AResConc = Ares*(SideLength*SideLength);
-   BResConc = Bres*(SideLength*SideLength);
-
+   AResConc = Ares;
+   BResConc = Bres;
 }
 
 double CCell::Germinate()

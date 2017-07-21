@@ -43,8 +43,8 @@ CPlant::CPlant(CSeed* seed) :
 	setCell(seed->getCell());
 	if (cell)
 	{
-		xcoord = cell->x * SRunPara::RunPara.CellScale();
-		ycoord = cell->y * SRunPara::RunPara.CellScale();
+		xcoord = cell->x;
+		ycoord = cell->y;
 	}
 }
 
@@ -200,15 +200,15 @@ void CPlant::SpacerGrow() {
 		{
 			double direction = Spacer->spacerDirection;
 			double dist = Spacer->spacerLength - Spacer->spacerLengthToGrow;
-			double CmToCell = 1.0 / SRunPara::RunPara.CellScale();
 
-			int x2 = round(this->cell->x + cos(direction) * dist * CmToCell);
-			int y2 = round(this->cell->y + sin(direction) * dist * CmToCell);
+
+			int x2 = round(this->cell->x + cos(direction) * dist);
+			int y2 = round(this->cell->y + sin(direction) * dist);
 
 			Boundary(x2, y2);
 
-			Spacer->xcoord = x2 / CmToCell;
-			Spacer->ycoord = y2 / CmToCell;
+			Spacer->xcoord = x2;
+			Spacer->ycoord = y2;
 			Spacer->spacerLengthToGrow = 0;
 		}
 

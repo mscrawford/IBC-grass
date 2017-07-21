@@ -86,7 +86,6 @@ public:
 
 	// Gridspace
 	int GridSize;     //!< side length in cm
-	int CellNum;      //!< side length in cells
 
 	// General parameters
 	int Tmax;         		//!< simulation time
@@ -131,16 +130,8 @@ public:
 	// Constructor
 	SRunPara();
 
-	inline double CellScale() {
-		return GridSize / double(CellNum);
-	};
-
-	inline int GetGridSize() const {
-		return CellNum;
-	};
-
 	inline int GetSumCells() const {
-		return CellNum * CellNum;
+		return GridSize * GridSize;
 	};
 
 	std::string getSimID(); // Merge ID for data sets

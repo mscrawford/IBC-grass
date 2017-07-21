@@ -37,7 +37,7 @@ CGrid::CGrid()
 void CGrid::CellsInit()
 {
 	int index;
-	int SideCells = SRunPara::RunPara.CellNum;
+	int SideCells = SRunPara::RunPara.GridSize;
 	CellList = new CCell*[SideCells * SideCells];
 
 	for (int x = 0; x < SideCells; x++)
@@ -146,12 +146,11 @@ void getTargetCell(int& xx, int& yy, const float mean, const float sd)
 	double sigma = sqrt(log((sd / mean) * (sd / mean) + 1));
 	double mu = log(mean) - 0.5 * sigma;
 	double dist = exp(CEnvir::rng.getGaussian(mu, sigma)); //RandNumGen.normal
-	double CmToCell = 1.0 / SRunPara::RunPara.CellScale();
 
 	//direction uniformly distributed
 	double direction = 2 * Pi * CEnvir::rng.get01(); //rnumber;
-	xx = round(xx + cos(direction) * dist * CmToCell);
-	yy = round(yy + sin(direction) * dist * CmToCell);
+	xx = round(xx + cos(direction) * dist);
+	yy = round(yy + sin(direction) * dist);
 }
 
 //-----------------------------------------------------------------------------
@@ -193,7 +192,7 @@ void CGrid::DispersSeeds(CPlant* plant)
 			Boundary(x, y); //recalc position for torus
 		}
 
-		CCell* cell = CellList[x * SRunPara::RunPara.CellNum + y];
+		CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
 
 		new CSeed(plant, cell);
 	}
@@ -203,8 +202,6 @@ void CGrid::DispersSeeds(CPlant* plant)
 void CGrid::DispersRamets(CPlant* plant)
 {
 	assert(plant->Traits->clonal);
-
-	const double CmToCell = 1.0 / SRunPara::RunPara.CellScale();
 
 	if (plant->GetNRamets() == 1)
 	{
@@ -219,14 +216,14 @@ void CGrid::DispersRamets(CPlant* plant)
 
 		// uniformly distributed direction
 		double direction = 2 * Pi * CEnvir::rng.get01();
-		int x = round(plant->getCell()->x + cos(direction) * distance * CmToCell);
-		int y = round(plant->getCell()->y + sin(direction) * distance * CmToCell);
+		int x = round(plant->getCell()->x + cos(direction) * distance);
+		int y = round(plant->getCell()->y + sin(direction) * distance);
 
 		// periodic boundary condition
 		Boundary(x, y);
 
 		// save distance and direction in the plant
-		CPlant *Spacer = new CPlant(x / CmToCell, y / CmToCell, plant);
+		CPlant *Spacer = new CPlant(x, y, plant);
 		Spacer->spacerLengthToGrow = distance;
 		Spacer->spacerLength = distance;
 		Spacer->spacerDirection = direction;
@@ -247,15 +244,12 @@ void CGrid::DispersRamets(CPlant* plant)
  */
 void CGrid::CoverCells()
 {
-	double CellScale = SRunPara::RunPara.CellScale();
-	double CellArea = CellScale * CellScale;
-
 	for (auto plant : PlantList)
 	{
-		double Ashoot = plant->Area_shoot() / CellArea;
+		double Ashoot = plant->Area_shoot();
 		plant->Ash_disc = floor(plant->Area_shoot()) + 1;
 
-		double Aroot = plant->Area_root() / CellArea;
+		double Aroot = plant->Area_root();
 		plant->Art_disc = floor(plant->Area_root()) + 1;
 
 		double Amax = max(Ashoot, Aroot);
@@ -264,14 +258,14 @@ void CGrid::CoverCells()
 		{
 			//get current position: add plant pos with ZOIBase-pos
 			int xhelp = plant->getCell()->x
-					+ ZOIBase[a] / SRunPara::RunPara.CellNum
-					- SRunPara::RunPara.CellNum / 2;
+					+ ZOIBase[a] / SRunPara::RunPara.GridSize
+					- SRunPara::RunPara.GridSize / 2;
 			int yhelp = plant->getCell()->y
-					+ ZOIBase[a] % SRunPara::RunPara.CellNum
-					- SRunPara::RunPara.CellNum / 2;
+					+ ZOIBase[a] % SRunPara::RunPara.GridSize
+					- SRunPara::RunPara.GridSize / 2;
 					/// \todo change to absorbing bound for upscaling
 			Boundary(xhelp, yhelp);
-			int index = xhelp * SRunPara::RunPara.CellNum + yhelp;
+			int index = xhelp * SRunPara::RunPara.GridSize + yhelp;
 			CCell* cell = CellList[index];
 
 			//Aboveground****************************************************
@@ -495,9 +489,9 @@ void CGrid::RametEstab(CPlant* plant)
 			continue;
 		}
 
-		int x = round(Ramet->xcoord / SRunPara::RunPara.CellScale());
-		int y = round(Ramet->ycoord / SRunPara::RunPara.CellScale());
-		CCell* cell = CellList[x * SRunPara::RunPara.CellNum + y];
+		int x = round(Ramet->xcoord);
+		int y = round(Ramet->ycoord);
+		CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
 
 		if (!cell->occupied)
 		{
@@ -530,14 +524,14 @@ void CGrid::RametEstab(CPlant* plant)
 				double dist = Distance(factorx, factory);
 				double direction = acos(factorx / dist);
 
-				x = round( (Ramet->xcoord + factorx) / SRunPara::RunPara.CellScale() );
-				y = round( (Ramet->ycoord + factory) / SRunPara::RunPara.CellScale() );
+				x = round(Ramet->xcoord + factorx);
+				y = round(Ramet->ycoord + factory);
 
 				Boundary(x, y);
 
 				//new position, dist and direction
-				Ramet->xcoord = x * SRunPara::RunPara.CellScale();
-				Ramet->ycoord = y * SRunPara::RunPara.CellScale();
+				Ramet->xcoord = x;
+				Ramet->ycoord = y;
 				Ramet->spacerLengthToGrow = dist;
 				Ramet->spacerLength = dist;
 				Ramet->spacerDirection = direction;
@@ -650,8 +644,7 @@ void CGrid::RunCatastrophicDisturbance()
  */
 void CGrid::Grazing() {
 	int SumCells = SRunPara::RunPara.GetSumCells();
-	double CellScale = SRunPara::RunPara.CellScale();
-	double ResidualMass = SRunPara::RunPara.MassUngraz * SumCells * CellScale * CellScale * 0.0001;
+	double ResidualMass = SRunPara::RunPara.MassUngraz * SumCells * 0.0001;
 	double MaxMassRemove, TotalAboveMass, MassRemoved = 0;
 	double grazprob;
 	double Max;
@@ -881,10 +874,10 @@ void CGrid::InitClonalSeeds(shared_ptr<SPftTraits> traits, const int n, double e
 {
 	for (int i = 0; i < n; ++i)
 	{
-		int x = CEnvir::rng.getUniformInt(SRunPara::RunPara.CellNum);
-		int y = CEnvir::rng.getUniformInt(SRunPara::RunPara.CellNum);
+		int x = CEnvir::rng.getUniformInt(SRunPara::RunPara.GridSize);
+		int y = CEnvir::rng.getUniformInt(SRunPara::RunPara.GridSize);
 
-		CCell* cell = CellList[x * SRunPara::RunPara.CellNum + y];
+		CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
 		new CSeed(estab, traits, cell);
 	}
 } //end CGridclonal::clonalSeedsInit()
@@ -933,10 +926,9 @@ double Distance(const double& xx, const double& yy, const double& x, const doubl
 
 bool CompareIndexRel(int i1, int i2)
 {
-	const int Num = SRunPara::RunPara.CellNum;
+	const int n = SRunPara::RunPara.GridSize;
 
-	return Distance(i1 / Num, i1 % Num, Num / 2, Num / 2) <
-			Distance(i2 / Num, i2 % Num, Num / 2, Num / 2);
+	return Distance(i1 / n, i1 % n, n / 2, n / 2) < Distance(i2 / n, i2 % n, n / 2, n / 2);
 }
 
 //---------------------------------------------------------------------------
@@ -947,21 +939,21 @@ bool CompareIndexRel(int i1, int i2)
  */
 void Boundary(int& xx, int& yy)
 {
-	xx %= SRunPara::RunPara.CellNum;
+	xx %= SRunPara::RunPara.GridSize;
 	if (xx < 0)
-		xx += SRunPara::RunPara.CellNum;
+		xx += SRunPara::RunPara.GridSize;
 
-	yy %= SRunPara::RunPara.CellNum;
+	yy %= SRunPara::RunPara.GridSize;
 	if (yy < 0)
-		yy += SRunPara::RunPara.CellNum;
+		yy += SRunPara::RunPara.GridSize;
 }
 
 //---------------------------------------------------------------------------
 bool Emmigrates(int& xx, int& yy)
 {
-	if (xx < 0 || xx >= SRunPara::RunPara.CellNum)
+	if (xx < 0 || xx >= SRunPara::RunPara.GridSize)
 		return true;
-	if (yy < 0 || yy >= SRunPara::RunPara.CellNum)
+	if (yy < 0 || yy >= SRunPara::RunPara.GridSize)
 		return true;
 	return false;
 }
