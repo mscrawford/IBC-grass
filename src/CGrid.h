@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "Cell.h"
 #include "Plant.h"
@@ -18,18 +19,19 @@ class CGrid
 
 private:
 	std::vector< std::shared_ptr<CGenet> > GenetList;
-	void RametEstab(CPlant* plant);   	// establish ramets
+	void RametEstab(std::shared_ptr<CPlant> plant);   	// establish ramets
 	void Resshare();                	// share resources among connected ramets
 	void EstablishSeedling(std::shared_ptr<CSeed> seed);
 
 protected:
-	virtual void CoverCells();			// assigns grid cells to plants - which cell is covered by which plant
-	virtual void RemovePlants(); 		// removes dead plants from the grid and deletes them
-	virtual void PlantLoop();			// loop over all plants including growth, seed dispersal and mortality
-	virtual void DistribResource();		// distributes resource to each plant --> calls competition functions
-	virtual void DispersSeeds(CPlant* plant);
-	virtual void EstablishmentLottery();// lottery competition for seedling establishment
-	virtual void Winter();				// calls seed mortality and mass removal of plants
+	void CoverCells();			// assigns grid cells to plants - which cell is covered by which plant
+	void RemovePlants(); 		// removes dead plants from the grid and deletes them
+	void PlantLoop();			// loop over all plants including growth, seed dispersal and mortality
+	void DistribResource();		// distributes resource to each plant --> calls competition functions
+	void DispersSeeds(std::shared_ptr<CPlant> plant);
+	void DispersRamets(std::shared_ptr<CPlant> plant); 	// initiate new ramets
+	void EstablishmentLottery();// lottery competition for seedling establishment
+	void Winter();				// calls seed mortality and mass removal of plants
 
 	void ResetWeeklyVariables(); 		// Clears list of plants that cover each cell
 	void SeedMortAge();					// Kills seeds that are too old
@@ -43,20 +45,19 @@ protected:
 	void SetCellResource();				// Populates the grid with resources (weekly)
 
 public:
-	std::vector<CPlant*> PlantList;    	// List of plant individuals
+	std::vector< std::shared_ptr<CPlant> > PlantList;    	// List of plant individuals
 	CCell** CellList;    				// array of pointers to CCell
 	std::vector<int> above_biomass_history;
 	std::vector<int> below_biomass_history;
 
 	CGrid();
-	virtual ~CGrid();
-	virtual void resetGrid();
+	~CGrid();
+	void resetGrid();
 
 	double GetTotalAboveMass();
 	double GetTotalBelowMass();
 
-	virtual void InitClonalSeeds(std::shared_ptr<SPftTraits> traits, const int n, double estab = 1.0);
-	void DispersRamets(CPlant* plant); 	// initiate new ramets
+	void InitClonalSeeds(std::shared_ptr<SPftTraits> traits, const int n, double estab = 1.0);
 
 	int GetNclonalPlants();   	// number of living clonal plants
 	int GetNPlants();         	// number of living non-clonal plants
@@ -76,7 +77,7 @@ bool Emmigrates(int& xx, int& yy);
 ///dispersal kernel for seeds
 void getTargetCell(int& xx, int& yy, const float mean, const float sd);
 
-//! distance between two points using Pythagoras
+//! distance between two points using Euclidean distance
 double Distance(const double& xx, const double& yy, const double& x = 0, const double& y = 0);
 
 ///compare two index-values in their distance to the center of grid

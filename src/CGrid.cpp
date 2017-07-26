@@ -63,34 +63,24 @@ void CGrid::resetGrid()
 		cell->clear();
 	}
 
-	//plants...
-	for (auto p : PlantList) {
-		delete p;
-	}
 	PlantList.clear();
 	CPlant::numPlants = 0;
 
 	GenetList.clear();
 	CGenet::staticID = 0;
 }
+
 //---------------------------------------------------------------------------
-/**
- * CGrid destructor
- */
+
 CGrid::~CGrid()
 {
-	for (auto p : PlantList)
-	{
-		delete p;
-	}
-	PlantList.clear();
-
 	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
 		CCell* cell = CellList[i];
 		delete cell;
 	}
 	delete[] CellList;
 
+	PlantList.clear();
 	GenetList.clear();
 }
 
@@ -165,7 +155,7 @@ void getTargetCell(int& xx, int& yy, const float mean, const float sd)
 
  \return list of seeds to disperse per LDD
  */
-void CGrid::DispersSeeds(CPlant* plant)
+void CGrid::DispersSeeds(std::shared_ptr<CPlant> plant)
 {
 	int px = plant->getCell()->x;
 	int py = plant->getCell()->y;
@@ -199,7 +189,8 @@ void CGrid::DispersSeeds(CPlant* plant)
 }
 
 //---------------------------------------------------------------------------
-void CGrid::DispersRamets(CPlant* plant)
+
+void CGrid::DispersRamets(std::shared_ptr<CPlant> plant)
 {
 	assert(plant->Traits->clonal);
 
@@ -223,7 +214,7 @@ void CGrid::DispersRamets(CPlant* plant)
 		Boundary(x, y);
 
 		// save distance and direction in the plant
-		CPlant *Spacer = new CPlant(x, y, plant);
+		std::shared_ptr<CPlant> Spacer = make_shared<CPlant>(x, y, plant);
 		Spacer->spacerLengthToGrow = distance;
 		Spacer->spacerLength = distance;
 		Spacer->spacerDirection = direction;
@@ -290,6 +281,7 @@ void CGrid::CoverCells()
 	}
 }
 
+//-----------------------------------------------------------------------------
 /**
  * Resets all weekly variables of individual cells and plants (only in PlantList)
  */
@@ -345,6 +337,8 @@ void CGrid::Resshare()
 	}
 }
 
+//-----------------------------------------------------------------------------
+
 void CGrid::EstablishmentLottery()
 {
 	for (auto plant : PlantList)
@@ -393,18 +387,24 @@ void CGrid::EstablishmentLottery()
 	}
 }
 
+//-----------------------------------------------------------------------------
 /**
  * Establish new genet.
  * @param seed seed which germinates.
  */
 void CGrid::EstablishSeedling(shared_ptr<CSeed> seed)
 {
-	CPlant* p = new CPlant(seed);
+	shared_ptr<CPlant> p = make_shared<CPlant>(seed);
+
 	shared_ptr<CGenet> Genet = make_shared<CGenet>();
 	GenetList.push_back(Genet);
+
+	Genet->AllRametList.push_back(p);
 	p->setGenet(Genet);
+
 	PlantList.push_back(p);
 }
+
 //-----------------------------------------------------------------------------
 /**
  Establishment of ramets. If spacer is readily grown tries to settle on
@@ -415,15 +415,15 @@ void CGrid::EstablishSeedling(shared_ptr<CSeed> seed)
  the genet's ramet list as well as erased
  from the spacer list of the mother plant.
  */
-void CGrid::RametEstab(CPlant* plant)
+void CGrid::RametEstab(std::shared_ptr<CPlant> plant)
 {
-	vector<CPlant*> rametsToKeep;
+	vector< std::shared_ptr<CPlant> > rametsToKeep;
 
 	for (auto Ramet : plant->growingSpacerList)
 	{
 		if (Ramet->spacerLengthToGrow > 0)
 		{
-			rametsToKeep.push_back(Ramet);
+			rametsToKeep.push_back(Ramet); // This ramet needs to grow more; keep it
 			continue;
 		}
 
@@ -436,21 +436,21 @@ void CGrid::RametEstab(CPlant* plant)
 			Ramet->getGenet()->AllRametList.push_back(Ramet);
 			Ramet->setCell(cell);
 
-			PlantList.push_back(Ramet);
-
-			if ( CEnvir::rng.get01() < (1.0 - SRunPara::RunPara.EstabRamet) )
+			if ( CEnvir::rng.get01() < SRunPara::RunPara.EstabRamet)
 			{
-				Ramet->dead = true;
+				PlantList.push_back(Ramet);
 			}
 		}
 		else
 		{
 			if (CEnvir::week == CEnvir::WeeksPerYear)
 			{
-				delete Ramet;
+				// This ramet is implicitly deleted
+				continue;
 			}
 			else
 			{
+				// This ramet will find another nearby cell; keep it
 				int factorx;
 				int factory;
 				do
@@ -540,6 +540,8 @@ void CGrid::Disturb()
 	}
 }
 
+//-----------------------------------------------------------------------------
+
 void CGrid::RunCatastrophicDisturbance()
 {
 	// Disturb plants
@@ -594,7 +596,7 @@ void CGrid::GrazingAbvGr()
 	{
 		sort(PlantList.begin(), PlantList.end(), CPlant::ComparePalat);
 
-		CPlant* plant = *PlantList.begin();
+		std::shared_ptr<CPlant> plant = *PlantList.begin();
 
 		double max = plant->mshoot * plant->Traits->GrazFac();
 
@@ -610,7 +612,7 @@ void CGrid::GrazingAbvGr()
 			double grazingProb = (lplant->mshoot * lplant->Traits->GrazFac()) / max;
 
 			if (CEnvir::rng.get01() < grazingProb)
-				MassRemoved += lplant->RemoveMass();
+				MassRemoved += lplant->RemoveShootMass();
 		}
 	}
 }
@@ -633,35 +635,35 @@ void CGrid::Cutting(double cut_height)
 	}
 }
 
+//-----------------------------------------------------------------------------
+
 void CGrid::GrazingBelGr() {
 
-	auto generateLivingPlants = [](vector<CPlant*> l) {
-		auto it = l.begin();
-		while (it != l.end()) {
-			CPlant* p = *it;
-			if (p->dead) {
-				it = l.erase(it);
-			} else {
-				++it;
+	auto generateLivingPlants = [](const vector<shared_ptr<CPlant>> & i) {
+		vector< shared_ptr<CPlant> > j;
+		for (auto p : i)
+		{
+			if (!p->dead)
+			{
+				j.push_back(p);
 			}
 		}
-		return l;
+		return j;
 	};
 
-	auto sumRootMass = [](const vector<CPlant*> & l) {
-		double total_root_mass = 0;
-		for (auto i = l.begin(); i != l.end(); ++i) {
-			CPlant* p = *i;
-			total_root_mass += p->mroot;
+	auto sumRootMass = [](const vector<std::shared_ptr<CPlant>> & i) {
+		double r = 0;
+		for (auto p : i) {
+			r += p->mroot;
 		}
-		return total_root_mass;
+		return r;
 	};
 
 	auto mean = [](const vector<double> & l) {
 		double t = 0;
-		for (auto it = l.begin(); it != l.end(); ++it)
+		for (auto i : l)
 		{
-			t += *it;
+			t += i;
 		}
 		return t / l.size();
 	};
@@ -697,22 +699,19 @@ void CGrid::GrazingBelGr() {
 
 	while (ceil(biomass_removed) < fn_o)
 	{
-		vector<CPlant*> livingPlants = generateLivingPlants(PlantList);
+		vector< std::shared_ptr<CPlant> > livingPlants = generateLivingPlants(PlantList);
 		bt = sumRootMass(livingPlants);
 
 		double bite = 0;
-		for (auto i = livingPlants.begin(); i != livingPlants.end(); ++i)
+		for (auto p : livingPlants)
 		{
-			CPlant* p = *i;
 			bite += pow(p->mroot / bt, alpha) * fn;
 		}
 		bite = fn / bite;
 
 		double leftovers = 0; // When a plant is eaten to death, this is the overshoot from the algorithm
-		for (auto i = livingPlants.begin(); i != livingPlants.end(); ++i)
+		for (auto p : livingPlants)
 		{
-			CPlant* p = *i;
-
 			double biomass_to_remove = pow(p->mroot / bt, alpha) * fn * bite;
 
 			if (biomass_to_remove > p->mroot)
@@ -735,9 +734,10 @@ void CGrid::GrazingBelGr() {
 }
 
 //-----------------------------------------------------------------------------
+
 void CGrid::RemovePlants() {
 
-	auto removePlant = [] (CPlant* p) {
+	auto removePlant = [] (shared_ptr<CPlant> p) {
 		if ( CPlant::GetPlantRemove(p) )
 		{
 			auto Genet = p->getGenet();
@@ -746,8 +746,6 @@ void CGrid::RemovePlants() {
 					Genet->AllRametList.end());
 
 			p->getCell()->occupied = false;
-			p->getCell()->PlantInCell = NULL;
-			delete p;
 
 			return true;
 		}
@@ -759,6 +757,7 @@ void CGrid::RemovePlants() {
 }
 
 //-----------------------------------------------------------------------------
+
 void CGrid::Winter()
 {
 	RemovePlants();
@@ -769,6 +768,7 @@ void CGrid::Winter()
 }
 
 //-----------------------------------------------------------------------------
+
 void CGrid::SeedMortWinter()
 {
 	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
@@ -814,15 +814,13 @@ void CGrid::InitClonalSeeds(shared_ptr<SPftTraits> traits, const int n, double e
 		shared_ptr<CSeed> seed = make_shared<CSeed>(estab, traits, cell);
 		cell->SeedBankList.push_back(seed);
 	}
-} //end CGridclonal::clonalSeedsInit()
+}
 
 //---------------------------------------------------------------------------
-/**
- Weekly sets cell's resources - above- and belowground variation during the
- year.
 
- At the moment Ampl and Bampl are set zero,
- so ressources are temporally constant.
+/**
+ * Weekly sets cell's resources - above- and belowground variation during the
+ * year.
  */
 void CGrid::SetCellResource()
 {
@@ -844,14 +842,11 @@ void CGrid::SetCellResource()
 												/ double(CEnvir::WeeksPerYear))
 								+ CEnvir::BResMuster[i]));
 	}
-}     //end SetCellResource
+}
+
 //-----------------------------------------------------------------------------
 /**
- \note does not account for possible nearer distance-values if torus is assumed
- (not a case at the moment)
-
- \return eucledian distance between two pairs of coordinates (xx,yy) and (x,y)
-
+ \return Euclidean distance between two pairs of coordinates (xx,yy) and (x,y)
  */
 double Distance(const double& xx, const double& yy, const double& x, const double& y)
 {
@@ -869,7 +864,6 @@ bool CompareIndexRel(int i1, int i2)
 /**
  \param[in,out] xx  torus correction of x-coordinate
  \param[in,out] yy  torus correction of y-coordinate
-
  */
 void Boundary(int& xx, int& yy)
 {
@@ -883,6 +877,7 @@ void Boundary(int& xx, int& yy)
 }
 
 //---------------------------------------------------------------------------
+
 bool Emmigrates(int& xx, int& yy)
 {
 	if (xx < 0 || xx >= SRunPara::RunPara.GridSize)
@@ -893,9 +888,7 @@ bool Emmigrates(int& xx, int& yy)
 }
 
 //---------------------------------------------------------------------------
-/**
- \return sum of all plants' aboveground biomass (shoot and fruit)
- */
+
 double CGrid::GetTotalAboveMass() {
 	double above_mass = 0;
 
@@ -905,10 +898,9 @@ double CGrid::GetTotalAboveMass() {
 	}
 	return above_mass;
 }
+
 //---------------------------------------------------------------------------
-/**
- \return sum of all plants' belowground biomass (roots)
- */
+
 double CGrid::GetTotalBelowMass() {
 	double below_mass = 0;
 
@@ -918,10 +910,9 @@ double CGrid::GetTotalBelowMass() {
 	}
 	return below_mass;
 }
+
 //-----------------------------------------------------------------------------
-/**
- \return number of clonal plants on grid
- */
+
 int CGrid::GetNclonalPlants() //count clonal plants
 {
 	int NClonalPlants = 0;
@@ -933,12 +924,10 @@ int CGrid::GetNclonalPlants() //count clonal plants
 		}
 	}
 	return NClonalPlants;
-} //end CGridclonal::GetNclonalPlants()
+}
 
 //-----------------------------------------------------------------------------
-/**
- * \return number of non-clonal plants on grid
- */
+
 int CGrid::GetNPlants() //count non-clonal plants
 {
 	int NPlants = 0;
@@ -951,7 +940,9 @@ int CGrid::GetNPlants() //count non-clonal plants
 		}
 	}
 	return NPlants;
-} //end CGridclonal::GetNPlants()
+}
+
+//-----------------------------------------------------------------------------
 
 int CGrid::GetNSeeds()
 {

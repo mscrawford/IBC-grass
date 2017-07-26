@@ -8,7 +8,7 @@
 
 using namespace std;
 
-CSeed::CSeed(CPlant* plant, CCell* _cell) :
+CSeed::CSeed(shared_ptr<CPlant> plant, CCell* _cell) :
 		cell(NULL),
 		Age(0), remove(false)
 {

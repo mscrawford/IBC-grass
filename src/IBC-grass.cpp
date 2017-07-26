@@ -25,8 +25,8 @@ console application with some classes
 \par Flow chart (for complex code):
 \image html IBC-Grass_2x-flow.png "FlowChart of the clonal ModelVersion. In: Weiss et al.(2014)"
 
-Flow chart of the model's processes, which are run for each individual plant. 
-Processes related to clonal growth are marked by grey lines and boxes. 
+Flow chart of the model's processes, which are run for each individual plant.
+Processes related to clonal growth are marked by grey lines and boxes.
 Weekly schedule is coordinated in function CGridEnvir::OneWeek().
 
 \par Expected input (type and range of values, units):
@@ -111,7 +111,7 @@ using namespace std;
 /**
  * Program launch - Model Design is defined.
  * Here the model design is read from file.
- * Grid size is constant and 1m^2 (100*100cells) at moment.
+ * Grid size is constant.
  * @param argc number of program parameters (>1 if parameters are given)
  * @param argv list of program parameters (SimFileName is expected)
  * \sa SRunPara::NameSimFile
@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
 
 		Envir->NRep = _NRep;
 
-		Envir->GetSim(data); // Change this to take a string for the parameterization...
+		Envir->GetSim(data);
 
 		for (Envir->RunNr = 0; Envir->RunNr < Envir->NRep; Envir->RunNr++)
 		{

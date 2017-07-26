@@ -21,10 +21,8 @@ public:
 
 	bool occupied;       // is the cell occupied by any plant?
 
-	CPlant* PlantInCell; // pointer to plant individual that has its central point in the cell (if any)
-
-	std::vector<CPlant*> AbovePlantList; // List of all plant individuals that cover the cell ABOVE ground
-	std::vector<CPlant*> BelowPlantList; // List of all plant individuals that cover the cell BELOW ground
+	std::vector< std::shared_ptr<CPlant> > AbovePlantList; // List of all plant individuals that cover the cell ABOVE ground
+	std::vector< std::shared_ptr<CPlant> > BelowPlantList; // List of all plant individuals that cover the cell BELOW ground
 
 	std::vector< std::shared_ptr<CSeed> > SeedBankList; // List of all (ungerminated) seeds in the cell
 	std::vector< std::shared_ptr<CSeed> > SeedlingList; // List of all freshly germinated seedlings in the cell
@@ -36,7 +34,7 @@ public:
 		  const unsigned int yy,
 		  double ares = 0,
 		  double bres = 0);
-	virtual ~CCell();
+	~CCell();
 
 	void clear();
 	void weeklyReset();
@@ -47,11 +45,11 @@ public:
 	//! competition function for size symmetric above-ground resource competition
 	/*! function is overwritten if inherited class with different competitive
 	 size-asymmetry of niche differentiation is used*/
-	virtual void AboveComp();
+	void AboveComp();
 	//! competition function for size symmetric below-ground resource competition
 	/*! function is overwritten if inherited class with different competitive
 	 size-asymmetry of niche differentiation is used*/
-	virtual void BelowComp();
+	void BelowComp();
 
 	///portion cell resources the plant is gaining
 	double prop_res(const std::string type, const int layer, const int version) const;

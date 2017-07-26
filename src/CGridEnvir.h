@@ -20,7 +20,7 @@ class CGridEnvir: public CEnvir, public CGrid
 public:
 
 	CGridEnvir();
-	virtual ~CGridEnvir(); 		// delete clonalTraits;
+	~CGridEnvir(); 		// delete clonalTraits;
 
 	void InitRun();   // from CEnvir
 	void OneYear();   // runs one year in default mode
@@ -32,7 +32,6 @@ public:
 	bool exitConditions();
 
 	void SeedRain(); // distribute seeds on the grid each year
-
 };
 
 #endif /* CGRIDENVIR_H_ */

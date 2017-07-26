@@ -255,7 +255,7 @@ void Output::print_trait()
 
 }
 
-void Output::print_srv_and_PFT(vector<CPlant*> & PlantList)
+void Output::print_srv_and_PFT(std::vector< std::shared_ptr<CPlant> > & PlantList)
 {
 
 	// Create the data structure necessary to aggregate individuals
@@ -266,10 +266,8 @@ void Output::print_srv_and_PFT(vector<CPlant*> & PlantList)
 	}
 
 	// Aggregate individuals
-	for (auto it : PlantList)
+	for (auto p : PlantList)
 	{
-		CPlant* p = it;
-
 		if (SRunPara::RunPara.PFT_out != 2 && p->dead) continue; // If PFT_out is 2, it will print "dead" PFTs
 
 		PFT_struct* s = &(PFT_map[p->pft()]);
@@ -337,12 +335,10 @@ void Output::print_srv_and_PFT(vector<CPlant*> & PlantList)
 	PFT_map.clear();
 }
 
-void Output::print_ind(vector<CPlant*> & PlantList)
+void Output::print_ind(std::vector< std::shared_ptr<CPlant> > & PlantList)
 {
-	for (auto it : PlantList)
+	for (auto p : PlantList)
 	{
-		CPlant* p = it;
-
 		if (p->dead) continue;
 
 		shared_ptr<SPftTraits> s = p->Traits;

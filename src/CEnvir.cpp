@@ -23,7 +23,7 @@ RandomGenerator CEnvir::rng;
 vector<double> CEnvir::AResMuster;
 vector<double> CEnvir::BResMuster;
 
-map<string, long> CEnvir::PftInitList;	// list of Pfts used
+map<string, long> CEnvir::PftInitList;	// list of PFTs used
 map<string, int> CEnvir::PftSurvTime;
 
 //---------------------------------------------------------------------------

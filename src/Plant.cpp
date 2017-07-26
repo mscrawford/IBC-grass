@@ -60,7 +60,7 @@ CPlant::CPlant(shared_ptr<CSeed> seed) :
 
  \since revision
  */
-CPlant::CPlant(double x, double y, CPlant* plant) :
+CPlant::CPlant(double x, double y, std::shared_ptr<CPlant> plant) :
 		cell(NULL), mReproRamets(0), genet(plant->genet), Age(0),
 		plantID(++numPlants), xcoord(x), ycoord(y),
 		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
@@ -84,13 +84,7 @@ CPlant::CPlant(double x, double y, CPlant* plant) :
  */
 CPlant::~CPlant()
 {
-	for (auto Spacer : growingSpacerList)
-	{
-		delete Spacer;
-	}
-
 	growingSpacerList.clear();
-
 }
 
 void CPlant::weeklyReset()
@@ -108,7 +102,6 @@ void CPlant::setGenet(shared_ptr<CGenet> _genet)
 	assert(this->genet == NULL);
 
 	this->genet = _genet;
-	this->genet->AllRametList.push_back(this);
 }
 
 //-----------------------------------------------------------------------------
@@ -122,17 +115,7 @@ void CPlant::setCell(CCell* _cell) {
 	{
 		this->cell = _cell;
 		this->cell->occupied = true;
-		this->cell->PlantInCell = this;
 	}
-}
-
-//-----------------------------------------------------------------------------
-/**
- * Say what PFT you are
- * @return PFT name
- */
-string CPlant::pft() {
-	return this->Traits->name;
 }
 
 //---------------------------------------------------------------------------
@@ -312,29 +295,12 @@ double CPlant::RootGrow(double rres)
 }
 
 //-----------------------------------------------------------------------------
-/**
- identify resource stressing situation
 
- \return true if plant is stressed
-
- \note May et al. (2009) documented this part as
- \verbatim
- delta_res<Traits->mThres*Ash/rt_disc*Traits->Gmax
- \endverbatim
- but his code was
- \code
- (Auptake<Traits->mThres*Ash_disc*Traits->Gmax*2)
- || (Buptake<Traits->mThres*Art_disc*Traits->Gmax*2);
- \endcode
- as described in his diploma thesis
-
- \date 2012-07-31  code splitted by KK
- */
-bool CPlant::stressed() {
-//   return (Auptake<Traits->mThres*Ash_disc*Traits->Gmax)
-//       || (Buptake<Traits->mThres*Art_disc*Traits->Gmax);
+bool CPlant::stressed()
+{
 	return (Auptake / 2.0 < minresA()) || (Buptake / 2.0 < minresB());
 }
+
 //-----------------------------------------------------------------------------
 /**
  * Kill plant depending on stress level and base mortality. Stochastic process.
@@ -350,6 +316,7 @@ void CPlant::Kill()
 		dead = true;
 	}
 }
+
 //-----------------------------------------------------------------------------
 /**
  * Litter decomposition with deletion at 10mg.
@@ -403,7 +370,8 @@ int CPlant::GetNSeeds()
  \return the number of new spacer to set
  Unlike CPlant::GetNSeeds() no resources are reset due to ongoing growth
  */
-int CPlant::GetNRamets() {
+int CPlant::GetNRamets()
+{
 	if (mReproRamets > 0 &&
 			!dead &&
 			growingSpacerList.size() == 0) {
@@ -419,7 +387,7 @@ int CPlant::GetNRamets() {
 
  \return mass that was removed
  */
-double CPlant::RemoveMass() {
+double CPlant::RemoveShootMass() {
 	double mass_removed = 0;
 
 	if (mshoot + mRepro > 1) // only remove mass if shootmass > 1 mg
@@ -459,26 +427,6 @@ void CPlant::WinterLoss()
 	mshoot *= 1 - SRunPara::RunPara.DiebackWinter;
 	mRepro = 0;
 	Age++;
-}
-
-//-----------------------------------------------------------------------------
-double CPlant::Radius_shoot() {
-	return sqrt(Traits->SLA * pow(Traits->LMR * mshoot, 2.0 / 3.0) / Pi);
-}
-
-//-----------------------------------------------------------------------------
-double CPlant::Radius_root() {
-	return sqrt(Traits->RAR * pow(mroot, 2.0 / 3.0) / Pi);
-}
-
-//-----------------------------------------------------------------------------
-double CPlant::Area_shoot() {
-	return Traits->SLA * pow(Traits->LMR * mshoot, 2.0 / 3.0);
-}
-
-//-----------------------------------------------------------------------------
-double CPlant::Area_root() {
-	return Traits->RAR * pow(mroot, 2.0 / 3.0);
 }
 
 //-----------------------------------------------------------------------------

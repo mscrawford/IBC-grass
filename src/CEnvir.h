@@ -82,10 +82,10 @@ public:
 	 * Functions needed for simulation runs.
 	 * To be defined in inheriting classes.
 	 */
-	virtual void InitRun();   // init a new run
-	virtual void OneWeek()=0; // calls all weekly processes
-	virtual void OneYear()=0; // runs one year in default mode
-	virtual void OneRun()=0;  // runs one simulation run in default mode
+	void InitRun();   // init a new run
+	void OneWeek(); // calls all weekly processes
+	void OneYear(); // runs one year in default mode
+	void OneRun();  // runs one simulation run in default mode
 
 };
 //---------------------------------------------------------------------------

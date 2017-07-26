@@ -21,7 +21,7 @@ CCell::CCell(const unsigned int xx, const unsigned int yy, double ares, double b
 		x(xx), y(yy),
 		AResConc(ares), BResConc(bres),
 		aComp_weekly(0), bComp_weekly(0),
-		occupied(false), PlantInCell(NULL)
+		occupied(false)
 {
 	int index = xx * SRunPara::RunPara.GridSize + yy;
 	AResConc = CEnvir::AResMuster[index];
@@ -38,8 +38,6 @@ CCell::~CCell()
 
 	PftNIndA.clear();
 	PftNIndB.clear();
-
-	PlantInCell = NULL;
 }
 
 void CCell::clear()
@@ -54,7 +52,6 @@ void CCell::clear()
 	PftNIndB.clear();
 
 	occupied = false;
-	PlantInCell = NULL;
 }
 
 void CCell::weeklyReset()
@@ -82,16 +79,15 @@ double CCell::Germinate()
 	{
 		if (CEnvir::rng.get01() < seed->estab)
 		{
-			// make a copy in seedling list
-			SeedlingList.push_back(seed);
+			SeedlingList.push_back(seed); // This seed germinates, add it to seedlings
 			sum_SeedMass += seed->mass;
-			seed->remove = true;
+			seed->remove = true; // Mark this smart_ptr for deletion
 		}
 	}
 
-   RemoveSeeds();
+	RemoveSeeds(); // note that the copy in SeedlingList is not deleted; that comes after establishment
 
-   return sum_SeedMass;
+	return sum_SeedMass;
 }
 
 //---------------------------------------------------------------------------
@@ -115,9 +111,9 @@ void CCell::AboveComp()
 
    if (SRunPara::RunPara.AboveCompMode == asymtot)
    {
-     //total asymmetry only for above plant competition
+     // total asymmetry only for above plant competition
       sort(AbovePlantList.begin(), AbovePlantList.end(), CPlant::CompareShoot);
-      CPlant* plant = *AbovePlantList.begin(); //biggest plant
+      shared_ptr<CPlant> plant = *AbovePlantList.begin(); // biggest plant
       plant->Auptake += AResConc;
       return;
    }

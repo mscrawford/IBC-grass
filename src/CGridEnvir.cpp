@@ -34,19 +34,6 @@ void CGridEnvir::InitRun() {
 	InitInds(); // Initialize individuals
 }
 
-//------------------------------------------------------------------------------
-
-/**  new, flexible version of initialisation that permits to read clonal and other traits from one file
-
- this function reads a file, introduces PFTs and initializes seeds on grid
- after file data.
-
- (each PFT on file gets 10 seeds randomly set on grid)
- \since 2012-04-18
-
- \param n position of type initiates for monoculture
- \param file file name of simulation definitions
- */
 void CGridEnvir::InitInds()
 {
 	const int no_init_seeds = 10;
@@ -75,19 +62,11 @@ void CGridEnvir::InitInds()
 		PftSurvTime[traits->name] = 0;
 	}
 
-} //initialization based on file
+}
 
-//------------------------------------------------------------------------------
-/**
- one run of simulations
-
- environmental prefenences are stored in SRunPara::RunPara
-
- \since 2012/08 seed rain added to test peak theory
- */
 void CGridEnvir::OneRun() {
 
-	ResetT(); // reset time
+	ResetT();
 
 	output.print_param();
 
@@ -117,12 +96,8 @@ void CGridEnvir::OneRun() {
 
 	} while (year < SRunPara::RunPara.Tmax);
 
-} // end OneSim
+}
 
-//------------------------------------------------------------------------------
-/**
- * calculate one year's todos.
- */
 void CGridEnvir::OneYear()
 {
 	do {
@@ -133,12 +108,8 @@ void CGridEnvir::OneYear()
 		if (exitConditions()) break;
 
 	} while (++week <= WeeksPerYear);
-} // end OneYear
+}
 
-//------------------------------------------------------------------------------
-/**
- calculation of one week's todos
- */
 void CGridEnvir::OneWeek()
 {
 
@@ -149,7 +120,7 @@ void CGridEnvir::OneWeek()
 	DistribResource();      // cell loop, resource uptake and competition
 	PlantLoop();            // Growth, Dispersal, Mortality
 	RemovePlants();         // remove trampled plants
-	EstablishmentLottery();         // for seeds and ramets
+	EstablishmentLottery(); // for seeds and ramets
 
 	if (week == 20)
 	{
@@ -222,7 +193,7 @@ void CGridEnvir::SeedRain()
 	shared_ptr<SPftTraits> traits;
 	double n = 0;
 
-	// For each PFT, we'll drop N seeds
+	// For each PFT, we'll drop n seeds
 	for (map<string, long>::const_iterator it = PftInitList.begin();
 			it != PftInitList.end();
 			++it)
