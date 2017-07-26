@@ -8,65 +8,32 @@
 
 using namespace std;
 
-//---------------------------------------------------------------------------
 CSeed::CSeed(CPlant* plant, CCell* _cell) :
 		cell(NULL),
-		Age(1), remove(false)
+		Age(0), remove(false)
 {
 	this->Traits = SPftTraits::createTraitSetFromPftType(plant->Traits->name);
 
 	estab = Traits->pEstab;
 	mass = Traits->SeedMass;
 
-	setCell(_cell);
+	assert(this->cell == NULL);
+	this->cell = _cell;
 }
 
-//---------------------------------------------------------------------------
 CSeed::CSeed(double new_estab, shared_ptr<SPftTraits> traits, CCell*_cell) :
 		cell(NULL),
-		Age(1), remove(false)
+		Age(0), remove(false)
 {
+	this->Traits = SPftTraits::createTraitSetFromPftType(traits->name);
 
-	this->Traits = SPftTraits::createTraitSetFromPftType(traits->name); // general
-
+	estab = new_estab;
 	mass = Traits->SeedMass;
-	this->estab = new_estab;
 
-	setCell(_cell);
+	assert(this->cell == NULL);
+	this->cell = _cell;
 }
 
-/**
- * Destructor. Every seed contains its own trait set.
- */
 CSeed::~CSeed() {
 
 }
-
-//-----------------------------------------------------------------------------
-void CSeed::setCell(CCell* _cell)
-{
-	if (this->cell == NULL)
-	{
-		this->cell = _cell;
-		this->cell->SeedBankList.push_back(this); // add to seed bank
-	} else {
-		std::cerr << "This seed is already on a cell." << std::endl;
-	}
-}
-
-//---------------------------------------------------------------------------
-bool GetSeedRemove(const CSeed* seed1) {
-	return (!seed1->remove);
-}
-
-//-----------------------------------------------------------------------------
-std::string CSeed::type() {
-	return "CSeed";
-}
-
-//-----------------------------------------------------------------------------
-std::string CSeed::pft() {
-	return this->Traits->name;
-}
-
-//-eof----------------------------------------------------------------------------

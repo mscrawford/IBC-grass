@@ -18,7 +18,7 @@ using namespace std;
 
 int CPlant::numPlants = 0;
 
-CPlant::CPlant(CSeed* seed) :
+CPlant::CPlant(shared_ptr<CSeed> seed) :
 		cell(NULL), mReproRamets(0), genet(NULL), Age(0),
 		plantID(++numPlants), xcoord(0), ycoord(0),
 		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
@@ -93,6 +93,14 @@ CPlant::~CPlant()
 
 }
 
+void CPlant::weeklyReset()
+{
+	Auptake = 0;
+	Buptake = 0;
+	Ash_disc = 0;
+	Art_disc = 0;
+}
+
 //---------------------------------------------------------------------------
 ///set genet and add ramet to its list
 void CPlant::setGenet(shared_ptr<CGenet> _genet)
@@ -120,7 +128,7 @@ void CPlant::setCell(CCell* _cell) {
 
 //-----------------------------------------------------------------------------
 /**
- * Say, what PFT you are
+ * Say what PFT you are
  * @return PFT name
  */
 string CPlant::pft() {
@@ -200,7 +208,6 @@ void CPlant::SpacerGrow() {
 		{
 			double direction = Spacer->spacerDirection;
 			double dist = Spacer->spacerLength - Spacer->spacerLengthToGrow;
-
 
 			int x2 = round(this->cell->x + cos(direction) * dist);
 			int y2 = round(this->cell->y + sin(direction) * dist);

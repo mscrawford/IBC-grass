@@ -7,7 +7,6 @@
 #include <string>
 #include <memory>
 
-#include "CObject.h"
 #include "CGenet.h"
 #include "RunPara.h"
 #include "SPftTraits.h"
@@ -18,14 +17,14 @@ class CSeed;
 class CCell;
 class CGenet;
 
-class CPlant: public CObject
+class CPlant
 {
-protected:
+private:
 	CCell* cell;
 
-	virtual double ReproGrow(double uptake);
-	virtual double ShootGrow(double shres);
-	virtual double RootGrow(double rres);
+	double ReproGrow(double uptake);
+	double ShootGrow(double shres);
+	double RootGrow(double rres);
 
 	double mReproRamets;			// resources for ramet growth
 	std::shared_ptr<CGenet> genet;  // genet of the clonal plant
@@ -38,16 +37,16 @@ public:
 	static int numPlants;
 	int plantID;
 
-	double xcoord;   			// location of plant's central point
-	double ycoord;   			// location of plant's central point
+	int xcoord;   			// location of plant's central point
+	int ycoord;   			// location of plant's central point
 
 	double mshoot;   			// shoot mass
 	double mroot;    			// root mass
 	double mRepro;    			// reproductive mass (which is converted to seeds)
 	int lifetimeFecundity = 0; 	// The total accumulation of seeds.
 
-	double Ash_disc; 			// discrete above-ground ZOI area [number of cells covered * area of one cell]
-	double Art_disc; 			// discrete below-ground ZOI area [number of cells covered * area of one cell]
+	int Ash_disc; 			// discrete above-ground ZOI area [number of cells covered * area of one cell]
+	int Art_disc; 			// discrete below-ground ZOI area [number of cells covered * area of one cell]
 
 	double Auptake; 			// uptake of above-ground resource in one time step
 	double Buptake; 			// uptake below-ground resource one time step
@@ -63,11 +62,11 @@ public:
 	double spacerLengthToGrow;              // length to grow
 
 	// Constructors
-	CPlant(CSeed* seed); 						// from a germinated seed
+	CPlant(std::shared_ptr<CSeed> seed); 		// from a germinated seed
 	CPlant(double x, double y, CPlant* plant); 	// for clonal establishment
 	virtual ~CPlant();
 
-	virtual std::string pft();   			// say what a pft you are
+	std::string pft();   			// say what a pft you are
 
 	// 2nd order properties
 	double Area_shoot();  	// ZOI area aboveground
@@ -96,13 +95,13 @@ public:
 	void DecomposeDead();     		// calculate mass shrinkage of dead plants
 	void WinterLoss(); 				// removal of above-ground biomass in winter
 	double RemoveMass();  			// removal of above-ground biomass by grazing
+	void weeklyReset();
 	void RemoveRootMass(const double mass_removed); 			// removal of belowground biomass by grazing
 
 	void setCell(CCell* cell);		// define cell for plant
 	inline CCell* getCell() {
 		return cell;
-	}
-	;
+	};
 
 	inline double GetMass() {
 		return mshoot + mroot + mRepro;
@@ -143,32 +142,30 @@ public:
 	// functions that are used for STL algorithms (sort + partition)
 
 	// return if plant should be removed (necessary to apply algorithms from STL)
-	bool GetPlantRemove()
+	static bool GetPlantRemove(const CPlant* p)
 	{
-		return (!this->remove);
+		return p->remove;
 	}
 	;
 
 	// sort plant individuals descending after shoot size * palatability
-	static bool ComparePalat(const CPlant* plant1, const CPlant* plant2)
+	static bool ComparePalat(const CPlant* p1, const CPlant* p2)
 	{
-		return ((plant1->mshoot * plant1->Traits->GrazFac())
-				> (plant2->mshoot * plant2->Traits->GrazFac()));
+		return ((p1->mshoot * p1->Traits->GrazFac()) > (p2->mshoot * p2->Traits->GrazFac()));
 	}
 	;
 
 	// sort plants descending after shoot size (mass*1/LMR)
-	static bool CompareShoot(const CPlant* plant1, const CPlant* plant2)
+	static bool CompareShoot(const CPlant* p1, const CPlant* p2)
 	{
-		return ((plant1->mshoot / plant1->Traits->LMR)
-				> (plant2->mshoot / plant2->Traits->LMR));
+		return ((p1->mshoot / p1->Traits->LMR) > (p2->mshoot / p2->Traits->LMR));
 	}
 	;
 
 	/// sort plants descending after root mass
-	static bool CompareRoot(const CPlant* plant1, const CPlant* plant2)
+	static bool CompareRoot(const CPlant* p1, const CPlant* p2)
 	{
-		return ((plant1->mroot) > (plant2->mroot));
+		return (p1->mroot > p2->mroot);
 	}
 	;
 

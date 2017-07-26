@@ -53,8 +53,8 @@ ARes  = [90]
 BRes  = [30, 60, 90] # With belowground environmental variation, this MUST be NA
 
 # Aboveground grazing 
-GrazProb   = [0, 0.15, 0.3]
-propRemove = [0, 0.5]
+GrazProb   = [0, 0.5]
+propRemove = [0, 0.50]
 
 # Belowground grazing
 BelGrazProb = [0]

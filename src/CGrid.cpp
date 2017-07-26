@@ -92,7 +92,6 @@ CGrid::~CGrid()
 	delete[] CellList;
 
 	GenetList.clear();
-	CGenet::staticID = 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -145,10 +144,10 @@ void getTargetCell(int& xx, int& yy, const float mean, const float sd)
 {
 	double sigma = sqrt(log((sd / mean) * (sd / mean) + 1));
 	double mu = log(mean) - 0.5 * sigma;
-	double dist = exp(CEnvir::rng.getGaussian(mu, sigma)); //RandNumGen.normal
+	double dist = exp(CEnvir::rng.getGaussian(mu, sigma));
 
-	//direction uniformly distributed
-	double direction = 2 * Pi * CEnvir::rng.get01(); //rnumber;
+	// direction uniformly distributed
+	double direction = 2 * Pi * CEnvir::rng.get01();
 	xx = round(xx + cos(direction) * dist);
 	yy = round(yy + sin(direction) * dist);
 }
@@ -194,7 +193,8 @@ void CGrid::DispersSeeds(CPlant* plant)
 
 		CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
 
-		new CSeed(plant, cell);
+		shared_ptr<CSeed> seed = make_shared<CSeed>(plant, cell);
+		cell->SeedBankList.push_back(seed);
 	}
 }
 
@@ -229,7 +229,7 @@ void CGrid::DispersRamets(CPlant* plant)
 		Spacer->spacerDirection = direction;
 		plant->growingSpacerList.push_back(Spacer);
 	}
-}  //end CGridclonal::DispersRamets()
+}
 
 //--------------------------------------------------------------------------
 /**
@@ -247,10 +247,10 @@ void CGrid::CoverCells()
 	for (auto plant : PlantList)
 	{
 		double Ashoot = plant->Area_shoot();
-		plant->Ash_disc = floor(plant->Area_shoot()) + 1;
+		plant->Ash_disc = floor(Ashoot) + 1;
 
 		double Aroot = plant->Area_root();
-		plant->Art_disc = floor(plant->Area_root()) + 1;
+		plant->Art_disc = floor(Aroot) + 1;
 
 		double Amax = max(Ashoot, Aroot);
 
@@ -263,56 +263,47 @@ void CGrid::CoverCells()
 			int yhelp = plant->getCell()->y
 					+ ZOIBase[a] % SRunPara::RunPara.GridSize
 					- SRunPara::RunPara.GridSize / 2;
-					/// \todo change to absorbing bound for upscaling
-			Boundary(xhelp, yhelp);
-			int index = xhelp * SRunPara::RunPara.GridSize + yhelp;
-			CCell* cell = CellList[index];
 
-			//Aboveground****************************************************
+			Boundary(xhelp, yhelp);
+
+			CCell* cell = CellList[xhelp * SRunPara::RunPara.GridSize + yhelp];
+
+			// Aboveground
 			if (a < Ashoot)
 			{
-				//dead plants still shade others
+				// dead plants still shade others
 				cell->AbovePlantList.push_back(plant);
 				cell->PftNIndA[plant->pft()]++;
-			}        //for <ashoot //Ende if
+			}
 
-			//Belowground*****************************************************
+			// Belowground
 			if (a < Aroot)
 			{
-				//dead plants do not compete for below ground resource
+				// dead plants do not compete for below ground resource
 				if (!plant->dead)
 				{
 					cell->BelowPlantList.push_back(plant);
 					cell->PftNIndB[plant->pft()]++;
 				}
-			}        //if <Aroot //Ende if
-		}        // for <Amax
-	}        //end of plant loop
+			}
+		}
+	}
 }
 
-//---------------------------------------------------------------------------
 /**
- Resets all weekly variables of individual cells and plants (only in PlantList)
-
- Former called FreeCells()
+ * Resets all weekly variables of individual cells and plants (only in PlantList)
  */
 void CGrid::ResetWeeklyVariables()
 {
 	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
 	{
 		CCell* cell = CellList[i];
-		cell->AbovePlantList.clear();
-		cell->BelowPlantList.clear();
-		cell->RemoveSeedlings(); //remove seedlings and pft-counter
+		cell->weeklyReset();
 	}
 
 	for (auto p : PlantList)
 	{
-		//reset weekly variables
-		p->Auptake = 0;
-		p->Buptake = 0;
-		p->Ash_disc = 0;
-		p->Art_disc = 0;
+		p->weeklyReset();
 	}
 }
 
@@ -354,30 +345,8 @@ void CGrid::Resshare()
 	}
 }
 
-//-----------------------------------------------------------------------------
-/**
- For each grid cell seeds from seed bank germinate and establish.
- Seedlings that do not establish will die.
-
- \note this function is \b completely reimplemented by CGridclonal
-
- \par revision
- I tried to make function faster skipping the seed-pft-collecting
- cumulative lists, but that possibly leads to pseudo-endless loops if
- seedling-number per cell is too high
-
- For each plant ramets establish and
- for each grid cell seeds from seed bank germinate and establish.
- Seedlings that do not establish will die.
-
- -# ramets establish if goal is reached (RametEstab())
- -# seeds establish from the seed bank during
- germination time (weeks 1-3, 22-25).
- -# seedlings that fail to establish will die
-
- \todo find a faster algorithm for choosing the winning seedling
- */
-void CGrid::EstabLottery() {
+void CGrid::EstablishmentLottery()
+{
 	for (auto plant : PlantList)
 	{
 		if (plant->Traits->clonal && !plant->dead)
@@ -386,79 +355,49 @@ void CGrid::EstabLottery() {
 		}
 	}
 
-	//for Seeds (for clonal and non-klonal plants)
-	map<string, double> PftEstabProb;
-	map<string, int> PftNSeedling;
-
-	int gweek = CEnvir::week;
-	if ((gweek >= 1 && gweek < 4) || (gweek > 21 && gweek <= 25)) // establishment only between week 1-4 and 21-25
+	int w = CEnvir::week;
+	if ( !( (w >= 1 && w < 4) || (w > 21 && w <= 25) ) ) // establishment is only between weeks 1-4 and 21-25
 	{
-		double sum = 0;
-		for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) // loop for all cells
+		return;
+	}
+
+	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
+	{
+		CCell* cell = CellList[i];
+
+		if (!cell->AbovePlantList.empty() || cell->SeedBankList.empty() || cell->occupied)
 		{
-			CCell* cell = CellList[i];
-			if (cell->AbovePlantList.empty() && !cell->SeedBankList.empty() && !cell->occupied) // germination if cell is uncovered
+			continue;
+		}
+
+		double sumSeedMass = cell->Germinate();
+
+		if ( CEnvir::AreSame(sumSeedMass, 0) ) // No seeds germinated
+		{
+			continue;
+		}
+
+		shared_ptr<CSeed> winningSeed;
+		double n = CEnvir::rng.get01() * sumSeedMass;
+		for (auto itr : cell->SeedlingList)
+		{
+			n -= itr->mass;
+			if (n <= 0)
 			{
-				sum = cell->Germinate();
-
-				if (sum > 0)  // if seeds germinated...
-				{
-					typedef map<string, int> mapType;
-					for (mapType::const_iterator it = cell->PftNSeedling.begin();
-							it != cell->PftNSeedling.end();
-							++it) //for all PFTs
-					{
-						string pft = it->first;
-						map<string, int>::iterator itr = cell->PftNSeedling.find(pft);
-						if (itr != cell->PftNSeedling.end())
-						{
-							PftEstabProb[pft] = double(itr->second) * SPftTraits::getPftLink(pft)->SeedMass;
-							PftNSeedling[pft] = itr->second; //(cell->PftNSeedling[pft]);
-						}
-					}
-
-					// chose seedling that establishes at random
-					double rnum = CEnvir::rng.get01() * sum; //random double between 0 and sum of seed mass
-
-					for (mapType::const_iterator it =
-							cell->PftNSeedling.begin();
-							it != cell->PftNSeedling.end() && (!cell->occupied);
-							++it) // for each type germinated
-					{
-						std::string pft = it->first;
-						if (rnum < PftEstabProb[pft]) //random number < current types' estab Probability?
-						{
-							random_shuffle(cell->SeedlingList.begin(),
-									partition(cell->SeedlingList.begin(),
-											cell->SeedlingList.end(),
-											bind2nd(mem_fun(&CSeed::SeedOfType), pft)));
-
-							CSeed* seed = cell->SeedlingList.front();
-							EstabLott_help(seed);
-							cell->PftNSeedling[pft]--;
-
-							continue; // if established, go to next cell
-
-						}
-						else
-						{   //if not: subtrahiere   PftCumEstabProb[pft]
-							rnum -= PftEstabProb.find(pft)->second;
-						}   //und gehe zum n�chsten Typ
-					}   //for all types in list
-					cell->RemoveSeedlings();
-				}   //if seedlings in cell
-			}   //seeds in cell
-		}   //for all cells
-	}   //if between week 1-4 and 21-25
-	PftEstabProb.clear();
-	PftNSeedling.clear();
-}   //end CGridclonal::EstabLottery()
+				winningSeed = itr;
+				break;
+			}
+		}
+		EstablishSeedling(winningSeed);
+		cell->SeedlingList.clear();
+	}
+}
 
 /**
  * Establish new genet.
  * @param seed seed which germinates.
  */
-void CGrid::EstabLott_help(CSeed* seed)
+void CGrid::EstablishSeedling(shared_ptr<CSeed> seed)
 {
 	CPlant* p = new CPlant(seed);
 	shared_ptr<CGenet> Genet = make_shared<CGenet>();
@@ -545,7 +484,7 @@ void CGrid::RametEstab(CPlant* plant)
 }
 
 /**
- * seedling mortality
+ * Seed mortality
  */
 void CGrid::SeedMortAge()
 {
@@ -556,7 +495,9 @@ void CGrid::SeedMortAge()
 		for (auto seed : cell->SeedBankList)
 		{
 			if (seed->Age >= seed->Traits->Dorm)
+			{
 				seed->remove = true;
+			}
 		}
 		cell->RemoveSeeds();
 	}
@@ -571,7 +512,7 @@ void CGrid::Disturb()
 	CGrid::below_biomass_history.push_back(GetTotalBelowMass());
 
 	if (CEnvir::rng.get01() < SRunPara::RunPara.GrazProb) {
-		Grazing();
+		GrazingAbvGr();
 	}
 
 	if (CEnvir::rng.get01() < SRunPara::RunPara.BelGrazProb) {
@@ -594,10 +535,10 @@ void CGrid::Disturb()
 			break;
 		default:
 			cerr << "CGrid::Disturb() - wrong input";
-			exit(3);
+			exit(1);
 		}
 	}
-} //end Disturb
+}
 
 void CGrid::RunCatastrophicDisturbance()
 {
@@ -620,14 +561,13 @@ void CGrid::RunCatastrophicDisturbance()
 
 		for (auto seed : cell->SeedBankList)
 		{
-			if (CEnvir::rng.get01()
-					< SRunPara::RunPara.CatastrophicSeedMortality)
+			if (CEnvir::rng.get01() < SRunPara::RunPara.CatastrophicSeedMortality)
 			{
 				seed->remove = true;
 			}
 		}
 
-		cell->RemoveSeeds(); //removes and deletes all seeds with remove==true
+		cell->RemoveSeeds();
 	}
 }
 
@@ -641,25 +581,22 @@ void CGrid::RunCatastrophicDisturbance()
  15,3 g/m�  * 1.6641 m� = 25.5 g)
 
  */
-void CGrid::Grazing() {
-	int SumCells = SRunPara::RunPara.GetSumCells();
-	double ResidualMass = SRunPara::RunPara.MassUngraz * SumCells * 0.0001;
-	double MaxMassRemove, TotalAboveMass, MassRemoved = 0;
-	double grazprob;
-	double Max;
+void CGrid::GrazingAbvGr()
+{
+	double ResidualMass = SRunPara::RunPara.MassUngraz * SRunPara::RunPara.GetSumCells() * 0.0001;
 
-	TotalAboveMass = GetTotalAboveMass();
+	double TotalAboveMass = GetTotalAboveMass();
 
-	MaxMassRemove = TotalAboveMass * SRunPara::RunPara.PropRemove;
-	MaxMassRemove = min(TotalAboveMass - ResidualMass, MaxMassRemove);
+	double MaxMassRemove = min(TotalAboveMass - ResidualMass, TotalAboveMass * SRunPara::RunPara.PropRemove);
+	double MassRemoved = 0;
 
 	while (MassRemoved < MaxMassRemove)
 	{
-		sort(PlantList.begin(), PlantList.end(), CPlant::ComparePalat); // sort PlantList descending after mshoot/LMR
+		sort(PlantList.begin(), PlantList.end(), CPlant::ComparePalat);
 
-		CPlant* plant = *PlantList.begin(); // plant with highest grazing susceptibility
+		CPlant* plant = *PlantList.begin();
 
-		Max = plant->mshoot * plant->Traits->GrazFac();
+		double max = plant->mshoot * plant->Traits->GrazFac();
 
 		random_shuffle(PlantList.begin(), PlantList.end());
 
@@ -669,13 +606,14 @@ void CGrid::Grazing() {
 			{
 				break;
 			}
-			grazprob = (lplant->mshoot * lplant->Traits->GrazFac()) / Max;
 
-			if (CEnvir::rng.get01() < grazprob)
+			double grazingProb = (lplant->mshoot * lplant->Traits->GrazFac()) / max;
+
+			if (CEnvir::rng.get01() < grazingProb)
 				MassRemoved += lplant->RemoveMass();
 		}
 	}
-} //end CGrid::Grazing()
+}
 
 //-----------------------------------------------------------------------------
 /**
@@ -798,37 +736,32 @@ void CGrid::GrazingBelGr() {
 
 //-----------------------------------------------------------------------------
 void CGrid::RemovePlants() {
-	auto irem = partition(PlantList.begin(), PlantList.end(), mem_fun(&CPlant::GetPlantRemove));
-	for (auto it = irem; it < PlantList.end(); ++it)
-	{
-		CPlant* plant = *it;
-		DeletePlant(plant);
-	}
-	PlantList.erase(irem, PlantList.end());
-}
 
-//-----------------------------------------------------------------------------
-/**
- Delete a plant from the grid and it's references in genet list and grid cell.
- */
-void CGrid::DeletePlant(CPlant* p)
-{
-	auto Genet = p->getGenet();
-	Genet->AllRametList.erase(
-			remove(Genet->AllRametList.begin(), Genet->AllRametList.end(), p),
-			Genet->AllRametList.end());
+	auto removePlant = [] (CPlant* p) {
+		if ( CPlant::GetPlantRemove(p) )
+		{
+			auto Genet = p->getGenet();
+			Genet->AllRametList.erase(
+					remove(Genet->AllRametList.begin(), Genet->AllRametList.end(), p),
+					Genet->AllRametList.end());
 
-	p->getCell()->occupied = false;
-	p->getCell()->PlantInCell = NULL;
+			p->getCell()->occupied = false;
+			p->getCell()->PlantInCell = NULL;
+			delete p;
 
-	delete p;
+			return true;
+		}
+		return false;
+	};
+
+	PlantList.erase(std::remove_if(PlantList.begin(), PlantList.end(), removePlant),
+					PlantList.end());
 }
 
 //-----------------------------------------------------------------------------
 void CGrid::Winter()
 {
 	RemovePlants();
-	//mass removal in wintertime
 	for (auto p : PlantList)
 	{
 		p->WinterLoss();
@@ -855,7 +788,7 @@ void CGrid::SeedMortWinter()
 
 		cell->RemoveSeeds();
 	}
-}   //end CGrid::SeedMortWinter()
+}
 
 //-----------------------------------------------------------------------------
 /**
@@ -877,7 +810,9 @@ void CGrid::InitClonalSeeds(shared_ptr<SPftTraits> traits, const int n, double e
 		int y = CEnvir::rng.getUniformInt(SRunPara::RunPara.GridSize);
 
 		CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
-		new CSeed(estab, traits, cell);
+
+		shared_ptr<CSeed> seed = make_shared<CSeed>(estab, traits, cell);
+		cell->SeedBankList.push_back(seed);
 	}
 } //end CGridclonal::clonalSeedsInit()
 

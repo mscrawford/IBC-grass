@@ -55,11 +55,7 @@ shared_ptr<SPftTraits> SPftTraits::getPftLink(string type)
 
 	auto pos = PftLinkList.find(type);
 
-	if (pos == PftLinkList.end())
-	{
-		cerr << "Type not found: " << type << endl;
-		exit(1);
-	}
+	assert(pos != PftLinkList.end() && "Trait type not found");
 
 	shared_ptr<SPftTraits> traits = pos->second;
 
@@ -76,10 +72,7 @@ shared_ptr<SPftTraits> SPftTraits::createTraitSetFromPftType(string type)
 {
 	const auto pos = PftLinkList.find(type);
 
-	if ( PftLinkList.find(type) == PftLinkList.end() ) {
-		cerr << "Type not found: " << type << endl;
-		exit(1);
-	}
+	assert(pos != PftLinkList.end() && "Trait type not found");
 
 	shared_ptr<SPftTraits> traits = std::make_shared<SPftTraits>(*pos->second);
 

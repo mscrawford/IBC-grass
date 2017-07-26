@@ -18,58 +18,54 @@ using namespace std;
  * @param bres belowground resources
  */
 CCell::CCell(const unsigned int xx, const unsigned int yy, double ares, double bres) :
-		x(xx), y(yy), AResConc(ares), BResConc(bres),
-		aComp_weekly(0), bComp_weekly(0), occupied(false),
-		PlantInCell(NULL)
+		x(xx), y(yy),
+		AResConc(ares), BResConc(bres),
+		aComp_weekly(0), bComp_weekly(0),
+		occupied(false), PlantInCell(NULL)
 {
-   AbovePlantList.clear();
-   BelowPlantList.clear();
-   SeedBankList.clear();
-   SeedlingList.clear();
-
-   PftNIndA.clear();
-   PftNIndB.clear();
-   PftNSeedling.clear();
-
-   const unsigned int index = xx*SRunPara::RunPara.GridSize + yy;
-   AResConc=CEnvir::AResMuster.at(index);
-   BResConc=CEnvir::BResMuster[index];
-}
-//---------------------------------------------------------------------------
-/**
- * reset cell properties
- */
-void CCell::clear()
-{
-   AbovePlantList.clear();
-   BelowPlantList.clear();
-
-   for (unsigned int i=0; i<SeedBankList.size();i++) delete SeedBankList[i];
-   for (unsigned int i=0; i<SeedlingList.size();i++) delete SeedlingList[i];
-
-   SeedBankList.clear();
-   SeedlingList.clear();
-
-   PftNIndA.clear();
-   PftNIndB.clear();
-   PftNSeedling.clear();
-
-   occupied = false;
-   PlantInCell = NULL;
+	int index = xx * SRunPara::RunPara.GridSize + yy;
+	AResConc = CEnvir::AResMuster[index];
+	BResConc = CEnvir::BResMuster[index];
 }
 
 CCell::~CCell()
 {
-   for (unsigned int i=0; i<SeedBankList.size();i++) delete SeedBankList[i];
-   for (unsigned int i=0; i<SeedlingList.size();i++) delete SeedlingList[i];
+	AbovePlantList.clear();
+	BelowPlantList.clear();
 
-   SeedBankList.clear();
-   SeedlingList.clear();
+	SeedBankList.clear();
+	SeedlingList.clear();
 
-   AbovePlantList.clear();
-   BelowPlantList.clear();
+	PftNIndA.clear();
+	PftNIndB.clear();
 
-   PftNSeedling.clear();
+	PlantInCell = NULL;
+}
+
+void CCell::clear()
+{
+	AbovePlantList.clear();
+	BelowPlantList.clear();
+
+	SeedBankList.clear();
+	SeedlingList.clear();
+
+	PftNIndA.clear();
+	PftNIndB.clear();
+
+	occupied = false;
+	PlantInCell = NULL;
+}
+
+void CCell::weeklyReset()
+{
+	AbovePlantList.clear();
+	BelowPlantList.clear();
+
+	PftNIndA.clear();
+	PftNIndB.clear();
+
+	SeedlingList.clear();
 }
 
 void CCell::SetResource(double Ares, double Bres)
@@ -88,48 +84,22 @@ double CCell::Germinate()
 		{
 			// make a copy in seedling list
 			SeedlingList.push_back(seed);
-			PftNSeedling[seed->pft()]++;
-
+			sum_SeedMass += seed->mass;
 			seed->remove = true;
 		}
 	}
 
-   //remove germinated seeds from SeedBankList
-   auto iter_rem = partition(SeedBankList.begin(), SeedBankList.end(), GetSeedRemove);
-   SeedBankList.erase(iter_rem, SeedBankList.end());
+   RemoveSeeds();
 
-   for (auto seed : SeedlingList)
-   {
-	   sum_SeedMass += seed->mass;
-   }
    return sum_SeedMass;
-
-}
-
-//---------------------------------------------------------------------------
-void CCell::RemoveSeedlings()
-{
-   PftNIndA.clear();
-   PftNIndB.clear();
-   PftNSeedling.clear();
-
-   for (auto seedling : SeedlingList)
-   {
-      delete seedling;
-   }
-   SeedlingList.clear();
 }
 
 //---------------------------------------------------------------------------
 void CCell::RemoveSeeds()
 {
-   auto irem = partition(SeedBankList.begin(), SeedBankList.end(), GetSeedRemove);
-
-   for (auto iter = irem; iter != SeedBankList.end(); ++iter){
-      CSeed* seed = *iter;
-      delete seed;
-   }
-   SeedBankList.erase(irem, SeedBankList.end());
+	SeedBankList.erase(
+			std::remove_if(SeedBankList.begin(), SeedBankList.end(), CSeed::GetSeedRemove),
+			SeedBankList.end());
 }
 
 //-----------------------------------------------------------------------------
@@ -254,7 +224,6 @@ double CCell::prop_res(const string type, const int layer, const int version) co
 			{
 				return 1.0 / sqrt(nob->second);
 			}
-
 		}
 		break;
 	case 2:

@@ -20,16 +20,15 @@ private:
 	std::vector< std::shared_ptr<CGenet> > GenetList;
 	void RametEstab(CPlant* plant);   	// establish ramets
 	void Resshare();                	// share resources among connected ramets
-	void EstabLott_help(CSeed* seed);
+	void EstablishSeedling(std::shared_ptr<CSeed> seed);
 
 protected:
 	virtual void CoverCells();			// assigns grid cells to plants - which cell is covered by which plant
 	virtual void RemovePlants(); 		// removes dead plants from the grid and deletes them
-	virtual void DeletePlant(CPlant* plant1);
 	virtual void PlantLoop();			// loop over all plants including growth, seed dispersal and mortality
 	virtual void DistribResource();		// distributes resource to each plant --> calls competition functions
 	virtual void DispersSeeds(CPlant* plant);
-	virtual void EstabLottery();		// lottery competition for seedling establishment
+	virtual void EstablishmentLottery();// lottery competition for seedling establishment
 	virtual void Winter();				// calls seed mortality and mass removal of plants
 
 	void ResetWeeklyVariables(); 		// Clears list of plants that cover each cell
@@ -37,7 +36,7 @@ protected:
 	void SeedMortWinter();				// Kills seeds that die over winter
 	void Disturb();						// Calls grazing (Above- and Belowground), trampling, and other disturbances
 	void RunCatastrophicDisturbance(); 	// Removes some percentage of total plants and seeds
-	void Grazing(); 					// Aboveground grazing
+	void GrazingAbvGr(); 				// Aboveground grazing
 	void GrazingBelGr();				// Belowground grazing
 	void Cutting(double CutHeight = 0);
 	void CellsInit();					// Creates the cells that make up the grid
