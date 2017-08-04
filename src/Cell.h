@@ -24,8 +24,8 @@ public:
 	std::vector< std::shared_ptr<CPlant> > AbovePlantList; // List of all plant individuals that cover the cell ABOVE ground
 	std::vector< std::shared_ptr<CPlant> > BelowPlantList; // List of all plant individuals that cover the cell BELOW ground
 
-	std::vector< std::shared_ptr<CSeed> > SeedBankList; // List of all (ungerminated) seeds in the cell
-	std::vector< std::shared_ptr<CSeed> > SeedlingList; // List of all freshly germinated seedlings in the cell
+	std::vector< std::unique_ptr<CSeed> > SeedBankList; // List of all (ungerminated) seeds in the cell
+	std::vector< std::unique_ptr<CSeed> > SeedlingList; // List of all freshly germinated seedlings in the cell
 
 	std::map<std::string, int> PftNIndA; // Plants covering the cell aboveground
 	std::map<std::string, int> PftNIndB; // Plants covering the cell belowground

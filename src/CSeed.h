@@ -27,7 +27,7 @@ class CSeed
 
 	   CCell* getCell(){ return cell; };
 
-	   static bool GetSeedRemove(std::shared_ptr<CSeed> s) {
+	   static bool GetSeedRemove(const std::unique_ptr<CSeed> & s) {
 		   return s->remove;
 	   };
 };

@@ -21,7 +21,7 @@ private:
 	std::vector< std::shared_ptr<CGenet> > GenetList;
 	void RametEstab(std::shared_ptr<CPlant> plant);   	// establish ramets
 	void Resshare();                	// share resources among connected ramets
-	void EstablishSeedling(std::shared_ptr<CSeed> seed);
+	void EstablishSeedling(const std::unique_ptr<CSeed> & seed);
 
 protected:
 	void CoverCells();			// assigns grid cells to plants - which cell is covered by which plant

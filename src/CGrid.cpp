@@ -183,8 +183,9 @@ void CGrid::DispersSeeds(std::shared_ptr<CPlant> plant)
 
 		CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
 
-		shared_ptr<CSeed> seed = make_shared<CSeed>(plant, cell);
-		cell->SeedBankList.push_back(seed);
+//		shared_ptr<CSeed> seed = make_shared<CSeed>(plant, cell);
+		unique_ptr<CSeed> seed(new CSeed(plant, cell));
+		cell->SeedBankList.push_back(std::move(seed));
 	}
 }
 
@@ -371,18 +372,16 @@ void CGrid::EstablishmentLottery()
 			continue;
 		}
 
-		shared_ptr<CSeed> winningSeed;
 		double n = CEnvir::rng.get01() * sumSeedMass;
-		for (auto itr : cell->SeedlingList)
+		for (auto const& itr : cell->SeedlingList)
 		{
 			n -= itr->mass;
 			if (n <= 0)
 			{
-				winningSeed = itr;
+				EstablishSeedling(itr);
 				break;
 			}
 		}
-		EstablishSeedling(winningSeed);
 		cell->SeedlingList.clear();
 	}
 }
@@ -392,7 +391,7 @@ void CGrid::EstablishmentLottery()
  * Establish new genet.
  * @param seed seed which germinates.
  */
-void CGrid::EstablishSeedling(shared_ptr<CSeed> seed)
+void CGrid::EstablishSeedling(unique_ptr<CSeed> const& seed)
 {
 	shared_ptr<CPlant> p = make_shared<CPlant>(seed);
 
@@ -492,7 +491,7 @@ void CGrid::SeedMortAge()
 	{
 		CCell* cell = CellList[i];
 
-		for (auto seed : cell->SeedBankList)
+		for (auto const& seed : cell->SeedBankList)
 		{
 			if (seed->Age >= seed->Traits->Dorm)
 			{
@@ -561,7 +560,7 @@ void CGrid::RunCatastrophicDisturbance()
 	{
 		CCell* cell = CellList[i];
 
-		for (auto seed : cell->SeedBankList)
+		for (auto const& seed : cell->SeedBankList)
 		{
 			if (CEnvir::rng.get01() < SRunPara::RunPara.CatastrophicSeedMortality)
 			{
@@ -774,7 +773,7 @@ void CGrid::SeedMortWinter()
 	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
 	{
 		CCell* cell = CellList[i];
-		for (auto seed : cell->SeedBankList)
+		for (auto const& seed : cell->SeedBankList)
 		{
 			if (CEnvir::rng.get01() < SRunPara::RunPara.mort_seeds)
 			{
@@ -811,8 +810,8 @@ void CGrid::InitClonalSeeds(shared_ptr<SPftTraits> traits, const int n, double e
 
 		CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
 
-		shared_ptr<CSeed> seed = make_shared<CSeed>(estab, traits, cell);
-		cell->SeedBankList.push_back(seed);
+		unique_ptr<CSeed> seed(new CSeed(estab, traits, cell));
+		cell->SeedBankList.push_back(std::move(seed));
 	}
 }
 

@@ -18,7 +18,7 @@ using namespace std;
 
 int CPlant::numPlants = 0;
 
-CPlant::CPlant(shared_ptr<CSeed> seed) :
+CPlant::CPlant(const unique_ptr<CSeed> & seed) :
 		cell(NULL), mReproRamets(0), genet(NULL), Age(0),
 		plantID(++numPlants), xcoord(0), ycoord(0),
 		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),

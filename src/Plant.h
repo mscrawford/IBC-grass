@@ -61,7 +61,7 @@ public:
 	double spacerLengthToGrow;              // length to grow
 
 	// Constructors
-	CPlant(std::shared_ptr<CSeed> seed); 		// from a germinated seed
+	CPlant(const std::unique_ptr<CSeed> & seed); 		// from a germinated seed
 	CPlant(double x, double y, std::shared_ptr<CPlant> plant); 	// for clonal establishment
 	~CPlant();
 

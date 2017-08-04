@@ -74,18 +74,35 @@ void CCell::SetResource(double Ares, double Bres)
 double CCell::Germinate()
 {
 	double sum_SeedMass = 0;
+//
+//	for (auto & seed : SeedBankList)
+//	{
+//		if (CEnvir::rng.get01() < seed->estab)
+//		{
+//			SeedlingList.push_back(std::move(seed)); // This seed germinates, add it to seedlings
+//			sum_SeedMass += seed->mass;
+//			seed->remove = true; // Mark this smart_ptr for deletion
+//		}
+//	}
 
-	for (auto seed : SeedBankList)
+	auto it = SeedBankList.begin();
+	while ( it != SeedBankList.end() )
 	{
+		auto & seed = *it;
 		if (CEnvir::rng.get01() < seed->estab)
 		{
-			SeedlingList.push_back(seed); // This seed germinates, add it to seedlings
 			sum_SeedMass += seed->mass;
-			seed->remove = true; // Mark this smart_ptr for deletion
+			SeedlingList.push_back(std::move(seed)); // This seed germinates, add it to seedlings
+			SeedBankList.erase(it);
+		}
+		else
+		{
+			it++;
 		}
 	}
 
-	RemoveSeeds(); // note that the copy in SeedlingList is not deleted; that comes after establishment
+
+//	RemoveSeeds(); // note that the copy in SeedlingList is not deleted; that comes after establishment
 
 	return sum_SeedMass;
 }
