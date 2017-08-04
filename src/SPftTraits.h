@@ -27,7 +27,7 @@ public:
 	};
 
 //general
-	static std::map< std::string, std::shared_ptr<SPftTraits> > PftLinkList; //!< links of Pfts(SPftTrais) used
+	static std::map< std::string, std::unique_ptr<SPftTraits> > PftLinkList; //!< links of Pfts(SPftTrais) used
 	static std::vector< std::string > pftInsertionOrder;
 	traitType myTraitType; // MSC -- the default trait set is a species -- only after being varied is it individualized.
 	int TypeID;     //!< PFT ID same number for all individuals of one PFT
@@ -99,9 +99,8 @@ public:
 
 	void varyTraits();
 	static void ReadPFTDef(const std::string& file);
-	static std::shared_ptr<SPftTraits> getPftLink(std::string type); ///get basic type according to string
-	static std::shared_ptr<SPftTraits> createTraitSetFromPftType(std::string type);
-	static std::shared_ptr<SPftTraits> copyTraitSet(std::shared_ptr<SPftTraits> t);
+	static std::unique_ptr<SPftTraits> createTraitSetFromPftType(std::string type);
+	static std::unique_ptr<SPftTraits> copyTraitSet(const std::unique_ptr<SPftTraits> & t);
 
 };
 

@@ -30,7 +30,7 @@ private:
 	std::shared_ptr<CGenet> genet;  // genet of the clonal plant
 
 public:
-	std::shared_ptr<SPftTraits> Traits;	// PFT Traits
+	std::unique_ptr<SPftTraits> Traits;	// PFT Traits
 
 	static int numPlants;
 	int plantID;
@@ -62,7 +62,7 @@ public:
 
 	// Constructors
 	CPlant(const std::unique_ptr<CSeed> & seed); 		// from a germinated seed
-	CPlant(double x, double y, std::shared_ptr<CPlant> plant); 	// for clonal establishment
+	CPlant(double x, double y, const std::shared_ptr<CPlant> & plant); 	// for clonal establishment
 	~CPlant();
 
 	void Grow2(); 									// shoot-root resource allocation and plant growth in two layers

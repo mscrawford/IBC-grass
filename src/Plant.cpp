@@ -26,13 +26,11 @@ CPlant::CPlant(const unique_ptr<CSeed> & seed) :
 		spacerLength(0), spacerDirection(0), spacerLengthToGrow(0)
 {
 
-	Traits = SPftTraits::createTraitSetFromPftType(seed->Traits->name);
+	Traits = SPftTraits::copyTraitSet(seed->Traits);
 
 	if (SRunPara::RunPara.ITV == on) {
-		Traits->varyTraits();
 		assert(Traits->myTraitType == SPftTraits::individualized);
-	}
-	else {
+	} else {
 		assert(Traits->myTraitType == SPftTraits::species);
 	}
 
@@ -50,17 +48,10 @@ CPlant::CPlant(const unique_ptr<CSeed> & seed) :
 
 //-----------------------------------------------------------------------------
 /**
- Clonal Growth - The new Plant inherits its parameters from 'plant'.
- Genet is the same as for plant, Generation is by one larger than
- that of plant.
-
- \note For clonal growth:
- cell has to be set and plant has to be added to genet list
- when ramet establishes.
-
- \since revision
+ * Clonal Growth - The new Plant inherits its parameters from 'plant'.
+ * Genet is the same as for plant
  */
-CPlant::CPlant(double x, double y, std::shared_ptr<CPlant> plant) :
+CPlant::CPlant(double x, double y, const std::shared_ptr<CPlant> & plant) :
 		cell(NULL), mReproRamets(0), genet(plant->genet), Age(0),
 		plantID(++numPlants), xcoord(x), ycoord(y),
 		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
@@ -70,12 +61,14 @@ CPlant::CPlant(double x, double y, std::shared_ptr<CPlant> plant) :
 
 	Traits = SPftTraits::copyTraitSet(plant->Traits);
 
-	if (SRunPara::RunPara.ITV == on)
+	if (SRunPara::RunPara.ITV == on) {
 		assert(Traits->myTraitType == SPftTraits::individualized);
+	} else {
+		assert(Traits->myTraitType == SPftTraits::species);
+	}
 
 	mshoot = Traits->m0;
 	mroot = Traits->m0;
-
 }
 
 //---------------------------------------------------------------------------

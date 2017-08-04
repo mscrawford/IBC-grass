@@ -57,7 +57,7 @@ public:
 	double GetTotalAboveMass();
 	double GetTotalBelowMass();
 
-	void InitClonalSeeds(std::shared_ptr<SPftTraits> traits, const int n, double estab = 1.0);
+	void InitClonalSeeds(std::string PFT_ID, const int n, double estab);
 
 	int GetNclonalPlants();   	// number of living clonal plants
 	int GetNPlants();         	// number of living non-clonal plants

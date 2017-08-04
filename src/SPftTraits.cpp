@@ -9,7 +9,7 @@
 
 using namespace std;
 
-map< string, shared_ptr<SPftTraits> > SPftTraits::PftLinkList = map< string, shared_ptr<SPftTraits> >();
+map< string, unique_ptr<SPftTraits> > SPftTraits::PftLinkList = map< string, unique_ptr<SPftTraits> >();
 
 vector<string> SPftTraits::pftInsertionOrder = vector<string>();
 
@@ -44,51 +44,28 @@ SPftTraits::SPftTraits(const SPftTraits& s) :
 
 }
 
-//------------------------------------------------------------------------------
 /**
- * Get - link for specific PFT
- * @param type PFT asked for
- * @return Object pointer to PFT definition
+ * Retrieve a deep-copy of that PFT's basic trait set
  */
-shared_ptr<SPftTraits> SPftTraits::getPftLink(string type)
-{
-
-	auto pos = PftLinkList.find(type);
-
-	assert(pos != PftLinkList.end() && "Trait type not found");
-
-	shared_ptr<SPftTraits> traits = pos->second;
-
-	return traits;
-
-}
-
-/**
- * Get - the instance (pass by value) of a specific PFT (as defined by its name)
- * @param type PFT asked for
- * @return Object instance defining a PFT.
- */
-shared_ptr<SPftTraits> SPftTraits::createTraitSetFromPftType(string type)
+unique_ptr<SPftTraits> SPftTraits::createTraitSetFromPftType(string type)
 {
 	const auto pos = PftLinkList.find(type);
 
 	assert(pos != PftLinkList.end() && "Trait type not found");
 
-	shared_ptr<SPftTraits> traits = std::make_shared<SPftTraits>(*pos->second);
+	unique_ptr<SPftTraits> traits( new SPftTraits(*pos->second) );
 
-	return traits;
+	return (traits);
 }
 
 /**
- * Get - the instance (pass by value) of a specific PFT (as defined by its name)
- * @param type PFT asked for
- * @return Object instance defining a PFT.
+ * Retrieve a deep-copy some arbitrary trait set (for plants dropping seeds)
  */
-shared_ptr<SPftTraits> SPftTraits::copyTraitSet(const shared_ptr<SPftTraits> t)
+unique_ptr<SPftTraits> SPftTraits::copyTraitSet(const unique_ptr<SPftTraits> & t)
 {
-	shared_ptr<SPftTraits> traits = std::make_shared<SPftTraits>(*t);
+	unique_ptr<SPftTraits> traits( new SPftTraits(*t) );
 
-	return traits;
+	return (traits);
 }
 
 //-----------------------------------------------------------------------------
@@ -107,7 +84,7 @@ void SPftTraits::ReadPFTDef(const string& file)
 	{
 		std::stringstream ss(line);
 
-		shared_ptr<SPftTraits> traits = make_shared<SPftTraits>();
+		unique_ptr<SPftTraits> traits(new SPftTraits);
 
 		ss >> traits->TypeID >> traits->name
 				>> traits->AllocSeed >> traits->LMR >> traits->m0
@@ -119,9 +96,9 @@ void SPftTraits::ReadPFTDef(const string& file)
 				>> traits->sdSpacerlength >> traits->Resshare
 				>> traits->AllocSpacer >> traits->mSpacer;
 
-		SPftTraits::PftLinkList.insert(std::make_pair(traits->name, traits));
-
 		SPftTraits::pftInsertionOrder.push_back(traits->name);
+
+		SPftTraits::PftLinkList.insert(std::make_pair(traits->name, std::move(traits)));
 	}
 }
 

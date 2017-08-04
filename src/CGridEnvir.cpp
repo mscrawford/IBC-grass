@@ -37,16 +37,16 @@ void CGridEnvir::InitRun() {
 void CGridEnvir::InitInds()
 {
 	const int no_init_seeds = 10;
+	const double estab = 1.0;
 
 	if (SRunPara::RunPara.mode == communityAssembly || SRunPara::RunPara.mode == catastrophicDisturbance)
 	{
 		// PFT Traits are read in GetSim()
-		for (auto it = SPftTraits::PftLinkList.begin(); it != SPftTraits::PftLinkList.end(); ++it)
+		for (auto const& it : SPftTraits::PftLinkList)
 		{
-			shared_ptr<SPftTraits> traits = it->second;
-			InitClonalSeeds(traits, no_init_seeds);
-			PftInitList[traits->name] += no_init_seeds;
-			PftSurvTime[traits->name] = 0;
+			InitClonalSeeds(it.first, no_init_seeds, estab);
+			PftInitList[it.first] += no_init_seeds;
+			PftSurvTime[it.first] = 0;
 		}
 	}
 	else if (SRunPara::RunPara.mode == invasionCriterion)
@@ -54,14 +54,10 @@ void CGridEnvir::InitInds()
 		assert(SPftTraits::PftLinkList.size() == 2);
 
 		string resident = SPftTraits::pftInsertionOrder[1];
-		shared_ptr<SPftTraits> traits = SPftTraits::PftLinkList.find(resident)->second;
-
-		InitClonalSeeds(traits, no_init_seeds);
-
-		PftInitList[traits->name] += no_init_seeds;
-		PftSurvTime[traits->name] = 0;
+		InitClonalSeeds(resident, no_init_seeds, estab);
+		PftInitList[resident] += no_init_seeds;
+		PftSurvTime[resident] = 0;
 	}
-
 }
 
 void CGridEnvir::OneRun() {
@@ -85,11 +81,12 @@ void CGridEnvir::OneRun() {
 		if (SRunPara::RunPara.mode == invasionCriterion && year == SRunPara::RunPara.Tmax_monoculture)
 		{
 			const int no_init_seeds = 100;
+			const double estab = 1.0;
+
 			string invader = SPftTraits::pftInsertionOrder[0];
-			shared_ptr<SPftTraits> traits = SPftTraits::PftLinkList.find(invader)->second;
-			InitClonalSeeds(traits, no_init_seeds);
-			PftInitList[traits->name] += no_init_seeds;
-			PftSurvTime[traits->name] = 0;
+			InitClonalSeeds(invader, no_init_seeds, estab);
+			PftInitList[invader] += no_init_seeds;
+			PftSurvTime[invader] = 0;
 		}
 
 		if (exitConditions()) break;
@@ -190,16 +187,12 @@ void CGridEnvir::SeedRain()
 {
 
 	string PFT_ID;
-	shared_ptr<SPftTraits> traits;
 	double n = 0;
 
 	// For each PFT, we'll drop n seeds
-	for (map<string, long>::const_iterator it = PftInitList.begin();
-			it != PftInitList.end();
-			++it)
+	for (auto it : PftInitList)
 	{
-		PFT_ID = it->first;
-		traits = SPftTraits::getPftLink(PFT_ID);
+		PFT_ID = it.first;
 
 		switch (SRunPara::RunPara.SeedRainType)
 		{
@@ -207,7 +200,7 @@ void CGridEnvir::SeedRain()
 				n = SRunPara::RunPara.SeedInput;
 		}
 
-		CGrid::InitClonalSeeds(traits, n, traits->pEstab);
+		CGrid::InitClonalSeeds(PFT_ID, n, 1.0);
 	}
 
 }

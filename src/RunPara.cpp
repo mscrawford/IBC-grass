@@ -17,7 +17,7 @@ SRunPara::SRunPara() :
 		AboveCompMode(asympart), BelowCompMode(sym), Version(version1), mode(communityAssembly),
 		Tmax_monoculture(10),
 		ITV(off), ITVsd(0),
-		GridSize(100),
+		GridSize(173),
 		Tmax(100),
 		mort_seeds(0.5), DiebackWinter(0.5), mort_base(0.007), LitterDecomp(0.5),
 		meanARes(100), meanBRes(100),

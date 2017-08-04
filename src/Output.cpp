@@ -231,7 +231,7 @@ void Output::print_param()
 void Output::print_trait()
 {
 
-	for (auto it : SPftTraits::PftLinkList)
+	for (auto const& it : SPftTraits::PftLinkList)
 	{
 		std::ostringstream ss;
 
@@ -261,7 +261,7 @@ void Output::print_srv_and_PFT(std::vector< std::shared_ptr<CPlant> > & PlantLis
 	// Create the data structure necessary to aggregate individuals
 	map<string, PFT_struct> PFT_map;
 
-	for (auto it : SPftTraits::PftLinkList) {
+	for (auto const& it : SPftTraits::PftLinkList) {
 		PFT_map[it.first] = PFT_struct();
 	}
 
@@ -341,8 +341,6 @@ void Output::print_ind(std::vector< std::shared_ptr<CPlant> > & PlantList)
 	{
 		if (p->dead) continue;
 
-		shared_ptr<SPftTraits> s = p->Traits;
-
 		std::ostringstream ss;
 
 		ss << SRunPara::RunPara.getSimID()	<< ", ";
@@ -352,18 +350,18 @@ void Output::print_ind(std::vector< std::shared_ptr<CPlant> > & PlantList)
 		ss << CEnvir::week 					<< ", ";
 		ss << p->xcoord 					<< ", ";
 		ss << p->ycoord 					<< ", ";
-		ss << s->LMR 						<< ", ";
-		ss << s->m0 						<< ", ";
-		ss << s->MaxMass 					<< ", ";
-		ss << s->SeedMass 					<< ", ";
-		ss << s->Dist 						<< ", ";
-		ss << s->SLA 						<< ", ";
-		ss << s->palat 						<< ", ";
-		ss << s->Gmax 						<< ", ";
-		ss << s->memory 					<< ", ";
-		ss << s->clonal 					<< ", ";
-		ss << s->meanSpacerlength 			<< ", ";
-		ss << s->sdSpacerlength 			<< ", ";
+		ss << p->Traits->LMR 						<< ", ";
+		ss << p->Traits->m0 						<< ", ";
+		ss << p->Traits->MaxMass 					<< ", ";
+		ss << p->Traits->SeedMass 					<< ", ";
+		ss << p->Traits->Dist 						<< ", ";
+		ss << p->Traits->SLA 						<< ", ";
+		ss << p->Traits->palat 						<< ", ";
+		ss << p->Traits->Gmax 						<< ", ";
+		ss << p->Traits->memory 					<< ", ";
+		ss << p->Traits->clonal 					<< ", ";
+		ss << p->Traits->meanSpacerlength 			<< ", ";
+		ss << p->Traits->sdSpacerlength 			<< ", ";
 		ss << p->Age 						<< ", ";
 		ss << p->mshoot						<< ", ";
 		ss << p->mroot 						<< ", ";

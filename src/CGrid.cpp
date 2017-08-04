@@ -183,7 +183,6 @@ void CGrid::DispersSeeds(std::shared_ptr<CPlant> plant)
 
 		CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
 
-//		shared_ptr<CSeed> seed = make_shared<CSeed>(plant, cell);
 		unique_ptr<CSeed> seed(new CSeed(plant, cell));
 		cell->SeedBankList.push_back(std::move(seed));
 	}
@@ -801,7 +800,7 @@ void CGrid::SeedMortWinter()
  \since 2010-09-10 estab rate for seeds can be modified (default is 1.0)
 
  */
-void CGrid::InitClonalSeeds(shared_ptr<SPftTraits> traits, const int n, double estab)
+void CGrid::InitClonalSeeds(string PFT_ID, const int n, double estab)
 {
 	for (int i = 0; i < n; ++i)
 	{
@@ -810,7 +809,7 @@ void CGrid::InitClonalSeeds(shared_ptr<SPftTraits> traits, const int n, double e
 
 		CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
 
-		unique_ptr<CSeed> seed(new CSeed(estab, traits, cell));
+		unique_ptr<CSeed> seed(new CSeed(PFT_ID, cell, estab));
 		cell->SeedBankList.push_back(std::move(seed));
 	}
 }

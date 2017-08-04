@@ -8,11 +8,18 @@
 
 using namespace std;
 
+/*
+ * Constructor for normal reproduction
+ */
 CSeed::CSeed(shared_ptr<CPlant> plant, CCell* _cell) :
 		cell(NULL),
 		Age(0), remove(false)
 {
-	this->Traits = SPftTraits::createTraitSetFromPftType(plant->Traits->name);
+	Traits = SPftTraits::createTraitSetFromPftType(plant->Traits->name);
+
+	if (SRunPara::RunPara.ITV == on) {
+		Traits->varyTraits();
+	}
 
 	estab = Traits->pEstab;
 	mass = Traits->SeedMass;
@@ -21,11 +28,18 @@ CSeed::CSeed(shared_ptr<CPlant> plant, CCell* _cell) :
 	this->cell = _cell;
 }
 
-CSeed::CSeed(double new_estab, shared_ptr<SPftTraits> traits, CCell*_cell) :
+/*
+ * Constructor for initial establishment (with germination pre-set)
+ */
+CSeed::CSeed(std::string PFT_ID, CCell*_cell, double new_estab) :
 		cell(NULL),
 		Age(0), remove(false)
 {
-	this->Traits = SPftTraits::createTraitSetFromPftType(traits->name);
+	Traits = SPftTraits::createTraitSetFromPftType(PFT_ID);
+
+	if (SRunPara::RunPara.ITV == on) {
+		Traits->varyTraits();
+	}
 
 	estab = new_estab;
 	mass = Traits->SeedMass;

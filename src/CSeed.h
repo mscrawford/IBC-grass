@@ -14,7 +14,7 @@ class CSeed
 	   CCell* cell;
 
 	public:
-	   std::shared_ptr<SPftTraits> Traits;
+	   std::unique_ptr<SPftTraits> Traits;
 
 	   double mass;
 	   double estab;
@@ -22,7 +22,7 @@ class CSeed
 	   bool remove;
 
 	   CSeed(std::shared_ptr<CPlant> plant, CCell* cell);
-	   CSeed(double estab, std::shared_ptr<SPftTraits> traits, CCell* cell);
+	   CSeed(std::string PFT_ID, CCell* cell, double estab);
 	   ~CSeed();
 
 	   CCell* getCell(){ return cell; };
