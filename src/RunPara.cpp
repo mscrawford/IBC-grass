@@ -17,7 +17,7 @@ SRunPara::SRunPara() :
 		AboveCompMode(asympart), BelowCompMode(sym), Version(version1), mode(communityAssembly),
 		Tmax_monoculture(10),
 		ITV(off), ITVsd(0),
-		GridSize(173),
+		GridSize(100),
 		Tmax(100),
 		mort_seeds(0.5), DiebackWinter(0.5), mort_base(0.007), LitterDecomp(0.5),
 		meanARes(100), meanBRes(100),
@@ -26,7 +26,7 @@ SRunPara::SRunPara() :
 		BelGrazProb(0), BelGrazPerc(0), BelGrazResidualPerc(0),
 		CutHeight(0), NCut(0),
 		CatastrophicDistYear(50), CatastrophicDistWeek(21),
-		CatastrophicPlantMortality(0), CatastrophicSeedMortality(0),
+		CatastrophicPlantMortality(0),
 		Aampl(0), Bampl(0),
 		SeedInput(0), SeedRainType(0)
 {
@@ -46,7 +46,6 @@ void SRunPara::validateRunPara()
 	if (SRunPara::RunPara.mode == communityAssembly)
 	{
 		assert(CEnvir::AreSame(SRunPara::RunPara.CatastrophicPlantMortality, 0));
-		assert(CEnvir::AreSame(SRunPara::RunPara.CatastrophicSeedMortality, 0));
 	}
 	else if (SRunPara::RunPara.mode == invasionCriterion)
 	{

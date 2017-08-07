@@ -112,7 +112,7 @@ void CGrid::PlantLoop()
 			}
 
 			//seed dispersal (clonal and non-clonal seeds)
-			if (CEnvir::week > p->Traits->DispWeek)
+			if (CEnvir::week >= p->Traits->DispWeek)
 			{
 				DispersSeeds(p);
 			}
@@ -350,7 +350,7 @@ void CGrid::EstablishmentLottery()
 	}
 
 	int w = CEnvir::week;
-	if ( !( (w >= 1 && w < 4) || (w > 21 && w <= 25) ) ) // establishment is only between weeks 1-4 and 21-25
+	if ( !( (w >= 1 && w < 5) || (w >= 21 && w < 25) ) ) // establishment is only between weeks 1-4 and 21-25
 	{
 		return;
 	}
@@ -552,22 +552,6 @@ void CGrid::RunCatastrophicDisturbance()
 		{
 			p->dead = true;
 		}
-	}
-
-	// Disturb seeds
-	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
-	{
-		CCell* cell = CellList[i];
-
-		for (auto const& seed : cell->SeedBankList)
-		{
-			if (CEnvir::rng.get01() < SRunPara::RunPara.CatastrophicSeedMortality)
-			{
-				seed->remove = true;
-			}
-		}
-
-		cell->RemoveSeeds();
 	}
 }
 

@@ -172,7 +172,7 @@ void SPftTraits::varyTraits()
 		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
 		palat_ = palat + (palat * dev);
 		SLA_ = SLA + (SLA * dev);
-	} while (dev < -1.0 || dev > 1.0 || palat_ < 0 || palat_ > 1 || SLA_ < 0);
+	} while (dev < -1.0 || dev > 1.0 || palat_ < 0 || SLA_ < 0);
 	palat = palat_;
 	SLA = SLA_;
 //	cout << "palat: " << palat << endl;
@@ -185,8 +185,7 @@ void SPftTraits::varyTraits()
 		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
 		meanSpacerlength_ = meanSpacerlength + (meanSpacerlength * dev);
 		sdSpacerlength_ = sdSpacerlength + (sdSpacerlength * dev);
-	} while (dev < -1.0 || dev > 1.0 || meanSpacerlength_ < 0
-			|| sdSpacerlength_ < 0);
+	} while (dev < -1.0 || dev > 1.0 || meanSpacerlength_ < 0 || sdSpacerlength_ < 0);
 	meanSpacerlength = meanSpacerlength_;
 	sdSpacerlength = sdSpacerlength_;
 //	cout << "meanSpacerlength: " << meanSpacerlength << endl;

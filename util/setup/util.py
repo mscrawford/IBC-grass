@@ -6,7 +6,7 @@ class Base_Parameter():
         Env, Sigma, ARes, Bres, 
         GrazProb, PropRemove, 
         BelGrazProb, BelGrazPerc, 
-        CatastrophicPlantMortality, CatastrophicSeedMortality,
+        CatastrophicPlantMortality, CatastrophicDistWeek,
         SeedRainType, SeedInput):
 
         self.IC_version = IC_version
@@ -22,11 +22,11 @@ class Base_Parameter():
         self.BelGrazProb = BelGrazProb
         self.BelGrazPerc = BelGrazPerc
         self.CatastrophicPlantMortality = CatastrophicPlantMortality
-        self.CatastrophicSeedMortality = CatastrophicSeedMortality
+        self.CatastrophicDistWeek = CatastrophicDistWeek
         self.SeedRainType = SeedRainType
         self.SeedInput = SeedInput
 
-        if (self.Mode != 2 and (self.CatastrophicSeedMortality > 0 or self.CatastrophicPlantMortality > 0)):
+        if (self.Mode != 2 and (self.CatastrophicDistWeek > 0 or self.CatastrophicPlantMortality > 0)):
             raise Exception("Nonsensical or redundant parameterization")
 
         if (self.SeedRainType == 0 and self.SeedInput > 0 or 
@@ -49,7 +49,7 @@ class Base_Parameter():
             self.ARes, self.Bres, 
             self.GrazProb, self.PropRemove, 
             self.BelGrazProb, self.BelGrazPerc, 
-            self.CatastrophicPlantMortality, self.CatastrophicSeedMortality,
+            self.CatastrophicPlantMortality, self.CatastrophicDistWeek,
             self.SeedRainType, self.SeedInput]))
 
 

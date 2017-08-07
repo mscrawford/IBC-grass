@@ -124,7 +124,7 @@ double CPlant::ReproGrow(double uptake)
 	double VegRes;
 
 	//fixed Proportion of resource to seed production
-	if (mRepro <= Traits->AllocSeed * mshoot) //calculate mRepro for every week
+	if (mRepro <= Traits->AllocSeed * mshoot)
 	{
 		double SeedRes = uptake * Traits->AllocSeed;
 		double SpacerRes = uptake * Traits->AllocSpacer;
@@ -341,7 +341,7 @@ int CPlant::GetNSeeds()
 
 	if (!dead)
 	{
-		if (mRepro > 0 && CEnvir::week > Traits->DispWeek)
+		if (mRepro > 0 && CEnvir::week >= Traits->DispWeek)
 		{
 			NSeeds = floor(mRepro / Traits->SeedMass);
 

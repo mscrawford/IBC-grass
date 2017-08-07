@@ -116,7 +116,6 @@ public:
 	int CatastrophicDistYear;
 	int CatastrophicDistWeek;
 	double CatastrophicPlantMortality;
-	double CatastrophicSeedMortality;
 
 	// Resource variation
 	double Aampl;   //!< within year above-ground resource amplitude (not used)

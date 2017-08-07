@@ -124,16 +124,21 @@ void CGridEnvir::OneWeek()
 		SeedMortAge(); // necessary to remove non-dormant seeds before autumn
 	}
 
-	if (SRunPara::RunPara.mode == catastrophicDisturbance 				// Catastrophic disturbance is on
-			&& CEnvir::year == SRunPara::RunPara.CatastrophicDistYear 	// It is the disturbance year
-			&& CEnvir::week == SRunPara::RunPara.CatastrophicDistWeek) 	// It is the disturbance week
+	if (SRunPara::RunPara.SeedRainType > 0 && week == 20)
 	{
-		RunCatastrophicDisturbance();
+		SeedRain();
 	}
 
 	if (year > 1)
 	{
 		Disturb();  //grazing and disturbance
+	}
+
+	if (SRunPara::RunPara.mode == catastrophicDisturbance 				// Catastrophic disturbance is on
+			&& CEnvir::year == SRunPara::RunPara.CatastrophicDistYear 	// It is the disturbance year
+			&& CEnvir::week == SRunPara::RunPara.CatastrophicDistWeek) 	// It is the disturbance week
+	{
+		RunCatastrophicDisturbance();
 	}
 
 	if ((SRunPara::RunPara.weekly == 1 || week == 20) &&
@@ -143,17 +148,15 @@ void CGridEnvir::OneWeek()
 
 		CEnvir::output.print_srv_and_PFT(PlantList);
 
-		CEnvir::output.print_meta();
+		if (SRunPara::RunPara.meta_out == 1)
+		{
+			CEnvir::output.print_meta();
+		}
 
 		if (SRunPara::RunPara.ind_out == 1)
 		{
 			CEnvir::output.print_ind(PlantList);
 		}
-	}
-
-	if (SRunPara::RunPara.SeedRainType > 0 && week == 21)
-	{
-		SeedRain();
 	}
 
 	if (week == WeeksPerYear)

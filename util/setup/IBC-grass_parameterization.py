@@ -42,18 +42,18 @@ IC_vers = [1] # IBC-grass run mode -- Negative frequency dependence
 MODE    = [2] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
 N_PFTs  = [0] # UNUSED WITH PAIRWISE INVASION CRITERION
 ITVsd   = [0]
-Tmax    = [100]
+Tmax    = [10]
 
 # Custom environment time series --- PLEASE ONLY SINGLE VALUES
 ENV   = [0] # (0) Static environment; (1) IBC-grass uses custom environmental time series
 SIGMA = [0] # Variability with which the time series changes
 
 # Resource levels
-ARes  = [90]
-BRes  = [60, 90] # With belowground environmental variation, this MUST be NA
+ARes  = [100]
+BRes  = [90] # With belowground environmental variation, this MUST be NA
 
 # Aboveground grazing 
-GrazProb   = [0.3, 0.5, 0.7]
+GrazProb   = [0.3]
 propRemove = [0.5]
 
 # Belowground grazing
@@ -61,8 +61,17 @@ BelGrazProb = [0]
 BelGrazPerc = [0]
 
 # Catastrophic disturbance
-CatastrMort_Plant = [0]
-CatastrMort_Seed  = [0]
+CatastrDist_Mort = [0]
+CatastrDist_Week  = [0] # [16, 19, 22] 
+    # Plants begin to create seeds during week 16
+    # Seed addition and flowering occurs at week 20
+    # Seed establishment begins at week 21
+    #
+    # Catastrophic disturbance week help:
+    #       <= 18 if you want the plants to regrow somewhat
+    #       19 if you want to kill all the seeds, 
+    #       20 if you want them to drop, 
+    #       21 <= later if you want to kill some % of the seedlines
 
 # Seed introduction
 SeedRainType = [0]
@@ -83,8 +92,8 @@ base_params =  [IC_vers,
                 propRemove,
                 BelGrazProb,
                 BelGrazPerc,
-                CatastrMort_Plant,
-                CatastrMort_Seed,
+                CatastrDist_Mort,
+                CatastrDist_Week,
                 SeedRainType,
                 SeedInput]
 
@@ -128,7 +137,7 @@ SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
                 "ARes Bres " + \
                 "GrazProb PropRemove " + \
                 "BelGrazProb BelGrazPerc " + \
-                "CatastrophicPlantMortality CatastrophicSeedMortality " + \
+                "CatastrMortality CatastrDistWeek " + \
                 "SeedRainType SeedInput " + \
                 "weekly ind_out pft_out srv_out trait_out meta_out NameInitFile\n"
 

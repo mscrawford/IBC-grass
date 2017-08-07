@@ -106,7 +106,7 @@ public:
 	int GetNRamets();   // return number of ramets
 
 	static double getPalatability(const std::shared_ptr<CPlant> & p) {
-		return p->mshoot * p->Traits->GrazFac();
+		return p->mshoot * p->Traits->GrazFraction();
 	}
 
 	static double getShootGeometry(const std::shared_ptr<CPlant> & p) {

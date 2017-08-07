@@ -97,7 +97,7 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::RunPara.BelGrazProb 				// Belowground grazing: probability
 		>> SRunPara::RunPara.BelGrazPerc 				// Belowground grazing: proportion of biomass removed
 		>> SRunPara::RunPara.CatastrophicPlantMortality // Catastrophic Disturbance: Percent of plant removal during Catastrophic Disturbance
-		>> SRunPara::RunPara.CatastrophicSeedMortality	// Catastrophic Disturbance: Percent of seed removal during Catastrophic Disturbance
+		>> SRunPara::RunPara.CatastrophicDistWeek		// Catastrophic Disturbance: Week of the disturbance
 		>> SRunPara::RunPara.SeedRainType				// Seed Rain: Off/On/Type
 		>> SRunPara::RunPara.SeedInput					// Seed Rain: Number of seeds to input per SeedRain event
 		>> SRunPara::RunPara.weekly						// Output: Weekly output rather than yearly

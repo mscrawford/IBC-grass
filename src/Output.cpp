@@ -16,7 +16,7 @@ const vector<string> Output::param_header
 			"ARes", "BRes",
 			"GrazProb", "PropRemove",
 			"BelGrazProb", "BelGrazPerc",
-			"CatastrophicPlantMortality", "CatastrophicSeedMortality",
+			"CatastrophicMortality", "CatastrophicDistWeek",
 			"SeedRainType", "SeedInput"
 	});
 
@@ -221,7 +221,7 @@ void Output::print_param()
 	ss << SRunPara::RunPara.BelGrazProb 				<< ", ";
 	ss << SRunPara::RunPara.BelGrazPerc 				<< ", ";
 	ss << SRunPara::RunPara.CatastrophicPlantMortality 	<< ", ";
-	ss << SRunPara::RunPara.CatastrophicSeedMortality 	<< ", ";
+	ss << SRunPara::RunPara.CatastrophicDistWeek 		<< ", ";
 	ss << SRunPara::RunPara.SeedRainType 				<< ", ";
 	ss << SRunPara::RunPara.SeedInput						   ;
 
@@ -377,7 +377,6 @@ void Output::print_ind(const std::vector< std::shared_ptr<CPlant> > & PlantList)
 
 void Output::print_meta()
 {
-
 	std::ostringstream ss;
 
 	ss << SRunPara::RunPara.getSimID()					<< ", ";

@@ -56,6 +56,7 @@ public:
 
 	static void ReadLandscape(); 	// Populated grid space with resources
 	void GetSim(std::string data); 	// Simulation read in
+	void InitRun();
 
 	static void ResetT() {
 		year = 1;
