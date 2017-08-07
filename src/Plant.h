@@ -72,19 +72,19 @@ public:
 	bool stressed();								// return true if plant is stressed
 	void weeklyReset();								// reset competitive parameters that depend on current biomass
 	double RemoveShootMass();  						// removal of aboveground biomass by grazing
-	void RemoveRootMass(const double mass_removed); // removal of belowground biomass by root herbivory
-	double comp_coef(const int layer, const int symmetry) const; // competition coefficient for a plant (for AboveComp and BelowComp)
+	void RemoveRootMass(const double& mass_removed); // removal of belowground biomass by root herbivory
+	double comp_coef(const int& layer, const int& symmetry) const; // competition coefficient for a plant (for AboveComp and BelowComp)
 
 	double minresA() { return Traits->mThres * Ash_disc * Traits->Gmax; } // lower threshold of aboveground resource uptake
 	double minresB() { return Traits->mThres * Art_disc * Traits->Gmax; } // lower threshold of belowground resource uptake
 
 	double GetMass() { return mshoot + mroot + mRepro; }
 
-	double getHeight(double const height_conversion_constant = 6.5) {
+	double getHeight(double const& height_conversion_constant = 6.5) {
 		return pow(mshoot / (Traits->LMR), 1 / 3.0) * height_conversion_constant; }
 
 	// MSC: This is derived from "CPlant::getHeight"
-	double getBiomassAtHeight(double const height, double const height_conversion_constant = 6.5) {
+	double getBiomassAtHeight(double const& height, double const& height_conversion_constant = 6.5) {
 		return ( (pow(height, 3) * Traits->LMR) / pow(height_conversion_constant, 3) );
 	}
 
@@ -96,7 +96,7 @@ public:
 	void setCell(CCell* cell);
 	CCell* getCell() { return cell; }
 
-	std::string pft() { return this->Traits->name; }// say what a pft you are
+	std::string pft() { return this->Traits->name; } // say what a pft you are
 
 	void setGenet(std::shared_ptr<CGenet> genet);
 	std::shared_ptr<CGenet> getGenet() { return genet; }
@@ -105,32 +105,20 @@ public:
 	int GetNSeeds(); 	// returns number of seeds of one plant individual. Clears mRepro.
 	int GetNRamets();   // return number of ramets
 
-	//-----------------------------------------------------------------------------
-	// functions that are used for STL algorithms (sort + partition)
+	static double getPalatability(const std::shared_ptr<CPlant> & p) {
+		return p->mshoot * p->Traits->GrazFac();
+	}
+
+	static double getShootGeometry(const std::shared_ptr<CPlant> & p) {
+		return (p->mshoot / p->Traits->LMR);
+	}
 
 	// return if plant should be removed (necessary to apply algorithms from STL)
-	static bool GetPlantRemove(const std::shared_ptr<CPlant> p)
+	static bool GetPlantRemove(const std::shared_ptr<CPlant> & p)
 	{
 		return p->remove;
 	}
 
-	// sort plant individuals descending after shoot size * palatability
-	static bool ComparePalat(const std::shared_ptr<CPlant> p1, const std::shared_ptr<CPlant> p2)
-	{
-		return ((p1->mshoot * p1->Traits->GrazFac()) > (p2->mshoot * p2->Traits->GrazFac()));
-	}
-
-	// sort plants descending after shoot size (mass*1/LMR)
-	static bool CompareShoot(const std::shared_ptr<CPlant> p1, const std::shared_ptr<CPlant> p2)
-	{
-		return ((p1->mshoot / p1->Traits->LMR) > (p2->mshoot / p2->Traits->LMR));
-	}
-
-	/// sort plants descending after root mass
-	static bool CompareRoot(const std::shared_ptr<CPlant> p1, const std::shared_ptr<CPlant> p2)
-	{
-		return (p1->mroot > p2->mroot);
-	}
 };
 
 #endif

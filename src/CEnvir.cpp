@@ -53,16 +53,13 @@ CEnvir::~CEnvir()
  Later the function can read source files of values <100\% autocorrelated or
  generate some noise around fixed values etc..
  */
-void CEnvir::ReadLandscape() {
-	//100% autocorrelated values
-	AResMuster.clear();
-	BResMuster.clear();
-
+void CEnvir::ReadLandscape()
+{
 	AResMuster = vector<double>(vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
 								SRunPara::RunPara.meanARes);
 	BResMuster = vector<double>(vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
 								SRunPara::RunPara.meanBRes);
-}  //end ReadLandscape
+}
 
 //------------------------------------------------------------------------------
 /**
@@ -108,7 +105,7 @@ void CEnvir::GetSim(string data)
 		>> SRunPara::RunPara.PFT_out					// Output: PFT-level output
 		>> SRunPara::RunPara.srv_out					// Output: End-of-run survival output
 		>> SRunPara::RunPara.trait_out					// Output: Trait-level output
-		// Output: Meta-level output
+		>> SRunPara::RunPara.meta_out					// Output: Meta-level output
 		>> SRunPara::NamePftFile 						// Input: Name of input community (PFT intialization) file
 		;
 

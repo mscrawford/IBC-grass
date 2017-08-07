@@ -198,6 +198,9 @@ void CGridEnvir::SeedRain()
 		{
 			case 1:
 				n = SRunPara::RunPara.SeedInput;
+				break;
+			default:
+				exit(1);
 		}
 
 		CGrid::InitClonalSeeds(PFT_ID, n, 1.0);

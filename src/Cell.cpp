@@ -111,16 +111,22 @@ virtual function will be substituted by comp function from sub class
 */
 void CCell::AboveComp()
 {
-   if (AbovePlantList.empty()) return;
+	if (AbovePlantList.empty())
+		return;
 
-   if (SRunPara::RunPara.AboveCompMode == asymtot)
-   {
-     // total asymmetry only for above plant competition
-      sort(AbovePlantList.begin(), AbovePlantList.end(), CPlant::CompareShoot);
-      shared_ptr<CPlant> plant = *AbovePlantList.begin(); // biggest plant
-      plant->Auptake += AResConc;
-      return;
-   }
+	if (SRunPara::RunPara.AboveCompMode == asymtot)
+	{
+		shared_ptr<CPlant> p =
+				*std::max_element(AbovePlantList.begin(), AbovePlantList.end(),
+						[](const shared_ptr<CPlant> & a, const shared_ptr<CPlant> & b)
+						{
+							return CPlant::getShootGeometry(a) < CPlant::getShootGeometry(b);
+						});
+
+		p->Auptake += AResConc;
+
+		return;
+	}
 
 	int symm;
 	if (SRunPara::RunPara.AboveCompMode == asympart)
@@ -132,23 +138,23 @@ void CCell::AboveComp()
 		symm = 1;
 	}
 
-   double comp_tot = 0;
-   double comp_c = 0;
+	double comp_tot = 0;
+	double comp_c = 0;
 
-   //1. sum of resource requirement
+	//1. sum of resource requirement
 	for (auto plant : AbovePlantList)
 	{
 		comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
 	}
 
-   //2. distribute resources
+	//2. distribute resources
 	for (auto plant : AbovePlantList)
 	{
 		comp_c = plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
 		plant->Auptake += AResConc * comp_c / comp_tot;
 	}
 
-   aComp_weekly = comp_tot;
+	aComp_weekly = comp_tot;
 }
 
 //-----------------------------------------------------------------------------

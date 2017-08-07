@@ -19,7 +19,9 @@ CGrid::CGrid()
 	ZOIBase = vector<int>(SRunPara::RunPara.GetSumCells(), 0);
 
 	for (unsigned int i = 0; i < ZOIBase.size(); i++)
+	{
 		ZOIBase[i] = i;
+	}
 
 	sort(ZOIBase.begin(), ZOIBase.end(), CompareIndexRel);
 
@@ -94,7 +96,7 @@ CGrid::~CGrid()
  */
 void CGrid::PlantLoop()
 {
-	for (auto p : PlantList)
+	for (auto const& p : PlantList)
 	{
 		if (SRunPara::RunPara.ITV == on)
 			assert(p->Traits->myTraitType == SPftTraits::individualized);
@@ -155,7 +157,7 @@ void getTargetCell(int& xx, int& yy, const float mean, const float sd)
 
  \return list of seeds to disperse per LDD
  */
-void CGrid::DispersSeeds(std::shared_ptr<CPlant> plant)
+void CGrid::DispersSeeds(const std::shared_ptr<CPlant> & plant)
 {
 	int px = plant->getCell()->x;
 	int py = plant->getCell()->y;
@@ -190,35 +192,33 @@ void CGrid::DispersSeeds(std::shared_ptr<CPlant> plant)
 
 //---------------------------------------------------------------------------
 
-void CGrid::DispersRamets(std::shared_ptr<CPlant> plant)
+void CGrid::DispersRamets(const std::shared_ptr<CPlant> & p)
 {
-	assert(plant->Traits->clonal);
+	assert(p->Traits->clonal);
 
-	if (plant->GetNRamets() == 1)
+	if (p->GetNRamets() == 1)
 	{
 		double distance = -1;
 
 		while (distance <= 0)
 		{
-			distance = CEnvir::rng.getGaussian(
-					plant->Traits->meanSpacerlength,
-					plant->Traits->sdSpacerlength);
+			distance = CEnvir::rng.getGaussian(p->Traits->meanSpacerlength, p->Traits->sdSpacerlength);
 		}
 
 		// uniformly distributed direction
 		double direction = 2 * Pi * CEnvir::rng.get01();
-		int x = round(plant->getCell()->x + cos(direction) * distance);
-		int y = round(plant->getCell()->y + sin(direction) * distance);
+		int x = round(p->getCell()->x + cos(direction) * distance);
+		int y = round(p->getCell()->y + sin(direction) * distance);
 
 		// periodic boundary condition
 		Boundary(x, y);
 
 		// save distance and direction in the plant
-		std::shared_ptr<CPlant> Spacer = make_shared<CPlant>(x, y, plant);
+		std::shared_ptr<CPlant> Spacer = make_shared<CPlant>(x, y, p);
 		Spacer->spacerLengthToGrow = distance;
 		Spacer->spacerLength = distance;
 		Spacer->spacerDirection = direction;
-		plant->growingSpacerList.push_back(Spacer);
+		p->growingSpacerList.push_back(Spacer);
 	}
 }
 
@@ -235,7 +235,7 @@ void CGrid::DispersRamets(std::shared_ptr<CPlant> plant)
  */
 void CGrid::CoverCells()
 {
-	for (auto plant : PlantList)
+	for (auto const& plant : PlantList)
 	{
 		double Ashoot = plant->Area_shoot();
 		plant->Ash_disc = floor(Ashoot) + 1;
@@ -293,7 +293,7 @@ void CGrid::ResetWeeklyVariables()
 		cell->weeklyReset();
 	}
 
-	for (auto p : PlantList)
+	for (auto const& p : PlantList)
 	{
 		p->weeklyReset();
 	}
@@ -322,7 +322,7 @@ void CGrid::DistribResource()
  */
 void CGrid::Resshare()
 {
-	for (auto Genet : GenetList)
+	for (auto const& Genet : GenetList)
 	{
 		if (Genet->AllRametList.size() > 1) // A ramet cannot share with itself
 		{
@@ -341,7 +341,7 @@ void CGrid::Resshare()
 
 void CGrid::EstablishmentLottery()
 {
-	for (auto plant : PlantList)
+	for (auto const& plant : PlantList)
 	{
 		if (plant->Traits->clonal && !plant->dead)
 		{
@@ -413,11 +413,11 @@ void CGrid::EstablishSeedling(unique_ptr<CSeed> const& seed)
  the genet's ramet list as well as erased
  from the spacer list of the mother plant.
  */
-void CGrid::RametEstab(std::shared_ptr<CPlant> plant)
+void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 {
 	vector< std::shared_ptr<CPlant> > rametsToKeep;
 
-	for (auto Ramet : plant->growingSpacerList)
+	for (auto const& Ramet : plant->growingSpacerList)
 	{
 		if (Ramet->spacerLengthToGrow > 0)
 		{
@@ -543,7 +543,7 @@ void CGrid::Disturb()
 void CGrid::RunCatastrophicDisturbance()
 {
 	// Disturb plants
-	for (auto p : PlantList)
+	for (auto const& p : PlantList)
 	{
 		if (p->dead)
 			continue;
@@ -592,25 +592,28 @@ void CGrid::GrazingAbvGr()
 
 	while (MassRemoved < MaxMassRemove)
 	{
-		sort(PlantList.begin(), PlantList.end(), CPlant::ComparePalat);
+		shared_ptr<CPlant> p = *std::max_element(PlantList.begin(), PlantList.end(),
+				[](const shared_ptr<CPlant> & a, const shared_ptr<CPlant> & b)
+				{
+					return CPlant::getPalatability(a) < CPlant::getPalatability(b);
+				});
 
-		std::shared_ptr<CPlant> plant = *PlantList.begin();
+		double max_palatability = CPlant::getPalatability(p);
 
-		double max = plant->mshoot * plant->Traits->GrazFac();
+        random_shuffle(PlantList.begin(), PlantList.end());
+//		shuffle( PlantList.begin(), PlantList.end(), CEnvir::rng.getRNG() );
 
-		random_shuffle(PlantList.begin(), PlantList.end());
-
-		for (auto lplant : PlantList)
+		for (auto const& plant : PlantList)
 		{
 			if (MassRemoved >= MaxMassRemove)
 			{
 				break;
 			}
 
-			double grazingProb = (lplant->mshoot * lplant->Traits->GrazFac()) / max;
+			double grazProb = CPlant::getPalatability(plant) / max_palatability;
 
-			if (CEnvir::rng.get01() < grazingProb)
-				MassRemoved += lplant->RemoveShootMass();
+			if (CEnvir::rng.get01() < grazProb)
+				MassRemoved += plant->RemoveShootMass();
 		}
 	}
 }
@@ -621,7 +624,7 @@ void CGrid::GrazingAbvGr()
  */
 void CGrid::Cutting(double cut_height)
 {
-	for (auto i : PlantList)
+	for (auto const& i : PlantList)
 	{
 		if (i->getHeight() > cut_height)
 		{
@@ -634,108 +637,110 @@ void CGrid::Cutting(double cut_height)
 }
 
 //-----------------------------------------------------------------------------
-
-void CGrid::GrazingBelGr() {
-
-	auto generateLivingPlants = [](const vector<shared_ptr<CPlant>> & i) {
-		vector< shared_ptr<CPlant> > j;
-		for (auto p : i)
+void CGrid::GrazingBelGr()
+	{
+		auto sumLivingRootMass = [](const vector< shared_ptr<CPlant> > & l)
 		{
-			if (!p->dead)
+			double r = 0;
+			for (auto const& p : l)
 			{
-				j.push_back(p);
+				if ( !p->dead ) {
+					r += p->mroot;
+				}
 			}
-		}
-		return j;
-	};
+			return r;
+		};
 
-	auto sumRootMass = [](const vector<std::shared_ptr<CPlant>> & i) {
-		double r = 0;
-		for (auto p : i) {
-			r += p->mroot;
-		}
-		return r;
-	};
-
-	auto mean = [](const vector<double> & l) {
-		double t = 0;
-		for (auto i : l)
+		auto mean = [](const vector<double> & l)
 		{
-			t += i;
-		}
-		return t / l.size();
-	};
+			double t = 0;
+			for (auto const& i : l) {
+				t += i;
+			}
+			return t / l.size();
+		};
 
-	assert(!CGrid::below_biomass_history.empty());
+		assert(!CGrid::below_biomass_history.empty());
 
-	double bt = sumRootMass(generateLivingPlants(PlantList)); // Total root biomass
-	double biomass_removed = 0;
-	const double alpha = 2.0;
+		double bt = sumLivingRootMass(PlantList);
+		double biomass_removed = 0;
+		const double alpha = 2.0;
 
-	double fn_o;
-	if (CGrid::below_biomass_history.size() > 60)
-	{
-		std::vector<double> rolling_mean(CGrid::below_biomass_history.end() - 60, // parameterize this...
-										 CGrid::below_biomass_history.end());
-		fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
-	}
-	else
-	{
-		std::vector<double> rolling_mean(CGrid::below_biomass_history.begin(), // parameterize this...
-										 CGrid::below_biomass_history.end());
-		fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
-	}
-
-	// Functional response
-	if (bt-fn_o < bt*SRunPara::RunPara.BelGrazResidualPerc)
-	{
-		fn_o = bt - bt*SRunPara::RunPara.BelGrazResidualPerc;
-	}
-	double fn = fn_o;
-
-	CEnvir::output.blwgrnd_graz_pressure_history.push_back(fn_o);
-
-	while (ceil(biomass_removed) < fn_o)
-	{
-		vector< std::shared_ptr<CPlant> > livingPlants = generateLivingPlants(PlantList);
-		bt = sumRootMass(livingPlants);
-
-		double bite = 0;
-		for (auto p : livingPlants)
+		double fn_o;
+		if (CGrid::below_biomass_history.size() > 60) // parameterize this...
 		{
-			bite += pow(p->mroot / bt, alpha) * fn;
+			std::vector<double> rolling_mean(
+					CGrid::below_biomass_history.end() - 60,
+					CGrid::below_biomass_history.end());
+			fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
 		}
-		bite = fn / bite;
-
-		double leftovers = 0; // When a plant is eaten to death, this is the overshoot from the algorithm
-		for (auto p : livingPlants)
+		else
 		{
-			double biomass_to_remove = pow(p->mroot / bt, alpha) * fn * bite;
+			std::vector<double> rolling_mean(
+					CGrid::below_biomass_history.begin(),
+					CGrid::below_biomass_history.end());
+			fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
+		}
 
-			if (biomass_to_remove > p->mroot)
+		// Functional response
+		if (bt - fn_o < bt * SRunPara::RunPara.BelGrazResidualPerc)
+		{
+			fn_o = bt - bt * SRunPara::RunPara.BelGrazResidualPerc;
+		}
+		double fn = fn_o;
+
+		CEnvir::output.blwgrnd_graz_pressure_history.push_back(fn_o);
+
+		double br = 0; // biomass removed in one iteration
+		while (ceil(biomass_removed) < fn_o)
+		{
+			br = 0;
+
+			double bite = 0;
+			for (auto const& p : PlantList)
 			{
-				leftovers += (biomass_to_remove - p->mroot);
-				biomass_removed += p->mroot;
-				p->mroot = 0;
-				p->dead = true;
+				if (!p->dead) {
+					bite += pow(p->mroot / bt, alpha) * fn;
+				}
 			}
-			else
-			{
-				p->RemoveRootMass(biomass_to_remove);
-				biomass_removed += biomass_to_remove;
-			}
-			assert(sumRootMass(livingPlants) > 0);
-		}
+			bite = fn / bite;
 
-		fn = leftovers;
+			double leftovers = 0; // When a plant is eaten to death, this is the overshoot from the algorithm
+			for (auto const& p : PlantList)
+			{
+				if (p->dead) {
+					continue;
+				}
+
+				double biomass_to_remove = pow(p->mroot / bt, alpha) * fn * bite;
+
+				if (biomass_to_remove > p->mroot)
+				{
+					leftovers += (biomass_to_remove - p->mroot);
+					br += p->mroot;
+					p->mroot = 0;
+					p->dead = true;
+				}
+				else
+				{
+					p->RemoveRootMass(biomass_to_remove);
+					br += biomass_to_remove;
+				}
+			}
+
+			biomass_removed = biomass_removed + br;
+			bt = bt - br;
+			fn = leftovers;
+
+			assert(bt > 0);
+		}
 	}
-}
 
 //-----------------------------------------------------------------------------
 
 void CGrid::RemovePlants() {
 
-	auto removePlant = [] (shared_ptr<CPlant> p) {
+	auto removePlant = [] (const shared_ptr<CPlant> & p) {
 		if ( CPlant::GetPlantRemove(p) )
 		{
 			auto Genet = p->getGenet();
@@ -759,7 +764,7 @@ void CGrid::RemovePlants() {
 void CGrid::Winter()
 {
 	RemovePlants();
-	for (auto p : PlantList)
+	for (auto const& p : PlantList)
 	{
 		p->WinterLoss();
 	}
@@ -851,7 +856,7 @@ double Distance(const double& xx, const double& yy, const double& x, const doubl
 	return sqrt((xx - x) * (xx - x) + (yy - y) * (yy - y));
 }
 
-bool CompareIndexRel(int i1, int i2)
+bool CompareIndexRel(const int& i1, const int& i2)
 {
 	const int n = SRunPara::RunPara.GridSize;
 
@@ -876,7 +881,7 @@ void Boundary(int& xx, int& yy)
 
 //---------------------------------------------------------------------------
 
-bool Emmigrates(int& xx, int& yy)
+bool Emmigrates(const int& xx, const int& yy)
 {
 	if (xx < 0 || xx >= SRunPara::RunPara.GridSize)
 		return true;
@@ -890,7 +895,7 @@ bool Emmigrates(int& xx, int& yy)
 double CGrid::GetTotalAboveMass() {
 	double above_mass = 0;
 
-	for (auto p : PlantList)
+	for (auto const& p : PlantList)
 	{
 		above_mass += p->mshoot + p->mRepro;
 	}
@@ -902,7 +907,7 @@ double CGrid::GetTotalAboveMass() {
 double CGrid::GetTotalBelowMass() {
 	double below_mass = 0;
 
-	for (auto p : PlantList)
+	for (auto const& p : PlantList)
 	{
 		below_mass += p->mroot;
 	}
@@ -911,10 +916,10 @@ double CGrid::GetTotalBelowMass() {
 
 //-----------------------------------------------------------------------------
 
-int CGrid::GetNclonalPlants() //count clonal plants
+int CGrid::GetNclonalPlants()
 {
 	int NClonalPlants = 0;
-	for (auto p : PlantList)
+	for (auto const& p : PlantList)
 	{
 		if (p->Traits->clonal && !p->dead)
 		{
@@ -929,7 +934,7 @@ int CGrid::GetNclonalPlants() //count clonal plants
 int CGrid::GetNPlants() //count non-clonal plants
 {
 	int NPlants = 0;
-	for (auto p : PlantList)
+	for (auto const& p : PlantList)
 	{
 		//only if its a non-clonal plant
 		if (!p->Traits->clonal && !p->dead)

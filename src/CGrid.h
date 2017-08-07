@@ -19,8 +19,8 @@ class CGrid
 
 private:
 	std::vector< std::shared_ptr<CGenet> > GenetList;
-	void RametEstab(std::shared_ptr<CPlant> plant);   	// establish ramets
-	void Resshare();                	// share resources among connected ramets
+	void RametEstab(const std::shared_ptr<CPlant> & plant); // establish ramets
+	void Resshare();                						// share resources among connected ramets
 	void EstablishSeedling(const std::unique_ptr<CSeed> & seed);
 
 protected:
@@ -28,8 +28,8 @@ protected:
 	void RemovePlants(); 		// removes dead plants from the grid and deletes them
 	void PlantLoop();			// loop over all plants including growth, seed dispersal and mortality
 	void DistribResource();		// distributes resource to each plant --> calls competition functions
-	void DispersSeeds(std::shared_ptr<CPlant> plant);
-	void DispersRamets(std::shared_ptr<CPlant> plant); 	// initiate new ramets
+	void DispersSeeds(const std::shared_ptr<CPlant> & plant);
+	void DispersRamets(const std::shared_ptr<CPlant> & plant); 	// initiate new ramets
 	void EstablishmentLottery();// lottery competition for seedling establishment
 	void Winter();				// calls seed mortality and mass removal of plants
 
@@ -45,8 +45,8 @@ protected:
 	void SetCellResource();				// Populates the grid with resources (weekly)
 
 public:
-	std::vector< std::shared_ptr<CPlant> > PlantList;    	// List of plant individuals
-	CCell** CellList;    				// array of pointers to CCell
+	std::vector< std::shared_ptr<CPlant> > PlantList;   // List of plant individuals
+	CCell** CellList;    								// array of pointers to CCell
 	std::vector<int> above_biomass_history;
 	std::vector<int> below_biomass_history;
 
@@ -72,7 +72,7 @@ static std::vector<int> ZOIBase;
 void Boundary(int& xx, int& yy);
 
 /// test for emmigration
-bool Emmigrates(int& xx, int& yy);
+bool Emmigrates(const int& xx, const int& yy);
 
 ///dispersal kernel for seeds
 void getTargetCell(int& xx, int& yy, const float mean, const float sd);
@@ -81,7 +81,7 @@ void getTargetCell(int& xx, int& yy, const float mean, const float sd);
 double Distance(const double& xx, const double& yy, const double& x = 0, const double& y = 0);
 
 ///compare two index-values in their distance to the center of grid
-bool CompareIndexRel(int i1, int i2);
+bool CompareIndexRel(const int& i1, const int& i2);
 
 //---------------------------------------------------------------------------
 #endif

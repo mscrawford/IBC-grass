@@ -15,7 +15,7 @@ void CGenet::ResshareA()
   double sumAuptake=0;
   double MeanAuptake=0;
 
-	for (auto ramet : AllRametList)
+	for (auto const& ramet : AllRametList)
 	{
 		double AddtoSum = 0;
 		double minres = ramet->Traits->mThres * ramet->Ash_disc * ramet->Traits->Gmax * 2;
@@ -30,7 +30,7 @@ void CGenet::ResshareA()
 	}
 	MeanAuptake = sumAuptake / AllRametList.size();
 
-	for (auto ramet : AllRametList)
+	for (auto const& ramet : AllRametList)
 	{
 		ramet->Auptake += MeanAuptake;
 	}
@@ -43,7 +43,7 @@ void CGenet::ResshareB()
 	double sumBuptake = 0;
 	double MeanBuptake = 0;
 
-	for (auto ramet : AllRametList)
+	for (auto const& ramet : AllRametList)
 	{
 		double AddtoSum = 0;
 		double minres = ramet->Traits->mThres * ramet->Art_disc * ramet->Traits->Gmax * 2;
@@ -59,7 +59,7 @@ void CGenet::ResshareB()
 
 	MeanBuptake = sumBuptake / AllRametList.size();
 
-	for (auto ramet : AllRametList)
+	for (auto const& ramet : AllRametList)
 	{
 		ramet->Buptake += MeanBuptake;
 	}

@@ -255,7 +255,7 @@ void Output::print_trait()
 
 }
 
-void Output::print_srv_and_PFT(std::vector< std::shared_ptr<CPlant> > & PlantList)
+void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<CPlant> > & PlantList)
 {
 
 	// Create the data structure necessary to aggregate individuals
@@ -266,7 +266,7 @@ void Output::print_srv_and_PFT(std::vector< std::shared_ptr<CPlant> > & PlantLis
 	}
 
 	// Aggregate individuals
-	for (auto p : PlantList)
+	for (auto const& p : PlantList)
 	{
 		if (SRunPara::RunPara.PFT_out != 2 && p->dead) continue; // If PFT_out is 2, it will print "dead" PFTs
 
@@ -335,9 +335,9 @@ void Output::print_srv_and_PFT(std::vector< std::shared_ptr<CPlant> > & PlantLis
 	PFT_map.clear();
 }
 
-void Output::print_ind(std::vector< std::shared_ptr<CPlant> > & PlantList)
+void Output::print_ind(const std::vector< std::shared_ptr<CPlant> > & PlantList)
 {
-	for (auto p : PlantList)
+	for (auto const& p : PlantList)
 	{
 		if (p->dead) continue;
 
@@ -350,18 +350,18 @@ void Output::print_ind(std::vector< std::shared_ptr<CPlant> > & PlantList)
 		ss << CEnvir::week 					<< ", ";
 		ss << p->xcoord 					<< ", ";
 		ss << p->ycoord 					<< ", ";
-		ss << p->Traits->LMR 						<< ", ";
-		ss << p->Traits->m0 						<< ", ";
-		ss << p->Traits->MaxMass 					<< ", ";
-		ss << p->Traits->SeedMass 					<< ", ";
-		ss << p->Traits->Dist 						<< ", ";
-		ss << p->Traits->SLA 						<< ", ";
-		ss << p->Traits->palat 						<< ", ";
-		ss << p->Traits->Gmax 						<< ", ";
-		ss << p->Traits->memory 					<< ", ";
-		ss << p->Traits->clonal 					<< ", ";
-		ss << p->Traits->meanSpacerlength 			<< ", ";
-		ss << p->Traits->sdSpacerlength 			<< ", ";
+		ss << p->Traits->LMR 				<< ", ";
+		ss << p->Traits->m0 				<< ", ";
+		ss << p->Traits->MaxMass 			<< ", ";
+		ss << p->Traits->SeedMass 			<< ", ";
+		ss << p->Traits->Dist 				<< ", ";
+		ss << p->Traits->SLA 				<< ", ";
+		ss << p->Traits->palat 				<< ", ";
+		ss << p->Traits->Gmax 				<< ", ";
+		ss << p->Traits->memory 			<< ", ";
+		ss << p->Traits->clonal 			<< ", ";
+		ss << p->Traits->meanSpacerlength 	<< ", ";
+		ss << p->Traits->sdSpacerlength 	<< ", ";
 		ss << p->Age 						<< ", ";
 		ss << p->mshoot						<< ", ";
 		ss << p->mroot 						<< ", ";

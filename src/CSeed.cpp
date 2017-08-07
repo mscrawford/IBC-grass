@@ -11,7 +11,7 @@ using namespace std;
 /*
  * Constructor for normal reproduction
  */
-CSeed::CSeed(shared_ptr<CPlant> plant, CCell* _cell) :
+CSeed::CSeed(const shared_ptr<CPlant> & plant, CCell* _cell) :
 		cell(NULL),
 		Age(0), remove(false)
 {

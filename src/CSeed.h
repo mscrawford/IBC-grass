@@ -21,7 +21,7 @@ class CSeed
 	   int Age;
 	   bool remove;
 
-	   CSeed(std::shared_ptr<CPlant> plant, CCell* cell);
+	   CSeed(const std::shared_ptr<CPlant> & plant, CCell* cell);
 	   CSeed(std::string PFT_ID, CCell* cell, double estab);
 	   ~CSeed();
 

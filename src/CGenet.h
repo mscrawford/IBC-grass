@@ -14,6 +14,7 @@ class CPlant;
  */
 class CGenet
 {
+
 public:
    static int staticID;
    int genetID;
@@ -24,7 +25,7 @@ public:
 
    void ResshareA();     // share above-ground resources
    void ResshareB();     // share below-ground resources
+
 };
 
 #endif
-

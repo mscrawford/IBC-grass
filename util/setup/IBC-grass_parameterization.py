@@ -23,10 +23,10 @@ H_VMEM   = "2G"         # Memory for each simulation run
 weekly    = 0 # Print output yearly (0) or weekly (1)?
 
 ind_out   = 0 # Print individual-level output?           (0) No; (1) Yes
-pft_out   = 2 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
-srv_out   = 1 # Print PFT-survival output:               (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
-trait_out = 1 # Print trait-level output:                (0) No; (1) Yes
-meta_out  = 1 # Print output about the environment, etc. (0) No; (1) Year
+pft_out   = 1 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
+srv_out   = 0 # Print PFT-survival output:               (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
+trait_out = 0 # Print trait-level output:                (0) No; (1) Yes
+meta_out  = 0 # Print output about the environment, etc. (0) No; (1) Year
 
 # Number of repetitions
 N_REPS    = 1
@@ -50,18 +50,18 @@ SIGMA = [0] # Variability with which the time series changes
 
 # Resource levels
 ARes  = [90]
-BRes  = [30, 60, 90] # With belowground environmental variation, this MUST be NA
+BRes  = [60, 90] # With belowground environmental variation, this MUST be NA
 
 # Aboveground grazing 
-GrazProb   = [0.25]
+GrazProb   = [0.3, 0.5, 0.7]
 propRemove = [0.5]
 
 # Belowground grazing
-BelGrazProb = [0, 1]
+BelGrazProb = [0]
 BelGrazPerc = [0]
 
 # Catastrophic disturbance
-CatastrMort_Plant = [1]
+CatastrMort_Plant = [0]
 CatastrMort_Seed  = [0]
 
 # Seed introduction
@@ -130,7 +130,8 @@ SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
                 "BelGrazProb BelGrazPerc " + \
                 "CatastrophicPlantMortality CatastrophicSeedMortality " + \
                 "SeedRainType SeedInput " + \
-                "weekly ind_out pft_out srv_out trait_out NameInitFile\n"
+                "weekly ind_out pft_out srv_out trait_out meta_out NameInitFile\n"
+
 
 PFT_HEADER = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                 "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
@@ -229,7 +230,9 @@ def buildPFTs():
                     continue
 
                 SimNr += 1 # IBC-grass will barf if SimNr starts with 0.
-                SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), Com_FN, "\n"]))
+                SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), \
+                    str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), str(meta_out), Com_FN, "\n"]))
+
 
                 # community's PFT file    
             with open(PATH + Com_FN, 'w') as w: 
@@ -282,7 +285,9 @@ def buildPairs():
             SimNr += 1 # IBC-grass will barf if SimNr starts with 0.
             PFT_FN = "Pair_" + str(ComNr) + ".txt"
 
-            SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), PFT_FN, "\n"]))
+            SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), \
+                str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), str(meta_out), PFT_FN, "\n"]))
+
 
         # PFT pair's PFT_file
         with open(PATH + PFT_FN, 'w') as w:

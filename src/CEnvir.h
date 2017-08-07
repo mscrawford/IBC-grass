@@ -52,7 +52,7 @@ public:
 	static int RunNr;       	// repetition number
 
 	CEnvir();
-	virtual ~CEnvir();
+	~CEnvir();
 
 	static void ReadLandscape(); 	// Populated grid space with resources
 	void GetSim(std::string data); 	// Simulation read in
@@ -73,20 +73,10 @@ public:
 	/*
 	 * Helper function for comparing floating point numbers for equality
 	 */
-	static bool AreSame(double a, double b) {
+	static bool AreSame(double const& a, double const& b) {
 	    return std::fabs(a - b) < std::numeric_limits<double>::epsilon();
 	}
 
-	/**
-	 * \name core simulation functions (virtual)
-	 * Functions needed for simulation runs.
-	 * To be defined in inheriting classes.
-	 */
-	void InitRun();   // init a new run
-	void OneWeek(); // calls all weekly processes
-	void OneYear(); // runs one year in default mode
-	void OneRun();  // runs one simulation run in default mode
-
 };
-//---------------------------------------------------------------------------
+
 #endif

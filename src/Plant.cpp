@@ -19,9 +19,9 @@ using namespace std;
 int CPlant::numPlants = 0;
 
 CPlant::CPlant(const unique_ptr<CSeed> & seed) :
-		cell(NULL), mReproRamets(0), genet(NULL), Age(0),
+		cell(NULL), mReproRamets(0), genet(NULL),
 		plantID(++numPlants), xcoord(0), ycoord(0),
-		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
+		Age(0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
 		stress(0), dead(false), remove(false),
 		spacerLength(0), spacerDirection(0), spacerLengthToGrow(0)
 {
@@ -52,9 +52,9 @@ CPlant::CPlant(const unique_ptr<CSeed> & seed) :
  * Genet is the same as for plant
  */
 CPlant::CPlant(double x, double y, const std::shared_ptr<CPlant> & plant) :
-		cell(NULL), mReproRamets(0), genet(plant->genet), Age(0),
+		cell(NULL), mReproRamets(0), genet(plant->genet),
 		plantID(++numPlants), xcoord(x), ycoord(y),
-		mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
+		Age(0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
 		stress(0), dead(false), remove(false),
 		spacerLength(0), spacerDirection(0), spacerLengthToGrow(0)
 {
@@ -104,11 +104,10 @@ void CPlant::setGenet(shared_ptr<CGenet> _genet)
  * \param
  */
 void CPlant::setCell(CCell* _cell) {
-	if (this->cell == NULL && _cell != NULL)
-	{
-		this->cell = _cell;
-		this->cell->occupied = true;
-	}
+	assert(this->cell == NULL && _cell != NULL);
+
+	this->cell = _cell;
+	this->cell->occupied = true;
 }
 
 //---------------------------------------------------------------------------
@@ -172,7 +171,7 @@ void CPlant::SpacerGrow() {
 
 	double mGrowSpacer = mReproRamets / growingSpacerList.size(); //resources for one spacer
 
-	for (auto Spacer : growingSpacerList)
+	for (auto const& Spacer : growingSpacerList)
 	{
 		double lengthToGrow = Spacer->spacerLengthToGrow - (mGrowSpacer / Traits->mSpacer);
 
@@ -400,7 +399,7 @@ double CPlant::RemoveShootMass() {
  \return mass that was removed
  \since belowground herbivory simulations
  */
-void CPlant::RemoveRootMass(const double mass_removed)
+void CPlant::RemoveRootMass(const double& mass_removed)
 {
 	assert(mass_removed <= mroot);
 
@@ -434,7 +433,7 @@ void CPlant::WinterLoss()
  * @return competitive strength
  * \since revision
  */
-double CPlant::comp_coef(const int layer, const int symmetry) const
+double CPlant::comp_coef(const int& layer, const int& symmetry) const
 {
 	switch (symmetry)
 	{
