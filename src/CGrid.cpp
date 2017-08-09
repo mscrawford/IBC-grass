@@ -622,103 +622,106 @@ void CGrid::Cutting(double cut_height)
 
 //-----------------------------------------------------------------------------
 void CGrid::GrazingBelGr()
+{
+	auto sumLivingRootMass = [](const vector< shared_ptr<CPlant> > & l)
 	{
-		auto sumLivingRootMass = [](const vector< shared_ptr<CPlant> > & l)
+		double r = 0;
+		for (auto const& p : l)
 		{
-			double r = 0;
-			for (auto const& p : l)
+			if ( !p->dead )
 			{
-				if ( !p->dead ) {
-					r += p->mroot;
-				}
+				r += p->mroot;
 			}
-			return r;
-		};
-
-		auto mean = [](const vector<double> & l)
-		{
-			double t = 0;
-			for (auto const& i : l) {
-				t += i;
-			}
-			return t / l.size();
-		};
-
-		assert(!CGrid::below_biomass_history.empty());
-
-		double bt = sumLivingRootMass(PlantList);
-		double biomass_removed = 0;
-		const double alpha = 2.0;
-
-		double fn_o;
-		if (CGrid::below_biomass_history.size() > 60) // parameterize this...
-		{
-			std::vector<double> rolling_mean(
-					CGrid::below_biomass_history.end() - 60,
-					CGrid::below_biomass_history.end());
-			fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
 		}
-		else
+		return r;
+	};
+
+	auto mean = [](const vector<double> & l)
+	{
+		double t = 0;
+		for (auto const& i : l)
 		{
-			std::vector<double> rolling_mean(
-					CGrid::below_biomass_history.begin(),
-					CGrid::below_biomass_history.end());
-			fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
+			t += i;
 		}
+		return t / l.size();
+	};
 
-		// Functional response
-		if (bt - fn_o < bt * SRunPara::RunPara.BelGrazResidualPerc)
-		{
-			fn_o = bt - bt * SRunPara::RunPara.BelGrazResidualPerc;
-		}
-		double fn = fn_o;
+	assert(!CGrid::below_biomass_history.empty());
 
-		CEnvir::output.blwgrnd_graz_pressure_history.push_back(fn_o);
+	double bt = sumLivingRootMass(PlantList);
+	double biomass_removed = 0;
+	const double alpha = 2.0;
 
-		double br = 0; // biomass removed in one iteration
-		while (ceil(biomass_removed) < fn_o)
-		{
-			br = 0;
-
-			double bite = 0;
-			for (auto const& p : PlantList)
-			{
-				if (!p->dead) {
-					bite += pow(p->mroot / bt, alpha) * fn;
-				}
-			}
-			bite = fn / bite;
-
-			double leftovers = 0; // When a plant is eaten to death, this is the overshoot from the algorithm
-			for (auto const& p : PlantList)
-			{
-				if (p->dead) {
-					continue;
-				}
-
-				double biomass_to_remove = pow(p->mroot / bt, alpha) * fn * bite;
-
-				if (biomass_to_remove > p->mroot)
-				{
-					leftovers += (biomass_to_remove - p->mroot);
-					br += p->mroot;
-					p->mroot = 0;
-					p->dead = true;
-				}
-				else
-				{
-					p->RemoveRootMass(biomass_to_remove);
-					br += biomass_to_remove;
-				}
-			}
-
-			biomass_removed = biomass_removed + br;
-			bt = bt - br;
-			fn = leftovers;
-
-			assert(bt > 0);
-		}
+	double fn_o;
+	if (CGrid::below_biomass_history.size() > 60) // parameterize this...
+	{
+		std::vector<double> rolling_mean(
+				CGrid::below_biomass_history.end() - 60,
+				CGrid::below_biomass_history.end());
+		fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
 	}
+	else
+	{
+		std::vector<double> rolling_mean(CGrid::below_biomass_history.begin(),
+				CGrid::below_biomass_history.end());
+		fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
+	}
+
+	// Functional response
+	if (bt - fn_o < bt * SRunPara::RunPara.BelGrazResidualPerc)
+	{
+		fn_o = bt - bt * SRunPara::RunPara.BelGrazResidualPerc;
+	}
+	double fn = fn_o;
+
+	CEnvir::output.blwgrnd_graz_pressure_history.push_back(fn_o);
+
+	double br = 0; // biomass removed in one iteration
+	while (ceil(biomass_removed) < fn_o)
+	{
+		br = 0;
+
+		double bite = 0;
+		for (auto const& p : PlantList)
+		{
+			if (!p->dead)
+			{
+				bite += pow(p->mroot / bt, alpha) * fn;
+			}
+		}
+		bite = fn / bite;
+
+		double leftovers = 0; // When a plant is eaten to death, this is the overshoot from the algorithm
+		for (auto const& p : PlantList)
+		{
+			if (p->dead)
+			{
+				continue;
+			}
+
+			double biomass_to_remove = pow(p->mroot / bt, alpha) * fn * bite;
+
+			if (biomass_to_remove > p->mroot)
+			{
+				leftovers += (biomass_to_remove - p->mroot);
+				br += p->mroot;
+				p->mroot = 0;
+				p->dead = true;
+			}
+			else
+			{
+				p->RemoveRootMass(biomass_to_remove);
+				br += biomass_to_remove;
+			}
+		}
+
+		biomass_removed = biomass_removed + br;
+		bt = bt - br;
+		fn = leftovers;
+
+		assert(bt > 0);
+	}
+}
 
 //-----------------------------------------------------------------------------
 
@@ -741,6 +744,16 @@ void CGrid::RemovePlants() {
 
 	PlantList.erase(std::remove_if(PlantList.begin(), PlantList.end(), removePlant),
 					PlantList.end());
+
+	auto clearGenets = [] (const shared_ptr<CGenet> & g) {
+		if (g->AllRametList.empty()) {
+			return true;
+		}
+		return false;
+	};
+
+	GenetList.erase(std::remove_if(GenetList.begin(), GenetList.end(), clearGenets),
+			GenetList.end());
 }
 
 //-----------------------------------------------------------------------------

@@ -34,6 +34,7 @@ public:
 		  const unsigned int yy,
 		  double ares = 0,
 		  double bres = 0);
+
 	~CCell();
 
 	void clear();

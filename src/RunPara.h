@@ -81,8 +81,8 @@ public:
 	int Tmax_monoculture; // Duration of the monoculture phase
 
 	// Intraspecific trait variation
-	ITV_version ITV; 	// MSC
-	double ITVsd; 		// MSC
+	ITV_version ITV;
+	double ITVsd;
 
 	// Gridspace
 	int GridSize;     //!< side length in cm

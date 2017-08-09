@@ -25,7 +25,6 @@ public:
 	static std::vector< std::string > pftInsertionOrder;
 
 	traitType myTraitType; 	// The default trait set is a species -- only after being varied is it individualized.
-	int TypeID;   			// PFT ID same number for all individuals of one PFT
 	std::string name;    	// name of functional type
 
 //morphology

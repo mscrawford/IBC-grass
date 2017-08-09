@@ -13,8 +13,8 @@ public:
 	double get01();
 	double getGaussian(double mean, double sd);
 
-//	RandomGenerator() : rng(std::random_device()()) {}
-	RandomGenerator() : rng(1) {}
+	RandomGenerator() : rng(std::random_device()()) {}
+//	RandomGenerator() : rng(1) {}
 
 	std::mt19937 getRNG() { return rng; };
 };

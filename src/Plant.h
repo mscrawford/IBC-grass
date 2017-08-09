@@ -61,17 +61,17 @@ public:
 	double spacerLengthToGrow;              // length to grow
 
 	// Constructors
-	CPlant(const std::unique_ptr<CSeed> & seed); 		// from a germinated seed
+	CPlant(const std::unique_ptr<CSeed> & seed); 						// from a germinated seed
 	CPlant(double x, double y, const std::shared_ptr<CPlant> & plant); 	// for clonal establishment
 	~CPlant();
 
-	void Grow2(); 									// shoot-root resource allocation and plant growth in two layers
-	void Kill();  									// Mortality due to resource shortage or at random
-	void DecomposeDead();     						// calculate mass shrinkage of dead plants
-	void WinterLoss(); 								// removal of aboveground biomass in winter
-	bool stressed();								// return true if plant is stressed
-	void weeklyReset();								// reset competitive parameters that depend on current biomass
-	double RemoveShootMass();  						// removal of aboveground biomass by grazing
+	void Grow2(); 									 // shoot-root resource allocation and plant growth in two layers
+	void Kill();  									 // Mortality due to resource shortage or at random
+	void DecomposeDead();     						 // calculate mass shrinkage of dead plants
+	void WinterLoss(); 							 	 // removal of aboveground biomass in winter
+	bool stressed();								 // return true if plant is stressed
+	void weeklyReset();								 // reset competitive parameters that depend on current biomass
+	double RemoveShootMass();  						 // removal of aboveground biomass by grazing
 	void RemoveRootMass(const double& mass_removed); // removal of belowground biomass by root herbivory
 	double comp_coef(const int layer, const int symmetry) const; // competition coefficient for a plant (for AboveComp and BelowComp)
 

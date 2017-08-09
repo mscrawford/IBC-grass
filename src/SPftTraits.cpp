@@ -17,7 +17,7 @@ vector<string> SPftTraits::pftInsertionOrder = vector<string>();
  * Default constructor
  */
 SPftTraits::SPftTraits() :
-		myTraitType(SPftTraits::species), TypeID(-1), name("EMPTY"),
+		myTraitType(SPftTraits::species), name("EMPTY"),
 		LMR(-1), SLA(-1), RAR(1), m0(-1), MaxMass(-1),
 		AllocSeed(0.05), SeedMass(-1), Dist(-1), Dorm(1), pEstab(0.5),
 		Gmax(-1), palat(-1), memory(-1),
@@ -32,7 +32,7 @@ SPftTraits::SPftTraits() :
  * Copy constructor
  */
 SPftTraits::SPftTraits(const SPftTraits& s) :
-		myTraitType(s.myTraitType), TypeID(s.TypeID), name(s.name),
+		myTraitType(s.myTraitType), name(s.name),
 		LMR(s.LMR), SLA(s.SLA), RAR(s.RAR), m0(s.m0), MaxMass(s.MaxMass),
 		AllocSeed(s.AllocSeed), SeedMass(s.SeedMass), Dist(s.Dist), Dorm(s.Dorm), pEstab(s.pEstab),
 		Gmax(s.Gmax), palat(s.palat), memory(s.memory),
@@ -86,7 +86,7 @@ void SPftTraits::ReadPFTDef(const string& file)
 
 		unique_ptr<SPftTraits> traits(new SPftTraits);
 
-		ss >> traits->TypeID >> traits->name
+		ss >> traits->name
 				>> traits->AllocSeed >> traits->LMR >> traits->m0
 				>> traits->MaxMass >> traits->SeedMass >> traits->Dist
 				>> traits->pEstab >> traits->Gmax >> traits->SLA
