@@ -73,7 +73,7 @@ public:
 	void weeklyReset();								// reset competitive parameters that depend on current biomass
 	double RemoveShootMass();  						// removal of aboveground biomass by grazing
 	void RemoveRootMass(const double& mass_removed); // removal of belowground biomass by root herbivory
-	double comp_coef(const int& layer, const int& symmetry) const; // competition coefficient for a plant (for AboveComp and BelowComp)
+	double comp_coef(const int layer, const int symmetry) const; // competition coefficient for a plant (for AboveComp and BelowComp)
 
 	double minresA() { return Traits->mThres * Ash_disc * Traits->Gmax; } // lower threshold of aboveground resource uptake
 	double minresB() { return Traits->mThres * Art_disc * Traits->Gmax; } // lower threshold of belowground resource uptake

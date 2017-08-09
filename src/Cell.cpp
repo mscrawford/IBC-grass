@@ -142,13 +142,13 @@ void CCell::AboveComp()
 	double comp_c = 0;
 
 	//1. sum of resource requirement
-	for (auto plant : AbovePlantList)
+	for (auto const& plant : AbovePlantList)
 	{
 		comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
 	}
 
 	//2. distribute resources
-	for (auto plant : AbovePlantList)
+	for (auto const& plant : AbovePlantList)
 	{
 		comp_c = plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
 		plant->Auptake += AResConc * comp_c / comp_tot;
@@ -186,12 +186,12 @@ void CCell::BelowComp()
 	double comp_c = 0;
 
 	//1. sum of resource requirement
-	for (auto plant : BelowPlantList)
+	for (auto const& plant : BelowPlantList)
 	{
 		comp_tot += plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, SRunPara::RunPara.Version);
 	}
 	//2. distribute resources
-	for (auto plant : BelowPlantList)
+	for (auto const& plant : BelowPlantList)
 	{
 		comp_c = plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, SRunPara::RunPara.Version);
 		plant->Buptake += BResConc * comp_c / comp_tot;

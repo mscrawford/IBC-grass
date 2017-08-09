@@ -142,7 +142,7 @@ SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
                 "weekly ind_out pft_out srv_out trait_out meta_out NameInitFile\n"
 
 
-PFT_HEADER = "ID Species MaxAge AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
+PFT_HEADER = "ID Species AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                 "growth mThres clonal propSex meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
 
 

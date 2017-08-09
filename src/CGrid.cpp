@@ -235,7 +235,7 @@ void CGrid::DispersRamets(const std::shared_ptr<CPlant> & p)
  */
 void CGrid::CoverCells()
 {
-	for (auto const& plant : PlantList)
+	for (auto & plant : PlantList)
 	{
 		double Ashoot = plant->Area_shoot();
 		plant->Ash_disc = floor(Ashoot) + 1;
@@ -417,7 +417,7 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 {
 	vector< std::shared_ptr<CPlant> > rametsToKeep;
 
-	for (auto const& Ramet : plant->growingSpacerList)
+	for (auto & Ramet : plant->growingSpacerList)
 	{
 		if (Ramet->spacerLengthToGrow > 0)
 		{
@@ -724,7 +724,7 @@ void CGrid::GrazingBelGr()
 
 void CGrid::RemovePlants() {
 
-	auto removePlant = [] (const shared_ptr<CPlant> & p) {
+	auto removePlant = [] (shared_ptr<CPlant> & p) {
 		if ( CPlant::GetPlantRemove(p) )
 		{
 			auto Genet = p->getGenet();

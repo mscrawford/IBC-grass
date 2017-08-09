@@ -341,7 +341,7 @@ int CPlant::GetNSeeds()
 
 	if (!dead)
 	{
-		if (mRepro > 0 && CEnvir::week >= Traits->DispWeek)
+		if (mRepro)
 		{
 			NSeeds = floor(mRepro / Traits->SeedMass);
 
@@ -433,7 +433,7 @@ void CPlant::WinterLoss()
  * @return competitive strength
  * \since revision
  */
-double CPlant::comp_coef(const int& layer, const int& symmetry) const
+double CPlant::comp_coef(const int layer, const int symmetry) const
 {
 	switch (symmetry)
 	{
