@@ -18,7 +18,7 @@ class CGenet
 public:
    static int staticID;
    int genetID;
-   std::vector< std::shared_ptr<CPlant> > AllRametList;
+   std::vector< std::weak_ptr<CPlant> > AllRametList;
 
    CGenet():genetID(++staticID) { };
    ~CGenet() { };

@@ -19,7 +19,7 @@ using namespace std;
 int CPlant::numPlants = 0;
 
 CPlant::CPlant(const unique_ptr<CSeed> & seed) :
-		cell(NULL), mReproRamets(0), genet(NULL),
+		cell(NULL), mReproRamets(0), genet(),
 		plantID(++numPlants), xcoord(0), ycoord(0),
 		Age(0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
 		stress(0), dead(false), remove(false),
@@ -90,10 +90,8 @@ void CPlant::weeklyReset()
 
 //---------------------------------------------------------------------------
 ///set genet and add ramet to its list
-void CPlant::setGenet(shared_ptr<CGenet> _genet)
+void CPlant::setGenet(weak_ptr<CGenet> _genet)
 {
-	assert(this->genet == NULL);
-
 	this->genet = _genet;
 }
 

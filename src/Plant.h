@@ -27,7 +27,7 @@ private:
 	double RootGrow(double rres);
 
 	double mReproRamets;			// resources for ramet growth
-	std::shared_ptr<CGenet> genet;  // genet of the clonal plant
+	std::weak_ptr<CGenet> genet;  // genet of the clonal plant
 
 public:
 	std::unique_ptr<SPftTraits> Traits;	// PFT Traits
@@ -98,8 +98,8 @@ public:
 
 	std::string pft() { return this->Traits->name; } // say what a pft you are
 
-	void setGenet(std::shared_ptr<CGenet> genet);
-	std::shared_ptr<CGenet> getGenet() { return genet; }
+	void setGenet(std::weak_ptr<CGenet> genet);
+	std::weak_ptr<CGenet> getGenet() { return genet; }
 
 	void SpacerGrow();  // spacer growth
 	int GetNSeeds(); 	// returns number of seeds of one plant individual. Clears mRepro.

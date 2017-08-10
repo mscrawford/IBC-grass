@@ -116,12 +116,22 @@ void CCell::AboveComp()
 
 	if (SRunPara::RunPara.AboveCompMode == asymtot)
 	{
-		shared_ptr<CPlant> p =
+		weak_ptr<CPlant> p_ptr =
 				*std::max_element(AbovePlantList.begin(), AbovePlantList.end(),
-						[](const shared_ptr<CPlant> & a, const shared_ptr<CPlant> & b)
+						[](const weak_ptr<CPlant> & a, const weak_ptr<CPlant> & b)
 						{
-							return CPlant::getShootGeometry(a) < CPlant::getShootGeometry(b);
+							auto _a = a.lock();
+							auto _b = b.lock();
+
+							assert(_a);
+							assert(_b);
+
+							return CPlant::getShootGeometry(_a) < CPlant::getShootGeometry(_b);
 						});
+
+		auto p = p_ptr.lock();
+
+		assert(p);
 
 		p->Auptake += AResConc;
 
@@ -142,14 +152,20 @@ void CCell::AboveComp()
 	double comp_c = 0;
 
 	//1. sum of resource requirement
-	for (auto const& plant : AbovePlantList)
+	for (auto const& plant_ptr : AbovePlantList)
 	{
+		auto plant = plant_ptr.lock();
+		assert(plant);
+
 		comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
 	}
 
 	//2. distribute resources
-	for (auto const& plant : AbovePlantList)
+	for (auto const& plant_ptr : AbovePlantList)
 	{
+		auto plant = plant_ptr.lock();
+		assert(plant);
+
 		comp_c = plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
 		plant->Auptake += AResConc * comp_c / comp_tot;
 	}
@@ -186,13 +202,19 @@ void CCell::BelowComp()
 	double comp_c = 0;
 
 	//1. sum of resource requirement
-	for (auto const& plant : BelowPlantList)
+	for (auto const& plant_ptr : BelowPlantList)
 	{
+		auto plant = plant_ptr.lock();
+		assert(plant);
+
 		comp_tot += plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, SRunPara::RunPara.Version);
 	}
 	//2. distribute resources
-	for (auto const& plant : BelowPlantList)
+	for (auto const& plant_ptr : BelowPlantList)
 	{
+		auto plant = plant_ptr.lock();
+		assert(plant);
+
 		comp_c = plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, SRunPara::RunPara.Version);
 		plant->Buptake += BResConc * comp_c / comp_tot;
 	}

@@ -29,7 +29,7 @@ trait_out = 0 # Print trait-level output:                (0) No; (1) Yes
 meta_out  = 0 # Print output about the environment, etc. (0) No; (1) Year
 
 # Number of repetitions
-N_REPS    = 1
+N_REPS    = 3
 
 # Number of communities and what kind of PFTs to use
 N_COMS    = 1           # UNUSED WITH PAIRWISE INVASION CRITERION

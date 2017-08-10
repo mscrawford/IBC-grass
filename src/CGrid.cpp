@@ -235,7 +235,7 @@ void CGrid::DispersRamets(const std::shared_ptr<CPlant> & p)
  */
 void CGrid::CoverCells()
 {
-	for (auto & plant : PlantList)
+	for (auto const& plant : PlantList)
 	{
 		double Ashoot = plant->Area_shoot();
 		plant->Ash_disc = floor(Ashoot) + 1;
@@ -326,9 +326,12 @@ void CGrid::Resshare()
 	{
 		if (Genet->AllRametList.size() > 1) // A ramet cannot share with itself
 		{
-			auto plant = Genet->AllRametList.front(); // To ensure that the has the "resource sharing" trait
-			assert(plant->Traits->clonal);
-			if (plant->Traits->Resshare)
+			auto ramet_ptr = Genet->AllRametList.front(); // To ensure that the has the "resource sharing" trait
+			auto ramet = ramet_ptr.lock();
+			assert(ramet);
+
+			assert(ramet->Traits->clonal);
+			if (ramet->Traits->Resshare)
 			{
 				Genet->ResshareA();
 				Genet->ResshareB();
@@ -417,7 +420,7 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 {
 	vector< std::shared_ptr<CPlant> > rametsToKeep;
 
-	for (auto & Ramet : plant->growingSpacerList)
+	for (auto const& Ramet : plant->growingSpacerList)
 	{
 		if (Ramet->spacerLengthToGrow > 0)
 		{
@@ -431,13 +434,16 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 
 		if (!cell->occupied)
 		{
-			Ramet->getGenet()->AllRametList.push_back(Ramet);
-			Ramet->setCell(cell);
-
 			if ( CEnvir::rng.get01() < SRunPara::RunPara.EstabRamet)
 			{
+				auto Genet = Ramet->getGenet().lock();
+				assert(Genet);
+
+				Genet->AllRametList.push_back(Ramet);
+				Ramet->setCell(cell);
 				PlantList.push_back(Ramet);
 			}
+			// else the ramet is implicitly deleted
 		}
 		else
 		{
@@ -727,14 +733,10 @@ void CGrid::GrazingBelGr()
 
 void CGrid::RemovePlants() {
 
+	// Delete the CPlant shared_pointers
 	auto removePlant = [] (shared_ptr<CPlant> & p) {
 		if ( CPlant::GetPlantRemove(p) )
 		{
-			auto Genet = p->getGenet();
-			Genet->AllRametList.erase(
-					remove(Genet->AllRametList.begin(), Genet->AllRametList.end(), p),
-					Genet->AllRametList.end());
-
 			p->getCell()->occupied = false;
 
 			return true;
@@ -742,9 +744,29 @@ void CGrid::RemovePlants() {
 		return false;
 	};
 
-	PlantList.erase(std::remove_if(PlantList.begin(), PlantList.end(), removePlant),
-					PlantList.end());
+	PlantList.erase(std::remove_if(PlantList.begin(), PlantList.end(), removePlant), PlantList.end());
 
+	// Delete the weak pointers from each Genet's AllRametList
+	for (auto const& g : GenetList)
+	{
+		if (g->AllRametList.empty())
+			continue;
+
+		auto ramet_itr = g->AllRametList.begin();
+		while (ramet_itr != g->AllRametList.end())
+		{
+			if (ramet_itr->expired())
+			{
+				g->AllRametList.erase(ramet_itr);
+			}
+			else
+			{
+				++ramet_itr;
+			}
+		}
+	}
+
+	// Delete any empty genets
 	auto clearGenets = [] (const shared_ptr<CGenet> & g) {
 		if (g->AllRametList.empty()) {
 			return true;
@@ -752,8 +774,7 @@ void CGrid::RemovePlants() {
 		return false;
 	};
 
-	GenetList.erase(std::remove_if(GenetList.begin(), GenetList.end(), clearGenets),
-			GenetList.end());
+	GenetList.erase(std::remove_if(GenetList.begin(), GenetList.end(), clearGenets), GenetList.end());
 }
 
 //-----------------------------------------------------------------------------

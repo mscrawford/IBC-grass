@@ -1,5 +1,6 @@
 
 #include "CGenet.h"
+#include <cassert>
 
 int CGenet::staticID = 0;
 
@@ -15,8 +16,11 @@ void CGenet::ResshareA()
   double sumAuptake=0;
   double MeanAuptake=0;
 
-	for (auto const& ramet : AllRametList)
+	for (auto const& ramet_ptr : AllRametList)
 	{
+		auto ramet = ramet_ptr.lock();
+		assert(ramet);
+
 		double AddtoSum = 0;
 		double minres = ramet->Traits->mThres * ramet->Ash_disc * ramet->Traits->Gmax * 2;
 
@@ -30,8 +34,11 @@ void CGenet::ResshareA()
 	}
 	MeanAuptake = sumAuptake / AllRametList.size();
 
-	for (auto const& ramet : AllRametList)
+	for (auto const& ramet_ptr : AllRametList)
 	{
+		auto ramet = ramet_ptr.lock();
+		assert(ramet);
+
 		ramet->Auptake += MeanAuptake;
 	}
 }
@@ -43,8 +50,11 @@ void CGenet::ResshareB()
 	double sumBuptake = 0;
 	double MeanBuptake = 0;
 
-	for (auto const& ramet : AllRametList)
+	for (auto const& ramet_ptr : AllRametList)
 	{
+		auto ramet = ramet_ptr.lock();
+		assert(ramet);
+
 		double AddtoSum = 0;
 		double minres = ramet->Traits->mThres * ramet->Art_disc * ramet->Traits->Gmax * 2;
 
@@ -59,8 +69,11 @@ void CGenet::ResshareB()
 
 	MeanBuptake = sumBuptake / AllRametList.size();
 
-	for (auto const& ramet : AllRametList)
+	for (auto const& ramet_ptr : AllRametList)
 	{
+		auto ramet = ramet_ptr.lock();
+		assert(ramet);
+
 		ramet->Buptake += MeanBuptake;
 	}
 }
