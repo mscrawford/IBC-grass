@@ -14,7 +14,7 @@ PATH = "./tmp/"
 ### Hyperparameters
 
 # For computing clusters
-PARALLEL = False         # IF SERIES THIS -> FALSE
+PARALLEL = True         # IF SERIES THIS -> FALSE
 N_SLOTS  = 300          # Number of cores to split between
 H_RT     = "08:00:00"   # Maximum runtime for simulations (08:00:00 = 8 hours)
 H_VMEM   = "2G"         # Memory for each simulation run
@@ -29,10 +29,10 @@ trait_out = 0 # Print trait-level output:                (0) No; (1) Yes
 meta_out  = 0 # Print output about the environment, etc. (0) No; (1) Year
 
 # Number of repetitions
-N_REPS    = 3
+N_REPS    = 1
 
 # Number of communities and what kind of PFTs to use
-N_COMS    = 1           # UNUSED WITH PAIRWISE INVASION CRITERION
+N_COMS    = 150           # UNUSED WITH PAIRWISE INVASION CRITERION
 PFT_type  = "EMPIRICAL" # "THEORETICAL" or "EMPIRICAL"
 
 ##########################################
