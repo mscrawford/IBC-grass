@@ -27,6 +27,7 @@ CGrid::CGrid()
 
 	CGrid::above_biomass_history = vector<int>();
 	CGrid::below_biomass_history = vector<int>();
+	CGrid::PlantList = vector< std::shared_ptr<CPlant> >();
 }
 
 //-----------------------------------------------------------------------------
@@ -395,7 +396,7 @@ void CGrid::EstablishmentLottery()
  * Establish new genet.
  * @param seed seed which germinates.
  */
-void CGrid::EstablishSeedling(unique_ptr<CSeed> const& seed)
+void CGrid::EstablishSeedling(const std::unique_ptr<CSeed> & seed)
 {
 	shared_ptr<CPlant> p = make_shared<CPlant>(seed);
 
@@ -420,13 +421,15 @@ void CGrid::EstablishSeedling(unique_ptr<CSeed> const& seed)
  */
 void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 {
-	vector< std::shared_ptr<CPlant> > rametsToKeep;
+	auto ramet_itr = plant->growingSpacerList.begin();
 
-	for (auto const& Ramet : plant->growingSpacerList)
+	while (ramet_itr != plant->growingSpacerList.end())
 	{
-		if (Ramet->spacerLengthToGrow > 0)
+		const auto& Ramet = *ramet_itr;
+
+		if (Ramet->spacerLengthToGrow > 0) // This ramet still has to grow, keep it.
 		{
-			rametsToKeep.push_back(Ramet); // This ramet needs to grow more; keep it
+			ramet_itr++;
 			continue;
 		}
 
@@ -445,14 +448,19 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 				Ramet->setCell(cell);
 				PlantList.push_back(Ramet);
 			}
-			// else the ramet is implicitly deleted
+//cout << "Mother PlantID: " << plant->plantID << endl;
+//cout << "PlantID: " << Ramet->plantID << endl;
+//cout << "GrowingSpacerList size: " << plant->growingSpacerList.size() << endl;
+
+			ramet_itr = plant->growingSpacerList.erase(ramet_itr);
+
+//cout << "Done in function" << endl;
 		}
 		else
 		{
 			if (CEnvir::week == CEnvir::WeeksPerYear)
 			{
-				// This ramet is implicitly deleted
-				continue;
+				ramet_itr = plant->growingSpacerList.erase(ramet_itr);
 			}
 			else
 			{
@@ -465,7 +473,7 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 					factory = CEnvir::rng.getUniformInt(5) - 2;
 				} while (factorx == 0 && factory == 0);
 
-				double dist = Distance(factorx, factory);
+				double dist = Distance(factorx, factory, 0, 0);
 				double direction = acos(factorx / dist);
 
 				x = round(Ramet->xcoord + factorx);
@@ -480,13 +488,11 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 				Ramet->spacerLength = dist;
 				Ramet->spacerDirection = direction;
 
-				rametsToKeep.push_back(Ramet);
+				ramet_itr++;
 			}
 
 		}
 	}
-
-	plant->growingSpacerList = rametsToKeep;
 }
 
 /**
@@ -592,8 +598,7 @@ void CGrid::GrazingAbvGr()
 
 		double max_palatability = CPlant::getPalatability(p);
 
-        random_shuffle(PlantList.begin(), PlantList.end());
-//		shuffle( PlantList.begin(), PlantList.end(), CEnvir::rng.getRNG() );
+		std::shuffle( PlantList.begin(), PlantList.end(), CEnvir::rng.getRNG() );
 
 		for (auto const& plant : PlantList)
 		{
@@ -736,47 +741,48 @@ void CGrid::GrazingBelGr()
 void CGrid::RemovePlants() {
 
 	// Delete the CPlant shared_pointers
-	auto removePlant = [] (shared_ptr<CPlant> & p) {
-		if ( CPlant::GetPlantRemove(p) )
-		{
-			p->getCell()->occupied = false;
+	PlantList.erase(
+			std::remove_if(PlantList.begin(), PlantList.end(),
+					[] (const shared_ptr<CPlant> & p)
+					{
+						if ( CPlant::GetPlantRemove(p) )
+						{
+							p->getCell()->occupied = false;
 
+							return true;
+						}
+						return false;
+					}),
+					PlantList.end());
+
+	auto eraseExpiredRamet = []( const std::weak_ptr<CPlant> & r )
+	{
+		if (r.expired())
+		{
 			return true;
 		}
 		return false;
 	};
 
-	PlantList.erase(std::remove_if(PlantList.begin(), PlantList.end(), removePlant), PlantList.end());
-
-	// Delete the weak pointers from each Genet's AllRametList
-	for (auto const& g : GenetList)
-	{
-		if (g->AllRametList.empty())
-			continue;
-
-		auto ramet_itr = g->AllRametList.begin();
-		while (ramet_itr != g->AllRametList.end())
-		{
-			if (ramet_itr->expired())
+	std::for_each(GenetList.begin(), GenetList.end(),
+			[eraseExpiredRamet] (std::shared_ptr<CGenet> const& g)
 			{
-				g->AllRametList.erase(ramet_itr);
-			}
-			else
-			{
-				++ramet_itr;
-			}
-		}
-	}
+				auto& r = g->AllRametList;
+				r.erase(std::remove_if(r.begin(), r.end(), eraseExpiredRamet), r.end());
+			});
 
 	// Delete any empty genets
-	auto clearGenets = [] (const shared_ptr<CGenet> & g) {
-		if (g->AllRametList.empty()) {
-			return true;
-		}
-		return false;
-	};
-
-	GenetList.erase(std::remove_if(GenetList.begin(), GenetList.end(), clearGenets), GenetList.end());
+	GenetList.erase(
+			std::remove_if(GenetList.begin(), GenetList.end(),
+					[] (const shared_ptr<CGenet> & g)
+					{
+						if (g->AllRametList.empty())
+						{
+							return true;
+						}
+						return false;
+					}),
+					GenetList.end());
 }
 
 //-----------------------------------------------------------------------------
@@ -815,17 +821,9 @@ void CGrid::SeedMortWinter()
 
 //-----------------------------------------------------------------------------
 /**
- Set a number of randomly distributed clonal Seeds (CclonalSeed) of a specific
- trait-combination on the grid.
-
- \param traits   SPftTraits of the seeds to be set
- \param cltraits SclonalTraits of the seeds to be set
- \param n        number of seeds to be set
- \param estab    seed establishment (CSeed) - default is 1
- \since 2010-09-10 estab rate for seeds can be modified (default is 1.0)
-
+ * Set a number of randomly distributed clonal Seeds of a specific trait-combination on the grid.
  */
-void CGrid::InitClonalSeeds(string PFT_ID, const int n, double estab)
+void CGrid::InitClonalSeeds(string PFT_ID, const int n, const double estab)
 {
 	for (int i = 0; i < n; ++i)
 	{
@@ -834,8 +832,7 @@ void CGrid::InitClonalSeeds(string PFT_ID, const int n, double estab)
 
 		CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
 
-		unique_ptr<CSeed> seed(new CSeed(PFT_ID, cell, estab));
-		cell->SeedBankList.push_back(std::move(seed));
+		cell->SeedBankList.push_back(make_unique<CSeed>(PFT_ID, cell, estab));
 	}
 }
 
@@ -871,12 +868,12 @@ void CGrid::SetCellResource()
 /**
  \return Euclidean distance between two pairs of coordinates (xx,yy) and (x,y)
  */
-double Distance(const double& xx, const double& yy, const double& x, const double& y)
+double Distance(const double xx, const double yy, const double x, const double y)
 {
 	return sqrt((xx - x) * (xx - x) + (yy - y) * (yy - y));
 }
 
-bool CompareIndexRel(const int& i1, const int& i2)
+bool CompareIndexRel(const int i1, const int i2)
 {
 	const int n = SRunPara::RunPara.GridSize;
 
@@ -901,7 +898,7 @@ void Boundary(int& xx, int& yy)
 
 //---------------------------------------------------------------------------
 
-bool Emmigrates(const int& xx, const int& yy)
+bool Emmigrates(const int xx, const int yy)
 {
 	if (xx < 0 || xx >= SRunPara::RunPara.GridSize)
 		return true;
@@ -912,9 +909,9 @@ bool Emmigrates(const int& xx, const int& yy)
 
 //---------------------------------------------------------------------------
 
-double CGrid::GetTotalAboveMass() {
+double CGrid::GetTotalAboveMass()
+{
 	double above_mass = 0;
-
 	for (auto const& p : PlantList)
 	{
 		above_mass += p->mshoot + p->mRepro;
@@ -924,9 +921,9 @@ double CGrid::GetTotalAboveMass() {
 
 //---------------------------------------------------------------------------
 
-double CGrid::GetTotalBelowMass() {
+double CGrid::GetTotalBelowMass()
+{
 	double below_mass = 0;
-
 	for (auto const& p : PlantList)
 	{
 		below_mass += p->mroot;

@@ -16,14 +16,6 @@ CGridEnvir::CGridEnvir() : CEnvir(), CGrid() {
 
 //------------------------------------------------------------------------------
 /**
- * destructor
- */
-CGridEnvir::~CGridEnvir() {
-
-}
-
-//------------------------------------------------------------------------------
-/**
  Initiate new Run: reset grid and randomly set initial individuals.
  */
 void CGridEnvir::InitRun() {
@@ -42,26 +34,24 @@ void CGridEnvir::InitInds()
 	if (SRunPara::RunPara.mode == communityAssembly || SRunPara::RunPara.mode == catastrophicDisturbance)
 	{
 		// PFT Traits are read in GetSim()
-		for (auto const& it : SPftTraits::PftLinkList)
+		for (auto const& it : SPftTraits::pftTraitTemplates)
 		{
 			InitClonalSeeds(it.first, no_init_seeds, estab);
-			PftInitList[it.first] += no_init_seeds;
 			PftSurvTime[it.first] = 0;
 		}
 	}
 	else if (SRunPara::RunPara.mode == invasionCriterion)
 	{
-		assert(SPftTraits::PftLinkList.size() == 2);
+		assert(SPftTraits::pftTraitTemplates.size() == 2);
 
 		string resident = SPftTraits::pftInsertionOrder[1];
 		InitClonalSeeds(resident, no_init_seeds, estab);
-		PftInitList[resident] += no_init_seeds;
 		PftSurvTime[resident] = 0;
 	}
 }
 
-void CGridEnvir::OneRun() {
-
+void CGridEnvir::OneRun()
+{
 	ResetT();
 
 	output.print_param();
@@ -72,7 +62,7 @@ void CGridEnvir::OneRun() {
 	}
 
 	do {
-		this->NewWeek();
+		NewWeek();
 
 		if (SRunPara::RunPara.verbose) cout << "y " << year << endl;
 
@@ -85,7 +75,6 @@ void CGridEnvir::OneRun() {
 
 			string invader = SPftTraits::pftInsertionOrder[0];
 			InitClonalSeeds(invader, no_init_seeds, estab);
-			PftInitList[invader] += no_init_seeds;
 			PftSurvTime[invader] = 0;
 		}
 
@@ -115,8 +104,9 @@ void CGridEnvir::OneWeek()
 
 	CoverCells();           // plant loop
 	DistribResource();      // cell loop, resource uptake and competition
-	PlantLoop();            // Growth, Dispersal, Mortality
-	RemovePlants();         // remove trampled plants
+
+	PlantLoop();            // Growth, dispersal, mortality
+	RemovePlants();         // remove dead plants
 	EstablishmentLottery(); // for seeds and ramets
 
 	if (week == 20)
@@ -193,10 +183,9 @@ void CGridEnvir::SeedRain()
 	double n = 0;
 
 	// For each PFT, we'll drop n seeds
-	for (auto it : PftInitList)
+	for (auto const& it : SPftTraits::pftTraitTemplates)
 	{
-		PFT_ID = it.first;
-
+		auto pft_name = it.first;
 		switch (SRunPara::RunPara.SeedRainType)
 		{
 			case 1:
@@ -206,7 +195,7 @@ void CGridEnvir::SeedRain()
 				exit(1);
 		}
 
-		CGrid::InitClonalSeeds(PFT_ID, n, 1.0);
+		CGrid::InitClonalSeeds(pft_name, n, 1.0);
 	}
 
 }

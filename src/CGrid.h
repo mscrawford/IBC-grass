@@ -57,7 +57,7 @@ public:
 	double GetTotalAboveMass();
 	double GetTotalBelowMass();
 
-	void InitClonalSeeds(std::string PFT_ID, const int n, double estab);
+	void InitClonalSeeds(std::string PFT_ID, const int n, const double estab);
 
 	int GetNclonalPlants();   	// number of living clonal plants
 	int GetNPlants();         	// number of living non-clonal plants
@@ -72,16 +72,16 @@ static std::vector<int> ZOIBase;
 void Boundary(int& xx, int& yy);
 
 /// test for emmigration
-bool Emmigrates(const int& xx, const int& yy);
+bool Emmigrates(const int xx, const int yy);
 
 ///dispersal kernel for seeds
 void getTargetCell(int& xx, int& yy, const float mean, const float sd);
 
 //! distance between two points using Euclidean distance
-double Distance(const double& xx, const double& yy, const double& x = 0, const double& y = 0);
+double Distance(const double xx, const double yy, const double x, const double y);
 
 ///compare two index-values in their distance to the center of grid
-bool CompareIndexRel(const int& i1, const int& i2);
+bool CompareIndexRel(const int i1, const int i2);
 
 //---------------------------------------------------------------------------
 #endif

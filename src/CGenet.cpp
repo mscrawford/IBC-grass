@@ -19,7 +19,6 @@ void CGenet::ResshareA()
 	for (auto const& ramet_ptr : AllRametList)
 	{
 		auto ramet = ramet_ptr.lock();
-		assert(ramet);
 
 		double AddtoSum = 0;
 		double minres = ramet->Traits->mThres * ramet->Ash_disc * ramet->Traits->Gmax * 2;
@@ -72,7 +71,6 @@ void CGenet::ResshareB()
 	for (auto const& ramet_ptr : AllRametList)
 	{
 		auto ramet = ramet_ptr.lock();
-		assert(ramet);
 
 		ramet->Buptake += MeanBuptake;
 	}

@@ -20,7 +20,6 @@ class CGridEnvir: public CEnvir, public CGrid
 public:
 
 	CGridEnvir();
-	~CGridEnvir(); 		// delete clonalTraits;
 
 	void InitRun();   // from CEnvir
 	void OneYear();   // runs one year in default mode

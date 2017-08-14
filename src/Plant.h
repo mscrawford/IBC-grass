@@ -27,7 +27,7 @@ private:
 	double RootGrow(double rres);
 
 	double mReproRamets;			// resources for ramet growth
-	std::weak_ptr<CGenet> genet;  // genet of the clonal plant
+	std::weak_ptr<CGenet> genet; 	// genet of the clonal plant
 
 public:
 	std::unique_ptr<SPftTraits> Traits;	// PFT Traits
@@ -69,22 +69,22 @@ public:
 	void Kill();  									 // Mortality due to resource shortage or at random
 	void DecomposeDead();     						 // calculate mass shrinkage of dead plants
 	void WinterLoss(); 							 	 // removal of aboveground biomass in winter
-	bool stressed();								 // return true if plant is stressed
+	bool stressed() const;							 // return true if plant is stressed
 	void weeklyReset();								 // reset competitive parameters that depend on current biomass
 	double RemoveShootMass();  						 // removal of aboveground biomass by grazing
-	void RemoveRootMass(const double& mass_removed); // removal of belowground biomass by root herbivory
+	void RemoveRootMass(const double mass_removed);  // removal of belowground biomass by root herbivory
 	double comp_coef(const int layer, const int symmetry) const; // competition coefficient for a plant (for AboveComp and BelowComp)
 
-	double minresA() { return Traits->mThres * Ash_disc * Traits->Gmax; } // lower threshold of aboveground resource uptake
-	double minresB() { return Traits->mThres * Art_disc * Traits->Gmax; } // lower threshold of belowground resource uptake
+	double minresA() const { return Traits->mThres * Ash_disc * Traits->Gmax; } // lower threshold of aboveground resource uptake
+	double minresB() const { return Traits->mThres * Art_disc * Traits->Gmax; } // lower threshold of belowground resource uptake
 
 	double GetMass() { return mshoot + mroot + mRepro; }
 
-	double getHeight(double const& height_conversion_constant = 6.5) {
+	double getHeight(double const height_conversion_constant = 6.5) {
 		return pow(mshoot / (Traits->LMR), 1 / 3.0) * height_conversion_constant; }
 
 	// MSC: This is derived from "CPlant::getHeight"
-	double getBiomassAtHeight(double const& height, double const& height_conversion_constant = 6.5) {
+	double getBiomassAtHeight(double const height, double const& height_conversion_constant = 6.5) {
 		return ( (pow(height, 3) * Traits->LMR) / pow(height_conversion_constant, 3) );
 	}
 
@@ -103,7 +103,7 @@ public:
 
 	void SpacerGrow();  // spacer growth
 	int GetNSeeds(); 	// returns number of seeds of one plant individual. Clears mRepro.
-	int GetNRamets();   // return number of ramets
+	int GetNRamets() const;   // return number of ramets
 
 	static double getPalatability(const std::shared_ptr<CPlant> & p) {
 		return p->mshoot * p->Traits->GrazFraction();

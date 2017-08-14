@@ -47,7 +47,3 @@ CSeed::CSeed(std::string PFT_ID, CCell*_cell, double new_estab) :
 	assert(this->cell == NULL);
 	this->cell = _cell;
 }
-
-CSeed::~CSeed() {
-
-}

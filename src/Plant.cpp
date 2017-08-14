@@ -286,7 +286,7 @@ double CPlant::RootGrow(double rres)
 
 //-----------------------------------------------------------------------------
 
-bool CPlant::stressed()
+bool CPlant::stressed() const
 {
 	return (Auptake / 2.0 < minresA()) || (Buptake / 2.0 < minresB());
 }
@@ -339,12 +339,9 @@ int CPlant::GetNSeeds()
 
 	if (!dead)
 	{
-		if (mRepro)
-		{
-			NSeeds = floor(mRepro / Traits->SeedMass);
+		NSeeds = floor(mRepro / Traits->SeedMass);
 
-			mRepro = 0;
-		}
+		mRepro = 0;
 	}
 
 	lifetimeFecundity += NSeeds;
@@ -360,7 +357,7 @@ int CPlant::GetNSeeds()
  \return the number of new spacer to set
  Unlike CPlant::GetNSeeds() no resources are reset due to ongoing growth
  */
-int CPlant::GetNRamets()
+int CPlant::GetNRamets() const
 {
 	if (mReproRamets > 0 &&
 			!dead &&
@@ -397,7 +394,7 @@ double CPlant::RemoveShootMass() {
  \return mass that was removed
  \since belowground herbivory simulations
  */
-void CPlant::RemoveRootMass(const double& mass_removed)
+void CPlant::RemoveRootMass(const double mass_removed)
 {
 	assert(mass_removed <= mroot);
 

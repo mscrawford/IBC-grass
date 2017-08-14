@@ -9,7 +9,7 @@
 
 using namespace std;
 
-map< string, unique_ptr<SPftTraits> > SPftTraits::PftLinkList = map< string, unique_ptr<SPftTraits> >();
+map< string, unique_ptr<SPftTraits> > SPftTraits::pftTraitTemplates = map< string, unique_ptr<SPftTraits> >();
 
 vector<string> SPftTraits::pftInsertionOrder = vector<string>();
 
@@ -49,13 +49,11 @@ SPftTraits::SPftTraits(const SPftTraits& s) :
  */
 unique_ptr<SPftTraits> SPftTraits::createTraitSetFromPftType(string type)
 {
-	const auto pos = PftLinkList.find(type);
+	const auto pos = pftTraitTemplates.find(type);
 
-	assert(pos != PftLinkList.end() && "Trait type not found");
+	assert(pos != pftTraitTemplates.end() && "Trait type not found");
 
-	unique_ptr<SPftTraits> traits( new SPftTraits(*pos->second) );
-
-	return (traits);
+	return (make_unique<SPftTraits>(*pos->second));
 }
 
 /**
@@ -63,9 +61,7 @@ unique_ptr<SPftTraits> SPftTraits::createTraitSetFromPftType(string type)
  */
 unique_ptr<SPftTraits> SPftTraits::copyTraitSet(const unique_ptr<SPftTraits> & t)
 {
-	unique_ptr<SPftTraits> traits( new SPftTraits(*t) );
-
-	return (traits);
+	return (make_unique<SPftTraits>(*t));
 }
 
 //-----------------------------------------------------------------------------
@@ -98,7 +94,7 @@ void SPftTraits::ReadPFTDef(const string& file)
 
 		SPftTraits::pftInsertionOrder.push_back(traits->name);
 
-		SPftTraits::PftLinkList.insert(std::make_pair(traits->name, std::move(traits)));
+		SPftTraits::pftTraitTemplates.insert(std::make_pair(traits->name, std::move(traits)));
 	}
 }
 

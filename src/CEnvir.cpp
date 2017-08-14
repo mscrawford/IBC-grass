@@ -23,7 +23,7 @@ RandomGenerator CEnvir::rng;
 vector<double> CEnvir::AResMuster;
 vector<double> CEnvir::BResMuster;
 
-map<string, long> CEnvir::PftInitList;	// list of PFTs used
+std::vector<std::string> CEnvir::PftInitList;	// list of PFTs used
 map<string, int> CEnvir::PftSurvTime;
 
 //---------------------------------------------------------------------------
@@ -41,7 +41,7 @@ CEnvir::CEnvir() {
  */
 CEnvir::~CEnvir()
 {
-	SPftTraits::PftLinkList.clear();
+	SPftTraits::pftTraitTemplates.clear();
 
 	SPftTraits::pftInsertionOrder.clear();
 }
@@ -182,9 +182,5 @@ void CEnvir::GetSim(string data)
  */
 void CEnvir::InitRun()
 {
-	PftInitList.clear();
-	PftSurvTime.clear();
-
-	// set resources
 	ReadLandscape();
 }

@@ -21,7 +21,7 @@ public:
 	};
 
 //general
-	static std::map< std::string, std::unique_ptr<SPftTraits> > PftLinkList; // links of PFTs (SPftTraits) used
+	static std::map< std::string, std::unique_ptr<SPftTraits> > pftTraitTemplates; // links of PFTs (SPftTraits) used
 	static std::vector< std::string > pftInsertionOrder;
 
 	traitType myTraitType; 	// The default trait set is a species -- only after being varied is it individualized.

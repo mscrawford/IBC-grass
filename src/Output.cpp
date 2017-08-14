@@ -90,13 +90,13 @@ Output::Output() :
 
 Output::~Output()
 {
-	Output::param_stream.close();
-	Output::trait_stream.close();
-	Output::srv_stream.close();
-	Output::PFT_stream.close();
-	Output::ind_stream.close();
-	Output::meta_stream.close();
-}
+		Output::param_stream.close();
+		Output::trait_stream.close();
+		Output::srv_stream.close();
+		Output::PFT_stream.close();
+		Output::ind_stream.close();
+		Output::meta_stream.close();
+	}
 
 void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn, string _PFT_fn, string _ind_fn, string _meta_fn)
 {
@@ -195,7 +195,7 @@ void Output::print_param()
 	ss << SRunPara::RunPara.getSimID()					<< ", ";
 	ss << CEnvir::ComNr 								<< ", ";
 	ss << CEnvir::RunNr 								<< ", ";
-	ss << CEnvir::PftInitList.size()					<< ", ";
+	ss << SPftTraits::pftTraitTemplates.size()			<< ", ";
 	ss << SRunPara::RunPara.Version 					<< ", ";
 	ss << SRunPara::RunPara.ITVsd 						<< ", ";
 	ss << SRunPara::RunPara.Tmax 						<< ", ";
@@ -231,7 +231,7 @@ void Output::print_param()
 void Output::print_trait()
 {
 
-	for (auto const& it : SPftTraits::PftLinkList)
+	for (auto const& it : SPftTraits::pftTraitTemplates)
 	{
 		std::ostringstream ss;
 
@@ -261,7 +261,7 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<CPlant> > & Pl
 	// Create the data structure necessary to aggregate individuals
 	map<string, PFT_struct> PFT_map;
 
-	for (auto const& it : SPftTraits::PftLinkList) {
+	for (auto const& it : SPftTraits::pftTraitTemplates) {
 		PFT_map[it.first] = PFT_struct();
 	}
 

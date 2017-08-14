@@ -37,7 +37,7 @@ public:
 	static RandomGenerator rng;
 	static Output output;
 
-	static std::map<std::string, long> PftInitList; // list of Pfts used
+	static std::vector<std::string> PftInitList; // list of Pfts used
 	static std::map<std::string, int> PftSurvTime;	// array for survival times of PFTs [years];
 
 	static std::vector<double> AResMuster; // mean above-ground resource availability [resource units per cm^2]
