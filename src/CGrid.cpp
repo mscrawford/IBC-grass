@@ -427,7 +427,7 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 	{
 		const auto& Ramet = *ramet_itr;
 
-		if (Ramet->spacerLengthToGrow > 0) // This ramet still has to grow, keep it.
+		if (Ramet->spacerLengthToGrow > 0) // This ramet still has to grow more, keep it.
 		{
 			ramet_itr++;
 			continue;
@@ -441,6 +441,7 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 		{
 			if ( CEnvir::rng.get01() < SRunPara::RunPara.EstabRamet)
 			{
+				// This ramet successfully establishes into a plant
 				auto Genet = Ramet->getGenet().lock();
 				assert(Genet);
 
@@ -448,18 +449,14 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 				Ramet->setCell(cell);
 				PlantList.push_back(Ramet);
 			}
-//cout << "Mother PlantID: " << plant->plantID << endl;
-//cout << "PlantID: " << Ramet->plantID << endl;
-//cout << "GrowingSpacerList size: " << plant->growingSpacerList.size() << endl;
 
 			ramet_itr = plant->growingSpacerList.erase(ramet_itr);
-
-//cout << "Done in function" << endl;
 		}
 		else
 		{
 			if (CEnvir::week == CEnvir::WeeksPerYear)
 			{
+				// It is winter so this ramet dies of exposure
 				ramet_itr = plant->growingSpacerList.erase(ramet_itr);
 			}
 			else
@@ -748,13 +745,14 @@ void CGrid::RemovePlants() {
 						if ( CPlant::GetPlantRemove(p) )
 						{
 							p->getCell()->occupied = false;
-
 							return true;
 						}
 						return false;
 					}),
 					PlantList.end());
 
+
+	// Clear out dead pointers in the AllRametsList held by each genet
 	auto eraseExpiredRamet = []( const std::weak_ptr<CPlant> & r )
 	{
 		if (r.expired())

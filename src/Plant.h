@@ -75,46 +75,46 @@ public:
 	void RemoveRootMass(const double mass_removed);  // removal of belowground biomass by root herbivory
 	double comp_coef(const int layer, const int symmetry) const; // competition coefficient for a plant (for AboveComp and BelowComp)
 
-	double minresA() const { return Traits->mThres * Ash_disc * Traits->Gmax; } // lower threshold of aboveground resource uptake
-	double minresB() const { return Traits->mThres * Art_disc * Traits->Gmax; } // lower threshold of belowground resource uptake
+	inline double minresA() const { return Traits->mThres * Ash_disc * Traits->Gmax; } // lower threshold of aboveground resource uptake
+	inline double minresB() const { return Traits->mThres * Art_disc * Traits->Gmax; } // lower threshold of belowground resource uptake
 
-	double GetMass() { return mshoot + mroot + mRepro; }
+	inline double GetMass() { return mshoot + mroot + mRepro; }
 
-	double getHeight(double const height_conversion_constant = 6.5) {
+	inline double getHeight(double const height_conversion_constant = 6.5) {
 		return pow(mshoot / (Traits->LMR), 1 / 3.0) * height_conversion_constant; }
 
 	// MSC: This is derived from "CPlant::getHeight"
-	double getBiomassAtHeight(double const height, double const& height_conversion_constant = 6.5) {
+	inline double getBiomassAtHeight(double const height, double const& height_conversion_constant = 6.5) {
 		return ( (pow(height, 3) * Traits->LMR) / pow(height_conversion_constant, 3) );
 	}
 
-	double Area_shoot()		{ return Traits->SLA * pow(Traits->LMR * mshoot, 2.0 / 3.0); } // ZOI area
-	double Area_root()   	{ return Traits->RAR * pow(mroot, 2.0 / 3.0); }
-	double Radius_shoot() 	{ return sqrt(Traits->SLA * pow(Traits->LMR * mshoot, 2.0 / 3.0) / Pi); } // ZOI radius
-	double Radius_root() 	{ return sqrt(Traits->RAR * pow(mroot, 2.0 / 3.0) / Pi); }
+	inline double Area_shoot()		{ return Traits->SLA * pow(Traits->LMR * mshoot, 2.0 / 3.0); } // ZOI area
+	inline double Area_root()   	{ return Traits->RAR * pow(mroot, 2.0 / 3.0); }
+	inline double Radius_shoot() 	{ return sqrt(Traits->SLA * pow(Traits->LMR * mshoot, 2.0 / 3.0) / Pi); } // ZOI radius
+	inline double Radius_root() 	{ return sqrt(Traits->RAR * pow(mroot, 2.0 / 3.0) / Pi); }
 
 	void setCell(CCell* cell);
-	CCell* getCell() { return cell; }
+	inline CCell* getCell() { return cell; }
 
-	std::string pft() { return this->Traits->name; } // say what a pft you are
+	inline std::string pft() { return this->Traits->name; } // say what a pft you are
 
-	void setGenet(std::weak_ptr<CGenet> genet);
-	std::weak_ptr<CGenet> getGenet() { return genet; }
+	inline void setGenet(std::weak_ptr<CGenet> _genet) { this->genet = _genet; }
+	inline std::weak_ptr<CGenet> getGenet() { return genet; }
 
 	void SpacerGrow();  // spacer growth
 	int GetNSeeds(); 	// returns number of seeds of one plant individual. Clears mRepro.
 	int GetNRamets() const;   // return number of ramets
 
-	static double getPalatability(const std::shared_ptr<CPlant> & p) {
+	inline static double getPalatability(const std::shared_ptr<CPlant> & p) {
 		return p->mshoot * p->Traits->GrazFraction();
 	}
 
-	static double getShootGeometry(const std::shared_ptr<CPlant> & p) {
+	inline static double getShootGeometry(const std::shared_ptr<CPlant> & p) {
 		return (p->mshoot / p->Traits->LMR);
 	}
 
 	// return if plant should be removed (necessary to apply algorithms from STL)
-	static bool GetPlantRemove(const std::shared_ptr<CPlant> & p)
+	inline static bool GetPlantRemove(const std::shared_ptr<CPlant> & p)
 	{
 		return p->remove;
 	}

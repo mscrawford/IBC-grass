@@ -21,7 +21,6 @@ public:
    std::vector< std::weak_ptr<CPlant> > AllRametList;
 
    CGenet():genetID(++staticID) { };
-   ~CGenet() { };
 
    void ResshareA();     // share above-ground resources
    void ResshareB();     // share below-ground resources

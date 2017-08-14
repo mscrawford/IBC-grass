@@ -58,12 +58,12 @@ public:
 	void GetSim(std::string data); 	// Simulation read in
 	void InitRun();
 
-	static void ResetT() {
+	inline static void ResetT() {
 		year = 1;
 		week = 0;
 	};
 
-	static void NewWeek() {
+	inline static void NewWeek() {
 		week++;
 		if (week > WeeksPerYear) {
 			week = 1;
@@ -74,7 +74,7 @@ public:
 	/*
 	 * Helper function for comparing floating point numbers for equality
 	 */
-	static bool AreSame(double const& a, double const& b) {
+	inline static bool AreSame(double const& a, double const& b) {
 	    return std::fabs(a - b) < std::numeric_limits<double>::epsilon();
 	}
 

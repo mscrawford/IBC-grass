@@ -16,7 +16,7 @@ public:
 	RandomGenerator() : rng(std::random_device()()) {}
 //	RandomGenerator() : rng(1) {}
 
-	std::mt19937 getRNG() { return rng; };
+	inline std::mt19937 getRNG() { return rng; };
 };
 
 #endif /* SRC_RANDOMGENERATOR_H_ */

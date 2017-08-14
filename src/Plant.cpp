@@ -88,13 +88,6 @@ void CPlant::weeklyReset()
 	Art_disc = 0;
 }
 
-//---------------------------------------------------------------------------
-///set genet and add ramet to its list
-void CPlant::setGenet(weak_ptr<CGenet> _genet)
-{
-	this->genet = _genet;
-}
-
 //-----------------------------------------------------------------------------
 /**
  * join cell to plant object
