@@ -17,9 +17,9 @@ using namespace std;
  * @param ares aboveground resources
  * @param bres belowground resources
  */
-CCell::CCell(const unsigned int xx, const unsigned int yy, double ares, double bres) :
+CCell::CCell(const unsigned int xx, const unsigned int yy) :
 		x(xx), y(yy),
-		AResConc(ares), BResConc(bres),
+		AResConc(0), BResConc(0),
 		aComp_weekly(0), bComp_weekly(0),
 		occupied(false)
 {

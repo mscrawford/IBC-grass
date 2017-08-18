@@ -11,7 +11,7 @@
 #include "RunPara.h"
 #include "SPftTraits.h"
 
-const double Pi = std::atan(1) * 4;
+static const double Pi = std::atan(1) * 4;
 
 class CSeed;
 class CCell;

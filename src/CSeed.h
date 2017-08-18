@@ -24,7 +24,7 @@ class CSeed
 	   CSeed(const std::shared_ptr<CPlant> & plant, CCell* cell);
 	   CSeed(std::string PFT_ID, CCell* cell, const double estab);
 
-	  CCell* getCell() { return cell; };
+	   CCell* getCell() { return cell; };
 
 	   inline static bool GetSeedRemove(const std::unique_ptr<CSeed> & s) {
 		   return s->remove;

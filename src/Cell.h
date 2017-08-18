@@ -31,9 +31,7 @@ public:
 	std::map<std::string, int> PftNIndB; // Plants covering the cell belowground
 
 	CCell(const unsigned int xx,
-		  const unsigned int yy,
-		  double ares = 0,
-		  double bres = 0);
+		  const unsigned int yy);
 
 	~CCell();
 

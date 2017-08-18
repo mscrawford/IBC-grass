@@ -154,38 +154,18 @@ double CPlant::ReproGrow(double uptake)
  */
 void CPlant::SpacerGrow() {
 
-	if (growingSpacerList.size() == 0 || mReproRamets <= 0) {
+	if (growingSpacerList.size() == 0 || CEnvir::AreSame(mReproRamets, 0))
+	{
 		return;
 	}
-
-	assert(mReproRamets > 0);
 
 	double mGrowSpacer = mReproRamets / growingSpacerList.size(); //resources for one spacer
 
 	for (auto const& Spacer : growingSpacerList)
 	{
-		double lengthToGrow = Spacer->spacerLengthToGrow - (mGrowSpacer / Traits->mSpacer);
-
-		Spacer->spacerLengthToGrow = max(0.0, lengthToGrow);
-
-		// Advancement for all growing Spacers in the last week of the year
-
-		if (CEnvir::week == CEnvir::WeeksPerYear && Spacer->spacerLengthToGrow > 0)
-		{
-			double direction = Spacer->spacerDirection;
-			double dist = Spacer->spacerLength - Spacer->spacerLengthToGrow;
-
-			int x2 = round(this->cell->x + cos(direction) * dist);
-			int y2 = round(this->cell->y + sin(direction) * dist);
-
-			Boundary(x2, y2);
-
-			Spacer->xcoord = x2;
-			Spacer->ycoord = y2;
-			Spacer->spacerLengthToGrow = 0;
-		}
-
+		Spacer->spacerLengthToGrow = max(0.0, Spacer->spacerLengthToGrow - (mGrowSpacer / Traits->mSpacer));
 	}
+
 	mReproRamets = 0;
 }
 
@@ -292,7 +272,7 @@ void CPlant::Kill()
 {
 	assert(Traits->memory >= 1);
 
-	double pmort = (double(stress) / Traits->memory) + SRunPara::RunPara.mort_base; // stress mortality + random background mortality
+	double pmort = (double(stress) / double(Traits->memory)) + SRunPara::RunPara.mort_base; // stress mortality + random background mortality
 
 	if (CEnvir::rng.get01() < pmort)
 	{

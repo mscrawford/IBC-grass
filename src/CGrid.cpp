@@ -48,7 +48,7 @@ void CGrid::CellsInit()
 		for (int y = 0; y < SideCells; y++)
 		{
 			index = x * SideCells + y;
-			CCell* cell = new CCell(x, y, CEnvir::AResMuster[index], CEnvir::BResMuster[index]);
+			CCell* cell = new CCell(x, y);
 			CellList[index] = cell;
 		}
 	}
@@ -200,12 +200,7 @@ void CGrid::DispersRamets(const std::shared_ptr<CPlant> & p)
 
 	if (p->GetNRamets() == 1)
 	{
-		double distance = -1;
-
-		while (distance <= 0)
-		{
-			distance = CEnvir::rng.getGaussian(p->Traits->meanSpacerlength, p->Traits->sdSpacerlength);
-		}
+		double distance = abs(CEnvir::rng.getGaussian(p->Traits->meanSpacerlength, p->Traits->sdSpacerlength));
 
 		// uniformly distributed direction
 		double direction = 2 * Pi * CEnvir::rng.get01();
@@ -355,8 +350,8 @@ void CGrid::EstablishmentLottery()
 	}
 
 	int w = CEnvir::week;
-	if ( !( (w >= 1 && w < 4) || (w > 21 && w <= 25) ) ) // establishment is only between weeks 1-4 and 21-25
-//	if ( !( (w >= 1 && w < 5) || (w >= 21 && w < 25) ) ) // establishment is only between weeks 1-4 and 21-25
+//	if ( !( (w >= 1 && w < 4) || (w > 21 && w <= 25) ) ) // establishment is only between weeks 1-4 and 21-25
+	if ( !( (w >= 1 && w < 5) || (w > 21 && w <= 25) ) ) // establishment is only between weeks 1-4 and 21-25
 	{
 		return;
 	}
@@ -439,7 +434,7 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 
 		if (!cell->occupied)
 		{
-			if ( CEnvir::rng.get01() < SRunPara::RunPara.EstabRamet)
+			if (CEnvir::rng.get01() < SRunPara::RunPara.EstabRamet)
 			{
 				// This ramet successfully establishes into a plant
 				auto Genet = Ramet->getGenet().lock();
@@ -646,16 +641,6 @@ void CGrid::GrazingBelGr()
 		return r;
 	};
 
-	auto mean = [](const vector<double> & l)
-	{
-		double t = 0;
-		for (auto const& i : l)
-		{
-			t += i;
-		}
-		return t / l.size();
-	};
-
 	assert(!CGrid::below_biomass_history.empty());
 
 	double bt = sumLivingRootMass(PlantList);
@@ -668,13 +653,15 @@ void CGrid::GrazingBelGr()
 		std::vector<double> rolling_mean(
 				CGrid::below_biomass_history.end() - 60,
 				CGrid::below_biomass_history.end());
-		fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
+		fn_o = SRunPara::RunPara.BelGrazPerc *
+				( accumulate(rolling_mean.begin(), rolling_mean.end(), 0) / rolling_mean.size() );
 	}
 	else
 	{
 		std::vector<double> rolling_mean(CGrid::below_biomass_history.begin(),
 				CGrid::below_biomass_history.end());
-		fn_o = SRunPara::RunPara.BelGrazPerc * mean(rolling_mean);
+		fn_o = SRunPara::RunPara.BelGrazPerc *
+				( accumulate(rolling_mean.begin(), rolling_mean.end(), 0) / rolling_mean.size() );
 	}
 
 	// Functional response

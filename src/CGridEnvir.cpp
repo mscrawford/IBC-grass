@@ -106,18 +106,6 @@ void CGridEnvir::OneWeek()
 	DistribResource();      // cell loop, resource uptake and competition
 
 	PlantLoop();            // Growth, dispersal, mortality
-	RemovePlants();         // remove dead plants
-	EstablishmentLottery(); // for seeds and ramets
-
-	if (week == 20)
-	{
-		SeedMortAge(); // necessary to remove non-dormant seeds before autumn
-	}
-
-	if (SRunPara::RunPara.SeedRainType > 0 && week == 20)
-	{
-		SeedRain();
-	}
 
 	if (year > 1)
 	{
@@ -129,6 +117,26 @@ void CGridEnvir::OneWeek()
 			&& CEnvir::week == SRunPara::RunPara.CatastrophicDistWeek) 	// It is the disturbance week
 	{
 		RunCatastrophicDisturbance();
+	}
+
+	RemovePlants();         // remove dead plants
+
+	if (SRunPara::RunPara.SeedRainType > 0 && week == 21)
+	{
+		SeedRain();
+	}
+
+	EstablishmentLottery(); // for seeds and ramets
+
+	if (week == 20)
+	{
+		SeedMortAge(); // necessary to remove non-dormant seeds before autumn
+	}
+
+	if (week == WeeksPerYear)
+	{
+		Winter();           	// removal of above ground biomass and of dead plants
+		SeedMortWinter();    	// winter seed mortality
 	}
 
 	if ((SRunPara::RunPara.weekly == 1 || week == 20) &&
@@ -147,12 +155,6 @@ void CGridEnvir::OneWeek()
 		{
 			CEnvir::output.print_ind(PlantList);
 		}
-	}
-
-	if (week == WeeksPerYear)
-	{
-		Winter();           	// removal of above ground biomass and of dead plants
-		SeedMortWinter();    	// winter seed mortality
 	}
 
 }
