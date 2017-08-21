@@ -23,9 +23,8 @@ CCell::CCell(const unsigned int xx, const unsigned int yy) :
 		aComp_weekly(0), bComp_weekly(0),
 		occupied(false)
 {
-	int index = xx * SRunPara::RunPara.GridSize + yy;
-	AResConc = CEnvir::AResMuster[index];
-	BResConc = CEnvir::BResMuster[index];
+	AResConc = SRunPara::RunPara.meanARes;
+	BResConc = SRunPara::RunPara.meanBRes;
 }
 
 CCell::~CCell()
@@ -38,20 +37,6 @@ CCell::~CCell()
 
 	PftNIndA.clear();
 	PftNIndB.clear();
-}
-
-void CCell::clear()
-{
-	AbovePlantList.clear();
-	BelowPlantList.clear();
-
-	SeedBankList.clear();
-	SeedlingList.clear();
-
-	PftNIndA.clear();
-	PftNIndB.clear();
-
-	occupied = false;
 }
 
 void CCell::weeklyReset()
@@ -123,9 +108,6 @@ void CCell::AboveComp()
 							auto _a = a.lock();
 							auto _b = b.lock();
 
-							assert(_a);
-							assert(_b);
-
 							return CPlant::getShootGeometry(_a) < CPlant::getShootGeometry(_b);
 						});
 
@@ -155,7 +137,6 @@ void CCell::AboveComp()
 	for (auto const& plant_ptr : AbovePlantList)
 	{
 		auto plant = plant_ptr.lock();
-		assert(plant);
 
 		comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
 	}
@@ -213,7 +194,6 @@ void CCell::BelowComp()
 	for (auto const& plant_ptr : BelowPlantList)
 	{
 		auto plant = plant_ptr.lock();
-		assert(plant);
 
 		comp_c = plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, SRunPara::RunPara.Version);
 		plant->Buptake += BResConc * comp_c / comp_tot;

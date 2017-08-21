@@ -10,7 +10,7 @@ std::string SRunPara::NamePftFile; 							// trait file for experiment species
 std::string SRunPara::NameSimFile = "data/in/SimFile.txt"; 	// file with simulation scenarios
 std::string SRunPara::outputPrefix = "default";
 
-SRunPara SRunPara::RunPara = SRunPara();
+SRunPara SRunPara::RunPara;
 
 SRunPara::SRunPara() :
 		weekly(0), ind_out(0), PFT_out(2), srv_out(1), trait_out(1), meta_out(1),
@@ -30,13 +30,7 @@ SRunPara::SRunPara() :
 		Aampl(0), Bampl(0),
 		SeedInput(0), SeedRainType(0)
 {
-	;
-}
 
-// Reinitializes RunPara to defaults to be overwritten.
-void SRunPara::cleanRunPara()
-{
-	SRunPara::RunPara = SRunPara();
 }
 
 void SRunPara::validateRunPara()
@@ -95,13 +89,6 @@ void SRunPara::validateRunPara()
 		assert(CEnvir::AreSame(SRunPara::RunPara.SeedInput, 0));
 	}
 
-}
-
-std::string SRunPara::getFileID()
-{
-	std::string s = SRunPara::outputPrefix;
-
-	return s;
 }
 
 std::string SRunPara::getSimID()

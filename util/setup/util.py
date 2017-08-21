@@ -56,7 +56,7 @@ class Base_Parameter():
 class PFT():
     def __init__(self, counter, AllocSeed, LMR, maxPlantSizeSet, pEstab,
                  resourceCompetitionSet, grazingResponseSet, RAR, growth, mThres,
-                 clonal, propSex, meanSpacerLength, sdSpacerlength, Resshare,
+                 clonal, meanSpacerLength, sdSpacerlength, Resshare,
                  AllocSpacer, mSpacer):
 
         self.Species = counter
@@ -75,7 +75,6 @@ class PFT():
         self.growth = growth
         self.mThres = mThres
         self.clonal = clonal
-        self.propSex = propSex
         self.meanSpacerLength = meanSpacerLength
         self.sdSpacerlength = sdSpacerlength
         self.Resshare = Resshare
@@ -86,6 +85,6 @@ class PFT():
         return " ".join(map(str, [self.Species, self.AllocSeed, self.LMR, self.m0,
                                     self.MaxMass, self.mSeed, self.Dist, self.pEstab, self.Gmax, self.SLA,
                                     self.palat, self.memo, self.RAR, self.growth, self.mThres, self.clonal,
-                                    self.propSex, self.meanSpacerLength, self.sdSpacerlength, self.Resshare,
+                                    self.meanSpacerLength, self.sdSpacerlength, self.Resshare,
                                     self.AllocSpacer, self.mSpacer])) 
 

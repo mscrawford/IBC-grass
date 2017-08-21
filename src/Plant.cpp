@@ -23,7 +23,7 @@ CPlant::CPlant(const unique_ptr<CSeed> & seed) :
 		plantID(++numPlants), xcoord(0), ycoord(0),
 		Age(0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
 		stress(0), dead(false), remove(false),
-		spacerLength(0), spacerDirection(0), spacerLengthToGrow(0)
+		spacerLengthToGrow(0)
 {
 
 	Traits = SPftTraits::copyTraitSet(seed->Traits);
@@ -56,7 +56,7 @@ CPlant::CPlant(double x, double y, const std::shared_ptr<CPlant> & plant) :
 		plantID(++numPlants), xcoord(x), ycoord(y),
 		Age(0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
 		stress(0), dead(false), remove(false),
-		spacerLength(0), spacerDirection(0), spacerLengthToGrow(0)
+		spacerLengthToGrow(0)
 {
 
 	Traits = SPftTraits::copyTraitSet(plant->Traits);
@@ -306,7 +306,7 @@ void CPlant::DecomposeDead() {
  the number of seeds produced during the last weeks.
  Subsequently the allocated resources are reset to zero.
  */
-int CPlant::GetNSeeds()
+int CPlant::ConvertReproMassToSeeds()
 {
 	int NSeeds = 0;
 

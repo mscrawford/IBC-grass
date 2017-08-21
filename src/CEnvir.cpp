@@ -7,31 +7,31 @@
 
 using namespace std;
 
-int CEnvir::week 			= 0;
-int CEnvir::year 			= 1;
-int CEnvir::WeeksPerYear 	= 30;
+const int CEnvir::WeeksPerYear = 30;
+int CEnvir::week;
+int CEnvir::year;
 
-int CEnvir::NRep; // number of replications -> read from SimFile;
 int CEnvir::SimNr;
 int CEnvir::ComNr;
 int CEnvir::RunNr;
 
 Output CEnvir::output;
-
 RandomGenerator CEnvir::rng;
 
-vector<double> CEnvir::AResMuster;
-vector<double> CEnvir::BResMuster;
-
 std::vector<std::string> CEnvir::PftInitList;	// list of PFTs used
-map<string, int> CEnvir::PftSurvTime;
+std::map<std::string, int> CEnvir::PftSurvTime;	// how long each PFT lives
 
-//---------------------------------------------------------------------------
-/**
- * constructor for virtual class
- */
-CEnvir::CEnvir() {
-	ReadLandscape();
+CEnvir::CEnvir()
+{
+	CEnvir::rng = RandomGenerator();
+	SRunPara::RunPara = SRunPara();
+
+	year = 1;
+	week = 0;
+
+	SimNr = 0;
+	ComNr = 0;
+	RunNr = 0;
 }
 
 //------------------------------------------------------------------------------
@@ -42,23 +42,12 @@ CEnvir::CEnvir() {
 CEnvir::~CEnvir()
 {
 	SPftTraits::pftTraitTemplates.clear();
-
 	SPftTraits::pftInsertionOrder.clear();
-}
-//------------------------------------------------------------------------------
-/**
- Function defined global muster resources, set to gridcells at beginning
- of each Year. At the moment only evenly dirtributed single values for above-
- and belowground resources are implemented.
- Later the function can read source files of values <100\% autocorrelated or
- generate some noise around fixed values etc..
- */
-void CEnvir::ReadLandscape()
-{
-	AResMuster = vector<double>(vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
-								SRunPara::RunPara.meanARes);
-	BResMuster = vector<double>(vector<double>::size_type(SRunPara::RunPara.GetSumCells()),
-								SRunPara::RunPara.meanBRes);
+
+	output.cleanup();
+
+	PftInitList.clear();
+	PftSurvTime.clear();
 }
 
 //------------------------------------------------------------------------------
@@ -110,7 +99,8 @@ void CEnvir::GetSim(string data)
 		;
 
 	// set intraspecific competition version, intraspecific trait variation version, and competition modes
-	switch (IC_version) {
+	switch (IC_version)
+	{
 	case 0:
 		SRunPara::RunPara.Version = version1;
 		break;
@@ -124,7 +114,8 @@ void CEnvir::GetSim(string data)
 		break;
 	}
 
-	switch (mode) {
+	switch (mode)
+	{
 	case 0:
 		SRunPara::RunPara.mode = communityAssembly;
 		break;
@@ -133,7 +124,6 @@ void CEnvir::GetSim(string data)
 		break;
 	case 2:
 		SRunPara::RunPara.mode = catastrophicDisturbance;
-		SRunPara::RunPara.BelGrazResidualPerc = exp(-1 * (SRunPara::RunPara.BelGrazPerc / 0.0651));
 		break;
 	default:
 		cerr << "Invalid mode parameterization" << endl;
@@ -153,6 +143,10 @@ void CEnvir::GetSim(string data)
 		SRunPara::RunPara.ITV = off;
 	}
 
+	if (SRunPara::RunPara.BelGrazPerc > 0)
+	{
+		SRunPara::RunPara.BelGrazResidualPerc = exp(-1 * (SRunPara::RunPara.BelGrazPerc / 0.0651));
+	}
 
 	SRunPara::RunPara.validateRunPara();
 
@@ -164,7 +158,7 @@ void CEnvir::GetSim(string data)
 	////////////////////
 	// Design output file names
 	const string dir = "data/out/";
-	const string fid = SRunPara::RunPara.getFileID();
+	const string fid = SRunPara::RunPara.outputPrefix;
 
 	string param = 	dir + fid + "_param.csv";
 	string trait = 	dir + fid + "_trait.csv";
@@ -176,11 +170,3 @@ void CEnvir::GetSim(string data)
 	output.setupOutput(param, trait, srv, PFT, ind, meta);
 }
 
-//------------------------------------------------------------------------------
-/**
- * refresh output data.
- */
-void CEnvir::InitRun()
-{
-	ReadLandscape();
-}

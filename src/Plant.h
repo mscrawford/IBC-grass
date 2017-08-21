@@ -27,10 +27,10 @@ private:
 	double RootGrow(double rres);
 
 	double mReproRamets;			// resources for ramet growth
-	std::weak_ptr<CGenet> genet; 	// genet of the clonal plant
 
 public:
 	std::unique_ptr<SPftTraits> Traits;	// PFT Traits
+	std::weak_ptr<CGenet> genet; 	// genet of the clonal plant
 
 	static int numPlants;
 	int plantID;
@@ -56,9 +56,7 @@ public:
 
 	// Clonal
 	std::vector< std::shared_ptr<CPlant> > growingSpacerList;	// List of growing Spacer
-	double spacerLength;                    // real spacer length
-	double spacerDirection;                 // spacer direction
-	double spacerLengthToGrow;              // length to grow
+	double spacerLengthToGrow;
 
 	// Constructors
 	CPlant(const std::unique_ptr<CSeed> & seed); 						// from a germinated seed
@@ -78,14 +76,14 @@ public:
 	inline double minresA() const { return Traits->mThres * Ash_disc * Traits->Gmax; } // lower threshold of aboveground resource uptake
 	inline double minresB() const { return Traits->mThres * Art_disc * Traits->Gmax; } // lower threshold of belowground resource uptake
 
-	inline double GetMass() { return mshoot + mroot + mRepro; }
+	inline double GetMass() const { return mshoot + mroot + mRepro; }
 
-	inline double getHeight(double const height_conversion_constant = 6.5) {
-		return pow(mshoot / (Traits->LMR), 1 / 3.0) * height_conversion_constant; }
+	inline double getHeight(double const c_height_conversion = 6.5) const {
+		return pow(mshoot / (Traits->LMR), 1 / 3.0) * c_height_conversion; }
 
 	// MSC: This is derived from "CPlant::getHeight"
-	inline double getBiomassAtHeight(double const height, double const& height_conversion_constant = 6.5) {
-		return ( (pow(height, 3) * Traits->LMR) / pow(height_conversion_constant, 3) );
+	inline double getBiomassAtHeight(double const height, double const c_height_conversion = 6.5) const {
+		return ( (pow(height, 3) * Traits->LMR) / pow(c_height_conversion, 3) );
 	}
 
 	inline double Area_shoot()		{ return Traits->SLA * pow(Traits->LMR * mshoot, 2.0 / 3.0); } // ZOI area
@@ -102,7 +100,7 @@ public:
 	inline std::weak_ptr<CGenet> getGenet() { return genet; }
 
 	void SpacerGrow();  // spacer growth
-	int GetNSeeds(); 	// returns number of seeds of one plant individual. Clears mRepro.
+	int ConvertReproMassToSeeds(); 	// returns number of seeds of one plant individual. Clears mRepro.
 	int GetNRamets() const;   // return number of ramets
 
 	inline static double getPalatability(const std::shared_ptr<CPlant> & p) {

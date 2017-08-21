@@ -35,7 +35,6 @@ public:
 
 	~CCell();
 
-	void clear();
 	void weeklyReset();
 	void SetResource(double Ares, double Bres);
 	double Germinate();

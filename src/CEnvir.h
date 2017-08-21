@@ -40,13 +40,11 @@ public:
 	static std::vector<std::string> PftInitList; // list of Pfts used
 	static std::map<std::string, int> PftSurvTime;	// array for survival times of PFTs [years];
 
-	static std::vector<double> AResMuster; // mean above-ground resource availability [resource units per cm^2]
-	static std::vector<double> BResMuster; // mean below-ground resource availability [resource units per cm^2]
+	const static int WeeksPerYear;  	// number of weeks per year (constantly at value 30)
 
 	static int week;       		// current week (0-30)
 	static int year;        	// current year
-	static int WeeksPerYear;  	// number of weeks per year (constantly at value 30)
-	static int NRep;        	// number of replications -> read from SimFile;
+
 	static int SimNr;       	// simulation-ID
 	static int ComNr;			// Community identifier for multiple parameter settings of the same community.
 	static int RunNr;       	// repetition number
@@ -54,14 +52,7 @@ public:
 	CEnvir();
 	~CEnvir();
 
-	static void ReadLandscape(); 	// Populated grid space with resources
 	void GetSim(std::string data); 	// Simulation read in
-	void InitRun();
-
-	inline static void ResetT() {
-		year = 1;
-		week = 0;
-	};
 
 	inline static void NewWeek() {
 		week++;

@@ -38,6 +38,7 @@ struct SRunPara
 {
 
 public:
+	static SRunPara RunPara;	//!> scenario parameters
 
 	static const bool verbose = true;
 
@@ -53,9 +54,6 @@ public:
 	int trait_out;
 	int meta_out;
 
-	static SRunPara RunPara;	//!> scenario parameters
-
-	void cleanRunPara();
 	void validateRunPara();
 
 	// Competition mode
@@ -134,7 +132,6 @@ public:
 	};
 
 	std::string getSimID(); // Merge ID for data sets
-	std::string getFileID(); // Output filename (Repetitions go into the same files)
 };
 //---------------------------------------------------------------------------
 #endif

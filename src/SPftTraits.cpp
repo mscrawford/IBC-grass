@@ -22,7 +22,7 @@ SPftTraits::SPftTraits() :
 		AllocSeed(0.05), SeedMass(-1), Dist(-1), Dorm(1), pEstab(0.5),
 		Gmax(-1), palat(-1), memory(-1),
 		mThres(0.2), growth(0.25), FlowerWeek(16), DispWeek(20),
-		clonal(false), PropSex(0.1), meanSpacerlength(0), sdSpacerlength(0),
+		clonal(false), meanSpacerlength(0), sdSpacerlength(0),
 		AllocSpacer(0), Resshare(false), mSpacer(0)
 {
 
@@ -37,8 +37,7 @@ SPftTraits::SPftTraits(const SPftTraits& s) :
 		AllocSeed(s.AllocSeed), SeedMass(s.SeedMass), Dist(s.Dist), Dorm(s.Dorm), pEstab(s.pEstab),
 		Gmax(s.Gmax), palat(s.palat), memory(s.memory),
 		mThres(s.mThres), growth(s.growth), FlowerWeek(s.FlowerWeek), DispWeek(s.DispWeek),
-		clonal(s.clonal), PropSex(s.PropSex),
-		meanSpacerlength(s.meanSpacerlength), sdSpacerlength(s.sdSpacerlength),
+		clonal(s.clonal), meanSpacerlength(s.meanSpacerlength), sdSpacerlength(s.sdSpacerlength),
 		AllocSpacer(s.AllocSpacer), Resshare(s.Resshare), mSpacer(s.mSpacer)
 {
 
@@ -88,8 +87,7 @@ void SPftTraits::ReadPFTDef(const string& file)
 				>> traits->pEstab >> traits->Gmax >> traits->SLA
 				>> traits->palat >> traits->memory >> traits->RAR
 				>> traits->growth >> traits->mThres >> traits->clonal
-				>> traits->PropSex >> traits->meanSpacerlength
-				>> traits->sdSpacerlength >> traits->Resshare
+				>> traits->meanSpacerlength >> traits->sdSpacerlength >> traits->Resshare
 				>> traits->AllocSpacer >> traits->mSpacer;
 
 		SPftTraits::pftInsertionOrder.push_back(traits->name);
@@ -114,7 +112,6 @@ void SPftTraits::varyTraits()
 	myTraitType = SPftTraits::individualized;
 	double dev;
 
-//	cout << "Varying traits! LMR..." << endl;
 	double LMR_;
 	do
 	{
@@ -124,7 +121,6 @@ void SPftTraits::varyTraits()
 	LMR = LMR_;
 //	cout << "LMR: " << LMR << endl;
 
-//	cout << "Varying traits! Mass..." << endl;
 	double m0_, MaxMass_, SeedMass_, Dist_;
 	do
 	{
@@ -143,38 +139,32 @@ void SPftTraits::varyTraits()
 //	cout << "SeedMass: " << SeedMass << endl;
 //	cout << "Dist: " << Dist << endl;
 
-	//	cout << "Varying traits! Gmax..." << endl;
 	double Gmax_;
 	int memory_;
 	do
 	{
-//		cout << "Drawing variate..." << endl;
 		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
-//		cout << "Setting Gmax ..." << endl;
 		Gmax_ = Gmax + (Gmax * dev);
-//		cout << "Setting memory..." << endl;
 		memory_ = memory - (memory * dev);
-//		cout << "Testing values: dev: " << dev << " Gmax: " << Gmax_ << " memory: " << memory_  << endl;
 	} while (dev < -1.0 || dev > 1.0 || Gmax_ < 0 || memory_ < 1);
 	Gmax = Gmax_;
 	memory = memory_;
 //	cout << "Gmax: " << Gmax << endl;
 //	cout << "Memory: " << memory << endl;
 
-//	cout << "Varying traits! Palat..." << endl;
 	double palat_, SLA_;
 	do
 	{
 		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
 		palat_ = palat + (palat * dev);
 		SLA_ = SLA + (SLA * dev);
+//		cout << "Testing values: dev: " << dev << " SLA: " << SLA_ << " palat: " << palat_  << endl;
 	} while (dev < -1.0 || dev > 1.0 || palat_ < 0 || SLA_ < 0);
 	palat = palat_;
 	SLA = SLA_;
 //	cout << "palat: " << palat << endl;
 //	cout << "SLA: " << SLA << endl;
 
-	//	cout << "Varying traits! Spacers..." << endl;
 	double meanSpacerlength_, sdSpacerlength_;
 	do
 	{
@@ -186,7 +176,4 @@ void SPftTraits::varyTraits()
 	sdSpacerlength = sdSpacerlength_;
 //	cout << "meanSpacerlength: " << meanSpacerlength << endl;
 //	cout << "sdSpacerlength: " << sdSpacerlength << endl;
-
-//	cout << "Done varying traits!" << endl;
-
 }

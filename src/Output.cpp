@@ -54,7 +54,7 @@ const vector<string> Output::ind_header
 			"i_SLA", "i_palat",
 			"i_Gmax", "i_memory",
 			"i_clonal", "i_meanSpacerlength", "i_sdSpacerlength",
-			"i_Age",
+			"i_genetID", "i_Age",
 			"i_mShoot", "i_mRoot", "i_rShoot", "i_rRoot",
 			"i_mRepro", "i_lifetimeFecundity",
 			"i_stress"
@@ -90,15 +90,11 @@ Output::Output() :
 
 Output::~Output()
 {
-		Output::param_stream.close();
-		Output::trait_stream.close();
-		Output::srv_stream.close();
-		Output::PFT_stream.close();
-		Output::ind_stream.close();
-		Output::meta_stream.close();
-	}
+	cleanup();
+}
 
-void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn, string _PFT_fn, string _ind_fn, string _meta_fn)
+void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn,
+						 string _PFT_fn, string _ind_fn, string _meta_fn)
 {
 	Output::param_fn = _param_fn;
 	Output::trait_fn = _trait_fn;
@@ -261,7 +257,8 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<CPlant> > & Pl
 	// Create the data structure necessary to aggregate individuals
 	map<string, PFT_struct> PFT_map;
 
-	for (auto const& it : SPftTraits::pftTraitTemplates) {
+	for (auto const& it : SPftTraits::pftTraitTemplates)
+	{
 		PFT_map[it.first] = PFT_struct();
 	}
 
@@ -362,6 +359,7 @@ void Output::print_ind(const std::vector< std::shared_ptr<CPlant> > & PlantList)
 		ss << p->Traits->clonal 			<< ", ";
 		ss << p->Traits->meanSpacerlength 	<< ", ";
 		ss << p->Traits->sdSpacerlength 	<< ", ";
+		ss << p->genet.lock()->genetID		<< ", ";
 		ss << p->Age 						<< ", ";
 		ss << p->mshoot						<< ", ";
 		ss << p->mroot 						<< ", ";

@@ -10,19 +10,14 @@ using namespace std;
 /**
  * constructor
  */
-CGridEnvir::CGridEnvir() : CEnvir(), CGrid() {
-	ReadLandscape();
-}
+CGridEnvir::CGridEnvir() : CEnvir(), CGrid() { }
 
 //------------------------------------------------------------------------------
 /**
- Initiate new Run: reset grid and randomly set initial individuals.
+ * Initiate new Run: Randomly set initial individuals.
  */
-void CGridEnvir::InitRun() {
-	CEnvir::InitRun();
-
-	resetGrid();
-
+void CGridEnvir::InitRun()
+{
 	InitInds(); // Initialize individuals
 }
 
@@ -52,8 +47,6 @@ void CGridEnvir::InitInds()
 
 void CGridEnvir::OneRun()
 {
-	ResetT();
-
 	output.print_param();
 
 	if (SRunPara::RunPara.trait_out)
@@ -78,7 +71,10 @@ void CGridEnvir::OneRun()
 			PftSurvTime[invader] = 0;
 		}
 
-		if (exitConditions()) break;
+		if (exitConditions())
+		{
+			break;
+		}
 
 	} while (year < SRunPara::RunPara.Tmax);
 

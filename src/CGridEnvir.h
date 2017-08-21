@@ -31,6 +31,7 @@ public:
 	bool exitConditions();
 
 	void SeedRain(); // distribute seeds on the grid each year
+
 };
 
 #endif /* CGRIDENVIR_H_ */

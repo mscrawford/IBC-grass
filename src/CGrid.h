@@ -71,9 +71,6 @@ static std::vector<int> ZOIBase;
 //! periodic boundary conditions
 void Boundary(int& xx, int& yy);
 
-/// test for emmigration
-bool Emmigrates(const int xx, const int yy);
-
 ///dispersal kernel for seeds
 void getTargetCell(int& xx, int& yy, const float mean, const float sd);
 

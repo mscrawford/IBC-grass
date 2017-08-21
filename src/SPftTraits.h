@@ -75,7 +75,6 @@ public:
 
 //clonality...
 	bool clonal;   				// is this plant clonal at all?
-	double PropSex; 			// allocation to sexual reproduction during time of seed production
 	double meanSpacerlength;  	// mean spacer length [cm]
 	double sdSpacerlength;    	// sd spacer length [cm]
 	double AllocSpacer; 		// proportion of ressource invested in ramet growth -> for annual and biannual species this should not be=AllocSeed, because this is then way to high
