@@ -8,6 +8,8 @@
 
 using namespace std;
 
+//-----------------------------------------------------------------------------
+
 /*
  * Constructor for normal reproduction
  */
@@ -27,6 +29,8 @@ CSeed::CSeed(const shared_ptr<CPlant> & plant, CCell* _cell) :
 	assert(this->cell == NULL);
 	this->cell = _cell;
 }
+
+//-----------------------------------------------------------------------------
 
 /*
  * Constructor for initial establishment (with germination pre-set)

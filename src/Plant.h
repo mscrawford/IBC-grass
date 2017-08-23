@@ -81,7 +81,6 @@ public:
 	inline double getHeight(double const c_height_conversion = 6.5) const {
 		return pow(mshoot / (Traits->LMR), 1 / 3.0) * c_height_conversion; }
 
-	// MSC: This is derived from "CPlant::getHeight"
 	inline double getBiomassAtHeight(double const height, double const c_height_conversion = 6.5) const {
 		return ( (pow(height, 3) * Traits->LMR) / pow(c_height_conversion, 3) );
 	}
@@ -94,14 +93,14 @@ public:
 	void setCell(CCell* cell);
 	inline CCell* getCell() { return cell; }
 
-	inline std::string pft() { return this->Traits->name; } // say what a pft you are
+	inline std::string pft() { return this->Traits->name; }
 
 	inline void setGenet(std::weak_ptr<CGenet> _genet) { this->genet = _genet; }
 	inline std::weak_ptr<CGenet> getGenet() { return genet; }
 
-	void SpacerGrow();  // spacer growth
+	void SpacerGrow();  			// spacer growth
 	int ConvertReproMassToSeeds(); 	// returns number of seeds of one plant individual. Clears mRepro.
-	int GetNRamets() const;   // return number of ramets
+	int GetNRamets() const;  		// return number of ramets
 
 	inline static double getPalatability(const std::shared_ptr<CPlant> & p) {
 		return p->mshoot * p->Traits->GrazFraction();
@@ -111,9 +110,8 @@ public:
 		return (p->mshoot / p->Traits->LMR);
 	}
 
-	// return if plant should be removed (necessary to apply algorithms from STL)
-	inline static bool GetPlantRemove(const std::shared_ptr<CPlant> & p)
-	{
+	// return if plant should be removed
+	inline static bool GetPlantRemove(const std::shared_ptr<CPlant> & p) {
 		return p->remove;
 	}
 

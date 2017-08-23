@@ -12,6 +12,7 @@
 using namespace std;
 
 //---------------------------------------------------------------------------
+
 CGrid::CGrid()
 {
 	CellsInit();
@@ -24,17 +25,14 @@ CGrid::CGrid()
 	}
 
 	sort(ZOIBase.begin(), ZOIBase.end(), CompareIndexRel);
-
-	CGrid::above_biomass_history = vector<int>();
-	CGrid::below_biomass_history = vector<int>();
-	CGrid::PlantList = vector< std::shared_ptr<CPlant> >();
 }
 
 //---------------------------------------------------------------------------
 
 CGrid::~CGrid()
 {
-	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
+	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
+	{
 		CCell* cell = CellList[i];
 		delete cell;
 	}
@@ -47,12 +45,7 @@ CGrid::~CGrid()
 }
 
 //-----------------------------------------------------------------------------
-/**
- Initiate grid cells.
 
- \note call only once or delete cell objects before;
- better reset cells (resetGrid()) to start a new environment
- */
 void CGrid::CellsInit()
 {
 	int index;
@@ -71,16 +64,13 @@ void CGrid::CellsInit()
 }
 
 //-----------------------------------------------------------------------------
-/**
- The clonal version of PlantLoop additionally to the CGrid-version
- disperses and grows the clonal ramets
- Growth (resource allocation and vegetative growth), seed dispersal and
- mortality of plants.
- */
+
 void CGrid::PlantLoop()
 {
-	for (auto const& p : PlantList)
+	for (auto p_itr = PlantList.begin(); p_itr != PlantList.end(); ++p_itr)
 	{
+		auto const& p = *p_itr;
+
 		if (SRunPara::RunPara.ITV == on)
 			assert(p->Traits->myTraitType == SPftTraits::individualized);
 
@@ -90,8 +80,8 @@ void CGrid::PlantLoop()
 
 			if (p->Traits->clonal)
 			{
-				DispersRamets(p); 	// ramet dispersal in every week
-				p->SpacerGrow(); 	// if the plant has a growing spacer - grow it
+				DispersRamets(p);
+				p->SpacerGrow();
 			}
 
 //			if (CEnvir::week >= p->Traits->DispWeek)
@@ -129,7 +119,7 @@ void getTargetCell(int& xx, int& yy, const float mean, const float sd)
 
 //-----------------------------------------------------------------------------
 /**
- * Function disperses the seeds produced by a plant when seeds are to be released.
+ * Disperses the seeds produced by a plant when seeds are to be released.
  * Each Seed is dispersed after an log-normal dispersal kernel in function getTargetCell().
  */
 void CGrid::DispersSeeds(const std::shared_ptr<CPlant> & plant)
@@ -140,20 +130,19 @@ void CGrid::DispersSeeds(const std::shared_ptr<CPlant> & plant)
 
 	for (int i = 0; i < n; ++i)
 	{
-		int x = px;
-		int y = py; //remember the parent's position
+		int x = px; // remember parent's position
+		int y = py;
 
 		// lognormal dispersal kernel. This function changes X & Y by reference!
 		getTargetCell(x, y,
-				plant->Traits->Dist * 100, // meters -> cm
+				plant->Traits->Dist * 100,  // meters -> cm
 				plant->Traits->Dist * 100); // mean = std (simple assumption)
 
-		Boundary(x, y); // recalculates position for torus
+		Torus(x, y); // recalculates position for torus
 
 		CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
 
-		unique_ptr<CSeed> seed(new CSeed(plant, cell));
-		cell->SeedBankList.push_back(std::move(seed));
+		cell->SeedBankList.push_back(make_unique<CSeed>(plant, cell));
 	}
 }
 
@@ -175,7 +164,7 @@ void CGrid::DispersRamets(const std::shared_ptr<CPlant> & p)
 		int y = round(p->getCell()->y + sin(direction) * distance);
 
 		// periodic boundary condition
-		Boundary(x, y);
+		Torus(x, y);
 
 		// save distance and direction in the plant
 		std::shared_ptr<CPlant> Spacer = make_shared<CPlant>(x, y, p);
@@ -187,8 +176,7 @@ void CGrid::DispersRamets(const std::shared_ptr<CPlant> & p)
 //--------------------------------------------------------------------------
 /**
  * This function calculates ZOI of all plants on grid.
- * Each grid-cell gets a list
- * of plants influencing the above- (alive and dead individuals) and
+ * Each grid-cell gets a list of plants influencing the above- (alive and dead plants) and
  * belowground (alive plants only) layers.
  */
 void CGrid::CoverCells()
@@ -205,7 +193,6 @@ void CGrid::CoverCells()
 
 		for (int a = 0; a < Amax; a++)
 		{
-			//get current position: add plant pos with ZOIBase-pos
 			int x = plant->getCell()->x
 					+ ZOIBase[a] / SRunPara::RunPara.GridSize
 					- SRunPara::RunPara.GridSize / 2;
@@ -213,7 +200,7 @@ void CGrid::CoverCells()
 					+ ZOIBase[a] % SRunPara::RunPara.GridSize
 					- SRunPara::RunPara.GridSize / 2;
 
-			Boundary(x, y);
+			Torus(x, y);
 
 			CCell* cell = CellList[x * SRunPara::RunPara.GridSize + y];
 
@@ -285,11 +272,10 @@ void CGrid::Resshare()
 	{
 		if (Genet->AllRametList.size() > 1) // A ramet cannot share with itself
 		{
-			auto ramet_ptr = Genet->AllRametList.front(); // To ensure that the has the "resource sharing" trait
-			auto ramet = ramet_ptr.lock();
+			auto ramet = Genet->AllRametList.front().lock();
 			assert(ramet);
-
 			assert(ramet->Traits->clonal);
+
 			if (ramet->Traits->Resshare)
 			{
 				Genet->ResshareA();
@@ -303,8 +289,10 @@ void CGrid::Resshare()
 
 void CGrid::EstablishmentLottery()
 {
-	for (auto const& plant : PlantList)
+	for (auto p_itr = PlantList.begin(); p_itr != PlantList.end(); ++p_itr)
 	{
+		auto const& plant = *p_itr;
+
 		if (plant->Traits->clonal && !plant->dead)
 		{
 			RametEstab(plant);
@@ -349,10 +337,7 @@ void CGrid::EstablishmentLottery()
 }
 
 //-----------------------------------------------------------------------------
-/**
- * Establish new genet.
- * @param seed seed which germinates.
- */
+
 void CGrid::EstablishSeedling(const std::unique_ptr<CSeed> & seed)
 {
 	shared_ptr<CPlant> p = make_shared<CPlant>(seed);
@@ -367,15 +352,7 @@ void CGrid::EstablishSeedling(const std::unique_ptr<CSeed> & seed)
 }
 
 //-----------------------------------------------------------------------------
-/**
- Establishment of ramets. If spacer is readily grown tries to settle on
- current cell.
- If it is already occupied it finds a new goal nearby.
- If the cell is empty, the ramet establishes:
- cell information is set and the ramet is added to the global plant list,
- the genet's ramet list as well as erased
- from the spacer list of the mother plant.
- */
+
 void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 {
 	auto ramet_itr = plant->growingSpacerList.begin();
@@ -405,18 +382,19 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 				PlantList.push_back(Ramet);
 			}
 
+			// Regardless of establishment success, the iterator is removed from growingSpacerList
 			ramet_itr = plant->growingSpacerList.erase(ramet_itr);
 		}
 		else
 		{
 			if (CEnvir::week == CEnvir::WeeksPerYear)
 			{
-				// It is winter so this ramet dies of exposure
+				// It is winter so this ramet dies over the winter
 				ramet_itr = plant->growingSpacerList.erase(ramet_itr);
 			}
 			else
 			{
-				// This ramet will find another nearby cell; keep it
+				// This ramet will find a nearby cell; keep it
 				int _x, _y;
 				do
 				{
@@ -427,9 +405,8 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 				int x = round(Ramet->xcoord + _x);
 				int y = round(Ramet->ycoord + _y);
 
-				Boundary(x, y);
+				Torus(x, y);
 
-				//new position, dist and direction
 				Ramet->xcoord = x;
 				Ramet->ycoord = y;
 				Ramet->spacerLengthToGrow = Distance(_x, _y, 0, 0);
@@ -441,9 +418,8 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 	}
 }
 
-/**
- * Seed mortality
- */
+//-----------------------------------------------------------------------------
+
 void CGrid::SeedMortAge()
 {
 	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
@@ -461,10 +437,10 @@ void CGrid::SeedMortAge()
 	}
 }
 
+//-----------------------------------------------------------------------------
+
 void CGrid::Disturb()
 {
-	if (PlantList.size() == 0)
-		return;
 
 	CGrid::above_biomass_history.push_back(GetTotalAboveMass());
 	CGrid::below_biomass_history.push_back(GetTotalBelowMass());
@@ -502,7 +478,6 @@ void CGrid::Disturb()
 
 void CGrid::RunCatastrophicDisturbance()
 {
-	// Disturb plants
 	for (auto const& p : PlantList)
 	{
 		if (p->dead)
@@ -518,12 +493,10 @@ void CGrid::RunCatastrophicDisturbance()
 //-----------------------------------------------------------------------------
 /**
  The plants on the whole grid are grazed according to
- their relative grazing susceptibility until the given
- \ref SRunPara::PropRemove "proportion of removal"
+ their relative grazing susceptibility until the given "proportion of removal"
  is reached or the grid is completely grazed.
- (Above ground mass that is ungrazable - see Schwinning and Parsons (1999):
+ (Aboveground mass that is ungrazable - see Schwinning and Parsons (1999):
  15,3 g/m�  * 1.6641 m� = 25.5 g)
-
  */
 void CGrid::GrazingAbvGr()
 {
@@ -536,11 +509,11 @@ void CGrid::GrazingAbvGr()
 
 	while (MassRemoved < MaxMassRemove)
 	{
-		shared_ptr<CPlant> p = *std::max_element(PlantList.begin(), PlantList.end(),
-				[](const shared_ptr<CPlant> & a, const shared_ptr<CPlant> & b)
-				{
-					return CPlant::getPalatability(a) < CPlant::getPalatability(b);
-				});
+		auto p = *std::max_element(PlantList.begin(), PlantList.end(),
+						[](const shared_ptr<CPlant> & a, const shared_ptr<CPlant> & b)
+						{
+							return CPlant::getPalatability(a) < CPlant::getPalatability(b);
+						});
 
 		double max_palatability = CPlant::getPalatability(p);
 
@@ -580,6 +553,7 @@ void CGrid::Cutting(double cut_height)
 }
 
 //-----------------------------------------------------------------------------
+
 void CGrid::GrazingBelGr()
 {
 	auto sumLivingRootMass = [](const vector< shared_ptr<CPlant> > & l)
@@ -600,22 +574,19 @@ void CGrid::GrazingBelGr()
 	double bt = sumLivingRootMass(PlantList);
 	const double alpha = 2.0;
 
-	double fn_o;
-	if (CGrid::below_biomass_history.size() > 60) // parameterize this...
+	std::vector<double> rolling_mean;
+	vector<double>::size_type historySize = 60; // in Weeks
+	if (CGrid::below_biomass_history.size() > historySize)
 	{
-		std::vector<double> rolling_mean(
-				CGrid::below_biomass_history.end() - 60,
-				CGrid::below_biomass_history.end());
-		fn_o = SRunPara::RunPara.BelGrazPerc *
-				( accumulate(rolling_mean.begin(), rolling_mean.end(), 0) / rolling_mean.size() );
+		rolling_mean = std::vector<double>(CGrid::below_biomass_history.end() - historySize, CGrid::below_biomass_history.end());
 	}
 	else
 	{
-		std::vector<double> rolling_mean(CGrid::below_biomass_history.begin(),
-				CGrid::below_biomass_history.end());
-		fn_o = SRunPara::RunPara.BelGrazPerc *
-				( accumulate(rolling_mean.begin(), rolling_mean.end(), 0) / rolling_mean.size() );
+		rolling_mean = std::vector<double>(CGrid::below_biomass_history.begin(), CGrid::below_biomass_history.end());
 	}
+
+	double fn_o = SRunPara::RunPara.BelGrazPerc *
+					( accumulate(rolling_mean.begin(), rolling_mean.end(), 0) / rolling_mean.size() );
 
 	// Functional response
 	if (bt - fn_o < bt * SRunPara::RunPara.BelGrazResidualPerc)
@@ -674,8 +645,8 @@ void CGrid::GrazingBelGr()
 
 //-----------------------------------------------------------------------------
 
-void CGrid::RemovePlants() {
-
+void CGrid::RemovePlants()
+{
 	// Delete the CPlant shared_pointers
 	PlantList.erase(
 			std::remove_if(PlantList.begin(), PlantList.end(),
@@ -776,8 +747,7 @@ void CGrid::InitClonalSeeds(string PFT_ID, const int n, const double estab)
 //---------------------------------------------------------------------------
 
 /**
- * Weekly sets cell's resources - above- and belowground variation during the
- * year.
+ * Weekly sets cell's resources. Above- and belowground variation during the year.
  */
 void CGrid::SetCellResource()
 {
@@ -802,13 +772,13 @@ void CGrid::SetCellResource()
 }
 
 //-----------------------------------------------------------------------------
-/**
- \return Euclidean distance between two pairs of coordinates (xx,yy) and (x,y)
- */
+
 double Distance(const double xx, const double yy, const double x, const double y)
 {
 	return sqrt((xx - x) * (xx - x) + (yy - y) * (yy - y));
 }
+
+//-----------------------------------------------------------------------------
 
 bool CompareIndexRel(const int i1, const int i2)
 {
@@ -821,7 +791,7 @@ bool CompareIndexRel(const int i1, const int i2)
 /*
  * Accounts for the gridspace being torus
  */
-void Boundary(int& xx, int& yy)
+void Torus(int& xx, int& yy)
 {
 	xx %= SRunPara::RunPara.GridSize;
 	if (xx < 0)

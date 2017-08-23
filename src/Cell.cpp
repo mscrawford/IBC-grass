@@ -10,13 +10,7 @@
 using namespace std;
 
 //-----------------------------------------------------------------------------
-/**
- * constructor
- * @param xx x-coordinate on grid
- * @param yy y-coordinate on grid
- * @param ares aboveground resources
- * @param bres belowground resources
- */
+
 CCell::CCell(const unsigned int xx, const unsigned int yy) :
 		x(xx), y(yy),
 		AResConc(0), BResConc(0),
@@ -26,6 +20,8 @@ CCell::CCell(const unsigned int xx, const unsigned int yy) :
 	AResConc = SRunPara::RunPara.meanARes;
 	BResConc = SRunPara::RunPara.meanBRes;
 }
+
+//-----------------------------------------------------------------------------
 
 CCell::~CCell()
 {
@@ -39,6 +35,8 @@ CCell::~CCell()
 	PftNIndB.clear();
 }
 
+//-----------------------------------------------------------------------------
+
 void CCell::weeklyReset()
 {
 	AbovePlantList.clear();
@@ -50,11 +48,15 @@ void CCell::weeklyReset()
 	SeedlingList.clear();
 }
 
+//-----------------------------------------------------------------------------
+
 void CCell::SetResource(double Ares, double Bres)
 {
    AResConc = Ares;
    BResConc = Bres;
 }
+
+//-----------------------------------------------------------------------------
 
 double CCell::Germinate()
 {
@@ -79,7 +81,8 @@ double CCell::Germinate()
 	return sum_SeedMass;
 }
 
-//---------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+
 void CCell::RemoveSeeds()
 {
 	SeedBankList.erase(
@@ -88,12 +91,7 @@ void CCell::RemoveSeeds()
 }
 
 //-----------------------------------------------------------------------------
-/**
-ABOVEground competition takes global information on symmetry and version to
-distribute the cell's resources. Resource competition Version is 1.
 
-virtual function will be substituted by comp function from sub class
-*/
 void CCell::AboveComp()
 {
 	if (AbovePlantList.empty())
@@ -155,13 +153,7 @@ void CCell::AboveComp()
 }
 
 //-----------------------------------------------------------------------------
-/**
-BELOWground competition takes global information on symmetry and version to
-distribute the cell's resources.
- Resource competition Version is 1.
 
-virtual function will be substituted by comp function from sub class
-*/
 void CCell::BelowComp()
 {
 	assert(SRunPara::RunPara.BelowCompMode != asymtot);
@@ -203,12 +195,7 @@ void CCell::BelowComp()
 }
 
 //---------------------------------------------------------------------------
-/**
-  \param type     Plant_functional_Type-ID
-  \param layer    above(1)- or below(2)ground
-  \param version  one of [0,1,2]
-  \since revision
-*/
+
 double CCell::prop_res(const string type, const int layer, const int version) const
 {
 	switch (version)

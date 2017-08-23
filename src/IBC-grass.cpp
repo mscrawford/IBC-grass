@@ -10,8 +10,6 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	assert(argc == 1 || argc == 3);
-
 	if (argc == 3) {
 		SRunPara::NameSimFile  = argv[1];
 		SRunPara::outputPrefix = argv[2];

@@ -29,17 +29,32 @@ class Base_Parameter():
         if (self.Mode != 2 and (self.CatastrophicDistWeek > 0 or self.CatastrophicPlantMortality > 0)):
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.SeedRainType == 0 and self.SeedInput > 0 or 
-            self.SeedRainType > 0 and self.SeedInput == 0):
+        # Seed Rain
+        if (self.SeedRainType == 0 and self.SeedInput > 0):
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.GrazProb == 0 and self.PropRemove > 0 or self.GrazProb > 0 and self.PropRemove == 0):
+        if(self.SeedRainType > 0 and self.SeedInput == 0):
             raise Exception("Nonsensical or redundant parameterization")
 
+        # Grazing aboveground
+        if (self.GrazProb == 0 and self.PropRemove > 0):
+            raise Exception("Nonsensical or redundant parameterization")
+
+        if (self.GrazProb > 0 and self.PropRemove == 0):
+            raise Exception("Nonsensical or redundant parameterization")
+
+        # Grazing belowground
         if (self.BelGrazProb == 0 and self.BelGrazPerc > 0):
             raise Exception("Nonsensical or redundant parameterization")
 
         if (self.BelGrazProb > 0 and self.BelGrazPerc == 0):
+            raise Exception("Nonsensical or redundant parameterization")
+
+        # Catastrophic disturbance
+        if (self.CatastrophicPlantMortality > 0 and self.CatastrophicDistWeek == 0):
+            raise Exception("Nonsensical or redundant parameterization")
+
+        if (self.CatastrophicPlantMortality == 0 and self.CatastrophicDistWeek > 0):
             raise Exception("Nonsensical or redundant parameterization")
 
     def toString(self):

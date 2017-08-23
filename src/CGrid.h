@@ -32,7 +32,6 @@ protected:
 	void DispersRamets(const std::shared_ptr<CPlant> & plant); 	// initiate new ramets
 	void EstablishmentLottery();// lottery competition for seedling establishment
 	void Winter();				// calls seed mortality and mass removal of plants
-
 	void ResetWeeklyVariables(); 		// Clears list of plants that cover each cell
 	void SeedMortAge();					// Kills seeds that are too old
 	void SeedMortWinter();				// Kills seeds that die over winter
@@ -45,14 +44,13 @@ protected:
 	void SetCellResource();				// Populates the grid with resources (weekly)
 
 public:
-	std::vector< std::shared_ptr<CPlant> > PlantList;   // List of plant individuals
 	CCell** CellList;    								// array of pointers to CCell
+	std::vector< std::shared_ptr<CPlant> > PlantList;   // List of plant individuals
 	std::vector<int> above_biomass_history;
 	std::vector<int> below_biomass_history;
 
 	CGrid();
 	~CGrid();
-	void resetGrid();
 
 	double GetTotalAboveMass();
 	double GetTotalBelowMass();
@@ -68,16 +66,16 @@ public:
 ///vector of cell indices increasing in distance to grid center
 static std::vector<int> ZOIBase;
 
-//! periodic boundary conditions
-void Boundary(int& xx, int& yy);
+// periodic boundary conditions
+void Torus(int& xx, int& yy);
 
-///dispersal kernel for seeds
+// dispersal kernel for seeds
 void getTargetCell(int& xx, int& yy, const float mean, const float sd);
 
-//! distance between two points using Euclidean distance
+// Euclidean distance between two points
 double Distance(const double xx, const double yy, const double x, const double y);
 
-///compare two index-values in their distance to the center of grid
+// compare two index-values in their distance to the center of grid
 bool CompareIndexRel(const int i1, const int i2);
 
 //---------------------------------------------------------------------------

@@ -7,9 +7,7 @@
 using namespace std;
 
 //------------------------------------------------------------------------------
-/**
- * constructor
- */
+
 CGridEnvir::CGridEnvir() : CEnvir(), CGrid() { }
 
 //------------------------------------------------------------------------------
@@ -18,8 +16,10 @@ CGridEnvir::CGridEnvir() : CEnvir(), CGrid() { }
  */
 void CGridEnvir::InitRun()
 {
-	InitInds(); // Initialize individuals
+	InitInds();
 }
+
+//-----------------------------------------------------------------------------
 
 void CGridEnvir::InitInds()
 {
@@ -45,6 +45,8 @@ void CGridEnvir::InitInds()
 	}
 }
 
+//-----------------------------------------------------------------------------
+
 void CGridEnvir::OneRun()
 {
 	output.print_param();
@@ -55,8 +57,6 @@ void CGridEnvir::OneRun()
 	}
 
 	do {
-		NewWeek();
-
 		if (SRunPara::RunPara.verbose) cout << "y " << year << endl;
 
 		OneYear();
@@ -76,12 +76,16 @@ void CGridEnvir::OneRun()
 			break;
 		}
 
-	} while (year < SRunPara::RunPara.Tmax);
+	} while (++year <= SRunPara::RunPara.Tmax);
 
 }
 
+//-----------------------------------------------------------------------------
+
 void CGridEnvir::OneYear()
 {
+	week = 1;
+
 	do {
 //		if (SRunPara::RunPara.verbose) cout << "y " << year << " w " << week << endl;
 
@@ -92,20 +96,22 @@ void CGridEnvir::OneYear()
 	} while (++week <= WeeksPerYear);
 }
 
+//-----------------------------------------------------------------------------
+
 void CGridEnvir::OneWeek()
 {
 
-	ResetWeeklyVariables(); // cell loop, removes data from cells
-	SetCellResource();      // variability between weeks
+	ResetWeeklyVariables(); // Clear ZOI data
+	SetCellResource();      // Restore/modulate cell resources
 
-	CoverCells();           // plant loop
-	DistribResource();      // cell loop, resource uptake and competition
+	CoverCells();           // Calculate zone of influences (ZOIs)
+	DistribResource();      // Allot resources based on ZOI
 
 	PlantLoop();            // Growth, dispersal, mortality
 
 	if (year > 1)
 	{
-		Disturb();  //grazing and disturbance
+		Disturb();  		// Grazing and disturbances
 	}
 
 	if (SRunPara::RunPara.mode == catastrophicDisturbance 				// Catastrophic disturbance is on
@@ -115,7 +121,7 @@ void CGridEnvir::OneWeek()
 		RunCatastrophicDisturbance();
 	}
 
-	RemovePlants();         // remove dead plants
+	RemovePlants();    		// Remove decomposed plants and clean their genets
 
 	if (SRunPara::RunPara.SeedRainType > 0 && week == 21)
 	{
@@ -126,13 +132,13 @@ void CGridEnvir::OneWeek()
 
 	if (week == 20)
 	{
-		SeedMortAge(); // necessary to remove non-dormant seeds before autumn
+		SeedMortAge(); 		// Remove non-dormant seeds before autumn
 	}
 
 	if (week == WeeksPerYear)
 	{
-		Winter();           	// removal of above ground biomass and of dead plants
-		SeedMortWinter();    	// winter seed mortality
+		Winter();           // removal of aboveground biomass and decomposed plants
+		SeedMortWinter();   // winter seed mortality
 	}
 
 	if ((SRunPara::RunPara.weekly == 1 || week == 20) &&
@@ -155,6 +161,8 @@ void CGridEnvir::OneWeek()
 
 }
 
+//-----------------------------------------------------------------------------
+
 bool CGridEnvir::exitConditions()
 {
 	// Exit conditions do not exist with external seed input
@@ -173,6 +181,7 @@ bool CGridEnvir::exitConditions()
 	return false;
 }
 
+//-----------------------------------------------------------------------------
 
 void CGridEnvir::SeedRain()
 {

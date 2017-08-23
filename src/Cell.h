@@ -7,7 +7,8 @@
 
 #include <vector>
 
-class CCell {
+class CCell
+{
 
 public:
 	int x;

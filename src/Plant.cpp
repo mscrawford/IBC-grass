@@ -72,9 +72,7 @@ CPlant::CPlant(double x, double y, const std::shared_ptr<CPlant> & plant) :
 }
 
 //---------------------------------------------------------------------------
-/**
- * destructor
- */
+
 CPlant::~CPlant()
 {
 	growingSpacerList.clear();
@@ -89,11 +87,7 @@ void CPlant::weeklyReset()
 }
 
 //-----------------------------------------------------------------------------
-/**
- * join cell to plant object
- *
- * \param
- */
+
 void CPlant::setCell(CCell* _cell) {
 	assert(this->cell == NULL && _cell != NULL);
 
@@ -104,11 +98,6 @@ void CPlant::setCell(CCell* _cell) {
 //---------------------------------------------------------------------------
 /**
  * Growth of reproductive organs (seeds and spacer).
- *
- * Function adapted to annual plants with AllocSeed of 1.
- * @param uptake Resource uptake of plant object.
- * @return resources available for individual needs.
- * \author FM, IS adapted by HP
  */
 double CPlant::ReproGrow(double uptake)
 {
@@ -209,15 +198,19 @@ void CPlant::Grow2() //grow plant one timestep
 	mroot += dm_root;
 
 	if (stressed())
+	{
 		++stress;
+	}
 	else if (stress > 0)
+	{
 		--stress;
+	}
+
 }
 
 //-----------------------------------------------------------------------------
 /**
- shoot growth
- dm/dt = growth*(c*m^p - m^q / m_max^r)
+ * shoot growth : dm/dt = growth*(c*m^p - m^q / m_max^r)
  */
 double CPlant::ShootGrow(double shres)
 {
@@ -239,9 +232,7 @@ double CPlant::ShootGrow(double shres)
 
 //-----------------------------------------------------------------------------
 /**
- root growth
-
- dm/dt = growth*(c*m^p - m^q / m_max^r)
+ * root growth : dm/dt = growth*(c*m^p - m^q / m_max^r)
  */
 double CPlant::RootGrow(double rres)
 {
@@ -302,9 +293,9 @@ void CPlant::DecomposeDead() {
 
 //-----------------------------------------------------------------------------
 /**
- If the plant is alive and it is dispersal time, the function returns
- the number of seeds produced during the last weeks.
- Subsequently the allocated resources are reset to zero.
+ * If the plant is alive and it is dispersal time, the function returns
+ * the number of seeds produced during the last weeks.
+ * Subsequently the allocated resources are reset to zero.
  */
 int CPlant::ConvertReproMassToSeeds()
 {
@@ -322,13 +313,11 @@ int CPlant::ConvertReproMassToSeeds()
 	return NSeeds;
 }
 
-//------------------------------------------------
+//-----------------------------------------------------------------------------
 /**
- returns the number of new spacer to set: currently
- - 1 if there are clonal-growth-resources and spacer-lisdt is empty, and
+ returns the number of new spacer to set:
+ - 1 if there are enough clonal-growth resources and spacer list is empty
  - 0 otherwise
- \return the number of new spacer to set
- Unlike CPlant::GetNSeeds() no resources are reset due to ongoing growth
  */
 int CPlant::GetNRamets() const
 {
@@ -343,11 +332,10 @@ int CPlant::GetNRamets() const
 
 //-----------------------------------------------------------------------------
 /**
- Remove half shoot mass and seed mass from a plant.
-
- \return mass that was removed
+ * Remove half shoot mass and seed mass from a plant.
  */
-double CPlant::RemoveShootMass() {
+double CPlant::RemoveShootMass()
+{
 	double mass_removed = 0;
 
 	if (mshoot + mRepro > 1) // only remove mass if shootmass > 1 mg
@@ -362,10 +350,7 @@ double CPlant::RemoveShootMass() {
 
 //-----------------------------------------------------------------------------
 /**
- Remove root mass from a plant.
- \param prop_remove   proportion of mass to be removed
- \return mass that was removed
- \since belowground herbivory simulations
+ * Remove root mass from a plant.
  */
 void CPlant::RemoveRootMass(const double mass_removed)
 {
@@ -395,11 +380,7 @@ void CPlant::WinterLoss()
  * @param layer above- (1) or belowground (2) ZOI
  * @param symmetry Symmetry of competition
  * (symmetric, partial asymmetric, complete asymmetric )
- * \sa SRunPara::RunPara.AboveCompMode
- * \sa SRunPara::RunPara.BelowCompMode
- *
  * @return competitive strength
- * \since revision
  */
 double CPlant::comp_coef(const int layer, const int symmetry) const
 {
@@ -407,9 +388,9 @@ double CPlant::comp_coef(const int layer, const int symmetry) const
 	{
 	case 1:
 		if (layer == 1)
-			return Traits->Gmax; //CompPowerA();
+			return Traits->Gmax;
 		if (layer == 2)
-			return Traits->Gmax; //CompPowerB();
+			return Traits->Gmax;
 		break;
 	case 2:
 		if (layer == 1)
@@ -419,7 +400,8 @@ double CPlant::comp_coef(const int layer, const int symmetry) const
 		break;
 	default:
 		cerr << "CPlant::comp_coef() - wrong input";
-		exit(3);
+		exit(1);
 	}
-	return -1;  //should not be reached
+
+	return -1;
 }

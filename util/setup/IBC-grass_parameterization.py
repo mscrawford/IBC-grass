@@ -3,8 +3,30 @@ import util
 
 from util import *
 
-PATH = "./tmp/"
+####################################################################
+#### Simulation setup parameters
+#### If you want to have the setup script remove everything in
+#### the input and output folders, and then write into the input
+#### folder, set DESTRUCTIVE_SETUP to True. Otherwise, it will 
+#### populate the tmp folder.
+####################################################################
 
+DESTRUCTIVE_SETUP = True
+
+tmp_folder = "./tmp/"
+in_folder  = "../../data/in/"
+out_folder = "../../data/out/"
+
+if (DESTRUCTIVE_SETUP):
+    for f in os.listdir(in_folder):
+        os.remove(in_folder + f)
+    for f in os.listdir(out_folder):
+        os.remove(out_folder + f)
+    PATH = in_folder
+else:
+    for f in os.listdir(tmp_folder):
+        os.remove(tmp_folder + f)
+    PATH = tmp_folder
 
 ####################################################################
 #### Parameters
@@ -14,7 +36,7 @@ PATH = "./tmp/"
 ### Hyperparameters
 
 # For computing clusters
-PARALLEL = True         # IF SERIES THIS -> FALSE
+PARALLEL = False         # IF SERIES THIS -> FALSE
 N_SLOTS  = 300          # Number of cores to split between
 H_RT     = "08:00:00"   # Maximum runtime for simulations (08:00:00 = 8 hours)
 H_VMEM   = "2G"         # Memory for each simulation run
@@ -28,18 +50,18 @@ srv_out   = 0 # Print PFT-survival output:               (0) No; (1) Yes !!!-> N
 trait_out = 0 # Print trait-level output:                (0) No; (1) Yes
 meta_out  = 0 # Print output about the environment, etc. (0) No; (1) Year
 
-# Number of repetitions
+# Number of repetitions 
 N_REPS    = 1
 
 # Number of communities and what kind of PFTs to use
-N_COMS    = 150           # UNUSED WITH PAIRWISE INVASION CRITERION
+N_COMS    = 1           # UNUSED WITH PAIRWISE INVASION CRITERION
 PFT_type  = "EMPIRICAL" # "THEORETICAL" or "EMPIRICAL"
 
 ##########################################
 ### Environmental parameters
 
 IC_vers = [1] # IBC-grass run mode -- Negative frequency dependence
-MODE    = [0] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
+MODE    = [2] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
 N_PFTs  = [0] # UNUSED WITH PAIRWISE INVASION CRITERION
 ITVsd   = [0]
 Tmax    = [150]
@@ -62,7 +84,7 @@ BelGrazPerc = [0, 0.1, 0.2, 0.3]
 
 # Catastrophic disturbance
 CatastrDist_Mort = [0, 1]
-CatastrDist_Week  = [0, 21, 25]
+CatastrDist_Week  = [0, 16, 20, 26]
     # Plants begin to create seeds on week 16
     # Seed addition and dispersal occurs on week 21
     # Seed establishment begins on week 22
@@ -168,7 +190,7 @@ def buildBatchScripts(SimFile):
             replace_string = s
             batch_text = re.sub('@SIMFILE@', replace_string, base)
             batch_text = re.sub('@PREFIX@', batch_name, batch_text)
-            with open('./tmp/' + batch_name + ".sub", 'w') as w:
+            with open(PATH + batch_name + ".sub", 'w') as w:
                 w.write(batch_text)
             batch_number += 1
 
@@ -316,7 +338,7 @@ if __name__ == "__main__":
 
     if (PARALLEL):
         buildBatchScripts(SimFile)
-        os.system('cp ./resources/queue.sh ./tmp')
+        os.system('cp ./resources/queue.sh ' + PATH)
     else:
         with open(PATH + "SimFile.txt", 'w') as w:
             w.write(SIM_HEADER)

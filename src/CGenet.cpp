@@ -41,6 +41,9 @@ void CGenet::ResshareA()
 		ramet->Auptake += MeanAuptake;
 	}
 }
+
+//-----------------------------------------------------------------------------
+
 /*
  * This is for belowground.
  */
@@ -75,4 +78,3 @@ void CGenet::ResshareB()
 		ramet->Buptake += MeanBuptake;
 	}
 }
-

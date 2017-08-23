@@ -6,14 +6,6 @@
 
 #include <string>
 
-//---------------------------------------------------------------------------
-// simulation service class including grid-, result- and environmental information
-
-/**
- The class collects simulation environment with clonal properties.
- CGridclonal and CEnvir are connected, and some Clonal-specific
- result-variables added.
- */
 class CGridEnvir: public CEnvir, public CGrid
 {
 
@@ -21,7 +13,7 @@ public:
 
 	CGridEnvir();
 
-	void InitRun();   // from CEnvir
+	void InitRun();
 	void OneYear();   // runs one year in default mode
 	void OneRun();    // runs one simulation run in default mode
 	void OneWeek();   // calls all weekly processes
@@ -30,7 +22,7 @@ public:
 
 	bool exitConditions();
 
-	void SeedRain(); // distribute seeds on the grid each year
+	void SeedRain();  // distribute seeds on the grid each year
 
 };
 

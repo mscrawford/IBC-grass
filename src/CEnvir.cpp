@@ -21,24 +21,23 @@ RandomGenerator CEnvir::rng;
 std::vector<std::string> CEnvir::PftInitList;	// list of PFTs used
 std::map<std::string, int> CEnvir::PftSurvTime;	// how long each PFT lives
 
+//-----------------------------------------------------------------------------
+
 CEnvir::CEnvir()
 {
 	CEnvir::rng = RandomGenerator();
 	SRunPara::RunPara = SRunPara();
 
 	year = 1;
-	week = 0;
+	week = 1;
 
 	SimNr = 0;
 	ComNr = 0;
 	RunNr = 0;
 }
 
-//------------------------------------------------------------------------------
-/**
- * destructor -
- * free summarizing data sets
- */
+//-----------------------------------------------------------------------------
+
 CEnvir::~CEnvir()
 {
 	SPftTraits::pftTraitTemplates.clear();
@@ -50,19 +49,8 @@ CEnvir::~CEnvir()
 	PftSurvTime.clear();
 }
 
-//------------------------------------------------------------------------------
-/**
- * File input - get run parameters from file
- * - one line per setting;
- * nb repetitions can be specified.
- *
- * After reading one line of Simfile,
- * PFT definitions are read too via SPftTraits::ReadPFTDef()
- *
- \param pos file position to start reading
- \param file name of input file (obsolete, NameSimFile is used)
- \return file position of next simulation set
- */
+//-----------------------------------------------------------------------------
+
 void CEnvir::GetSim(string data)
 {
 	/////////////////////////
@@ -127,6 +115,7 @@ void CEnvir::GetSim(string data)
 		break;
 	default:
 		cerr << "Invalid mode parameterization" << endl;
+		exit(1);
 	}
 
 	if (SRunPara::RunPara.mode == invasionCriterion)
@@ -147,8 +136,6 @@ void CEnvir::GetSim(string data)
 	{
 		SRunPara::RunPara.BelGrazResidualPerc = exp(-1 * (SRunPara::RunPara.BelGrazPerc / 0.0651));
 	}
-
-	SRunPara::RunPara.validateRunPara();
 
 	////////////////////
 	// Setup PFTs

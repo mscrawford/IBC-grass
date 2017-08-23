@@ -33,63 +33,7 @@ SRunPara::SRunPara() :
 
 }
 
-void SRunPara::validateRunPara()
-{
-	////////////////////////////
-	// Mode
-	if (SRunPara::RunPara.mode == communityAssembly)
-	{
-		assert(CEnvir::AreSame(SRunPara::RunPara.CatastrophicPlantMortality, 0));
-	}
-	else if (SRunPara::RunPara.mode == invasionCriterion)
-	{
-		assert(SRunPara::RunPara.Tmax_monoculture > 0);
-	}
-
-	////////////////////////////
-	// Valid ITVsd
-	if (SRunPara::RunPara.ITV == on)
-	{
-		assert(SRunPara::RunPara.ITVsd > 0 && SRunPara::RunPara.ITVsd <= 1);
-	}
-
-	////////////////////////////
-	// aboveground grazing
-	if (CEnvir::AreSame(SRunPara::RunPara.GrazProb, 0))
-	{
-		assert(CEnvir::AreSame(SRunPara::RunPara.PropRemove, 0));
-	}
-	else
-	{
-		assert(SRunPara::RunPara.GrazProb > 0 && SRunPara::RunPara.GrazProb <= 1);
-		assert(SRunPara::RunPara.PropRemove > 0 && SRunPara::RunPara.PropRemove <= 1);
-	}
-
-	////////////////////////////
-	// belowground grazing
-	if (CEnvir::AreSame(SRunPara::RunPara.BelGrazProb, 0))
-	{
-		assert(CEnvir::AreSame(SRunPara::RunPara.BelGrazPerc, 0));
-	}
-	else
-	{
-		assert(SRunPara::RunPara.BelGrazProb > 0 && SRunPara::RunPara.BelGrazProb <= 1);
-		assert(SRunPara::RunPara.BelGrazPerc > 0 && SRunPara::RunPara.BelGrazPerc <= 1);
-	}
-
-	////////////////////////////
-	// Valid seed rain parameters
-	if (SRunPara::RunPara.SeedRainType > 0)
-	{
-		assert(SRunPara::RunPara.SeedInput > 0);
-	}
-	else
-	{
-		assert(SRunPara::RunPara.SeedRainType == 0);
-		assert(CEnvir::AreSame(SRunPara::RunPara.SeedInput, 0));
-	}
-
-}
+//-----------------------------------------------------------------------------
 
 std::string SRunPara::getSimID()
 {

@@ -4,41 +4,28 @@
 
 #include <string>
 
-//---------------------------------------------------------------------------
-//! Enumeration type to specify size asymmetry/symmetry of competition
-enum CompMode {
-	sym, asympart, asymtot
-};
+// Enumeration type to specify size asymmetry/symmetry of competition
+enum CompMode { sym, asympart, asymtot };
 
-//! Enumeration type to specify the competition version describing interspecific niche differentiation
+// Enumeration type to specify the competition version describing interspecific niche differentiation
 /**
- \arg version1 \c no difference between intra- and interspecific competition
- \arg version2 \c higher effects of intraspecific competition
- \arg version3 \c lower resource availability for intraspecific competition
+ * version1: no difference between intra- and interspecific competition
+ * version2: higher effects of intraspecific competition
+ * version3: lower resource availability for intraspecific competition
  */
-enum CompVersion {
-	version1, version2, version3
-};
+enum CompVersion { version1, version2, version3 };
 
-/** MSC
- * \arg on \c variation is taken from "ITVsd" and will be applied to the independently parameterized traits.
- * \arg off \c there is no individual variation.
- */
-enum ITV_version {
-	off, on
-};
+enum ITV_version { off, on };
 
-enum experimentType {
-	communityAssembly, invasionCriterion, catastrophicDisturbance
-};
+enum experimentType { communityAssembly, invasionCriterion, catastrophicDisturbance };
 
 //---------------------------------------------------------------------------
-//! Structure with all scenario parameters
-struct SRunPara
+
+class SRunPara
 {
 
 public:
-	static SRunPara RunPara;	//!> scenario parameters
+	static SRunPara RunPara;			// Static scenario parameters structure
 
 	static const bool verbose = true;
 
@@ -54,11 +41,9 @@ public:
 	int trait_out;
 	int meta_out;
 
-	void validateRunPara();
-
 	// Competition mode
-	CompMode AboveCompMode; //!<0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry
-	CompMode BelowCompMode; //!<0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry
+	CompMode AboveCompMode; // 0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry
+	CompMode BelowCompMode; // 0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry
 
 	/* niche differentiation
 	 * 0 = no difference between intra- and interspecific competition
@@ -69,9 +54,9 @@ public:
 
 	/* Type of experiment
 	 * 0 = Community assembly (traditional)
-	 * 1 = Invasion criterion (Run a monoculture for 20 years, then introduce the other species.
+	 * 1 = Invasion criterion (Run a monoculture for 10 years, then introduce the other species.
 	 * 	   Repeat with other species as the monoculture)
-	 * 2 = Catastrophic disturbances (At a given year, some proportion of seeds/plants will be killed).
+	 * 2 = Catastrophic disturbances (At a given week/year, some proportion of plants will be killed).
 	 */
 	experimentType mode;
 
@@ -83,23 +68,23 @@ public:
 	double ITVsd;
 
 	// Gridspace
-	int GridSize;     //!< side length in cm
+	int GridSize;     		// side length in cm
 
 	// General parameters
-	int Tmax;         		//!< simulation time
-	double mort_seeds;     	//!< seed mortality per year (in winter)
-	double DiebackWinter; 	//!< portion of aboveground biomass to be removed in winter
-	double mort_base;      	//!< basic mortality per week
-	double LitterDecomp;   	//!< weekly litter decomposition rate
-	double meanARes;      	//!< mean above-ground resource availability
-	double meanBRes;       	//!< below-ground resourcer availability
-	double EstabRamet;     	//!< probability of ramet establishment (1)
+	int Tmax;         		// simulation time
+	double mort_seeds;     	// seed mortality per year (in winter)
+	double DiebackWinter; 	// portion of aboveground biomass to be removed in winter
+	double mort_base;      	// basic mortality per week
+	double LitterDecomp;   	// weekly litter decomposition rate
+	double meanARes;      	// mean above-ground resource availability
+	double meanBRes;       	// below-ground resourcer availability
+	double EstabRamet;     	// probability of ramet establishment (1)
 
 	// Aboveground herbivory
-	double GrazProb;   		//!< grazing probability per week
-	double PropRemove; 		//!< proportion of above ground mass removed by grazing
-	double BitSize;   		//!< Bit size of macro-herbivore
-	double MassUngraz;   	//!< biomass ungrazable 15300[mg DW/m�]
+	double GrazProb;   		// grazing probability per week
+	double PropRemove; 		// proportion of above ground mass removed by grazing
+	double BitSize;   		// Bit size of macro-herbivore
+	double MassUngraz;   	// biomass ungrazable 15300[mg DW/m^2]
 
 	// Belowground herbivory
 	double BelGrazProb;
@@ -107,8 +92,8 @@ public:
 	double BelGrazResidualPerc;
 
 	// Mowing
-	double CutHeight;  //!< Height to cut plants to
-	int NCut;          //!< number cuts per year
+	double CutHeight;  // Height to cut plants to
+	int NCut;          // number cuts per year
 
 	// Catastrophic disturbance
 	int CatastrophicDistYear;
@@ -116,22 +101,19 @@ public:
 	double CatastrophicPlantMortality;
 
 	// Resource variation
-	double Aampl;   //!< within year above-ground resource amplitude (not used)
-	double Bampl;   //!<  within year above-ground resource amplitude (not used)
+	double Aampl;   // within year above-ground resource amplitude
+	double Bampl;   // within year below-ground resource amplitude
 
 	// Seed Rain
-	double SeedInput; //!< number of seeds introduced per PFT per year or seed mass introduced per PFT
-	int SeedRainType; //!< mode of seed input: 0 - no seed rain;
-					  //!< 1 - SeedInput specifies total seed NUMBER + equal number of seeds for each PFT;
+	int SeedInput;    // number of seeds introduced per PFT per year or seed mass introduced per PFT
+	int SeedRainType; // mode of seed input: 0 - no seed rain, 1 - some number of seeds
 
 	// Constructor
 	SRunPara();
 
-	inline int GetSumCells() const {
-		return GridSize * GridSize;
-	};
+	inline int GetSumCells() const { return GridSize * GridSize; };
 
 	std::string getSimID(); // Merge ID for data sets
 };
-//---------------------------------------------------------------------------
+
 #endif
