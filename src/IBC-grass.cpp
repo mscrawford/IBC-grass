@@ -10,10 +10,13 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	if (argc == 3) {
+	if (argc == 3)
+	{
 		SRunPara::NameSimFile  = argv[1];
 		SRunPara::outputPrefix = argv[2];
-	} else {
+	}
+	else
+	{
 		SRunPara::NameSimFile = "data/in/SimFile.txt";
 		SRunPara::outputPrefix = "default";
 	}

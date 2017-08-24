@@ -70,7 +70,7 @@ double CCell::Germinate()
 		{
 			sum_SeedMass += seed->mass;
 			SeedlingList.push_back(std::move(seed)); // This seed germinates, add it to seedlings
-			SeedBankList.erase(it); // Remove its iterator from the SeedBankList, which now holds only ungerminated seeds
+			it = SeedBankList.erase(it); // Remove its iterator from the SeedBankList, which now holds only ungerminated seeds
 		}
 		else
 		{

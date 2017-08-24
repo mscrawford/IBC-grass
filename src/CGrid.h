@@ -24,14 +24,14 @@ private:
 	void EstablishSeedling(const std::unique_ptr<CSeed> & seed);
 
 protected:
-	void CoverCells();			// assigns grid cells to plants - which cell is covered by which plant
-	void RemovePlants(); 		// removes dead plants from the grid and deletes them
-	void PlantLoop();			// loop over all plants including growth, seed dispersal and mortality
-	void DistribResource();		// distributes resource to each plant --> calls competition functions
+	void CoverCells();					// assigns grid cells to plants - which cell is covered by which plant
+	void RemovePlants(); 				// removes dead plants from the grid and deletes them
+	void PlantLoop();					// loop over all plants including growth, seed dispersal and mortality
+	void DistribResource();				// distributes resource to each plant --> calls competition functions
 	void DispersSeeds(const std::shared_ptr<CPlant> & plant);
 	void DispersRamets(const std::shared_ptr<CPlant> & plant); 	// initiate new ramets
-	void EstablishmentLottery();// lottery competition for seedling establishment
-	void Winter();				// calls seed mortality and mass removal of plants
+	void EstablishmentLottery();		// lottery competition for seedling establishment
+	void Winter();						// calls seed mortality and mass removal of plants
 	void ResetWeeklyVariables(); 		// Clears list of plants that cover each cell
 	void SeedMortAge();					// Kills seeds that are too old
 	void SeedMortWinter();				// Kills seeds that die over winter
@@ -78,5 +78,4 @@ double Distance(const double xx, const double yy, const double x, const double y
 // compare two index-values in their distance to the center of grid
 bool CompareIndexRel(const int i1, const int i2);
 
-//---------------------------------------------------------------------------
 #endif

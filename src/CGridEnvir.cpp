@@ -121,7 +121,7 @@ void CGridEnvir::OneWeek()
 		RunCatastrophicDisturbance();
 	}
 
-	RemovePlants();    		// Remove decomposed plants and clean their genets
+	RemovePlants();    		// Remove decomposed plants and remove them from their genets
 
 	if (SRunPara::RunPara.SeedRainType > 0 && week == 21)
 	{

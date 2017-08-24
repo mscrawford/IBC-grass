@@ -67,10 +67,8 @@ void CGrid::CellsInit()
 
 void CGrid::PlantLoop()
 {
-	for (auto p_itr = PlantList.begin(); p_itr != PlantList.end(); ++p_itr)
+	for (auto const& p : PlantList)
 	{
-		auto const& p = *p_itr;
-
 		if (SRunPara::RunPara.ITV == on)
 			assert(p->Traits->myTraitType == SPftTraits::individualized);
 
@@ -154,9 +152,7 @@ void CGrid::DispersRamets(const std::shared_ptr<CPlant> & p)
 
 	if (p->GetNRamets() == 1)
 	{
-		double distance = abs(CEnvir::rng.getGaussian(
-				p->Traits->meanSpacerlength,
-				p->Traits->sdSpacerlength));
+		double distance = abs(CEnvir::rng.getGaussian(p->Traits->meanSpacerlength, p->Traits->sdSpacerlength));
 
 		// uniformly distributed direction
 		double direction = 2 * Pi * CEnvir::rng.get01();
@@ -289,9 +285,11 @@ void CGrid::Resshare()
 
 void CGrid::EstablishmentLottery()
 {
-	for (auto p_itr = PlantList.begin(); p_itr != PlantList.end(); ++p_itr)
+	// Explicit use of indexes rather than iterators because RametEstab
+	// adds to PlantList, thereby sometimes invalidating them
+	for (std::vector< shared_ptr<CPlant> >::size_type i = 0; i < PlantList.size(); ++i)
 	{
-		auto const& plant = *p_itr;
+		auto const& plant = PlantList[i];
 
 		if (plant->Traits->clonal && !plant->dead)
 		{
@@ -300,7 +298,6 @@ void CGrid::EstablishmentLottery()
 	}
 
 	int w = CEnvir::week;
-//	if ( !( (w >= 1 && w < 4) || (w > 21 && w <= 25) ) ) // establishment is only between weeks 1-4 and 21-25
 	if ( !( (w >= 1 && w < 5) || (w > 21 && w <= 25) ) ) // establishment is only between weeks 1-4 and 21-25
 	{
 		return;
@@ -866,7 +863,8 @@ int CGrid::GetNPlants() //count non-clonal plants
 int CGrid::GetNSeeds()
 {
 	int seedCount = 0;
-	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i) {
+	for (int i = 0; i < SRunPara::RunPara.GetSumCells(); ++i)
+	{
 		CCell* cell = CellList[i];
 		seedCount = seedCount + int(cell->SeedBankList.size());
 	}

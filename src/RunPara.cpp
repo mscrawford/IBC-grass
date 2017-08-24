@@ -17,7 +17,7 @@ SRunPara::SRunPara() :
 		AboveCompMode(asympart), BelowCompMode(sym), Version(version1), mode(communityAssembly),
 		Tmax_monoculture(10),
 		ITV(off), ITVsd(0),
-		GridSize(100),
+		GridSize(173),
 		Tmax(100),
 		mort_seeds(0.5), DiebackWinter(0.5), mort_base(0.007), LitterDecomp(0.5),
 		meanARes(100), meanBRes(100),
@@ -25,7 +25,7 @@ SRunPara::SRunPara() :
 		GrazProb(0), PropRemove(0), BitSize(0.5), MassUngraz(15300),
 		BelGrazProb(0), BelGrazPerc(0), BelGrazResidualPerc(0),
 		CutHeight(0), NCut(0),
-		CatastrophicDistYear(50), CatastrophicDistWeek(21),
+		CatastrophicDistYear(50), CatastrophicDistWeek(20),
 		CatastrophicPlantMortality(0),
 		Aampl(0), Bampl(0),
 		SeedInput(0), SeedRainType(0)

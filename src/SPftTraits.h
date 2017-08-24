@@ -10,7 +10,8 @@
 /**
  * Structure to store all PFT Parameters
  */
-class SPftTraits {
+class SPftTraits
+{
 
 public:
 

@@ -256,7 +256,6 @@ def buildPFTs():
                 SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), \
                     str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), str(meta_out), Com_FN, "\n"]))
 
-
                 # community's PFT file    
             with open(PATH + Com_FN, 'w') as w: 
                 w.write(PFT_HEADER)
