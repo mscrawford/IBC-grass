@@ -19,7 +19,7 @@ class CGrid
 
 private:
 	std::vector< std::shared_ptr<CGenet> > GenetList;
-	void RametEstab(const std::shared_ptr<CPlant> & plant); // establish ramets
+	void RametEstab(const std::shared_ptr<CPlant> plant); 	// establish ramets
 	void Resshare();                						// share resources among connected ramets
 	void EstablishSeedling(const std::unique_ptr<CSeed> & seed);
 

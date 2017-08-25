@@ -66,8 +66,8 @@ public:
 	void print_meta();
 
 	// meta-output
-	std::vector<double> blwgrnd_graz_pressure_history = { 0 }; // For meta output, doesn't turn on until year 2.
-
+	std::vector<double> blwgrnd_graz_pressure_history = { 0 };
+	std::vector<double> contemporaneous_rootmass_history = { 0 };
 };
 
 #endif /* SRC_OUTPUT_H_ */

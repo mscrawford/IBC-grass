@@ -111,7 +111,13 @@ void CEnvir::GetSim(string data)
 		SRunPara::RunPara.mode = invasionCriterion;
 		break;
 	case 2:
-		SRunPara::RunPara.mode = catastrophicDisturbance;
+		if (SRunPara::RunPara.CatastrophicPlantMortality > 0)
+		{
+			SRunPara::RunPara.mode = catastrophicDisturbance;
+		} else {
+			SRunPara::RunPara.mode = communityAssembly;
+		}
+
 		break;
 	default:
 		cerr << "Invalid mode parameterization" << endl;

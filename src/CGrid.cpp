@@ -285,9 +285,14 @@ void CGrid::Resshare()
 
 void CGrid::EstablishmentLottery()
 {
-	// Explicit use of indexes rather than iterators because RametEstab
-	// adds to PlantList, thereby sometimes invalidating them
-	for (std::vector< shared_ptr<CPlant> >::size_type i = 0; i < PlantList.size(); ++i)
+	/*
+	 * Explicit use of indexes rather than iterators because RametEstab adds to PlantList,
+	 * thereby sometimes invalidating them. Also, RametEstab takes a shared_ptr rather
+	 * than a reference to a shared_ptr, thus avoiding invalidation of the reference
+	 */
+
+	std::vector< shared_ptr<CPlant>>::size_type original_size = PlantList.size();
+	for (std::vector< shared_ptr<CPlant> >::size_type i = 0; i < original_size; ++i)
 	{
 		auto const& plant = PlantList[i];
 
@@ -350,48 +355,48 @@ void CGrid::EstablishSeedling(const std::unique_ptr<CSeed> & seed)
 
 //-----------------------------------------------------------------------------
 
-void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
+void CGrid::RametEstab(const std::shared_ptr<CPlant> plant)
 {
-	auto ramet_itr = plant->growingSpacerList.begin();
+	auto spacer_itr = plant->growingSpacerList.begin();
 
-	while (ramet_itr != plant->growingSpacerList.end())
+	while (spacer_itr != plant->growingSpacerList.end())
 	{
-		const auto& Ramet = *ramet_itr;
+		const auto& spacer = *spacer_itr;
 
-		if (Ramet->spacerLengthToGrow > 0) // This ramet still has to grow more, keep it.
+		if (spacer->spacerLengthToGrow > 0) // This spacer still has to grow more, keep it.
 		{
-			ramet_itr++;
+			spacer_itr++;
 			continue;
 		}
 
-		CCell* cell = CellList[Ramet->xcoord * SRunPara::RunPara.GridSize + Ramet->ycoord];
+		CCell* cell = CellList[spacer->xcoord * SRunPara::RunPara.GridSize + spacer->ycoord];
 
 		if (!cell->occupied)
 		{
 			if (CEnvir::rng.get01() < SRunPara::RunPara.EstabRamet)
 			{
-				// This ramet successfully establishes into a plant
-				auto Genet = Ramet->getGenet().lock();
+				// This spacer successfully establishes into a ramet of a plant
+				auto Genet = spacer->getGenet().lock();
 				assert(Genet);
 
-				Genet->AllRametList.push_back(Ramet);
-				Ramet->setCell(cell);
-				PlantList.push_back(Ramet);
+				Genet->AllRametList.push_back(spacer);
+				spacer->setCell(cell);
+				PlantList.push_back(spacer);
 			}
 
 			// Regardless of establishment success, the iterator is removed from growingSpacerList
-			ramet_itr = plant->growingSpacerList.erase(ramet_itr);
+			spacer_itr = plant->growingSpacerList.erase(spacer_itr);
 		}
 		else
 		{
 			if (CEnvir::week == CEnvir::WeeksPerYear)
 			{
-				// It is winter so this ramet dies over the winter
-				ramet_itr = plant->growingSpacerList.erase(ramet_itr);
+				// It is winter so this spacer dies over the winter
+				spacer_itr = plant->growingSpacerList.erase(spacer_itr);
 			}
 			else
 			{
-				// This ramet will find a nearby cell; keep it
+				// This spacer will find a nearby cell; keep it
 				int _x, _y;
 				do
 				{
@@ -399,16 +404,16 @@ void CGrid::RametEstab(const std::shared_ptr<CPlant> & plant)
 					_y = CEnvir::rng.getUniformInt(5) - 2;
 				} while (_x == 0 && _y == 0);
 
-				int x = round(Ramet->xcoord + _x);
-				int y = round(Ramet->ycoord + _y);
+				int x = round(spacer->xcoord + _x);
+				int y = round(spacer->ycoord + _y);
 
 				Torus(x, y);
 
-				Ramet->xcoord = x;
-				Ramet->ycoord = y;
-				Ramet->spacerLengthToGrow = Distance(_x, _y, 0, 0);
+				spacer->xcoord = x;
+				spacer->ycoord = y;
+				spacer->spacerLengthToGrow = Distance(_x, _y, 0, 0);
 
-				ramet_itr++;
+				spacer_itr++;
 			}
 
 		}
@@ -592,6 +597,7 @@ void CGrid::GrazingBelGr()
 	}
 
 	CEnvir::output.blwgrnd_graz_pressure_history.push_back(fn_o);
+	CEnvir::output.contemporaneous_rootmass_history.push_back(bt);
 
 	double fn = fn_o;
 	double t_br = 0; // total biomass removed

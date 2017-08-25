@@ -47,7 +47,7 @@ weekly    = 0 # Print output yearly (0) or weekly (1)?
 ind_out   = 0 # Print individual-level output?           (0) No; (1) Yes
 pft_out   = 2 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
 srv_out   = 0 # Print PFT-survival output:               (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
-trait_out = 0 # Print trait-level output:                (0) No; (1) Yes
+trait_out = 1 # Print trait-level output:                (0) No; (1) Yes
 meta_out  = 0 # Print output about the environment, etc. (0) No; (1) Year
 
 # Number of repetitions 
@@ -80,14 +80,11 @@ propRemove = [0.5]
 
 # Belowground grazing
 BelGrazProb = [0, 1]
-BelGrazPerc = [0, 0.1, 0.2, 0.3]
+BelGrazPerc = [0, 0.10, 0.20, 0.30]
 
 # Catastrophic disturbance
-CatastrDist_Mort = [0, 1]
-CatastrDist_Week  = [0, 16, 20, 26]
-    # Plants begin to create seeds on week 16
-    # Seed addition and dispersal occurs on week 21
-    # Seed establishment begins on week 22
+CatastrDist_Mort = [0, 0.5, 1]
+CatastrDist_Week  = [0, 21]
 
 # Seed introduction
 SeedRainType = [1]

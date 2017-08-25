@@ -42,7 +42,7 @@ const vector<string> Output::PFT_header
 
 const vector<string> Output::meta_header
 	({
-			"SimID", "Year", "Week", "FeedingPressure"
+			"SimID", "Year", "Week", "FeedingPressure", "ContemporaryRootmass"
 	});
 
 const vector<string> Output::ind_header
@@ -375,12 +375,14 @@ void Output::print_ind(const std::vector< std::shared_ptr<CPlant> > & PlantList)
 
 void Output::print_meta()
 {
+
 	std::ostringstream ss;
 
 	ss << SRunPara::RunPara.getSimID()					<< ", ";
 	ss << CEnvir::year 									<< ", ";
 	ss << CEnvir::week 									<< ", ";
-	ss << blwgrnd_graz_pressure_history.back()				   ;
+	ss << blwgrnd_graz_pressure_history.back()			<< ", ";
+	ss << contemporaneous_rootmass_history.back()			   ;
 
 	print_row(ss, meta_stream);
 
