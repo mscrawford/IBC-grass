@@ -1,29 +1,28 @@
-#include "SPftTraits.h"
-#include "CEnvir.h"
-
 #include <cassert>
 #include <iostream>
 #include <string>
 #include <memory>
 #include <sstream>
+#include "Traits.h"
+#include "Environment.h"
 
 using namespace std;
 
-map< string, unique_ptr<SPftTraits> > SPftTraits::pftTraitTemplates = map< string, unique_ptr<SPftTraits> >();
+map< string, unique_ptr<Traits> > Traits::pftTraitTemplates = map< string, unique_ptr<Traits> >();
 
-vector<string> SPftTraits::pftInsertionOrder = vector<string>();
+vector<string> Traits::pftInsertionOrder = vector<string>();
 
 /*
  * Default constructor
  */
-SPftTraits::SPftTraits() :
-		myTraitType(SPftTraits::species), name("EMPTY"),
-		LMR(-1), SLA(-1), RAR(1), m0(-1), MaxMass(-1),
-		AllocSeed(0.05), SeedMass(-1), Dist(-1), Dorm(1), pEstab(0.5),
+Traits::Traits() :
+		myTraitType(Traits::species), PFT_ID("EMPTY"),
+		LMR(-1), SLA(-1), RAR(1), m0(-1), maxMass(-1),
+		allocSeed(0.05), seedMass(-1), dispersalDist(-1), dormancy(1), pEstab(0.5),
 		Gmax(-1), palat(-1), memory(-1),
-		mThres(0.2), growth(0.25), FlowerWeek(16), DispWeek(20),
+		mThres(0.2), growth(0.25), flowerWeek(16), dispersalWeek(20),
 		clonal(false), meanSpacerlength(0), sdSpacerlength(0),
-		AllocSpacer(0), Resshare(false), mSpacer(0)
+		allocSpacer(0), resourceShare(false), mSpacer(0)
 {
 
 }
@@ -31,14 +30,14 @@ SPftTraits::SPftTraits() :
 /*
  * Copy constructor
  */
-SPftTraits::SPftTraits(const SPftTraits& s) :
-		myTraitType(s.myTraitType), name(s.name),
-		LMR(s.LMR), SLA(s.SLA), RAR(s.RAR), m0(s.m0), MaxMass(s.MaxMass),
-		AllocSeed(s.AllocSeed), SeedMass(s.SeedMass), Dist(s.Dist), Dorm(s.Dorm), pEstab(s.pEstab),
+Traits::Traits(const Traits& s) :
+		myTraitType(s.myTraitType), PFT_ID(s.PFT_ID),
+		LMR(s.LMR), SLA(s.SLA), RAR(s.RAR), m0(s.m0), maxMass(s.maxMass),
+		allocSeed(s.allocSeed), seedMass(s.seedMass), dispersalDist(s.dispersalDist), dormancy(s.dormancy), pEstab(s.pEstab),
 		Gmax(s.Gmax), palat(s.palat), memory(s.memory),
-		mThres(s.mThres), growth(s.growth), FlowerWeek(s.FlowerWeek), DispWeek(s.DispWeek),
+		mThres(s.mThres), growth(s.growth), flowerWeek(s.flowerWeek), dispersalWeek(s.dispersalWeek),
 		clonal(s.clonal), meanSpacerlength(s.meanSpacerlength), sdSpacerlength(s.sdSpacerlength),
-		AllocSpacer(s.AllocSpacer), Resshare(s.Resshare), mSpacer(s.mSpacer)
+		allocSpacer(s.allocSpacer), resourceShare(s.resourceShare), mSpacer(s.mSpacer)
 {
 
 }
@@ -46,21 +45,21 @@ SPftTraits::SPftTraits(const SPftTraits& s) :
 /**
  * Retrieve a deep-copy of that PFT's basic trait set
  */
-unique_ptr<SPftTraits> SPftTraits::createTraitSetFromPftType(string type)
+unique_ptr<Traits> Traits::createTraitSetFromPftType(string type)
 {
 	const auto pos = pftTraitTemplates.find(type);
 
 	assert(pos != pftTraitTemplates.end() && "Trait type not found");
 
-	return (make_unique<SPftTraits>(*pos->second));
+	return (make_unique<Traits>(*pos->second));
 }
 
 /**
  * Retrieve a deep-copy some arbitrary trait set (for plants dropping seeds)
  */
-unique_ptr<SPftTraits> SPftTraits::copyTraitSet(const unique_ptr<SPftTraits> & t)
+unique_ptr<Traits> Traits::copyTraitSet(const unique_ptr<Traits> & t)
 {
-	return (make_unique<SPftTraits>(*t));
+	return (make_unique<Traits>(*t));
 }
 
 //-----------------------------------------------------------------------------
@@ -68,7 +67,7 @@ unique_ptr<SPftTraits> SPftTraits::copyTraitSet(const unique_ptr<SPftTraits> & t
  * Read definition of PFTs used in the simulation
  * @param file file containing PFT definitions
  */
-void SPftTraits::ReadPFTDef(const string& file)
+void Traits::ReadPFTDef(const string& file)
 {
 	//Open InitFile
 	ifstream InitFile(file.c_str());
@@ -79,20 +78,20 @@ void SPftTraits::ReadPFTDef(const string& file)
 	{
 		std::stringstream ss(line);
 
-		unique_ptr<SPftTraits> traits(new SPftTraits);
+		unique_ptr<Traits> traits(new Traits);
 
-		ss >> traits->name
-				>> traits->AllocSeed >> traits->LMR >> traits->m0
-				>> traits->MaxMass >> traits->SeedMass >> traits->Dist
+		ss >> traits->PFT_ID
+				>> traits->allocSeed >> traits->LMR >> traits->m0
+				>> traits->maxMass >> traits->seedMass >> traits->dispersalDist
 				>> traits->pEstab >> traits->Gmax >> traits->SLA
 				>> traits->palat >> traits->memory >> traits->RAR
 				>> traits->growth >> traits->mThres >> traits->clonal
-				>> traits->meanSpacerlength >> traits->sdSpacerlength >> traits->Resshare
-				>> traits->AllocSpacer >> traits->mSpacer;
+				>> traits->meanSpacerlength >> traits->sdSpacerlength >> traits->resourceShare
+				>> traits->allocSpacer >> traits->mSpacer;
 
-		SPftTraits::pftInsertionOrder.push_back(traits->name);
+		Traits::pftInsertionOrder.push_back(traits->PFT_ID);
 
-		SPftTraits::pftTraitTemplates.insert(std::make_pair(traits->name, std::move(traits)));
+		Traits::pftTraitTemplates.insert(std::make_pair(traits->PFT_ID, std::move(traits)));
 	}
 }
 
@@ -103,19 +102,19 @@ void SPftTraits::ReadPFTDef(const string& file)
  * distribution balanced. Other, trait-specific, requirements are checked as well. (e.g.,
  * LMR cannot be greater than 1, memory cannot be less than 1).
  */
-void SPftTraits::varyTraits()
+void Traits::varyTraits()
 {
 
-	assert(myTraitType == SPftTraits::species);
-	assert(SRunPara::RunPara.ITV == on);
+	assert(myTraitType == Traits::species);
+	assert(Parameters::params.ITV == on);
 
-	myTraitType = SPftTraits::individualized;
+	myTraitType = Traits::individualized;
 	double dev;
 
 	double LMR_;
 	do
 	{
-		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
+		dev = Environment::rng.getGaussian(0, Parameters::params.ITVsd);
 		LMR_ = LMR + (LMR * dev);
 	} while (dev < -1.0 || dev > 1.0 || LMR_ < 0 || LMR_ > 1);
 	LMR = LMR_;
@@ -124,16 +123,16 @@ void SPftTraits::varyTraits()
 	double m0_, MaxMass_, SeedMass_, Dist_;
 	do
 	{
-		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
+		dev = Environment::rng.getGaussian(0, Parameters::params.ITVsd);
 		m0_ = m0 + (m0 * dev);
-		MaxMass_ = MaxMass + (MaxMass * dev);
-		SeedMass_ = SeedMass + (SeedMass * dev);
-		Dist_ = Dist - (Dist * dev);
+		MaxMass_ = maxMass + (maxMass * dev);
+		SeedMass_ = seedMass + (seedMass * dev);
+		Dist_ = dispersalDist - (dispersalDist * dev);
 	} while (dev < -1.0 || dev > 1.0 || m0_ < 0 || MaxMass_ < 0 || SeedMass_ < 0 || Dist_ < 0);
 	m0 = m0_;
-	MaxMass = MaxMass_;
-	SeedMass = SeedMass_;
-	Dist = Dist_;
+	maxMass = MaxMass_;
+	seedMass = SeedMass_;
+	dispersalDist = Dist_;
 //	cout << "m0: " << m0 << endl;
 //	cout << "MaxMass: " << MaxMass << endl;
 //	cout << "SeedMass: " << SeedMass << endl;
@@ -143,7 +142,7 @@ void SPftTraits::varyTraits()
 	int memory_;
 	do
 	{
-		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
+		dev = Environment::rng.getGaussian(0, Parameters::params.ITVsd);
 		Gmax_ = Gmax + (Gmax * dev);
 		memory_ = memory - (memory * dev);
 	} while (dev < -1.0 || dev > 1.0 || Gmax_ < 0 || memory_ < 1);
@@ -155,7 +154,7 @@ void SPftTraits::varyTraits()
 	double palat_, SLA_;
 	do
 	{
-		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
+		dev = Environment::rng.getGaussian(0, Parameters::params.ITVsd);
 		palat_ = palat + (palat * dev);
 		SLA_ = SLA + (SLA * dev);
 //		cout << "Testing values: dev: " << dev << " SLA: " << SLA_ << " palat: " << palat_  << endl;
@@ -168,7 +167,7 @@ void SPftTraits::varyTraits()
 	double meanSpacerlength_, sdSpacerlength_;
 	do
 	{
-		dev = CEnvir::rng.getGaussian(0, SRunPara::RunPara.ITVsd);
+		dev = Environment::rng.getGaussian(0, Parameters::params.ITVsd);
 		meanSpacerlength_ = meanSpacerlength + (meanSpacerlength * dev);
 		sdSpacerlength_ = sdSpacerlength + (sdSpacerlength * dev);
 	} while (dev < -1.0 || dev > 1.0 || meanSpacerlength_ < 0 || sdSpacerlength_ < 0);

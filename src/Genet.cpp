@@ -1,8 +1,8 @@
 
-#include "CGenet.h"
 #include <cassert>
+#include "Genet.h"
 
-int CGenet::staticID = 0;
+int Genet::staticID = 0;
 
 /*
  * If the ramet has enough resources to fulfill its minimum requirements,
@@ -11,17 +11,17 @@ int CGenet::staticID = 0;
  *
  * This is for aboveground
  */
-void CGenet::ResshareA()
+void Genet::ResshareA()
 {
   double sumAuptake=0;
   double MeanAuptake=0;
 
-	for (auto const& ramet_ptr : AllRametList)
+	for (auto const& ramet_ptr : RametList)
 	{
 		auto ramet = ramet_ptr.lock();
 
 		double AddtoSum = 0;
-		double minres = ramet->Traits->mThres * ramet->Ash_disc * ramet->Traits->Gmax * 2;
+		double minres = ramet->traits->mThres * ramet->Ash_disc * ramet->traits->Gmax * 2;
 
 		AddtoSum = std::max(0.0, ramet->Auptake - minres);
 
@@ -31,9 +31,9 @@ void CGenet::ResshareA()
 			sumAuptake += AddtoSum;
 		}
 	}
-	MeanAuptake = sumAuptake / AllRametList.size();
+	MeanAuptake = sumAuptake / RametList.size();
 
-	for (auto const& ramet_ptr : AllRametList)
+	for (auto const& ramet_ptr : RametList)
 	{
 		auto ramet = ramet_ptr.lock();
 		assert(ramet);
@@ -47,18 +47,18 @@ void CGenet::ResshareA()
 /*
  * This is for belowground.
  */
-void CGenet::ResshareB()
+void Genet::ResshareB()
 {
 	double sumBuptake = 0;
 	double MeanBuptake = 0;
 
-	for (auto const& ramet_ptr : AllRametList)
+	for (auto const& ramet_ptr : RametList)
 	{
 		auto ramet = ramet_ptr.lock();
 		assert(ramet);
 
 		double AddtoSum = 0;
-		double minres = ramet->Traits->mThres * ramet->Art_disc * ramet->Traits->Gmax * 2;
+		double minres = ramet->traits->mThres * ramet->Art_disc * ramet->traits->Gmax * 2;
 
 		AddtoSum = std::max(0.0, ramet->Buptake - minres);
 
@@ -69,9 +69,9 @@ void CGenet::ResshareB()
 		}
 	}
 
-	MeanBuptake = sumBuptake / AllRametList.size();
+	MeanBuptake = sumBuptake / RametList.size();
 
-	for (auto const& ramet_ptr : AllRametList)
+	for (auto const& ramet_ptr : RametList)
 	{
 		auto ramet = ramet_ptr.lock();
 

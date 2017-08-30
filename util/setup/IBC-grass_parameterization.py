@@ -38,23 +38,23 @@ else:
 # For computing clusters
 PARALLEL = False         # IF SERIES THIS -> FALSE
 N_SLOTS  = 300          # Number of cores to split between
-H_RT     = "08:00:00"   # Maximum runtime for simulations (08:00:00 = 8 hours)
-H_VMEM   = "2G"         # Memory for each simulation run
+H_RT     = "16:00:00"   # Maximum runtime for simulations (08:00:00 = 8 hours)
+H_VMEM   = "1G"         # Memory for each simulation run
 
 # Frequency and type of output
 weekly    = 0 # Print output yearly (0) or weekly (1)?
 
 ind_out   = 0 # Print individual-level output?           (0) No; (1) Yes
-pft_out   = 2 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
+pft_out   = 0 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
 srv_out   = 0 # Print PFT-survival output:               (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
-trait_out = 1 # Print trait-level output:                (0) No; (1) Yes
-meta_out  = 0 # Print output about the environment, etc. (0) No; (1) Year
+trait_out = 0 # Print trait-level output:                (0) No; (1) Yes
+meta_out  = 1 # Print output about the environment, etc. (0) No; (1) Year
 
 # Number of repetitions 
 N_REPS    = 1
 
 # Number of communities and what kind of PFTs to use
-N_COMS    = 1           # UNUSED WITH PAIRWISE INVASION CRITERION
+N_COMS    = 20          # UNUSED WITH PAIRWISE INVASION CRITERION
 PFT_type  = "EMPIRICAL" # "THEORETICAL" or "EMPIRICAL"
 
 ##########################################
@@ -75,16 +75,18 @@ ARes  = [100]
 BRes  = [30, 60, 90] # With belowground environmental variation, this MUST be NA
 
 # Aboveground grazing 
-GrazProb   = [0.3]
+GrazProb   = [0.5]
 propRemove = [0.5]
 
 # Belowground grazing
-BelGrazProb = [0, 1]
-BelGrazPerc = [0, 0.10, 0.20, 0.30]
+BelGrazProb        = [0, 1]
+BelGrazPerc        = [0, 0.1, 0.2, 0.3]
+BelGrazAlpha       = [0, 1, 1.5, 2.0, 3.0]
+BelGrazHistorySize = [0, 1, 5, 10 , 30, 60, 90]
 
 # Catastrophic disturbance
-CatastrDist_Mort = [0, 0.5, 1]
-CatastrDist_Week  = [0, 21]
+CatastrDist_Mort = [0, 1]
+CatastrDist_Week  = [0, 21, 26]
 
 # Seed introduction
 SeedRainType = [1]
@@ -105,6 +107,8 @@ base_params =  [IC_vers,
                 propRemove,
                 BelGrazProb,
                 BelGrazPerc,
+                BelGrazAlpha,
+                BelGrazHistorySize,
                 CatastrDist_Mort,
                 CatastrDist_Week,
                 SeedRainType,
@@ -149,6 +153,7 @@ SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
                 "ARes Bres " + \
                 "GrazProb PropRemove " + \
                 "BelGrazProb BelGrazPerc " + \
+                "BelGrazAlpha BelGrazHistorySize " + \
                 "CatastrMortality CatastrDistWeek " + \
                 "SeedRainType SeedInput " + \
                 "weekly ind_out pft_out srv_out trait_out meta_out NameInitFile\n"

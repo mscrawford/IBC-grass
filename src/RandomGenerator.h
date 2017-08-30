@@ -14,7 +14,6 @@ public:
 	double getGaussian(double mean, double sd);
 
 	RandomGenerator() : rng(std::random_device()()) {}
-//	RandomGenerator() : rng(1) {}
 
 	inline std::mt19937 getRNG() { return rng; };
 };

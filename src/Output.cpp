@@ -1,10 +1,11 @@
 #include "Output.h"
-#include "CEnvir.h"
-
 #include <iostream>
 #include <sstream>
 #include <iterator>
 #include <cassert>
+#include <math.h>
+
+#include "Environment.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ const vector<string> Output::param_header
 			"ARes", "BRes",
 			"GrazProb", "PropRemove",
 			"BelGrazProb", "BelGrazPerc",
+			"BelGrazAlpha", "BelGrazHistorySize",
 			"CatastrophicMortality", "CatastrophicDistWeek",
 			"SeedRainType", "SeedInput"
 	});
@@ -40,9 +42,9 @@ const vector<string> Output::PFT_header
 			"SimID", "PFT", "Year", "Week", "Pop", "Shootmass", "Rootmass", "Repro"
 	});
 
-const vector<string> Output::meta_header
+const vector<string> Output::aggregated_header
 	({
-			"SimID", "Year", "Week", "FeedingPressure", "ContemporaryRootmass"
+			"SimID", "Year", "Week", "FeedingPressure", "ContemporaneousRootmass", "Shannon", "Richness"
 	});
 
 const vector<string> Output::ind_header
@@ -83,7 +85,7 @@ Output::Output() :
 		srv_fn("data/out/trait.txt"),
 		PFT_fn("data/out/PFT.txt"),
 		ind_fn("data/out/ind.txt"),
-		meta_fn("data/out/meta.txt")
+		aggregated_fn("data/out/meta.txt")
 {
 	;
 }
@@ -101,7 +103,7 @@ void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn,
 	Output::srv_fn = _srv_fn;
 	Output::PFT_fn = _PFT_fn;
 	Output::ind_fn = _ind_fn;
-	Output::meta_fn = _meta_fn;
+	Output::aggregated_fn = _meta_fn;
 
 	bool mid_batch = is_file_exist(param_fn.c_str());
 
@@ -109,39 +111,39 @@ void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn,
 	assert(param_stream.good());
 	if (!mid_batch) print_row(param_header, param_stream);
 
-	if (SRunPara::RunPara.trait_out)
+	if (Parameters::params.trait_out)
 	{
 		trait_stream.open(trait_fn.c_str(), ios_base::app);
 		assert(trait_stream.good());
 		if (!mid_batch) print_row(trait_header, trait_stream);
 	}
 
-	if (SRunPara::RunPara.PFT_out)
+	if (Parameters::params.PFT_out)
 	{
 		PFT_stream.open(PFT_fn.c_str(), ios_base::app);
 		assert(PFT_stream.good());
 		if (!mid_batch) print_row(PFT_header, PFT_stream);
 	}
 
-	if (SRunPara::RunPara.ind_out)
+	if (Parameters::params.ind_out)
 	{
 		ind_stream.open(ind_fn.c_str(), ios_base::app);
 		assert(ind_stream.good());
 		if (!mid_batch) print_row(ind_header, ind_stream);
 	}
 
-	if (SRunPara::RunPara.srv_out)
+	if (Parameters::params.srv_out)
 	{
 		srv_stream.open(srv_fn.c_str(), ios_base::app);
 		assert(srv_stream.good());
 		if (!mid_batch) print_row(srv_header, srv_stream);
 	}
 
-	if (SRunPara::RunPara.meta_out)
+	if (Parameters::params.meta_out)
 	{
-		meta_stream.open(meta_fn.c_str(), ios_base::app);
-		assert(meta_stream.good());
-		if (!mid_batch) print_row(meta_header, meta_stream);
+		aggregated_stream.open(aggregated_fn.c_str(), ios_base::app);
+		assert(aggregated_stream.good());
+		if (!mid_batch) print_row(aggregated_header, aggregated_stream);
 	}
 }
 
@@ -178,9 +180,9 @@ void Output::cleanup()
 		Output::ind_stream.clear();
 	}
 
-	if (Output::meta_stream.is_open()) {
-		Output::meta_stream.close();
-		Output::meta_stream.clear();
+	if (Output::aggregated_stream.is_open()) {
+		Output::aggregated_stream.close();
+		Output::aggregated_stream.clear();
 	}
 }
 
@@ -188,18 +190,18 @@ void Output::print_param()
 {
 	std::ostringstream ss;
 
-	ss << SRunPara::RunPara.getSimID()					<< ", ";
-	ss << CEnvir::ComNr 								<< ", ";
-	ss << CEnvir::RunNr 								<< ", ";
-	ss << SPftTraits::pftTraitTemplates.size()			<< ", ";
-	ss << SRunPara::RunPara.Version 					<< ", ";
-	ss << SRunPara::RunPara.ITVsd 						<< ", ";
-	ss << SRunPara::RunPara.Tmax 						<< ", ";
+	ss << Parameters::params.getSimID()					<< ", ";
+	ss << Environment::ComNr 								<< ", ";
+	ss << Environment::RunNr 								<< ", ";
+	ss << Traits::pftTraitTemplates.size()			<< ", ";
+	ss << Parameters::params.stabilization 					<< ", ";
+	ss << Parameters::params.ITVsd 						<< ", ";
+	ss << Parameters::params.Tmax 						<< ", ";
 
-	if (SRunPara::RunPara.mode == invasionCriterion)
+	if (Parameters::params.mode == invasionCriterion)
 	{
-		std::string invader 	= SPftTraits::pftInsertionOrder[0];
-		std::string resident 	= SPftTraits::pftInsertionOrder[1];
+		std::string invader 	= Traits::pftInsertionOrder[0];
+		std::string resident 	= Traits::pftInsertionOrder[1];
 
 		ss << invader 									<< ", ";
 		ss << resident 									<< ", ";
@@ -210,16 +212,18 @@ void Output::print_param()
 		ss << "NA"	 									<< ", ";
 	}
 
-	ss << SRunPara::RunPara.meanARes 					<< ", ";
-	ss << SRunPara::RunPara.meanBRes 					<< ", ";
-	ss << SRunPara::RunPara.GrazProb 					<< ", ";
-	ss << SRunPara::RunPara.PropRemove 					<< ", ";
-	ss << SRunPara::RunPara.BelGrazProb 				<< ", ";
-	ss << SRunPara::RunPara.BelGrazPerc 				<< ", ";
-	ss << SRunPara::RunPara.CatastrophicPlantMortality 	<< ", ";
-	ss << SRunPara::RunPara.CatastrophicDistWeek 		<< ", ";
-	ss << SRunPara::RunPara.SeedRainType 				<< ", ";
-	ss << SRunPara::RunPara.SeedInput						   ;
+	ss << Parameters::params.meanARes 					<< ", ";
+	ss << Parameters::params.meanBRes 					<< ", ";
+	ss << Parameters::params.AbvGrazProb 					<< ", ";
+	ss << Parameters::params.AbvPropRemoved 					<< ", ";
+	ss << Parameters::params.BelGrazProb 				<< ", ";
+	ss << Parameters::params.BelGrazPerc 				<< ", ";
+	ss << Parameters::params.BelGrazAlpha				<< ", ";
+	ss << Parameters::params.BelGrazHistorySize			<< ", ";
+	ss << Parameters::params.CatastrophicPlantMortality 	<< ", ";
+	ss << Parameters::params.CatastrophicDistWeek 		<< ", ";
+	ss << Parameters::params.SeedRainType 				<< ", ";
+	ss << Parameters::params.SeedInput						   ;
 
 	print_row(ss, param_stream);
 }
@@ -227,17 +231,17 @@ void Output::print_param()
 void Output::print_trait()
 {
 
-	for (auto const& it : SPftTraits::pftTraitTemplates)
+	for (auto const& it : Traits::pftTraitTemplates)
 	{
 		std::ostringstream ss;
 
-		ss << SRunPara::RunPara.getSimID()	<< ", ";
+		ss << Parameters::params.getSimID()	<< ", ";
 		ss << it.first 						<< ", ";
 		ss << it.second->LMR 				<< ", ";
 		ss << it.second->m0 				<< ", ";
-		ss << it.second->MaxMass 			<< ", ";
-		ss << it.second->SeedMass 			<< ", ";
-		ss << it.second->Dist 				<< ", ";
+		ss << it.second->maxMass 			<< ", ";
+		ss << it.second->seedMass 			<< ", ";
+		ss << it.second->dispersalDist 				<< ", ";
 		ss << it.second->SLA 				<< ", ";
 		ss << it.second->palat 				<< ", ";
 		ss << it.second->Gmax 				<< ", ";
@@ -251,13 +255,11 @@ void Output::print_trait()
 
 }
 
-void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<CPlant> > & PlantList)
+map<string, Output::PFT_struct> Output::buildPFT_map(const std::vector< std::shared_ptr<Plant> > & PlantList)
 {
-
-	// Create the data structure necessary to aggregate individuals
 	map<string, PFT_struct> PFT_map;
 
-	for (auto const& it : SPftTraits::pftTraitTemplates)
+	for (auto const& it : Traits::pftTraitTemplates)
 	{
 		PFT_map[it.first] = PFT_struct();
 	}
@@ -265,34 +267,43 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<CPlant> > & Pl
 	// Aggregate individuals
 	for (auto const& p : PlantList)
 	{
-		if (SRunPara::RunPara.PFT_out != 2 && p->dead) continue; // If PFT_out is 2, it will print "dead" PFTs
+		if (Parameters::params.PFT_out != 2 && p->isDead) continue; // If PFT_out is 2, it will print "dead" PFTs
 
 		PFT_struct* s = &(PFT_map[p->pft()]);
 
-		if (!p->dead)
+		if (!p->isDead)
 		{
 			s->Pop = s->Pop + 1;
-			s->Rootmass = s->Rootmass + p->mroot;
-			s->Shootmass = s->Shootmass + p->mshoot;
+			s->Rootmass = s->Rootmass + p->mRoot;
+			s->Shootmass = s->Shootmass + p->mShoot;
 			s->Repro = s->Repro + p->mRepro;
 		}
 	}
 
+	return PFT_map;
+}
+
+void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & PlantList)
+{
+
+	// Create the data structure necessary to aggregate individuals
+	auto PFT_map = buildPFT_map(PlantList);
+
 	// If any PFT went extinct, record it in "srv" stream
-	if (SRunPara::RunPara.srv_out != 0)
+	if (Parameters::params.srv_out != 0)
 	{
 		for (auto it : PFT_map)
 		{
-			if ((CEnvir::PftSurvTime[it.first] == 0 && it.second.Pop == 0) ||
-					(CEnvir::PftSurvTime[it.first] == 0 && CEnvir::year == SRunPara::RunPara.Tmax))
+			if ((Environment::PftSurvTime[it.first] == 0 && it.second.Pop == 0) ||
+					(Environment::PftSurvTime[it.first] == 0 && Environment::year == Parameters::params.Tmax))
 			{
-				CEnvir::PftSurvTime[it.first] = CEnvir::year;
+				Environment::PftSurvTime[it.first] = Environment::year;
 
 				std::ostringstream s_ss;
 
-				s_ss << SRunPara::RunPara.getSimID()	<< ", ";
+				s_ss << Parameters::params.getSimID()	<< ", ";
 				s_ss << it.first 						<< ", "; // PFT name
-				s_ss << CEnvir::year					<< ", ";
+				s_ss << Environment::year					<< ", ";
 				s_ss << it.second.Pop 					<< ", ";
 				s_ss << it.second.Shootmass 			<< ", ";
 				s_ss << it.second.Rootmass 					   ;
@@ -303,22 +314,22 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<CPlant> > & Pl
 	}
 
 	// If one should print PFTs, do so.
-	if (SRunPara::RunPara.PFT_out != 0)
+	if (Parameters::params.PFT_out != 0)
 	{
 		// print each PFT
 		for (auto it : PFT_map)
 		{
-			if (SRunPara::RunPara.PFT_out == 1 &&
+			if (Parameters::params.PFT_out == 1 &&
 					it.second.Pop == 0 &&
-					CEnvir::PftSurvTime[it.first] != CEnvir::year)
+					Environment::PftSurvTime[it.first] != Environment::year)
 				continue;
 
 			std::ostringstream p_ss;
 
-			p_ss << SRunPara::RunPara.getSimID()	<< ", ";
+			p_ss << Parameters::params.getSimID()	<< ", ";
 			p_ss << it.first 						<< ", "; // PFT name
-			p_ss << CEnvir::year 					<< ", ";
-			p_ss << CEnvir::week 					<< ", ";
+			p_ss << Environment::year 					<< ", ";
+			p_ss << Environment::week 					<< ", ";
 			p_ss << it.second.Pop 					<< ", ";
 			p_ss << it.second.Shootmass 			<< ", ";
 			p_ss << it.second.Rootmass 				<< ", ";
@@ -332,59 +343,104 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<CPlant> > & Pl
 	PFT_map.clear();
 }
 
-void Output::print_ind(const std::vector< std::shared_ptr<CPlant> > & PlantList)
+void Output::print_ind(const std::vector< std::shared_ptr<Plant> > & PlantList)
 {
 	for (auto const& p : PlantList)
 	{
-		if (p->dead) continue;
+		if (p->isDead) continue;
 
 		std::ostringstream ss;
 
-		ss << SRunPara::RunPara.getSimID()	<< ", ";
+		ss << Parameters::params.getSimID()	<< ", ";
 		ss << p->plantID 					<< ", ";
 		ss << p->pft() 						<< ", ";
-		ss << CEnvir::year 					<< ", ";
-		ss << CEnvir::week 					<< ", ";
-		ss << p->xcoord 					<< ", ";
-		ss << p->ycoord 					<< ", ";
-		ss << p->Traits->LMR 				<< ", ";
-		ss << p->Traits->m0 				<< ", ";
-		ss << p->Traits->MaxMass 			<< ", ";
-		ss << p->Traits->SeedMass 			<< ", ";
-		ss << p->Traits->Dist 				<< ", ";
-		ss << p->Traits->SLA 				<< ", ";
-		ss << p->Traits->palat 				<< ", ";
-		ss << p->Traits->Gmax 				<< ", ";
-		ss << p->Traits->memory 			<< ", ";
-		ss << p->Traits->clonal 			<< ", ";
-		ss << p->Traits->meanSpacerlength 	<< ", ";
-		ss << p->Traits->sdSpacerlength 	<< ", ";
+		ss << Environment::year 					<< ", ";
+		ss << Environment::week 					<< ", ";
+		ss << p->x 					<< ", ";
+		ss << p->y 					<< ", ";
+		ss << p->traits->LMR 				<< ", ";
+		ss << p->traits->m0 				<< ", ";
+		ss << p->traits->maxMass 			<< ", ";
+		ss << p->traits->seedMass 			<< ", ";
+		ss << p->traits->dispersalDist 				<< ", ";
+		ss << p->traits->SLA 				<< ", ";
+		ss << p->traits->palat 				<< ", ";
+		ss << p->traits->Gmax 				<< ", ";
+		ss << p->traits->memory 			<< ", ";
+		ss << p->traits->clonal 			<< ", ";
+		ss << p->traits->meanSpacerlength 	<< ", ";
+		ss << p->traits->sdSpacerlength 	<< ", ";
 		ss << p->genet.lock()->genetID		<< ", ";
-		ss << p->Age 						<< ", ";
-		ss << p->mshoot						<< ", ";
-		ss << p->mroot 						<< ", ";
+		ss << p->age 						<< ", ";
+		ss << p->mShoot						<< ", ";
+		ss << p->mRoot 						<< ", ";
 		ss << p->Radius_shoot() 			<< ", ";
 		ss << p->Radius_root() 				<< ", ";
 		ss << p->mRepro 					<< ", ";
 		ss << p->lifetimeFecundity 			<< ", ";
-		ss << p->stress							   ;
+		ss << p->isStressed							   ;
 
 		print_row(ss, ind_stream);
 	}
 }
 
-void Output::print_meta()
+void Output::print_aggregated(const std::vector< std::shared_ptr<Plant> > & PlantList)
 {
+	auto PFT_map = buildPFT_map(PlantList);
+
+	auto calculateShannon = [PFT_map]()
+	{
+		int totalPop = std::accumulate(PFT_map.begin(), PFT_map.end(), 0,
+							[] (int s, const std::map<string, PFT_struct>::value_type& p)
+							{
+								return s + p.second.Pop;
+							});
+
+		map<string, double> pi_map;
+		for (auto pft : PFT_map)
+		{
+			if (pft.second.Pop > 0)
+			{
+				double propPFT = pft.second.Pop / (double) totalPop;
+				pi_map[pft.first] = propPFT * log(propPFT);
+			}
+		}
+
+		double total_Pi_ln_Pi = std::accumulate(pi_map.begin(), pi_map.end(), 0.0,
+									[] (double s, const std::map<string, double>::value_type& p)
+									{
+										return s + p.second;
+									});
+
+		return (-1.0 * total_Pi_ln_Pi);
+	};
+
+	auto calculateRichness = [PFT_map]()
+	{
+		int richness = std::accumulate(PFT_map.begin(), PFT_map.end(), 0,
+							[] (int s, const std::map<string, PFT_struct>::value_type& p)
+							{
+								if (p.second.Pop > 0)
+								{
+									return s + 1;
+								}
+								return s;
+							});
+
+		return richness;
+	};
 
 	std::ostringstream ss;
 
-	ss << SRunPara::RunPara.getSimID()					<< ", ";
-	ss << CEnvir::year 									<< ", ";
-	ss << CEnvir::week 									<< ", ";
+	ss << Parameters::params.getSimID()					<< ", ";
+	ss << Environment::year 									<< ", ";
+	ss << Environment::week 									<< ", ";
 	ss << blwgrnd_graz_pressure_history.back()			<< ", ";
-	ss << contemporaneous_rootmass_history.back()			   ;
+	ss << contemporaneous_rootmass_history.back()		<< ", ";
+	ss << calculateShannon()							<< ", ";
+	ss << calculateRichness()								   ;
 
-	print_row(ss, meta_stream);
+	print_row(ss, aggregated_stream);
 
 }
 

@@ -6,6 +6,7 @@ class Base_Parameter():
         Env, Sigma, ARes, Bres, 
         GrazProb, PropRemove, 
         BelGrazProb, BelGrazPerc, 
+        BelGrazAlpha, BelGrazHistorySize,
         CatastrophicPlantMortality, CatastrophicDistWeek,
         SeedRainType, SeedInput):
 
@@ -21,6 +22,8 @@ class Base_Parameter():
         self.PropRemove = PropRemove
         self.BelGrazProb = BelGrazProb
         self.BelGrazPerc = BelGrazPerc
+        self.BelGrazAlpha = BelGrazAlpha
+        self.BelGrazHistorySize = BelGrazHistorySize
         self.CatastrophicPlantMortality = CatastrophicPlantMortality
         self.CatastrophicDistWeek = CatastrophicDistWeek
         self.SeedRainType = SeedRainType
@@ -50,6 +53,9 @@ class Base_Parameter():
         if (self.BelGrazProb > 0 and self.BelGrazPerc == 0):
             raise Exception("Nonsensical or redundant parameterization")
 
+        if (self.BelGrazProb == 0 and (self.BelGrazAlpha > 0 or self.BelGrazHistorySize > 0)):
+            raise Exception("Nonsensical or redundant parameterization")
+
         # Catastrophic disturbance
         if (self.CatastrophicPlantMortality > 0 and self.CatastrophicDistWeek == 0):
             raise Exception("Nonsensical or redundant parameterization")
@@ -64,6 +70,7 @@ class Base_Parameter():
             self.ARes, self.Bres, 
             self.GrazProb, self.PropRemove, 
             self.BelGrazProb, self.BelGrazPerc, 
+            self.BelGrazAlpha, self.BelGrazHistorySize,
             self.CatastrophicPlantMortality, self.CatastrophicDistWeek,
             self.SeedRainType, self.SeedInput]))
 

@@ -1,17 +1,17 @@
 
-#ifndef CGRIDENVIR_H_
-#define CGRIDENVIR_H_
-
-#include "CEnvir.h"
+#ifndef SRC_GRIDENVIR_H_
+#define SRC_GRIDENVIR_H_
 
 #include <string>
 
-class CGridEnvir: public CEnvir, public CGrid
+#include "Environment.h"
+
+class GridEnvir: public Environment, public Grid
 {
 
 public:
 
-	CGridEnvir();
+	GridEnvir();
 
 	void InitRun();
 	void OneYear();   // runs one year in default mode

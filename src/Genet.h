@@ -1,26 +1,26 @@
 
-#ifndef CGenetH
-#define CGenetH
+#ifndef SRC_GENET_H_
+#define SRC_GENET_H_
 
 #include <vector>
 
 #include "Plant.h"
 
-class CPlant;
+class Plant;
 
 /*
  * The super-individual that is one clonal plant.
  * Some clonal species are able to share resources.
  */
-class CGenet
+class Genet
 {
 
 public:
    static int staticID;
    int genetID;
-   std::vector< std::weak_ptr<CPlant> > AllRametList;
+   std::vector< std::weak_ptr<Plant> > RametList;
 
-   CGenet():genetID(++staticID) { };
+   Genet():genetID(++staticID) { };
 
    void ResshareA();     // share above-ground resources
    void ResshareB();     // share below-ground resources

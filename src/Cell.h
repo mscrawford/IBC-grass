@@ -1,13 +1,13 @@
 
-#ifndef CellH
-#define CellH
-
-#include "Plant.h"
-#include "CSeed.h"
+#ifndef SRC_CELL_H_
+#define SRC_CELL_H_
 
 #include <vector>
 
-class CCell
+#include "Plant.h"
+#include "Seed.h"
+
+class Cell
 {
 
 public:
@@ -22,19 +22,19 @@ public:
 
 	bool occupied;       // is the cell occupied by any plant?
 
-	std::vector< std::weak_ptr<CPlant> > AbovePlantList; // List of all plant individuals that cover the cell ABOVE ground
-	std::vector< std::weak_ptr<CPlant> > BelowPlantList; // List of all plant individuals that cover the cell BELOW ground
+	std::vector< std::weak_ptr<Plant> > AbovePlantList; // List of all plant individuals that cover the cell ABOVE ground
+	std::vector< std::weak_ptr<Plant> > BelowPlantList; // List of all plant individuals that cover the cell BELOW ground
 
-	std::vector< std::unique_ptr<CSeed> > SeedBankList; // List of all (ungerminated) seeds in the cell
-	std::vector< std::unique_ptr<CSeed> > SeedlingList; // List of all freshly germinated seedlings in the cell
+	std::vector< std::unique_ptr<Seed> > SeedBankList; // List of all (ungerminated) seeds in the cell
+	std::vector< std::unique_ptr<Seed> > SeedlingList; // List of all freshly germinated seedlings in the cell
 
 	std::map<std::string, int> PftNIndA; // Plants covering the cell aboveground
 	std::map<std::string, int> PftNIndB; // Plants covering the cell belowground
 
-	CCell(const unsigned int xx,
+	Cell(const unsigned int xx,
 		  const unsigned int yy);
 
-	~CCell();
+	~Cell();
 
 	void weeklyReset();
 	void SetResource(double Ares, double Bres);

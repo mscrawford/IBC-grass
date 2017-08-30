@@ -5,25 +5,26 @@
 #include <cassert>
 
 #include "Cell.h"
-#include "CEnvir.h"
+
+#include "Environment.h"
 
 using namespace std;
 
 //-----------------------------------------------------------------------------
 
-CCell::CCell(const unsigned int xx, const unsigned int yy) :
+Cell::Cell(const unsigned int xx, const unsigned int yy) :
 		x(xx), y(yy),
 		AResConc(0), BResConc(0),
 		aComp_weekly(0), bComp_weekly(0),
 		occupied(false)
 {
-	AResConc = SRunPara::RunPara.meanARes;
-	BResConc = SRunPara::RunPara.meanBRes;
+	AResConc = Parameters::params.meanARes;
+	BResConc = Parameters::params.meanBRes;
 }
 
 //-----------------------------------------------------------------------------
 
-CCell::~CCell()
+Cell::~Cell()
 {
 	AbovePlantList.clear();
 	BelowPlantList.clear();
@@ -37,7 +38,7 @@ CCell::~CCell()
 
 //-----------------------------------------------------------------------------
 
-void CCell::weeklyReset()
+void Cell::weeklyReset()
 {
 	AbovePlantList.clear();
 	BelowPlantList.clear();
@@ -50,7 +51,7 @@ void CCell::weeklyReset()
 
 //-----------------------------------------------------------------------------
 
-void CCell::SetResource(double Ares, double Bres)
+void Cell::SetResource(double Ares, double Bres)
 {
    AResConc = Ares;
    BResConc = Bres;
@@ -58,7 +59,7 @@ void CCell::SetResource(double Ares, double Bres)
 
 //-----------------------------------------------------------------------------
 
-double CCell::Germinate()
+double Cell::Germinate()
 {
 	double sum_SeedMass = 0;
 
@@ -66,7 +67,7 @@ double CCell::Germinate()
 	while ( it != SeedBankList.end() )
 	{
 		auto & seed = *it;
-		if (CEnvir::rng.get01() < seed->estab)
+		if (Environment::rng.get01() < seed->pEstab)
 		{
 			sum_SeedMass += seed->mass;
 			SeedlingList.push_back(std::move(seed)); // This seed germinates, add it to seedlings
@@ -83,30 +84,30 @@ double CCell::Germinate()
 
 //-----------------------------------------------------------------------------
 
-void CCell::RemoveSeeds()
+void Cell::RemoveSeeds()
 {
 	SeedBankList.erase(
-			std::remove_if(SeedBankList.begin(), SeedBankList.end(), CSeed::GetSeedRemove),
+			std::remove_if(SeedBankList.begin(), SeedBankList.end(), Seed::GetSeedRemove),
 			SeedBankList.end());
 }
 
 //-----------------------------------------------------------------------------
 
-void CCell::AboveComp()
+void Cell::AboveComp()
 {
 	if (AbovePlantList.empty())
 		return;
 
-	if (SRunPara::RunPara.AboveCompMode == asymtot)
+	if (Parameters::params.AboveCompMode == asymtot)
 	{
-		weak_ptr<CPlant> p_ptr =
+		weak_ptr<Plant> p_ptr =
 				*std::max_element(AbovePlantList.begin(), AbovePlantList.end(),
-						[](const weak_ptr<CPlant> & a, const weak_ptr<CPlant> & b)
+						[](const weak_ptr<Plant> & a, const weak_ptr<Plant> & b)
 						{
 							auto _a = a.lock();
 							auto _b = b.lock();
 
-							return CPlant::getShootGeometry(_a) < CPlant::getShootGeometry(_b);
+							return Plant::getShootGeometry(_a) < Plant::getShootGeometry(_b);
 						});
 
 		auto p = p_ptr.lock();
@@ -119,7 +120,7 @@ void CCell::AboveComp()
 	}
 
 	int symm;
-	if (SRunPara::RunPara.AboveCompMode == asympart)
+	if (Parameters::params.AboveCompMode == asympart)
 	{
 		symm = 2;
 	}
@@ -136,7 +137,7 @@ void CCell::AboveComp()
 	{
 		auto plant = plant_ptr.lock();
 
-		comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
+		comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, Parameters::params.stabilization);
 	}
 
 	//2. distribute resources
@@ -145,7 +146,7 @@ void CCell::AboveComp()
 		auto plant = plant_ptr.lock();
 		assert(plant);
 
-		comp_c = plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, SRunPara::RunPara.Version);
+		comp_c = plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, Parameters::params.stabilization);
 		plant->Auptake += AResConc * comp_c / comp_tot;
 	}
 
@@ -154,15 +155,15 @@ void CCell::AboveComp()
 
 //-----------------------------------------------------------------------------
 
-void CCell::BelowComp()
+void Cell::BelowComp()
 {
-	assert(SRunPara::RunPara.BelowCompMode != asymtot);
+	assert(Parameters::params.BelowCompMode != asymtot);
 
 	if (BelowPlantList.empty())
 		return;
 
 	int symm;
-	if (SRunPara::RunPara.BelowCompMode == asympart)
+	if (Parameters::params.BelowCompMode == asympart)
 	{
 		symm = 2;
 	}
@@ -180,14 +181,14 @@ void CCell::BelowComp()
 		auto plant = plant_ptr.lock();
 		assert(plant);
 
-		comp_tot += plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, SRunPara::RunPara.Version);
+		comp_tot += plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, Parameters::params.stabilization);
 	}
 	//2. distribute resources
 	for (auto const& plant_ptr : BelowPlantList)
 	{
 		auto plant = plant_ptr.lock();
 
-		comp_c = plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, SRunPara::RunPara.Version);
+		comp_c = plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, Parameters::params.stabilization);
 		plant->Buptake += BResConc * comp_c / comp_tot;
 	}
 
@@ -196,7 +197,7 @@ void CCell::BelowComp()
 
 //---------------------------------------------------------------------------
 
-double CCell::prop_res(const string type, const int layer, const int version) const
+double Cell::prop_res(const string type, const int layer, const int version) const
 {
 	switch (version)
 	{

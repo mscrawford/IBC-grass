@@ -1,5 +1,5 @@
-#ifndef environmentH
-#define environmentH
+#ifndef SRC_ENVIRONMENT_H_
+#define SRC_ENVIRONMENT_H_
 
 #include <map>
 #include <iostream>
@@ -8,11 +8,11 @@
 #include <cmath>
 #include <limits>
 
-#include "CGrid.h"
+#include "Grid.h"
 #include "Output.h"
 #include "RandomGenerator.h"
 
-class CEnvir
+class Environment
 {
 
 public:
@@ -27,19 +27,19 @@ public:
 	static int week;	// current week (1-30)
 	static int year;    // current year
 
-	static int SimNr;   // simulation-ID
+	static int SimID;   // simulation-ID
 	static int ComNr;	// Community identifier for multiple parameter settings of the same community.
 	static int RunNr;   // repetition number
 
-	CEnvir();
-	~CEnvir();
+	Environment();
+	~Environment();
 
 	void GetSim(std::string data); 	// Simulation read in
 
 	/*
 	 * Helper function for comparing floating point numbers for equality
 	 */
-	inline static bool AreSame(double const& a, double const& b) {
+	inline static bool AreSame(double const a, double const b) {
 	    return std::fabs(a - b) < std::numeric_limits<double>::epsilon();
 	}
 

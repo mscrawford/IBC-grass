@@ -1,73 +1,72 @@
 
-#include "CGridEnvir.h"
-
 #include <iostream>
 #include <cassert>
+#include "GridEnvir.h"
 
 using namespace std;
 
 //------------------------------------------------------------------------------
 
-CGridEnvir::CGridEnvir() : CEnvir(), CGrid() { }
+GridEnvir::GridEnvir() : Environment(), Grid() { }
 
 //------------------------------------------------------------------------------
 /**
  * Initiate new Run: Randomly set initial individuals.
  */
-void CGridEnvir::InitRun()
+void GridEnvir::InitRun()
 {
 	InitInds();
 }
 
 //-----------------------------------------------------------------------------
 
-void CGridEnvir::InitInds()
+void GridEnvir::InitInds()
 {
 	const int no_init_seeds = 10;
 	const double estab = 1.0;
 
-	if (SRunPara::RunPara.mode == communityAssembly || SRunPara::RunPara.mode == catastrophicDisturbance)
+	if (Parameters::params.mode == communityAssembly || Parameters::params.mode == catastrophicDisturbance)
 	{
 		// PFT Traits are read in GetSim()
-		for (auto const& it : SPftTraits::pftTraitTemplates)
+		for (auto const& it : Traits::pftTraitTemplates)
 		{
-			InitClonalSeeds(it.first, no_init_seeds, estab);
+			InitSeeds(it.first, no_init_seeds, estab);
 			PftSurvTime[it.first] = 0;
 		}
 	}
-	else if (SRunPara::RunPara.mode == invasionCriterion)
+	else if (Parameters::params.mode == invasionCriterion)
 	{
-		assert(SPftTraits::pftTraitTemplates.size() == 2);
+		assert(Traits::pftTraitTemplates.size() == 2);
 
-		string resident = SPftTraits::pftInsertionOrder[1];
-		InitClonalSeeds(resident, no_init_seeds, estab);
+		string resident = Traits::pftInsertionOrder[1];
+		InitSeeds(resident, no_init_seeds, estab);
 		PftSurvTime[resident] = 0;
 	}
 }
 
 //-----------------------------------------------------------------------------
 
-void CGridEnvir::OneRun()
+void GridEnvir::OneRun()
 {
 	output.print_param();
 
-	if (SRunPara::RunPara.trait_out)
+	if (Parameters::params.trait_out)
 	{
 		output.print_trait();
 	}
 
 	do {
-		if (SRunPara::RunPara.verbose) cout << "y " << year << endl;
+		std::cout << "y " << year << std::endl;
 
 		OneYear();
 
-		if (SRunPara::RunPara.mode == invasionCriterion && year == SRunPara::RunPara.Tmax_monoculture)
+		if (Parameters::params.mode == invasionCriterion && year == Parameters::params.Tmax_monoculture)
 		{
 			const int no_init_seeds = 100;
 			const double estab = 1.0;
 
-			string invader = SPftTraits::pftInsertionOrder[0];
-			InitClonalSeeds(invader, no_init_seeds, estab);
+			string invader = Traits::pftInsertionOrder[0];
+			InitSeeds(invader, no_init_seeds, estab);
 			PftSurvTime[invader] = 0;
 		}
 
@@ -76,18 +75,18 @@ void CGridEnvir::OneRun()
 			break;
 		}
 
-	} while (++year <= SRunPara::RunPara.Tmax);
+	} while (++year <= Parameters::params.Tmax);
 
 }
 
 //-----------------------------------------------------------------------------
 
-void CGridEnvir::OneYear()
+void GridEnvir::OneYear()
 {
 	week = 1;
 
 	do {
-//		if (SRunPara::RunPara.verbose) cout << "y " << year << " w " << week << endl;
+		//std::cout << "y " << year << " w " << week << std::endl;
 
 		OneWeek();
 
@@ -98,14 +97,14 @@ void CGridEnvir::OneYear()
 
 //-----------------------------------------------------------------------------
 
-void CGridEnvir::OneWeek()
+void GridEnvir::OneWeek()
 {
 
 	ResetWeeklyVariables(); // Clear ZOI data
-	SetCellResource();      // Restore/modulate cell resources
+	SetCellResources();      // Restore/modulate cell resources
 
 	CoverCells();           // Calculate zone of influences (ZOIs)
-	DistribResource();      // Allot resources based on ZOI
+	DistributeResource();      // Allot resources based on ZOI
 
 	PlantLoop();            // Growth, dispersal, mortality
 
@@ -114,16 +113,16 @@ void CGridEnvir::OneWeek()
 		Disturb();  		// Grazing and disturbances
 	}
 
-	if (SRunPara::RunPara.mode == catastrophicDisturbance 				// Catastrophic disturbance is on
-			&& CEnvir::year == SRunPara::RunPara.CatastrophicDistYear 	// It is the disturbance year
-			&& CEnvir::week == SRunPara::RunPara.CatastrophicDistWeek) 	// It is the disturbance week
+	if (Parameters::params.mode == catastrophicDisturbance 				// Catastrophic disturbance is on
+			&& Environment::year == Parameters::params.CatastrophicDistYear 	// It is the disturbance year
+			&& Environment::week == Parameters::params.CatastrophicDistWeek) 	// It is the disturbance week
 	{
 		RunCatastrophicDisturbance();
 	}
 
 	RemovePlants();    		// Remove decomposed plants and remove them from their genets
 
-	if (SRunPara::RunPara.SeedRainType > 0 && week == 21)
+	if (Parameters::params.SeedRainType > 0 && week == 21)
 	{
 		SeedRain();
 	}
@@ -132,30 +131,30 @@ void CGridEnvir::OneWeek()
 
 	if (week == 20)
 	{
-		SeedMortAge(); 		// Remove non-dormant seeds before autumn
+		SeedMortalityAge(); 		// Remove non-dormant seeds before autumn
 	}
 
 	if (week == WeeksPerYear)
 	{
 		Winter();           // removal of aboveground biomass and decomposed plants
-		SeedMortWinter();   // winter seed mortality
+		SeedMortalityWinter();   // winter seed mortality
 	}
 
-	if ((SRunPara::RunPara.weekly == 1 || week == 20) &&
-			!(SRunPara::RunPara.mode == invasionCriterion &&
-					CEnvir::year <= SRunPara::RunPara.Tmax_monoculture)) // Not a monoculture
+	if ((Parameters::params.weekly == 1 || week == 20) &&
+			!(Parameters::params.mode == invasionCriterion &&
+					Environment::year <= Parameters::params.Tmax_monoculture)) // Not a monoculture
 	{
 
-		CEnvir::output.print_srv_and_PFT(PlantList);
+		Environment::output.print_srv_and_PFT(PlantList);
 
-		if (SRunPara::RunPara.meta_out == 1)
+		if (Parameters::params.meta_out == 1)
 		{
-			CEnvir::output.print_meta();
+			Environment::output.print_aggregated(PlantList);
 		}
 
-		if (SRunPara::RunPara.ind_out == 1)
+		if (Parameters::params.ind_out == 1)
 		{
-			CEnvir::output.print_ind(PlantList);
+			Environment::output.print_ind(PlantList);
 		}
 	}
 
@@ -163,10 +162,10 @@ void CGridEnvir::OneWeek()
 
 //-----------------------------------------------------------------------------
 
-bool CGridEnvir::exitConditions()
+bool GridEnvir::exitConditions()
 {
 	// Exit conditions do not exist with external seed input
-	if (SRunPara::RunPara.SeedInput > 0)
+	if (Parameters::params.SeedInput > 0)
 		return false;
 
 	int NPlants = GetNPlants();
@@ -183,26 +182,26 @@ bool CGridEnvir::exitConditions()
 
 //-----------------------------------------------------------------------------
 
-void CGridEnvir::SeedRain()
+void GridEnvir::SeedRain()
 {
 
 	string PFT_ID;
 	double n = 0;
 
 	// For each PFT, we'll drop n seeds
-	for (auto const& it : SPftTraits::pftTraitTemplates)
+	for (auto const& it : Traits::pftTraitTemplates)
 	{
 		auto pft_name = it.first;
-		switch (SRunPara::RunPara.SeedRainType)
+		switch (Parameters::params.SeedRainType)
 		{
 			case 1:
-				n = SRunPara::RunPara.SeedInput;
+				n = Parameters::params.SeedInput;
 				break;
 			default:
 				exit(1);
 		}
 
-		CGrid::InitClonalSeeds(pft_name, n, 1.0);
+		Grid::InitSeeds(pft_name, n, 1.0);
 	}
 
 }

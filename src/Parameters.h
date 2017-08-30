@@ -1,6 +1,6 @@
 
-#ifndef RunParaH
-#define RunParaH
+#ifndef SRC_PARAMETERS_H_
+#define SRC_PARAMETERS_H_
 
 #include <string>
 
@@ -13,21 +13,19 @@ enum CompMode { sym, asympart, asymtot };
  * version2: higher effects of intraspecific competition
  * version3: lower resource availability for intraspecific competition
  */
-enum CompVersion { version1, version2, version3 };
+enum stabilizationMode { version1, version2, version3 };
 
-enum ITV_version { off, on };
+enum ITV_mode { off, on };
 
 enum experimentType { communityAssembly, invasionCriterion, catastrophicDisturbance };
 
 //---------------------------------------------------------------------------
 
-class SRunPara
+class Parameters
 {
 
 public:
-	static SRunPara RunPara;			// Static scenario parameters structure
-
-	static const bool verbose = true;
+	static Parameters params;			// Static scenario parameters structure
 
 	// Input Files
 	static std::string NamePftFile;   	// Filename of PftTrait-File
@@ -50,7 +48,7 @@ public:
 	 * 1 = higher effects of intraspecific competition
 	 * 2 = lower resource availability for intraspecific competition
 	 */
-	CompVersion Version;
+	stabilizationMode stabilization;
 
 	/* Type of experiment
 	 * 0 = Community assembly (traditional)
@@ -64,32 +62,34 @@ public:
 	int Tmax_monoculture; // Duration of the monoculture phase
 
 	// Intraspecific trait variation
-	ITV_version ITV;
+	ITV_mode ITV;
 	double ITVsd;
 
 	// Gridspace
-	int GridSize;     		// side length in cm
+	int GridSize;     			// side length in cm
 
 	// General parameters
-	int Tmax;         		// simulation time
-	double mort_seeds;     	// seed mortality per year (in winter)
-	double DiebackWinter; 	// portion of aboveground biomass to be removed in winter
-	double mort_base;      	// basic mortality per week
-	double LitterDecomp;   	// weekly litter decomposition rate
-	double meanARes;      	// mean above-ground resource availability
-	double meanBRes;       	// below-ground resourcer availability
-	double EstabRamet;     	// probability of ramet establishment (1)
+	int Tmax;         			// simulation time
+	double seedMortality;     	// seed mortality per year (in winter)
+	double winterDieback; 		// portion of aboveground biomass to be removed in winter
+	double backgroundMortality; // basic mortality per week
+	double litterDecomp;   		// weekly litter decomposition rate
+	double meanARes;      		// mean above-ground resource availability
+	double meanBRes;       		// below-ground resourcer availability
+	double rametEstab;     		// probability of ramet establishment (1)
 
 	// Aboveground herbivory
-	double GrazProb;   		// grazing probability per week
-	double PropRemove; 		// proportion of above ground mass removed by grazing
-	double BitSize;   		// Bit size of macro-herbivore
-	double MassUngraz;   	// biomass ungrazable 15300[mg DW/m^2]
+	double AbvGrazProb;   		// grazing probability per week
+	double AbvPropRemoved; 		// proportion of above ground mass removed by grazing
+	double BiteSize;   			// Bite size of macro-herbivore
+	double MassUngrazable;   	// biomass ungrazable 15300[mg DW/m^2]
 
 	// Belowground herbivory
 	double BelGrazProb;
 	double BelGrazPerc;
 	double BelGrazResidualPerc;
+	double BelGrazAlpha;
+	int BelGrazHistorySize;
 
 	// Mowing
 	double CutHeight;  // Height to cut plants to
@@ -109,9 +109,9 @@ public:
 	int SeedRainType; // mode of seed input: 0 - no seed rain, 1 - some number of seeds
 
 	// Constructor
-	SRunPara();
+	Parameters();
 
-	inline int GetSumCells() const { return GridSize * GridSize; };
+	inline int getGridArea() const { return GridSize * GridSize; };
 
 	std::string getSimID(); // Merge ID for data sets
 };

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "CGrid.h"
+#include "Grid.h"
 
 class Output
 {
@@ -27,7 +27,7 @@ private:
 	static const std::vector<std::string> ind_header;
 
 	// Environmental and incidental data collection
-	static const std::vector<std::string> meta_header;
+	static const std::vector<std::string> aggregated_header;
 
 	struct PFT_struct;
 
@@ -36,7 +36,7 @@ private:
 	std::ofstream srv_stream;
 	std::ofstream PFT_stream;
 	std::ofstream ind_stream;
-	std::ofstream meta_stream;
+	std::ofstream aggregated_stream;
 
 	// Filenames
 	std::string param_fn;
@@ -44,7 +44,7 @@ private:
 	std::string srv_fn;
 	std::string PFT_fn;
 	std::string ind_fn;
-	std::string meta_fn;
+	std::string aggregated_fn;
 
 	bool is_file_exist(const char *fileName);
 	void print_row(std::ostringstream &ss, std::ofstream &stream);
@@ -61,9 +61,11 @@ public:
 
 	void print_param(); // prints general parameterization data
 	void print_trait(); // prints the traits of each PFT
-	void print_srv_and_PFT(const std::vector< std::shared_ptr<CPlant> > & PlantList); 	// prints PFT data
-	void print_ind(const std::vector< std::shared_ptr<CPlant> > & PlantList); 			// prints individual data
-	void print_meta();
+	void print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & PlantList); 	// prints PFT data
+	void print_ind(const std::vector< std::shared_ptr<Plant> > & PlantList); 			// prints individual data
+	void print_aggregated(const std::vector< std::shared_ptr<Plant> > & PlantList);
+
+	std::map<std::string, Output::PFT_struct> buildPFT_map(const std::vector< std::shared_ptr<Plant> > & PlantList);
 
 	// meta-output
 	std::vector<double> blwgrnd_graz_pressure_history = { 0 };
