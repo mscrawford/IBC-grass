@@ -51,7 +51,8 @@
 								<option id="gnu.cpp.compiler.option.other.verbose.1960770724" name="Verbose (-v)" superClass="gnu.cpp.compiler.option.other.verbose" value="false" valueType="boolean"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.error.1754091284" name="Pedantic warnings as errors (-pedantic-errors)" superClass="gnu.cpp.compiler.option.warnings.pedantic.error" value="false" valueType="boolean"/>
 								<option id="gnu.cpp.compiler.option.warnings.allwarn.885731925" name="All warnings (-Wall)" superClass="gnu.cpp.compiler.option.warnings.allwarn" value="false" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.dialect.flags.1856504182" superClass="gnu.cpp.compiler.option.dialect.flags" value="-std=c++14" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.dialect.flags.1856504182" name="Other dialect flags" superClass="gnu.cpp.compiler.option.dialect.flags" value="-std=c++14" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.optimization.level.355836000" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.more" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.158810792" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.macosx.base.215713718" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.macosx.base">

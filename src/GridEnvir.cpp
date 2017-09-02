@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <cassert>
+
 #include "GridEnvir.h"
 
 using namespace std;
@@ -101,10 +102,10 @@ void GridEnvir::OneWeek()
 {
 
 	ResetWeeklyVariables(); // Clear ZOI data
-	SetCellResources();      // Restore/modulate cell resources
+	SetCellResources();     // Restore/modulate cell resources
 
-	CoverCells();           // Calculate zone of influences (ZOIs)
-	DistributeResource();      // Allot resources based on ZOI
+	CoverCells();          	// Calculate zone of influences (ZOIs)
+	DistributeResource();   // Allot resources based on ZOI
 
 	PlantLoop();            // Growth, dispersal, mortality
 
@@ -113,7 +114,7 @@ void GridEnvir::OneWeek()
 		Disturb();  		// Grazing and disturbances
 	}
 
-	if (Parameters::params.mode == catastrophicDisturbance 				// Catastrophic disturbance is on
+	if (Parameters::params.mode == catastrophicDisturbance 						// Catastrophic disturbance is on
 			&& Environment::year == Parameters::params.CatastrophicDistYear 	// It is the disturbance year
 			&& Environment::week == Parameters::params.CatastrophicDistWeek) 	// It is the disturbance week
 	{
@@ -131,23 +132,27 @@ void GridEnvir::OneWeek()
 
 	if (week == 20)
 	{
-		SeedMortalityAge(); 		// Remove non-dormant seeds before autumn
+		SeedMortalityAge(); // Remove non-dormant seeds before autumn
 	}
 
 	if (week == WeeksPerYear)
 	{
-		Winter();           // removal of aboveground biomass and decomposed plants
-		SeedMortalityWinter();   // winter seed mortality
+		Winter();           	// removal of aboveground biomass and decomposed plants
+		SeedMortalityWinter();  // winter seed mortality
 	}
 
 	if ((Parameters::params.weekly == 1 || week == 20) &&
 			!(Parameters::params.mode == invasionCriterion &&
 					Environment::year <= Parameters::params.Tmax_monoculture)) // Not a monoculture
 	{
+		Environment::output.yearlyTotalShootmass.push_back(GetTotalAboveMass());
+		Environment::output.yearlyTotalRootmass.push_back(GetTotalBelowMass());
+		Environment::output.yearlyTotalNonClonalPlants.push_back(GetNPlants());
+		Environment::output.yearlyTotalClonalPlants.push_back(GetNclonalPlants());
 
 		Environment::output.print_srv_and_PFT(PlantList);
 
-		if (Parameters::params.meta_out == 1)
+		if (Parameters::params.aggregated_out == 1)
 		{
 			Environment::output.print_aggregated(PlantList);
 		}

@@ -52,24 +52,28 @@ private:
 
 public:
 
-	// constructors
 	Output();
 	~Output();
 
-	void setupOutput(std::string param_fn, std::string trait_fn, std::string srv_fn, std::string PFT_fn, std::string ind_fn, std::string meta_fn);
+	void setupOutput(std::string param_fn, std::string trait_fn, std::string srv_fn, std::string PFT_fn, std::string ind_fn, std::string agg_fn);
 	void cleanup();
 
 	void print_param(); // prints general parameterization data
 	void print_trait(); // prints the traits of each PFT
 	void print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & PlantList); 	// prints PFT data
 	void print_ind(const std::vector< std::shared_ptr<Plant> > & PlantList); 			// prints individual data
-	void print_aggregated(const std::vector< std::shared_ptr<Plant> > & PlantList);
+	void print_aggregated(const std::vector< std::shared_ptr<Plant> > & PlantList);		// prints longitudinal data that's not just each PFT
 
 	std::map<std::string, Output::PFT_struct> buildPFT_map(const std::vector< std::shared_ptr<Plant> > & PlantList);
 
-	// meta-output
-	std::vector<double> blwgrnd_graz_pressure_history = { 0 };
-	std::vector<double> contemporaneous_rootmass_history = { 0 };
+	// aggregated output
+	std::vector<double> yearlyBlwgrdGrazingPressure = { 0 };
+	std::vector<double> yearlyContemporaneousRootmassHistory = { 0 };
+	std::vector<double> yearlyTotalShootmass = { 0 };
+	std::vector<double> yearlyTotalRootmass = { 0 };
+	std::vector<double> yearlyTotalNonClonalPlants = { 0 };
+	std::vector<double> yearlyTotalClonalPlants = { 0 };
+
 };
 
 #endif /* SRC_OUTPUT_H_ */

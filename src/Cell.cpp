@@ -1,11 +1,9 @@
-//---------------------------------------------------------------------------
 
 #include <iostream>
 #include <algorithm>
 #include <cassert>
 
 #include "Cell.h"
-
 #include "Environment.h"
 
 using namespace std;

@@ -36,9 +36,9 @@ else:
 ### Hyperparameters
 
 # For computing clusters
-PARALLEL = False         # IF SERIES THIS -> FALSE
+PARALLEL = True         # IF SERIES THIS -> FALSE
 N_SLOTS  = 300          # Number of cores to split between
-H_RT     = "16:00:00"   # Maximum runtime for simulations (08:00:00 = 8 hours)
+H_RT     = "48:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
 H_VMEM   = "1G"         # Memory for each simulation run
 
 # Frequency and type of output
@@ -48,14 +48,14 @@ ind_out   = 0 # Print individual-level output?           (0) No; (1) Yes
 pft_out   = 0 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
 srv_out   = 0 # Print PFT-survival output:               (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
 trait_out = 0 # Print trait-level output:                (0) No; (1) Yes
-meta_out  = 1 # Print output about the environment, etc. (0) No; (1) Year
+agg_out   = 1 # Print output about the environment, etc. (0) No; (1) Yes
 
 # Number of repetitions 
 N_REPS    = 1
 
 # Number of communities and what kind of PFTs to use
-N_COMS    = 20          # UNUSED WITH PAIRWISE INVASION CRITERION
-PFT_type  = "EMPIRICAL" # "THEORETICAL" or "EMPIRICAL"
+N_COMS    = 100           # UNUSED WITH PAIRWISE INVASION CRITERION
+PFT_type  = "EMPIRICAL"   # "THEORETICAL" or "EMPIRICAL"
 
 ##########################################
 ### Environmental parameters
@@ -64,7 +64,7 @@ IC_vers = [1] # IBC-grass run mode -- Negative frequency dependence
 MODE    = [2] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
 N_PFTs  = [0] # UNUSED WITH PAIRWISE INVASION CRITERION
 ITVsd   = [0]
-Tmax    = [150]
+Tmax    = [300]
 
 # Custom environment time series --- PLEASE ONLY SINGLE VALUES
 ENV   = [0] # (0) Static environment; (1) IBC-grass uses custom environmental time series
@@ -75,18 +75,18 @@ ARes  = [100]
 BRes  = [30, 60, 90] # With belowground environmental variation, this MUST be NA
 
 # Aboveground grazing 
-GrazProb   = [0.5]
+GrazProb   = [0.3]
 propRemove = [0.5]
 
 # Belowground grazing
 BelGrazProb        = [0, 1]
-BelGrazPerc        = [0, 0.1, 0.2, 0.3]
-BelGrazAlpha       = [0, 1, 1.5, 2.0, 3.0]
-BelGrazHistorySize = [0, 1, 5, 10 , 30, 60, 90]
+BelGrazPerc        = [0, 0.20]
+BelGrazAlpha       = [0, 1.0, 2.0]
+BelGrazHistorySize = [0, 10, 30, 60]
 
 # Catastrophic disturbance
-CatastrDist_Mort = [0, 1]
-CatastrDist_Week  = [0, 21, 26]
+CatastrDist_Mort = [0, 0.50, 0.75, 1]
+CatastrDist_Week = [0, 4, 20, 21]
 
 # Seed introduction
 SeedRainType = [1]
@@ -156,7 +156,7 @@ SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
                 "BelGrazAlpha BelGrazHistorySize " + \
                 "CatastrMortality CatastrDistWeek " + \
                 "SeedRainType SeedInput " + \
-                "weekly ind_out pft_out srv_out trait_out meta_out NameInitFile\n"
+                "weekly ind_out pft_out srv_out trait_out agg_out NameInitFile\n"
 
 PFT_HEADER = "Species AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                 "growth mThres clonal meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
@@ -256,7 +256,7 @@ def buildPFTs():
 
                 SimNr += 1 # IBC-grass will barf if SimNr starts with 0.
                 SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), \
-                    str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), str(meta_out), Com_FN, "\n"]))
+                    str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), str(agg_out), Com_FN, "\n"]))
 
                 # community's PFT file    
             with open(PATH + Com_FN, 'w') as w: 
@@ -310,7 +310,7 @@ def buildPairs():
             PFT_FN = "Pair_" + str(ComNr) + ".txt"
 
             SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), \
-                str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), str(meta_out), PFT_FN, "\n"]))
+                str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), str(agg_out), PFT_FN, "\n"]))
 
 
         # PFT pair's PFT_file

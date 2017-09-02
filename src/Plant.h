@@ -63,7 +63,7 @@ public:
 	Plant(double x, double y, const std::shared_ptr<Plant> & plant); 	// for clonal establishment
 	~Plant();
 
-	void Grow2(); 									 // shoot-root resource allocation and plant growth in two layers
+	void Grow(); 									 // shoot-root resource allocation and plant growth in two layers
 	void Kill();  									 // Mortality due to resource shortage or at random
 	void DecomposeDead();     						 // calculate mass shrinkage of dead plants
 	void WinterLoss(); 							 	 // removal of aboveground biomass in winter

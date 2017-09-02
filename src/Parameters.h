@@ -37,7 +37,7 @@ public:
 	int PFT_out;
 	int srv_out;
 	int trait_out;
-	int meta_out;
+	int aggregated_out;
 
 	// Competition mode
 	CompMode AboveCompMode; // 0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry

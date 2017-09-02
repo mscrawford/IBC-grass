@@ -1,5 +1,6 @@
 
 #include <cassert>
+
 #include "Genet.h"
 
 int Genet::staticID = 0;

@@ -1,10 +1,10 @@
-#include "Output.h"
 #include <iostream>
 #include <sstream>
 #include <iterator>
 #include <cassert>
 #include <math.h>
 
+#include "Output.h"
 #include "Environment.h"
 
 using namespace std;
@@ -44,7 +44,8 @@ const vector<string> Output::PFT_header
 
 const vector<string> Output::aggregated_header
 	({
-			"SimID", "Year", "Week", "FeedingPressure", "ContemporaneousRootmass", "Shannon", "Richness"
+			"SimID", "Year", "Week", "FeedingPressure", "ContemporaneousRootmass", "Shannon", "Richness",
+			"TotalShootmass", "TotalRootmass", "TotalNonClonalPlants", "TotalClonalPlants"
 	});
 
 const vector<string> Output::ind_header
@@ -82,10 +83,10 @@ struct Output::PFT_struct
 Output::Output() :
 		param_fn("data/out/param.txt"),
 		trait_fn("data/out/trait.txt"),
-		srv_fn("data/out/trait.txt"),
+		srv_fn("data/out/srv.txt"),
 		PFT_fn("data/out/PFT.txt"),
 		ind_fn("data/out/ind.txt"),
-		aggregated_fn("data/out/meta.txt")
+		aggregated_fn("data/out/aggregated.txt")
 {
 	;
 }
@@ -96,14 +97,14 @@ Output::~Output()
 }
 
 void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn,
-						 string _PFT_fn, string _ind_fn, string _meta_fn)
+						 string _PFT_fn, string _ind_fn, string _agg_fn)
 {
 	Output::param_fn = _param_fn;
 	Output::trait_fn = _trait_fn;
 	Output::srv_fn = _srv_fn;
 	Output::PFT_fn = _PFT_fn;
 	Output::ind_fn = _ind_fn;
-	Output::aggregated_fn = _meta_fn;
+	Output::aggregated_fn = _agg_fn;
 
 	bool mid_batch = is_file_exist(param_fn.c_str());
 
@@ -139,7 +140,7 @@ void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn,
 		if (!mid_batch) print_row(srv_header, srv_stream);
 	}
 
-	if (Parameters::params.meta_out)
+	if (Parameters::params.aggregated_out)
 	{
 		aggregated_stream.open(aggregated_fn.c_str(), ios_base::app);
 		assert(aggregated_stream.good());
@@ -191,10 +192,10 @@ void Output::print_param()
 	std::ostringstream ss;
 
 	ss << Parameters::params.getSimID()					<< ", ";
-	ss << Environment::ComNr 								<< ", ";
-	ss << Environment::RunNr 								<< ", ";
-	ss << Traits::pftTraitTemplates.size()			<< ", ";
-	ss << Parameters::params.stabilization 					<< ", ";
+	ss << Environment::ComNr 							<< ", ";
+	ss << Environment::RunNr 							<< ", ";
+	ss << Traits::pftTraitTemplates.size()				<< ", ";
+	ss << Parameters::params.stabilization 				<< ", ";
 	ss << Parameters::params.ITVsd 						<< ", ";
 	ss << Parameters::params.Tmax 						<< ", ";
 
@@ -214,13 +215,13 @@ void Output::print_param()
 
 	ss << Parameters::params.meanARes 					<< ", ";
 	ss << Parameters::params.meanBRes 					<< ", ";
-	ss << Parameters::params.AbvGrazProb 					<< ", ";
-	ss << Parameters::params.AbvPropRemoved 					<< ", ";
+	ss << Parameters::params.AbvGrazProb 				<< ", ";
+	ss << Parameters::params.AbvPropRemoved 			<< ", ";
 	ss << Parameters::params.BelGrazProb 				<< ", ";
 	ss << Parameters::params.BelGrazPerc 				<< ", ";
 	ss << Parameters::params.BelGrazAlpha				<< ", ";
 	ss << Parameters::params.BelGrazHistorySize			<< ", ";
-	ss << Parameters::params.CatastrophicPlantMortality 	<< ", ";
+	ss << Parameters::params.CatastrophicPlantMortality << ", ";
 	ss << Parameters::params.CatastrophicDistWeek 		<< ", ";
 	ss << Parameters::params.SeedRainType 				<< ", ";
 	ss << Parameters::params.SeedInput						   ;
@@ -241,7 +242,7 @@ void Output::print_trait()
 		ss << it.second->m0 				<< ", ";
 		ss << it.second->maxMass 			<< ", ";
 		ss << it.second->seedMass 			<< ", ";
-		ss << it.second->dispersalDist 				<< ", ";
+		ss << it.second->dispersalDist 		<< ", ";
 		ss << it.second->SLA 				<< ", ";
 		ss << it.second->palat 				<< ", ";
 		ss << it.second->Gmax 				<< ", ";
@@ -303,7 +304,7 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & Pla
 
 				s_ss << Parameters::params.getSimID()	<< ", ";
 				s_ss << it.first 						<< ", "; // PFT name
-				s_ss << Environment::year					<< ", ";
+				s_ss << Environment::year				<< ", ";
 				s_ss << it.second.Pop 					<< ", ";
 				s_ss << it.second.Shootmass 			<< ", ";
 				s_ss << it.second.Rootmass 					   ;
@@ -328,8 +329,8 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & Pla
 
 			p_ss << Parameters::params.getSimID()	<< ", ";
 			p_ss << it.first 						<< ", "; // PFT name
-			p_ss << Environment::year 					<< ", ";
-			p_ss << Environment::week 					<< ", ";
+			p_ss << Environment::year 				<< ", ";
+			p_ss << Environment::week 				<< ", ";
 			p_ss << it.second.Pop 					<< ", ";
 			p_ss << it.second.Shootmass 			<< ", ";
 			p_ss << it.second.Rootmass 				<< ", ";
@@ -354,15 +355,15 @@ void Output::print_ind(const std::vector< std::shared_ptr<Plant> > & PlantList)
 		ss << Parameters::params.getSimID()	<< ", ";
 		ss << p->plantID 					<< ", ";
 		ss << p->pft() 						<< ", ";
-		ss << Environment::year 					<< ", ";
-		ss << Environment::week 					<< ", ";
-		ss << p->x 					<< ", ";
-		ss << p->y 					<< ", ";
+		ss << Environment::year 			<< ", ";
+		ss << Environment::week 			<< ", ";
+		ss << p->y 							<< ", ";
+		ss << p->x 							<< ", ";
 		ss << p->traits->LMR 				<< ", ";
 		ss << p->traits->m0 				<< ", ";
 		ss << p->traits->maxMass 			<< ", ";
 		ss << p->traits->seedMass 			<< ", ";
-		ss << p->traits->dispersalDist 				<< ", ";
+		ss << p->traits->dispersalDist 		<< ", ";
 		ss << p->traits->SLA 				<< ", ";
 		ss << p->traits->palat 				<< ", ";
 		ss << p->traits->Gmax 				<< ", ";
@@ -378,7 +379,7 @@ void Output::print_ind(const std::vector< std::shared_ptr<Plant> > & PlantList)
 		ss << p->Radius_root() 				<< ", ";
 		ss << p->mRepro 					<< ", ";
 		ss << p->lifetimeFecundity 			<< ", ";
-		ss << p->isStressed							   ;
+		ss << p->isStressed						   ;
 
 		print_row(ss, ind_stream);
 	}
@@ -432,14 +433,17 @@ void Output::print_aggregated(const std::vector< std::shared_ptr<Plant> > & Plan
 
 	std::ostringstream ss;
 
-	ss << Parameters::params.getSimID()					<< ", ";
-	ss << Environment::year 									<< ", ";
+	ss << Parameters::params.getSimID() 						<< ", ";
+	ss << Environment::year										<< ", ";
 	ss << Environment::week 									<< ", ";
-	ss << blwgrnd_graz_pressure_history.back()			<< ", ";
-	ss << contemporaneous_rootmass_history.back()		<< ", ";
-	ss << calculateShannon()							<< ", ";
-	ss << calculateRichness()								   ;
-
+	ss << yearlyBlwgrdGrazingPressure.back() 					<< ", ";
+	ss << yearlyContemporaneousRootmassHistory.back() 			<< ", ";
+	ss << calculateShannon() 									<< ", ";
+	ss << calculateRichness() 									<< ", ";
+	ss << yearlyTotalShootmass.back()							<< ", ";
+	ss << yearlyTotalRootmass.back() 							<< ", ";
+	ss << yearlyTotalNonClonalPlants.back() 					<< ", ";
+	ss << yearlyTotalClonalPlants.back() 							   ;
 	print_row(ss, aggregated_stream);
 
 }

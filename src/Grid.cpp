@@ -1,13 +1,12 @@
-
-#include "RandomGenerator.h"
-
 #include <algorithm>
 #include <iostream>
 #include <cassert>
 #include <memory>
 #include <math.h>
+
 #include "Grid.h"
 #include "Environment.h"
+#include "RandomGenerator.h"
 
 using namespace std;
 
@@ -74,7 +73,7 @@ void Grid::PlantLoop()
 
 		if (!p->isDead)
 		{
-			p->Grow2();
+			p->Grow();
 
 			if (p->traits->clonal)
 			{
@@ -593,8 +592,8 @@ void Grid::GrazingBelGr()
 		fn_o = bt - bt * Parameters::params.BelGrazResidualPerc;
 	}
 
-	Environment::output.blwgrnd_graz_pressure_history.push_back(fn_o);
-	Environment::output.contemporaneous_rootmass_history.push_back(bt);
+	Environment::output.yearlyBlwgrdGrazingPressure.push_back(fn_o);
+	Environment::output.yearlyContemporaneousRootmassHistory.push_back(bt);
 
 	double fn = fn_o;
 	double t_br = 0; // total biomass removed

@@ -18,7 +18,7 @@ int Environment::RunNr;
 Output Environment::output;
 RandomGenerator Environment::rng;
 
-std::vector<std::string> Environment::PftInitList;	// list of PFTs used
+std::vector<std::string> Environment::PftInitList;		// list of PFTs used
 std::map<std::string, int> Environment::PftSurvTime;	// how long each PFT lives
 
 //-----------------------------------------------------------------------------
@@ -61,10 +61,10 @@ void Environment::GetSim(string data)
 
 	std::stringstream ss(data);
 
-	ss	>> SimID 												// Simulation number
-		>> ComNr 												// Community number
-		>> IC_version 											// Stabilizing mechanisms
-		>> mode													// (0) Community assembly (normal), (1) invasion criterion, (2) catastrophic disturbance
+	ss	>> SimID 											// Simulation number
+		>> ComNr 											// Community number
+		>> IC_version 										// Stabilizing mechanisms
+		>> mode												// (0) Community assembly (normal), (1) invasion criterion, (2) catastrophic disturbance
 		>> Parameters::params.ITVsd 						// Standard deviation of intraspecific variation
 		>> Parameters::params.Tmax 							// End of run year
 		>> Parameters::params.meanARes 						// Aboveground resources
@@ -84,8 +84,8 @@ void Environment::GetSim(string data)
 		>> Parameters::params.PFT_out						// Output: PFT-level output
 		>> Parameters::params.srv_out						// Output: End-of-run survival output
 		>> Parameters::params.trait_out						// Output: Trait-level output
-		>> Parameters::params.meta_out						// Output: Meta-level output
-		>> Parameters::NamePftFile 								// Input: Name of input community (PFT intialization) file
+		>> Parameters::params.aggregated_out				// Output: Meta-level output
+		>> Parameters::NamePftFile 							// Input: Name of input community (PFT intialization) file
 		;
 
 	// set intraspecific competition version, intraspecific trait variation version, and competition modes
@@ -116,10 +116,11 @@ void Environment::GetSim(string data)
 		if (Parameters::params.CatastrophicPlantMortality > 0)
 		{
 			Parameters::params.mode = catastrophicDisturbance;
-		} else {
+		}
+		else
+		{
 			Parameters::params.mode = communityAssembly;
 		}
-
 		break;
 	default:
 		cerr << "Invalid mode parameterization" << endl;
@@ -160,8 +161,8 @@ void Environment::GetSim(string data)
 	string srv = 	dir + fid + "_srv.csv";
 	string PFT = 	dir + fid + "_PFT.csv";
 	string ind = 	dir + fid + "_ind.csv";
-	string meta =   dir + fid + "_meta.csv";
+	string aggregated =   dir + fid + "_aggregated.csv";
 
-	output.setupOutput(param, trait, srv, PFT, ind, meta);
+	output.setupOutput(param, trait, srv, PFT, ind, aggregated);
 }
 

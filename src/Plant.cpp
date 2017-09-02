@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "Plant.h"
-
 #include "Environment.h"
 #include "Traits.h"
 
@@ -170,7 +169,7 @@ void Plant::SpacerGrow() {
  * adapted growth formula with correction factor for the conversion rate
  * to simulate implicit biomass reduction via root herbivory
  */
-void Plant::Grow2() //grow plant one timestep
+void Plant::Grow() //grow plant one timestep
 {
 	double dm_shoot, dm_root, alloc_shoot;
 	double LimRes, ShootRes, RootRes, VegRes;
