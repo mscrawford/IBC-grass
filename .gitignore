@@ -1,9 +1,9 @@
 
 ### IBC-grass
 
-data/in/*
-data/out/*
-util/setup/tmp/*
+/data/in/
+/data/out/
+/util/setup/tmp/
 
 # Created by https://www.gitignore.io/api/r,c++,macos,python,eclipse
 
