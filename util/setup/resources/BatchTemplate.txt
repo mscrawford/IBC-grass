@@ -13,4 +13,4 @@
 
 module load gcc/4.9.2-2
 
-/home/crawford/Default/IBC-grass /home/crawford/data/in/@SIMFILE@ @PREFIX@
+/home/crawford/Default/IBC-grass.out /home/crawford/data/in/@SIMFILE@ @PREFIX@
