@@ -65,6 +65,11 @@ public:
 	void print_aggregated(const std::vector< std::shared_ptr<Plant> > & PlantList);		// prints longitudinal data that's not just each PFT
 
 	std::map<std::string, Output::PFT_struct> buildPFT_map(const std::vector< std::shared_ptr<Plant> > & PlantList);
+	std::map<std::string, int> BC_predisturbance_Pop;
+
+	double calculateShannon(const std::map<std::string, Output::PFT_struct> & _PFT_map);
+	double calculateRichness(const std::map<std::string, Output::PFT_struct> & _PFT_map);
+	double calculateBrayCurtis(const std::map<std::string, Output::PFT_struct> & _PFT_map, int benchmarkYear);
 
 	// aggregated output
 	std::vector<double> yearlyBlwgrdGrazingPressure = { 0 };
@@ -73,7 +78,6 @@ public:
 	std::vector<double> yearlyTotalRootmass = { 0 };
 	std::vector<double> yearlyTotalNonClonalPlants = { 0 };
 	std::vector<double> yearlyTotalClonalPlants = { 0 };
-
 };
 
 #endif /* SRC_OUTPUT_H_ */

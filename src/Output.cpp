@@ -44,7 +44,8 @@ const vector<string> Output::PFT_header
 
 const vector<string> Output::aggregated_header
 	({
-			"SimID", "Year", "Week", "FeedingPressure", "ContemporaneousRootmass", "Shannon", "Richness",
+			"SimID", "Year", "Week", "FeedingPressure", "ContemporaneousRootmass",
+			"Shannon", "Richness", "BrayCurtisDissimilarity",
 			"TotalShootmass", "TotalRootmass", "TotalNonClonalPlants", "TotalClonalPlants"
 	});
 
@@ -268,17 +269,15 @@ map<string, Output::PFT_struct> Output::buildPFT_map(const std::vector< std::sha
 	// Aggregate individuals
 	for (auto const& p : PlantList)
 	{
-		if (Parameters::params.PFT_out != 2 && p->isDead) continue; // If PFT_out is 2, it will print "dead" PFTs
+		if (p->isDead)
+			continue;
 
 		PFT_struct* s = &(PFT_map[p->pft()]);
 
-		if (!p->isDead)
-		{
-			s->Pop = s->Pop + 1;
-			s->Rootmass = s->Rootmass + p->mRoot;
-			s->Shootmass = s->Shootmass + p->mShoot;
-			s->Repro = s->Repro + p->mRepro;
-		}
+		s->Pop = s->Pop + 1;
+		s->Rootmass = s->Rootmass + p->mRoot;
+		s->Shootmass = s->Shootmass + p->mShoot;
+		s->Repro = s->Repro + p->mRepro;
 	}
 
 	return PFT_map;
@@ -323,7 +322,9 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & Pla
 			if (Parameters::params.PFT_out == 1 &&
 					it.second.Pop == 0 &&
 					Environment::PftSurvTime[it.first] != Environment::year)
+			{
 				continue;
+			}
 
 			std::ostringstream p_ss;
 
@@ -387,63 +388,33 @@ void Output::print_ind(const std::vector< std::shared_ptr<Plant> > & PlantList)
 
 void Output::print_aggregated(const std::vector< std::shared_ptr<Plant> > & PlantList)
 {
+
 	auto PFT_map = buildPFT_map(PlantList);
-
-	auto calculateShannon = [PFT_map]()
-	{
-		int totalPop = std::accumulate(PFT_map.begin(), PFT_map.end(), 0,
-							[] (int s, const std::map<string, PFT_struct>::value_type& p)
-							{
-								return s + p.second.Pop;
-							});
-
-		map<string, double> pi_map;
-		for (auto pft : PFT_map)
-		{
-			if (pft.second.Pop > 0)
-			{
-				double propPFT = pft.second.Pop / (double) totalPop;
-				pi_map[pft.first] = propPFT * log(propPFT);
-			}
-		}
-
-		double total_Pi_ln_Pi = std::accumulate(pi_map.begin(), pi_map.end(), 0.0,
-									[] (double s, const std::map<string, double>::value_type& p)
-									{
-										return s + p.second;
-									});
-
-		return (-1.0 * total_Pi_ln_Pi);
-	};
-
-	auto calculateRichness = [PFT_map]()
-	{
-		int richness = std::accumulate(PFT_map.begin(), PFT_map.end(), 0,
-							[] (int s, const std::map<string, PFT_struct>::value_type& p)
-							{
-								if (p.second.Pop > 0)
-								{
-									return s + 1;
-								}
-								return s;
-							});
-
-		return richness;
-	};
 
 	std::ostringstream ss;
 
-	ss << Parameters::params.getSimID() 						<< ", ";
-	ss << Environment::year										<< ", ";
-	ss << Environment::week 									<< ", ";
-	ss << yearlyBlwgrdGrazingPressure.back() 					<< ", ";
-	ss << yearlyContemporaneousRootmassHistory.back() 			<< ", ";
-	ss << calculateShannon() 									<< ", ";
-	ss << calculateRichness() 									<< ", ";
-	ss << yearlyTotalShootmass.back()							<< ", ";
-	ss << yearlyTotalRootmass.back() 							<< ", ";
-	ss << yearlyTotalNonClonalPlants.back() 					<< ", ";
-	ss << yearlyTotalClonalPlants.back() 							   ;
+	ss << Parameters::params.getSimID() 											<< ", ";
+	ss << Environment::year															<< ", ";
+	ss << Environment::week 														<< ", ";
+	ss << yearlyBlwgrdGrazingPressure.back() 										<< ", ";
+	ss << yearlyContemporaneousRootmassHistory.back() 								<< ", ";
+	ss << calculateShannon(PFT_map) 												<< ", ";
+	ss << calculateRichness(PFT_map)												<< ", ";
+
+	double brayCurtis = calculateBrayCurtis(PFT_map, Parameters::params.CatastrophicDistYear - 1);
+	if (!Environment::AreSame(brayCurtis, -1))
+	{
+		ss << brayCurtis 															<< ", ";
+	}
+	else
+	{
+		ss << "NA"																	<< ", ";
+	}
+
+	ss << yearlyTotalShootmass.back()												<< ", ";
+	ss << yearlyTotalRootmass.back() 												<< ", ";
+	ss << yearlyTotalNonClonalPlants.back() 										<< ", ";
+	ss << yearlyTotalClonalPlants.back() 												   ;
 	print_row(ss, aggregated_stream);
 
 }
@@ -471,4 +442,104 @@ void Output::print_row(vector<string> row, ofstream & stream)
 	stream << ss.str() << endl;
 
 	stream.flush();
+}
+
+double Output::calculateShannon(const std::map<std::string, Output::PFT_struct> & _PFT_map)
+{
+	int totalPop = std::accumulate(_PFT_map.begin(), _PFT_map.end(), 0,
+						[] (int s, const std::map<string, PFT_struct>::value_type& p)
+						{
+							return s + p.second.Pop;
+						});
+
+	map<string, double> pi_map;
+
+	for (auto pft : _PFT_map)
+	{
+		if (pft.second.Pop > 0)
+		{
+			double propPFT = pft.second.Pop / (double) totalPop;
+			pi_map[pft.first] = propPFT * log(propPFT);
+		}
+	}
+
+	double total_Pi_ln_Pi = std::accumulate(pi_map.begin(), pi_map.end(), 0.0,
+								[] (double s, const std::map<string, double>::value_type& p)
+								{
+									return s + p.second;
+								});
+
+	return (-1.0 * total_Pi_ln_Pi);
+}
+
+double Output::calculateRichness(const std::map<std::string, Output::PFT_struct> & _PFT_map)
+{
+	int richness = std::accumulate(_PFT_map.begin(), _PFT_map.end(), 0,
+						[] (int s, const std::map<string, PFT_struct>::value_type& p)
+						{
+							if (p.second.Pop > 0)
+							{
+								return s + 1;
+							}
+							return s;
+						});
+
+	return richness;
+}
+
+/*
+ * benchmarkYear is generally the year to prior to disturbance
+ * BC_window is the length of the time period (years) in which PFT populations are averaged to arrive at a stable mean for comparison
+ */
+double Output::calculateBrayCurtis(const std::map<std::string, Output::PFT_struct> & _PFT_map, int benchmarkYear)
+{
+	static const int BC_window = 20;
+
+	// Preparing the "average population counts" in the years preceding the catastrophic disturbance
+	if (Environment::year > benchmarkYear - BC_window && Environment::year <= benchmarkYear)
+	{
+		// Add this year's population to the PFT's abundance sum over the window
+		for (auto& pft : _PFT_map)
+		{
+			BC_predisturbance_Pop[pft.first] += pft.second.Pop;
+		}
+
+		// If it's the last year before disturbance, divide the population count by the window
+		if (Environment::year == benchmarkYear)
+		{
+			for (auto& pft_total : BC_predisturbance_Pop)
+			{
+				pft_total.second = pft_total.second / BC_window;
+			}
+		}
+	}
+
+	if (Environment::year <= benchmarkYear)
+	{
+		return -1;
+	}
+
+	std::vector<int> popDistance;
+	for (auto pft : _PFT_map)
+	{
+		popDistance.push_back( abs( BC_predisturbance_Pop[pft.first] - pft.second.Pop ) );
+	}
+
+	int BC_distance_sum = std::accumulate(popDistance.begin(), popDistance.end(), 0);
+
+	int present_totalAbundance = std::accumulate(_PFT_map.begin(), _PFT_map.end(), 0,
+								[] (int s, const std::map<string, PFT_struct>::value_type& p)
+								{
+									return s + p.second.Pop;
+								});
+
+	int past_totalAbundance = std::accumulate(BC_predisturbance_Pop.begin(), BC_predisturbance_Pop.end(), 0,
+								[] (int s, const std::map<string, int>::value_type& p)
+								{
+									return s + p.second;
+								});
+
+	int BC_abundance_sum = present_totalAbundance + past_totalAbundance;
+
+	return BC_distance_sum / (double) BC_abundance_sum;
 }
