@@ -849,11 +849,23 @@ double Grid::GetTotalBelowMass()
 int Grid::GetNclonalPlants()
 {
 	int NClonalPlants = 0;
-	for (auto const& p : PlantList)
+	for (auto const& g : GenetList)
 	{
-		if (p->traits->clonal && !p->isDead)
+		bool hasLivingRamet = false;
+
+		for (auto const& r_ptr : g->RametList)
 		{
-			NClonalPlants++;
+			auto const& r = r_ptr.lock();
+			if (!r->isDead)
+			{
+				hasLivingRamet = true;
+				break;
+			}
+		}
+
+		if (hasLivingRamet)
+		{
+			++NClonalPlants;
 		}
 	}
 	return NClonalPlants;

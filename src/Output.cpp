@@ -477,6 +477,11 @@ double Output::calculateShannon(const std::map<std::string, Output::PFT_struct> 
 									return s + p.second;
 								});
 
+	if (Environment::AreSame(total_Pi_ln_Pi, 0))
+	{
+		return 0;
+	}
+
 	return (-1.0 * total_Pi_ln_Pi);
 }
 
