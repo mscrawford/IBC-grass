@@ -104,6 +104,10 @@ public:
 	int GetNRamets() const;  		// return number of ramets
 
 	inline static double getPalatability(const std::shared_ptr<Plant> & p) {
+		if (p->isDead)
+		{
+			return 0;
+		}
 		return p->mShoot * p->traits->GrazFraction();
 	}
 

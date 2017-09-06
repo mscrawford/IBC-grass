@@ -46,7 +46,8 @@ const vector<string> Output::aggregated_header
 	({
 			"SimID", "Year", "Week", "FeedingPressure", "ContemporaneousRootmass",
 			"Shannon", "Richness", "BrayCurtisDissimilarity",
-			"TotalShootmass", "TotalRootmass", "TotalNonClonalPlants", "TotalClonalPlants"
+			"TotalShootmass", "TotalRootmass", "TotalNonClonalPlants", "TotalClonalPlants",
+			"wm_LMR", "wm_MaxMass", "wm_Gmax", "wm_SLA"
 	});
 
 const vector<string> Output::ind_header
@@ -391,6 +392,8 @@ void Output::print_aggregated(const std::vector< std::shared_ptr<Plant> > & Plan
 
 	auto PFT_map = buildPFT_map(PlantList);
 
+	std::map<std::string, double> meanTraits = calculateMeanTraits(PlantList);
+
 	std::ostringstream ss;
 
 	ss << Parameters::params.getSimID() 											<< ", ";
@@ -414,7 +417,12 @@ void Output::print_aggregated(const std::vector< std::shared_ptr<Plant> > & Plan
 	ss << yearlyTotalShootmass.back()												<< ", ";
 	ss << yearlyTotalRootmass.back() 												<< ", ";
 	ss << yearlyTotalNonClonalPlants.back() 										<< ", ";
-	ss << yearlyTotalClonalPlants.back() 												   ;
+	ss << yearlyTotalClonalPlants.back() 											<< ", ";
+	ss << meanTraits["LMR"] 														<< ", ";
+	ss << meanTraits["MaxMass"] 													<< ", ";
+	ss << meanTraits["Gmax"] 														<< ", ";
+	ss << meanTraits["SLA"] 													           ;
+
 	print_row(ss, aggregated_stream);
 
 }
@@ -542,4 +550,32 @@ double Output::calculateBrayCurtis(const std::map<std::string, Output::PFT_struc
 	int BC_abundance_sum = present_totalAbundance + past_totalAbundance;
 
 	return BC_distance_sum / (double) BC_abundance_sum;
+}
+
+std::map<std::string, double> Output::calculateMeanTraits(const std::vector< std::shared_ptr<Plant> > & PlantList)
+{
+	std::map<std::string, double> weightedMeanTraits;
+	int pop = 0;
+
+	for (auto const& p : PlantList)
+	{
+		if (p->isDead)
+		{
+			continue;
+		}
+
+		weightedMeanTraits["LMR"] += p->traits->LMR;
+		weightedMeanTraits["MaxMass"] += p->traits->maxMass;
+		weightedMeanTraits["Gmax"] += p->traits->Gmax;
+		weightedMeanTraits["SLA"] += p->traits->SLA;
+
+		++pop;
+	}
+
+	for (auto& trait : weightedMeanTraits)
+	{
+		trait.second = trait.second / pop;
+	}
+
+	return weightedMeanTraits;
 }

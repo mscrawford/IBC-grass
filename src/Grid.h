@@ -45,8 +45,7 @@ protected:
 
 public:
 	Cell** CellList;    								// array of pointers to CCell
-	std::vector< std::shared_ptr<Plant> > PlantList;   // plant individuals
-	std::vector<int> above_biomass_history;
+	std::vector< std::shared_ptr<Plant> > PlantList;    // plant individuals
 	std::vector<int> below_biomass_history;
 
 	Grid();

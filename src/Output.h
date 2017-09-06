@@ -70,6 +70,7 @@ public:
 	double calculateShannon(const std::map<std::string, Output::PFT_struct> & _PFT_map);
 	double calculateRichness(const std::map<std::string, Output::PFT_struct> & _PFT_map);
 	double calculateBrayCurtis(const std::map<std::string, Output::PFT_struct> & _PFT_map, int benchmarkYear);
+	std::map<std::string, double> calculateMeanTraits(const std::vector< std::shared_ptr<Plant> > & PlantList);
 
 	// aggregated output
 	std::vector<double> yearlyBlwgrdGrazingPressure = { 0 };

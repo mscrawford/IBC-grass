@@ -443,8 +443,6 @@ void Grid::SeedMortalityAge()
 
 void Grid::Disturb()
 {
-
-	Grid::above_biomass_history.push_back(GetTotalAboveMass());
 	Grid::below_biomass_history.push_back(GetTotalBelowMass());
 
 	if (Environment::rng.get01() < Parameters::params.AbvGrazProb) {
@@ -528,10 +526,17 @@ void Grid::GrazingAbvGr()
 				break;
 			}
 
+			if (plant->isDead)
+			{
+				continue;
+			}
+
 			double grazProb = Plant::getPalatability(plant) / max_palatability;
 
 			if (Environment::rng.get01() < grazProb)
+			{
 				MassRemoved += plant->RemoveShootMass();
+			}
 		}
 	}
 }
@@ -812,6 +817,11 @@ double Grid::GetTotalAboveMass()
 	double above_mass = 0;
 	for (auto const& p : PlantList)
 	{
+		if (p->isDead)
+		{
+			continue;
+		}
+
 		above_mass += p->mShoot + p->mRepro;
 	}
 	return above_mass;
@@ -824,6 +834,11 @@ double Grid::GetTotalBelowMass()
 	double below_mass = 0;
 	for (auto const& p : PlantList)
 	{
+		if (p->isDead)
+		{
+			continue;
+		}
+
 		below_mass += p->mRoot;
 	}
 	return below_mass;
