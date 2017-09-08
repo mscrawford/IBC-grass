@@ -90,7 +90,12 @@ Output::Output() :
 		ind_fn("data/out/ind.txt"),
 		aggregated_fn("data/out/aggregated.txt")
 {
-	;
+	yearlyBlwgrdGrazingPressure = { 0 };
+	yearlyContemporaneousRootmassHistory = { 0 };
+	yearlyTotalShootmass = { 0 };
+	yearlyTotalRootmass = { 0 };
+	yearlyTotalNonClonalPlants = { 0 };
+	yearlyTotalClonalPlants = { 0 };
 }
 
 Output::~Output()
@@ -506,7 +511,7 @@ double Output::calculateRichness(const std::map<std::string, Output::PFT_struct>
  */
 double Output::calculateBrayCurtis(const std::map<std::string, Output::PFT_struct> & _PFT_map, int benchmarkYear)
 {
-	static const int BC_window = 20;
+	static const int BC_window = 10;
 
 	// Preparing the "average population counts" in the years preceding the catastrophic disturbance
 	if (Environment::year > benchmarkYear - BC_window && Environment::year <= benchmarkYear)
