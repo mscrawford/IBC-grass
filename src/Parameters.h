@@ -111,7 +111,7 @@ public:
 	// Constructor
 	Parameters();
 
-	inline int getGridArea() const { return GridSize * GridSize; };
+    inline int getGridArea() const { return GridSize * GridSize; }
 
 	std::string getSimID(); // Merge ID for data sets
 };

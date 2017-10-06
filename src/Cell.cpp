@@ -208,7 +208,7 @@ double Cell::prop_res(const string type, const int layer, const int version) con
 			map<string, int>::const_iterator noa = PftNIndA.find(type);
 			if (noa != PftNIndA.end())
 			{
-				return 1.0 / sqrt(noa->second);
+				return 1.0 / std::sqrt(noa->second);
 			}
 		}
 		if (layer == 2)
@@ -216,7 +216,7 @@ double Cell::prop_res(const string type, const int layer, const int version) con
 			map<string, int>::const_iterator nob = PftNIndB.find(type);
 			if (nob != PftNIndB.end())
 			{
-				return 1.0 / sqrt(nob->second);
+				return 1.0 / std::sqrt(nob->second);
 			}
 		}
 		break;

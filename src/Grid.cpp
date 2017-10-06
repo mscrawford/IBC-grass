@@ -104,8 +104,8 @@ void Grid::PlantLoop()
  */
 void getTargetCell(int& xx, int& yy, const float mean, const float sd)
 {
-	double sigma = sqrt(log((sd / mean) * (sd / mean) + 1));
-	double mu = log(mean) - 0.5 * sigma;
+	double sigma = std::sqrt(std::log((sd / mean) * (sd / mean) + 1));
+	double mu = std::log(mean) - 0.5 * sigma;
 	double dist = exp(Environment::rng.getGaussian(mu, sigma));
 
 	// direction uniformly distributed
@@ -151,7 +151,7 @@ void Grid::DisperseRamets(const std::shared_ptr<Plant> & p)
 
 	if (p->GetNRamets() == 1)
 	{
-		double distance = abs(Environment::rng.getGaussian(p->traits->meanSpacerlength, p->traits->sdSpacerlength));
+		double distance = std::abs(Environment::rng.getGaussian(p->traits->meanSpacerlength, p->traits->sdSpacerlength));
 
 		// uniformly distributed direction
 		double direction = 2 * Pi * Environment::rng.get01();
@@ -404,8 +404,8 @@ void Grid::establishRamets(const std::shared_ptr<Plant> plant)
 					_y = Environment::rng.getUniformInt(5) - 2;
 				} while (_x == 0 && _y == 0);
 
-				int x = round(spacer->x + _x);
-				int y = round(spacer->y + _y);
+				int x = std::round(spacer->x + _x);
+				int y = std::round(spacer->y + _y);
 
 				Torus(x, y);
 
@@ -488,6 +488,8 @@ void Grid::RunCatastrophicDisturbance()
 			p->isDead = true;
 		}
 	}
+
+//	Cutting(5);
 }
 
 //-----------------------------------------------------------------------------

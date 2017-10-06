@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		Parameters::NameSimFile = "data/in/SimFile.txt";
+        Parameters::NameSimFile = "data/in/SimFile.txt";
 		Parameters::outputPrefix = "default";
 	}
 
