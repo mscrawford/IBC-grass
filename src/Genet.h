@@ -20,7 +20,7 @@ public:
    int genetID;
    std::vector< std::weak_ptr<Plant> > RametList;
 
-   Genet():genetID(++staticID) { };
+   Genet():genetID(++staticID) { }
 
    void ResshareA();     // share above-ground resources
    void ResshareB();     // share below-ground resources
