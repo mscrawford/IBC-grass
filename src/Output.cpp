@@ -16,7 +16,7 @@ const vector<string> Output::param_header
          "Invader", "Resident",
          "ARes", "BRes",
          "GrazProb", "PropRemove",
-         "BelGrazProb", "BelGrazPerc",
+         "BelGrazProb", "BelGrazPerc", "BelGrazThreshold",
          "BelGrazAlpha", "BelGrazHistorySize",
          "CatastrophicMortality", "CatastrophicDistWeek",
          "SeedRainType", "SeedInput"
@@ -231,6 +231,7 @@ void Output::print_param()
     ss << Parameters::params.AbvPropRemoved 			<< ", ";
     ss << Parameters::params.BelGrazProb 				<< ", ";
     ss << Parameters::params.BelGrazPerc 				<< ", ";
+    ss << Parameters::params.BelGrazThreshold           << ", ";
     ss << Parameters::params.BelGrazAlpha				<< ", ";
     ss << Parameters::params.BelGrazHistorySize			<< ", ";
     ss << Parameters::params.CatastrophicPlantMortality << ", ";

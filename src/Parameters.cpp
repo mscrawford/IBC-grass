@@ -23,7 +23,7 @@ Parameters::Parameters() :
 		meanARes(100), meanBRes(100),
 		rametEstab(1),
 		AbvGrazProb(0), AbvPropRemoved(0), BiteSize(0.5), MassUngrazable(15300),
-		BelGrazProb(0), BelGrazPerc(0), BelGrazResidualPerc(0),
+        BelGrazProb(0), BelGrazPerc(0), BelGrazResidualPerc(0), BelGrazThreshold(0.0667616),
 		BelGrazAlpha(2), BelGrazHistorySize(60),
 		CutHeight(0), NCut(0),
 		CatastrophicDistYear(100), CatastrophicDistWeek(20),
