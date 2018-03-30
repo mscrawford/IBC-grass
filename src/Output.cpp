@@ -46,7 +46,7 @@ const vector<string> Output::aggregated_header
     ({
          "SimID", "Year", "Week",
          "FeedingPressure", "ContemporaneousRootmass",
-         "Shannon", "Richness", "BrayCurtisDissimilarity",
+         "Shannon", "PIE", "Richness", "BrayCurtisDissimilarity",
          "TotalAboveComp", "TotalBelowComp",
          "TotalShootmass", "TotalRootmass",
          "TotalNonClonalPlants", "TotalClonalPlants",
@@ -413,6 +413,7 @@ void Output::print_aggregated(const std::vector< std::shared_ptr<Plant> > & Plan
     ss << BlwgrdGrazingPressure.back()                                              << ", ";
     ss << ContemporaneousRootmassHistory.back()                                 	<< ", ";
     ss << calculateShannon(PFT_map) 												<< ", ";
+    ss << calculatePIE(PFT_map)                                                     << ", ";
     ss << calculateRichness(PFT_map)												<< ", ";
 
     double brayCurtis = calculateBrayCurtis(PFT_map, Parameters::params.CatastrophicDistYear - 1);
@@ -496,6 +497,39 @@ double Output::calculateShannon(const std::map<std::string, Output::PFT_struct> 
     }
 
     return (-1.0 * total_Pi_ln_Pi);
+}
+
+
+double Output::calculatePIE(const std::map<std::string, Output::PFT_struct> & _PFT_map)
+{
+    int totalPop = std::accumulate(_PFT_map.begin(), _PFT_map.end(), 0,
+                        [] (int s, const std::map<string, PFT_struct>::value_type& p)
+                        {
+                            return s + p.second.Pop;
+                        });
+
+    map<string, double> pi_map;
+
+    for (auto pft : _PFT_map)
+    {
+        if (pft.second.Pop > 0)
+        {
+            double propPFT = pft.second.Pop / (double) totalPop;
+            pi_map[pft.first] = pow(propPFT, 2.0);
+        }
+    }
+
+    double PIE_term_1 = totalPop / (double) (totalPop - 1);
+
+    double PIE_term_2 = 1 - std::accumulate(pi_map.begin(), pi_map.end(), 0.0,
+                                 [] (double s, const std::map<string, double>::value_type& p)
+                                 {
+                                    return s + p.second;
+                                 });
+
+    double PIE = PIE_term_1 * PIE_term_2;
+
+    return(PIE);
 }
 
 double Output::calculateRichness(const std::map<std::string, Output::PFT_struct> & _PFT_map)

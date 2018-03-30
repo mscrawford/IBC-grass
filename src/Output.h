@@ -66,6 +66,7 @@ public:
 
     std::map<std::string, Output::PFT_struct> buildPFT_map(const std::vector< std::shared_ptr<Plant> > & PlantList);
     double calculateShannon(const std::map<std::string, Output::PFT_struct> & _PFT_map);
+    double calculatePIE(const std::map<std::string, Output::PFT_struct> & _PFT_map);
     double calculateRichness(const std::map<std::string, Output::PFT_struct> & _PFT_map);
     double calculateBrayCurtis(const std::map<std::string, Output::PFT_struct> & _PFT_map, int benchmarkYear); // Bray-Curtis only makes sense with catastrophic disturbances
     std::map<std::string, double> calculateMeanTraits(const std::vector< std::shared_ptr<Plant> > & PlantList);
