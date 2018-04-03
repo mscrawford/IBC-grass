@@ -498,7 +498,7 @@ void Grid::RunCatastrophicDisturbance()
  their relative grazing susceptibility until the given "proportion of removal"
  is reached or the grid is completely grazed.
  (Aboveground mass that is ungrazable - see Schwinning and Parsons (1999):
- 15,3 g/m�  * 1.6641 m� = 25.5 g)
+ 15.3 g/m^2  * 1.6641 m^2 = 25.5 g)
  */
 void Grid::GrazingAbvGr()
 {

@@ -326,7 +326,12 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & Pla
     }
 
     // If one should print PFTs, do so.
-    if (Parameters::params.PFT_out != 0)
+    if (Parameters::params.PFT_out != 0 && (Environment::year == 49 ||
+                                            Environment::year == 55 ||
+                                            Environment::year == 75 ||
+                                            Environment::year == 100 ||
+                                            Environment::year == 200))
+//    if (Parameters::params.PFT_out != 0)
     {
         // print each PFT
         for (auto it : PFT_map)

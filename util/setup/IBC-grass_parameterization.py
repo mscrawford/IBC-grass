@@ -38,14 +38,14 @@ else:
 # For computing clusters
 PARALLEL = False         # IF SERIES THIS -> FALSE
 N_SLOTS  = 300          # Number of cores to split between
-H_RT     = "148:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
+H_RT     = "48:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
 H_VMEM   = "1G"         # Memory for each simulation run
 
 # Frequency and type of output
 weekly    = 0 # Print output yearly (0) or weekly (1)?
 
 ind_out   = 0 # Print individual-level output?           (0) No; (1) Yes
-pft_out   = 1 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
+pft_out   = 2 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
 srv_out   = 0 # Print PFT-survival output:               (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
 trait_out = 0 # Print trait-level output:                (0) No; (1) Yes
 agg_out   = 1 # Print output about the environment, etc. (0) No; (1) Yes
@@ -54,7 +54,7 @@ agg_out   = 1 # Print output about the environment, etc. (0) No; (1) Yes
 N_REPS    = 1
 
 # Number of communities and what kind of PFTs to use
-N_COMS    = 1           # UNUSED WITH PAIRWISE INVASION CRITERION
+N_COMS    = 250           # UNUSED WITH PAIRWISE INVASION CRITERION
 PFT_type  = "EMPIRICAL"   # "THEORETICAL" or "EMPIRICAL"
 
 ##########################################
@@ -64,7 +64,7 @@ IC_vers = [1] # IBC-grass run mode -- Negative frequency dependence
 MODE    = [2] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
 N_PFTs  = [0] # UNUSED WITH PAIRWISE INVASION CRITERION
 ITVsd   = [0]
-Tmax    = [100]
+Tmax    = [200]
 
 # Custom environment time series --- PLEASE ONLY SINGLE VALUES
 ENV   = [0] # (0) Static environment; (1) IBC-grass uses custom environmental time series
@@ -72,51 +72,60 @@ SIGMA = [0] # Variability with which the time series changes
 
 # Resource levels
 ARes  = [100]
-BRes  = [90] # With belowground environmental variation, this MUST be NA
+BRes  = [60, 90] # With belowground environmental variation, this MUST be NA
 
 # Aboveground grazing 
 GrazProb   = [0.2]
 propRemove = [0.5]
 
 # Belowground grazing
+######################## DONE
+BelGrazProb        = [0, 1]
+BelGrazPerc        = [0, 0.2]
+BelGrazThreshold   = [0, 0.0667616]
+BelGrazAlpha       = [0, 1, 1.25]
+BelGrazHistorySize = [0, 10]
+######################## DONE
 
+# Sensitivities
 # BelGrazProb        = [0, 1, 0.90, 0.80, 0.70, 0.60, 0.50]
 # BelGrazPerc        = [0, 0.2]
 # BelGrazThreshold   = [0, 0.0667616]
 # BelGrazAlpha       = [0, 1]
 # BelGrazHistorySize = [0, 30]
 
-# BelGrazProb        = [0, 1]
-# BelGrazPerc        = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.30, 0.35, 0.4]
-# BelGrazThreshold   = [0, 0.0667616]
-# BelGrazAlpha       = [0, 1]
-# BelGrazHistorySize = [0, 30]
-
+######################## DONE
 # BelGrazProb        = [0, 1]
 # BelGrazPerc        = [0, 0.2]
 # BelGrazThreshold   = [0, 0.0667616]
-# BelGrazAlpha       = [0, 1, 1.10, 1.25, 1.5, 2, 3]
+# BelGrazAlpha       = [0, 1, 1.125, 1.25, 1.50, 2, 3]
 # BelGrazHistorySize = [0, 30]
+######################## DONE
 
+######################## DONE
 # BelGrazProb        = [0, 1]
 # BelGrazPerc        = [0, 0.2]
 # BelGrazThreshold   = [0, 0.0667616]
-# BelGrazAlpha       = [0, 1]
-# BelGrazHistorySize = [0, 1, 2, 5, 10, 20, 30, 40, 50, 60]
+# BelGrazAlpha       = [0, 1, 1.25]
+# BelGrazHistorySize = [0, 1, 5, 10, 20, 30, 60]
+######################## DONE
 
-BelGrazProb        = [0, 1]
-BelGrazPerc        = [0, 0.2]
-BelGrazThreshold   = [0, 0.04673312, 0.05340928, 0.06008544, 0.06676160, 0.07343776, 0.08011392, 0.08679008]
-BelGrazAlpha       = [0, 1]
-BelGrazHistorySize = [0, 30]
+# BelGrazProb        = [0, 1]
+# BelGrazPerc        = [0, 0.2]
+# BelGrazThreshold   = [0, 0.04673312, 0.05340928, 0.06008544, 0.06676160, 0.07343776, 0.08011392, 0.08679008]
+# BelGrazAlpha       = [0, 1]
+# BelGrazHistorySize = [0, 30]
 
 # Catastrophic disturbance
-CatastrDist_Mort = [0, 1]
-CatastrDist_Week = [0, 20]
+# CatastrDist_Mort = [0, 1]
+# CatastrDist_Week = [0, 20]
+
+CatastrDist_Mort = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1]
+CatastrDist_Week = [0, 20, 21]
 
 # Seed introduction
 SeedRainType = [1]
-SeedInput    = [30]
+SeedInput    = [20]
 
 ##########################################
 ### Permutable list...
