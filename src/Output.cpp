@@ -12,13 +12,13 @@ using namespace std;
 const vector<string> Output::param_header
     ({
          "SimID", "ComNr", "RunNr", "nPFTs",
-         "IC_vers", "ITVsd", "Tmax",
+         "Stabilization", "ITVsd", "Tmax",
          "Invader", "Resident",
          "ARes", "BRes",
-         "GrazProb", "PropRemove",
-         "BelGrazProb", "BelGrazPerc", "BelGrazThreshold",
-         "BelGrazAlpha", "BelGrazHistorySize",
-         "CatastrophicMortality", "CatastrophicDistWeek",
+         "AbvGrazProb", "AbvGrazPerc",
+         "BelGrazProb", "BelGrazPerc", "BelGrazThreshold", "BelGrazAlpha", "BelGrazWindow",
+         "DisturbanceMortality", "DisturbanceWeek",
+         "SeedLongevity",
          "SeedRainType", "SeedInput"
     });
 
@@ -228,15 +228,16 @@ void Output::print_param()
     ss << Parameters::params.meanARes 					<< ", ";
     ss << Parameters::params.meanBRes 					<< ", ";
     ss << Parameters::params.AbvGrazProb 				<< ", ";
-    ss << Parameters::params.AbvPropRemoved 			<< ", ";
+    ss << Parameters::params.AbvGrazPerc                << ", ";
     ss << Parameters::params.BelGrazProb 				<< ", ";
     ss << Parameters::params.BelGrazPerc 				<< ", ";
     ss << Parameters::params.BelGrazThreshold           << ", ";
     ss << Parameters::params.BelGrazAlpha				<< ", ";
-    ss << Parameters::params.BelGrazHistorySize			<< ", ";
-    ss << Parameters::params.CatastrophicPlantMortality << ", ";
-    ss << Parameters::params.CatastrophicDistWeek 		<< ", ";
-    ss << Parameters::params.SeedRainType 				<< ", ";
+    ss << Parameters::params.BelGrazWindow              << ", ";
+    ss << Parameters::params.DisturbanceMortality       << ", ";
+    ss << Parameters::params.DisturbanceWeek            << ", ";
+    ss << Parameters::params.SeedLongevity              << ", ";
+    ss << Parameters::params.SeedRainType               << ", ";
     ss << Parameters::params.SeedInput						   ;
 
     print_row(ss, param_stream);
@@ -327,10 +328,10 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & Pla
 
     // If one should print PFTs, do so.
     if (Parameters::params.PFT_out != 0 && (Environment::year == 49 ||
+                                            Environment::year == 51 ||
                                             Environment::year == 55 ||
                                             Environment::year == 75 ||
-                                            Environment::year == 100 ||
-                                            Environment::year == 200))
+                                            Environment::year == 100))
 //    if (Parameters::params.PFT_out != 0)
     {
         // print each PFT
@@ -421,7 +422,7 @@ void Output::print_aggregated(const std::vector< std::shared_ptr<Plant> > & Plan
     ss << calculatePIE(PFT_map)                                                     << ", ";
     ss << calculateRichness(PFT_map)												<< ", ";
 
-    double brayCurtis = calculateBrayCurtis(PFT_map, Parameters::params.CatastrophicDistYear - 1);
+    double brayCurtis = calculateBrayCurtis(PFT_map, Parameters::params.DisturbanceYear - 1);
     if (!Environment::AreSame(brayCurtis, -1))
     {
         ss << brayCurtis 															<< ", ";

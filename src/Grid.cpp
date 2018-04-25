@@ -430,7 +430,7 @@ void Grid::SeedMortalityAge()
 
         for (auto const& seed : cell->SeedBankList)
         {
-            if (seed->age >= seed->traits->dormancy)
+            if (seed->age >= Parameters::params.SeedLongevity)
             {
                 seed->toBeRemoved = true;
             }
@@ -441,7 +441,7 @@ void Grid::SeedMortalityAge()
 
 //-----------------------------------------------------------------------------
 
-void Grid::Disturb()
+void Grid::RunYearlyDisturbances()
 {
     Grid::below_biomass_history.push_back(GetTotalBelowMass());
 
@@ -476,14 +476,14 @@ void Grid::Disturb()
 
 //-----------------------------------------------------------------------------
 
-void Grid::RunCatastrophicDisturbance()
+void Grid::RunSingletonDisturbance()
 {
     for (auto const& p : PlantList)
     {
         if (p->isDead)
             continue;
 
-        if (Environment::rng.get01() < Parameters::params.CatastrophicPlantMortality)
+        if (Environment::rng.get01() < Parameters::params.DisturbanceMortality)
         {
             p->isDead = true;
         }
@@ -506,7 +506,7 @@ void Grid::GrazingAbvGr()
 
     double TotalAboveMass = GetTotalAboveMass();
 
-    double MaxMassRemove = min(TotalAboveMass - ResidualMass, TotalAboveMass * Parameters::params.AbvPropRemoved);
+    double MaxMassRemove = min(TotalAboveMass - ResidualMass, TotalAboveMass * Parameters::params.AbvGrazPerc);
     double MassRemoved = 0;
 
     while (MassRemoved < MaxMassRemove)
@@ -581,7 +581,7 @@ void Grid::GrazingBelGr()
     const double alpha = Parameters::params.BelGrazAlpha;
 
     std::vector<double> rolling_mean;
-    vector<double>::size_type historySize = Parameters::params.BelGrazHistorySize; // in Weeks
+    vector<double>::size_type historySize = Parameters::params.BelGrazWindow; // in Weeks
     if (Grid::below_biomass_history.size() > historySize)
     {
         rolling_mean = std::vector<double>(Grid::below_biomass_history.end() - historySize, Grid::below_biomass_history.end());

@@ -70,15 +70,16 @@ void Environment::GetSim(string data)
         >> Parameters::params.meanARes 						// Aboveground resources
         >> Parameters::params.meanBRes 	 					// Belowground resources
         >> Parameters::params.AbvGrazProb 					// Aboveground grazing: probability per time step
-        >> Parameters::params.AbvPropRemoved 				// Aboveground grazing: proportion of biomass removed
+        >> Parameters::params.AbvGrazPerc 				// Aboveground grazing: proportion of biomass removed
         >> Parameters::params.BelGrazProb 					// Belowground grazing: probability per time step
         >> Parameters::params.BelGrazPerc 					// Belowground grazing: proportion of biomass removed
         >> Parameters::params.BelGrazThreshold              // Belowground grazing: Threshold value determining when functional response is triggered
         >> Parameters::params.BelGrazAlpha					// Belowground grazing: For sensitivity analysis of Belowground Grazing algorithm
-        >> Parameters::params.BelGrazHistorySize			// Belowground grazing: For sensitivity analysis of Belowground Grazing algorithm
-        >> Parameters::params.CatastrophicPlantMortality	// Catastrophic Disturbance: Percent of plant removal during Catastrophic Disturbance
-        >> Parameters::params.CatastrophicDistWeek			// Catastrophic Disturbance: Week of the disturbance
-        >> Parameters::params.SeedRainType					// Seed Rain: Off/On/Type
+        >> Parameters::params.BelGrazWindow			// Belowground grazing: For sensitivity analysis of Belowground Grazing algorithm
+        >> Parameters::params.DisturbanceMortality	// Catastrophic Disturbance: Percent of plant removal during Catastrophic Disturbance
+        >> Parameters::params.DisturbanceWeek			// Catastrophic Disturbance: Week of the disturbance
+        >> Parameters::params.SeedLongevity                // Seed Bank: Number of years a seed can persist in the seed bank
+        >> Parameters::params.SeedRainType                  // Seed Rain: Off/On/Type
         >> Parameters::params.SeedInput						// Seed Rain: Number of seeds to input per SeedRain event
         >> Parameters::params.weekly						// Output: Weekly output rather than yearly
         >> Parameters::params.ind_out						// Output: Individual-level output
@@ -114,7 +115,7 @@ void Environment::GetSim(string data)
         Parameters::params.mode = invasionCriterion;
         break;
     case 2:
-        if (Parameters::params.CatastrophicPlantMortality > 0)
+        if (Parameters::params.DisturbanceMortality > 0)
         {
             Parameters::params.mode = catastrophicDisturbance;
         }

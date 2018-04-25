@@ -39,7 +39,6 @@ public:
     double allocSeed;  		// constant proportion that is allocated to seeds between FlowerWeek and DispWeek
     double seedMass;   		// Seed mass (mass of ONE seed)
     double dispersalDist;   // mean dispersal distance (and standard deviation of the dispersal kernel)
-    int dormancy;         	// maximum seed longevity
     double pEstab;   	  	// annual probability of establishment
 
 //competitive strength

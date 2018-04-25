@@ -71,6 +71,7 @@ public:
     // General parameters
     int Tmax;         			// simulation time
     double seedMortality;     	// seed mortality per year (in winter)
+    int SeedLongevity;         // number of years a seed can persist in the seed bank
     double winterDieback; 		// portion of aboveground biomass to be removed in winter
     double backgroundMortality; // basic mortality per week
     double litterDecomp;   		// weekly litter decomposition rate
@@ -80,7 +81,7 @@ public:
 
     // Aboveground herbivory
     double AbvGrazProb;   		// grazing probability per week
-    double AbvPropRemoved; 		// proportion of above ground mass removed by grazing
+    double AbvGrazPerc; 		// proportion of above ground mass removed by grazing
     double BiteSize;   			// Bite size of macro-herbivore
     double MassUngrazable;   	// biomass ungrazable 15300[mg DW/m^2]
 
@@ -90,16 +91,16 @@ public:
     double BelGrazResidualPerc;
     double BelGrazThreshold;
     double BelGrazAlpha;
-    int BelGrazHistorySize;
+    int BelGrazWindow;
 
     // Mowing
     double CutHeight;  // Height to cut plants to
     int NCut;          // number cuts per year
 
     // Catastrophic disturbance
-    int CatastrophicDistYear;
-    int CatastrophicDistWeek;
-    double CatastrophicPlantMortality;
+    int DisturbanceYear;
+    int DisturbanceWeek;
+    double DisturbanceMortality;
 
     // Resource variation
     double Aampl;   // within year above-ground resource amplitude

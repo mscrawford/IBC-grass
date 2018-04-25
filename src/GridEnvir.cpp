@@ -111,14 +111,14 @@ void GridEnvir::OneWeek()
 
     if (year > 1)
     {
-        Disturb();  		// Grazing and disturbances
+        RunYearlyDisturbances();  		// Grazing and disturbances
     }
 
     if (Parameters::params.mode == catastrophicDisturbance 						// Catastrophic disturbance is on
-            && Environment::year == Parameters::params.CatastrophicDistYear 	// It is the disturbance year
-            && Environment::week == Parameters::params.CatastrophicDistWeek) 	// It is the disturbance week
+            && Environment::year == Parameters::params.DisturbanceYear 	// It is the disturbance year
+            && Environment::week == Parameters::params.DisturbanceWeek) 	// It is the disturbance week
     {
-        RunCatastrophicDisturbance();
+        RunSingletonDisturbance();
     }
 
     RemovePlants();    		// Remove decomposed plants and remove them from their genets

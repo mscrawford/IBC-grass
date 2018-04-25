@@ -35,8 +35,8 @@ protected:
     void ResetWeeklyVariables(); 		// Clears list of plants that cover each cell
     void SeedMortalityAge();			// Kills seeds that are too old
     void SeedMortalityWinter();			// Kills seeds that die over winter
-    void Disturb();						// Calls grazing (Above- and Belowground), trampling, and other disturbances
-    void RunCatastrophicDisturbance(); 	// Removes some percentage of total plants and seeds
+    void RunYearlyDisturbances();						// Calls grazing (Above- and Belowground), trampling, and other disturbances
+    void RunSingletonDisturbance(); 	// Removes some percentage of total plants and seeds
     void GrazingAbvGr(); 				// Aboveground grazing
     void GrazingBelGr();				// Belowground grazing
     void Cutting(double CutHeight = 0);

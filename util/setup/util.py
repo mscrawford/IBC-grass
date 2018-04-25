@@ -3,11 +3,12 @@ import sys, os, subprocess, itertools, csv, copy, math, re, random
 class Base_Parameter():
     def __init__(self, 
         IC_version, Mode, ITVsd, Tmax, 
-        Env, Sigma, ARes, Bres, 
-        GrazProb, PropRemove, 
+        Env, Sigma, ARes, BRes, 
+        AbvGrazProb, AbvGrazPerc, 
         BelGrazProb, BelGrazPerc, BelGrazThreshold,
-        BelGrazAlpha, BelGrazHistorySize,
-        CatastrophicPlantMortality, CatastrophicDistWeek,
+        BelGrazAlpha, BelGrazWindow,
+        DisturbanceMortality, DisturbanceWeek,
+        SeedLongevity, 
         SeedRainType, SeedInput):
 
         self.IC_version = IC_version
@@ -17,20 +18,26 @@ class Base_Parameter():
         self.Env = Env
         self.Sigma = Sigma
         self.ARes = ARes
-        self.Bres = Bres
-        self.GrazProb = GrazProb
-        self.PropRemove = PropRemove
+        self.BRes = BRes
+        self.AbvGrazProb = AbvGrazProb
+        self.AbvGrazPerc = AbvGrazPerc
         self.BelGrazProb = BelGrazProb
         self.BelGrazPerc = BelGrazPerc
         self.BelGrazThreshold = BelGrazThreshold
         self.BelGrazAlpha = BelGrazAlpha
-        self.BelGrazHistorySize = BelGrazHistorySize
-        self.CatastrophicPlantMortality = CatastrophicPlantMortality
-        self.CatastrophicDistWeek = CatastrophicDistWeek
+        self.BelGrazWindow = BelGrazWindow
+        self.DisturbanceMortality = DisturbanceMortality
+        self.DisturbanceWeek = DisturbanceWeek
+        self.SeedLongevity = SeedLongevity
         self.SeedRainType = SeedRainType
         self.SeedInput = SeedInput
 
-        if (self.Mode != 2 and (self.CatastrophicDistWeek > 0 or self.CatastrophicPlantMortality > 0)):
+        if (self.Mode != 2 and (self.DisturbanceWeek > 0 or self.DisturbanceMortality > 0)):
+            raise Exception("Nonsensical or redundant parameterization")
+
+
+        # Seed Senescence
+        if (self.SeedLongevity == 0):
             raise Exception("Nonsensical or redundant parameterization")
 
 
@@ -43,28 +50,28 @@ class Base_Parameter():
 
 
         # Grazing aboveground
-        if (self.GrazProb == 0 and self.PropRemove > 0):
+        if (self.AbvGrazProb == 0 and self.AbvGrazPerc > 0):
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.GrazProb > 0 and self.PropRemove == 0):
+        if (self.AbvGrazProb > 0 and self.AbvGrazPerc == 0):
             raise Exception("Nonsensical or redundant parameterization")
 
 
         # Grazing belowground
         if (self.BelGrazProb == 0 and \
-                (self.BelGrazPerc > 0 or self.BelGrazAlpha > 0 or self.BelGrazHistorySize > 0 or self.BelGrazThreshold > 0)):
+                (self.BelGrazPerc > 0 or self.BelGrazAlpha > 0 or self.BelGrazWindow > 0 or self.BelGrazThreshold > 0)):
             raise Exception("Nonsensical or redundant parameterization")
 
         if (self.BelGrazProb > 0 and \
-                (self.BelGrazPerc == 0 or self.BelGrazAlpha == 0 or self.BelGrazHistorySize == 0 or self.BelGrazThreshold == 0)):
+                (self.BelGrazPerc == 0 or self.BelGrazAlpha == 0 or self.BelGrazWindow == 0 or self.BelGrazThreshold == 0)):
             raise Exception("Nonsensical or redundant parameterization")
 
 
         # Catastrophic disturbance
-        if (self.CatastrophicPlantMortality > 0 and self.CatastrophicDistWeek == 0):
+        if (self.DisturbanceMortality > 0 and self.DisturbanceWeek == 0):
             raise Exception("Nonsensical or redundant parameterization")
 
-        if (self.CatastrophicPlantMortality == 0 and self.CatastrophicDistWeek > 0):
+        if (self.DisturbanceMortality == 0 and self.DisturbanceWeek > 0):
             raise Exception("Nonsensical or redundant parameterization")
 
 
@@ -72,12 +79,11 @@ class Base_Parameter():
         return " ".join(map(str, [self.IC_version, self.Mode, self.ITVsd, 
             self.Tmax, 
             #self.Env, self.Sigma, 
-            self.ARes, self.Bres, 
-            self.GrazProb, self.PropRemove, 
-            self.BelGrazProb, self.BelGrazPerc, self.BelGrazThreshold,
-            self.BelGrazAlpha, self.BelGrazHistorySize,
-            self.CatastrophicPlantMortality, self.CatastrophicDistWeek,
-            self.SeedRainType, self.SeedInput]))
+            self.ARes, self.BRes, 
+            self.AbvGrazProb, self.AbvGrazPerc, 
+            self.BelGrazProb, self.BelGrazPerc, self.BelGrazThreshold, self.BelGrazAlpha, self.BelGrazWindow,
+            self.DisturbanceMortality, self.DisturbanceWeek,
+            self.SeedLongevity, self.SeedRainType, self.SeedInput]))
 
 
 class PFT():

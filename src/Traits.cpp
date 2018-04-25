@@ -19,7 +19,7 @@ vector<string> Traits::pftInsertionOrder = vector<string>();
 Traits::Traits() :
         myTraitType(Traits::species), PFT_ID("EMPTY"),
         LMR(-1), SLA(-1), RAR(1), m0(-1), maxMass(-1),
-        allocSeed(0.05), seedMass(-1), dispersalDist(-1), dormancy(1), pEstab(0.5),
+        allocSeed(0.05), seedMass(-1), dispersalDist(-1), pEstab(0.5),
         Gmax(-1), palat(-1), memory(-1),
         mThres(0.2), growth(0.25), flowerWeek(16), dispersalWeek(20),
         clonal(false), meanSpacerlength(0), sdSpacerlength(0),
@@ -34,7 +34,7 @@ Traits::Traits() :
 Traits::Traits(const Traits& s) :
         myTraitType(s.myTraitType), PFT_ID(s.PFT_ID),
         LMR(s.LMR), SLA(s.SLA), RAR(s.RAR), m0(s.m0), maxMass(s.maxMass),
-        allocSeed(s.allocSeed), seedMass(s.seedMass), dispersalDist(s.dispersalDist), dormancy(s.dormancy), pEstab(s.pEstab),
+        allocSeed(s.allocSeed), seedMass(s.seedMass), dispersalDist(s.dispersalDist), pEstab(s.pEstab),
         Gmax(s.Gmax), palat(s.palat), memory(s.memory),
         mThres(s.mThres), growth(s.growth), flowerWeek(s.flowerWeek), dispersalWeek(s.dispersalWeek),
         clonal(s.clonal), meanSpacerlength(s.meanSpacerlength), sdSpacerlength(s.sdSpacerlength),
