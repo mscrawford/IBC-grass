@@ -26,7 +26,7 @@ void GridEnvir::InitInds()
     const int no_init_seeds = 10;
     const double estab = 1.0;
 
-    if (Parameters::params.mode == communityAssembly || Parameters::params.mode == catastrophicDisturbance)
+    if (Parameters::parameters.mode == communityAssembly || Parameters::parameters.mode == catastrophicDisturbance)
     {
         // PFT Traits are read in GetSim()
         for (auto const& it : Traits::pftTraitTemplates)
@@ -35,7 +35,7 @@ void GridEnvir::InitInds()
             PftSurvTime[it.first] = 0;
         }
     }
-    else if (Parameters::params.mode == invasionCriterion)
+    else if (Parameters::parameters.mode == invasionCriterion)
     {
         assert(Traits::pftTraitTemplates.size() == 2);
 
@@ -49,9 +49,9 @@ void GridEnvir::InitInds()
 
 void GridEnvir::OneRun()
 {
-    output.print_param();
+    output.print_parameter();
 
-    if (Parameters::params.trait_out)
+    if (Parameters::parameters.trait_out)
     {
         output.print_trait();
     }
@@ -61,7 +61,7 @@ void GridEnvir::OneRun()
 
         OneYear();
 
-        if (Parameters::params.mode == invasionCriterion && year == Parameters::params.Tmax_monoculture)
+        if (Parameters::parameters.mode == invasionCriterion && year == Parameters::parameters.Tmax_monoculture)
         {
             const int no_init_seeds = 100;
             const double estab = 1.0;
@@ -76,7 +76,7 @@ void GridEnvir::OneRun()
             break;
         }
 
-    } while (++year <= Parameters::params.Tmax);
+    } while (++year <= Parameters::parameters.Tmax);
 
 }
 
@@ -114,16 +114,16 @@ void GridEnvir::OneWeek()
         RunYearlyDisturbances();  		// Grazing and disturbances
     }
 
-    if (Parameters::params.mode == catastrophicDisturbance 						// Catastrophic disturbance is on
-            && Environment::year == Parameters::params.DisturbanceYear 	// It is the disturbance year
-            && Environment::week == Parameters::params.DisturbanceWeek) 	// It is the disturbance week
+    if (Parameters::parameters.mode == catastrophicDisturbance 						// Catastrophic disturbance is on
+            && Environment::year == Parameters::parameters.DisturbanceYear 	// It is the disturbance year
+            && Environment::week == Parameters::parameters.DisturbanceWeek) 	// It is the disturbance week
     {
         RunSingletonDisturbance();
     }
 
     RemovePlants();    		// Remove decomposed plants and remove them from their genets
 
-    if (Parameters::params.SeedRainType > 0 && week == 21)
+    if (Parameters::parameters.SeedRainType > 0 && week == 21)
     {
         SeedRain();
     }
@@ -141,9 +141,9 @@ void GridEnvir::OneWeek()
         SeedMortalityWinter();  // winter seed mortality
     }
 
-    if ((Parameters::params.weekly == 1 || week == 20) &&
-            !(Parameters::params.mode == invasionCriterion &&
-                    Environment::year <= Parameters::params.Tmax_monoculture)) // Not a monoculture
+    if ((Parameters::parameters.weekly == 1 || week == 20) &&
+            !(Parameters::parameters.mode == invasionCriterion &&
+                    Environment::year <= Parameters::parameters.Tmax_monoculture)) // Not a monoculture
     {
         Environment::output.TotalShootmass.push_back(GetTotalAboveMass());
         Environment::output.TotalRootmass.push_back(GetTotalBelowMass());
@@ -152,16 +152,16 @@ void GridEnvir::OneWeek()
         Environment::output.TotalAboveComp.push_back(GetTotalAboveComp());
         Environment::output.TotalBelowComp.push_back(GetTotalBelowComp());
 
-        Environment::output.print_srv_and_PFT(PlantList);
+        Environment::output.print_populationSurvival_and_population(PlantList);
 
-        if (Parameters::params.aggregated_out == 1)
+        if (Parameters::parameters.community_out == 1)
         {
-            Environment::output.print_aggregated(PlantList);
+            Environment::output.print_community(PlantList);
         }
 
-        if (Parameters::params.ind_out == 1)
+        if (Parameters::parameters.individual_out == 1)
         {
-            Environment::output.print_ind(PlantList);
+            Environment::output.print_individual(PlantList);
         }
     }
 
@@ -172,7 +172,7 @@ void GridEnvir::OneWeek()
 bool GridEnvir::exitConditions()
 {
     // Exit conditions do not exist with external seed input
-    if (Parameters::params.SeedInput > 0)
+    if (Parameters::parameters.SeedInput > 0)
         return false;
 
     int NPlants = GetNPlants();
@@ -198,10 +198,10 @@ void GridEnvir::SeedRain()
         auto pft_name = it.first;
         double n;
 
-        switch (Parameters::params.SeedRainType)
+        switch (Parameters::parameters.SeedRainType)
         {
             case 1:
-                n = Parameters::params.SeedInput;
+                n = Parameters::parameters.SeedInput;
                 break;
             default:
                 exit(1);

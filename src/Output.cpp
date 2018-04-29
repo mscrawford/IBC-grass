@@ -9,7 +9,7 @@
 
 using namespace std;
 
-const vector<string> Output::param_header
+const vector<string> Output::parameter_header
     ({
          "SimID", "ComNr", "RunNr", "nPFTs",
          "Stabilization", "ITVsd", "Tmax",
@@ -32,17 +32,17 @@ const vector<string> Output::trait_header
          "clonal", "meanSpacerlength", "sdSpacerlength"
     });
 
-const vector<string> Output::srv_header
+const vector<string> Output::populationSurvival_header
     ({
          "SimID", "PFT", "Extinction_Year", "Final_Pop", "Final_Shootmass", "Final_Rootmass"
     });
 
-const vector<string> Output::PFT_header
+const vector<string> Output::population_header
     ({
          "SimID", "PFT", "Year", "Week", "Pop", "Shootmass", "Rootmass", "Repro"
     });
 
-const vector<string> Output::aggregated_header
+const vector<string> Output::community_header
     ({
          "SimID", "Year", "Week",
          "FeedingPressure", "ContemporaneousRootmass",
@@ -53,7 +53,7 @@ const vector<string> Output::aggregated_header
          "wm_LMR", "wm_MaxMass", "wm_Gmax", "wm_SLA"
     });
 
-const vector<string> Output::ind_header
+const vector<string> Output::individual_header
     ({
          "SimID", "plantID", "PFT", "Year", "Week",
          "i_X", "i_Y",
@@ -86,12 +86,12 @@ struct Output::PFT_struct
 };
 
 Output::Output() :
-        param_fn("data/out/param.txt"),
+        parameter_fn("data/out/parameter.txt"),
         trait_fn("data/out/trait.txt"),
-        srv_fn("data/out/srv.txt"),
-        PFT_fn("data/out/PFT.txt"),
-        ind_fn("data/out/ind.txt"),
-        aggregated_fn("data/out/aggregated.txt")
+        populationSurvival_fn("data/out/populationSurvival.txt"),
+        population_fn("data/out/population.txt"),
+        individual_fn("data/out/individual.txt"),
+        community_fn("data/out/community.txt")
 {
     BlwgrdGrazingPressure = { 0 };
     ContemporaneousRootmassHistory = { 0 };
@@ -108,55 +108,55 @@ Output::~Output()
     cleanup();
 }
 
-void Output::setupOutput(string _param_fn, string _trait_fn, string _srv_fn,
-                         string _PFT_fn, string _ind_fn, string _agg_fn)
+void Output::setupOutput(string _parameter_fn, string _trait_fn, string _populationSurvival_fn,
+                         string _population_fn, string _individual_fn, string _community_fn)
 {
-    Output::param_fn = _param_fn;
+    Output::parameter_fn = _parameter_fn;
     Output::trait_fn = _trait_fn;
-    Output::srv_fn = _srv_fn;
-    Output::PFT_fn = _PFT_fn;
-    Output::ind_fn = _ind_fn;
-    Output::aggregated_fn = _agg_fn;
+    Output::populationSurvival_fn = _populationSurvival_fn;
+    Output::population_fn = _population_fn;
+    Output::individual_fn = _individual_fn;
+    Output::community_fn = _community_fn;
 
-    bool mid_batch = is_file_exist(param_fn.c_str());
+    bool mid_batch = is_file_exist(parameter_fn.c_str());
 
-    param_stream.open(param_fn.c_str(), ios_base::app);
-    assert(param_stream.good());
-    if (!mid_batch) print_row(param_header, param_stream);
+    parameter_stream.open(parameter_fn.c_str(), ios_base::app);
+    assert(parameter_stream.good());
+    if (!mid_batch) print_row(parameter_header, parameter_stream);
 
-    if (Parameters::params.trait_out)
+    if (Parameters::parameters.trait_out)
     {
         trait_stream.open(trait_fn.c_str(), ios_base::app);
         assert(trait_stream.good());
         if (!mid_batch) print_row(trait_header, trait_stream);
     }
 
-    if (Parameters::params.PFT_out)
+    if (Parameters::parameters.population_out)
     {
-        PFT_stream.open(PFT_fn.c_str(), ios_base::app);
-        assert(PFT_stream.good());
-        if (!mid_batch) print_row(PFT_header, PFT_stream);
+        population_stream.open(population_fn.c_str(), ios_base::app);
+        assert(population_stream.good());
+        if (!mid_batch) print_row(population_header, population_stream);
     }
 
-    if (Parameters::params.ind_out)
+    if (Parameters::parameters.individual_out)
     {
-        ind_stream.open(ind_fn.c_str(), ios_base::app);
-        assert(ind_stream.good());
-        if (!mid_batch) print_row(ind_header, ind_stream);
+        individual_stream.open(individual_fn.c_str(), ios_base::app);
+        assert(individual_stream.good());
+        if (!mid_batch) print_row(individual_header, individual_stream);
     }
 
-    if (Parameters::params.srv_out)
+    if (Parameters::parameters.populationSurvival_out)
     {
-        srv_stream.open(srv_fn.c_str(), ios_base::app);
-        assert(srv_stream.good());
-        if (!mid_batch) print_row(srv_header, srv_stream);
+        populationSurvival_stream.open(populationSurvival_fn.c_str(), ios_base::app);
+        assert(populationSurvival_stream.good());
+        if (!mid_batch) print_row(populationSurvival_header, populationSurvival_stream);
     }
 
-    if (Parameters::params.aggregated_out)
+    if (Parameters::parameters.community_out)
     {
-        aggregated_stream.open(aggregated_fn.c_str(), ios_base::app);
-        assert(aggregated_stream.good());
-        if (!mid_batch) print_row(aggregated_header, aggregated_stream);
+        community_stream.open(community_fn.c_str(), ios_base::app);
+        assert(community_stream.good());
+        if (!mid_batch) print_row(community_header, community_stream);
     }
 }
 
@@ -168,9 +168,9 @@ bool Output::is_file_exist(const char *fileName)
 
 void Output::cleanup()
 {
-    if (Output::param_stream.is_open()) {
-        Output::param_stream.close();
-        Output::param_stream.clear();
+    if (Output::parameter_stream.is_open()) {
+        Output::parameter_stream.close();
+        Output::parameter_stream.clear();
     }
 
     if (Output::trait_stream.is_open()) {
@@ -178,40 +178,40 @@ void Output::cleanup()
         Output::trait_stream.clear();
     }
 
-    if (Output::srv_stream.is_open()) {
-        Output::srv_stream.close();
-        Output::srv_stream.clear();
+    if (Output::populationSurvival_stream.is_open()) {
+        Output::populationSurvival_stream.close();
+        Output::populationSurvival_stream.clear();
     }
 
-    if (Output::PFT_stream.is_open()) {
-        Output::PFT_stream.close();
-        Output::PFT_stream.clear();
+    if (Output::population_stream.is_open()) {
+        Output::population_stream.close();
+        Output::population_stream.clear();
     }
 
-    if (Output::ind_stream.is_open()) {
-        Output::ind_stream.close();
-        Output::ind_stream.clear();
+    if (Output::individual_stream.is_open()) {
+        Output::individual_stream.close();
+        Output::individual_stream.clear();
     }
 
-    if (Output::aggregated_stream.is_open()) {
-        Output::aggregated_stream.close();
-        Output::aggregated_stream.clear();
+    if (Output::community_stream.is_open()) {
+        Output::community_stream.close();
+        Output::community_stream.clear();
     }
 }
 
-void Output::print_param()
+void Output::print_parameter()
 {
     std::ostringstream ss;
 
-    ss << Parameters::params.getSimID()					<< ", ";
+    ss << Parameters::parameters.getSimID()					<< ", ";
     ss << Environment::ComNr 							<< ", ";
     ss << Environment::RunNr 							<< ", ";
     ss << Traits::pftTraitTemplates.size()				<< ", ";
-    ss << Parameters::params.stabilization 				<< ", ";
-    ss << Parameters::params.ITVsd 						<< ", ";
-    ss << Parameters::params.Tmax 						<< ", ";
+    ss << Parameters::parameters.stabilization 				<< ", ";
+    ss << Parameters::parameters.ITVsd 						<< ", ";
+    ss << Parameters::parameters.Tmax 						<< ", ";
 
-    if (Parameters::params.mode == invasionCriterion)
+    if (Parameters::parameters.mode == invasionCriterion)
     {
         std::string invader 	= Traits::pftInsertionOrder[0];
         std::string resident 	= Traits::pftInsertionOrder[1];
@@ -225,22 +225,22 @@ void Output::print_param()
         ss << "NA"	 									<< ", ";
     }
 
-    ss << Parameters::params.meanARes 					<< ", ";
-    ss << Parameters::params.meanBRes 					<< ", ";
-    ss << Parameters::params.AbvGrazProb 				<< ", ";
-    ss << Parameters::params.AbvGrazPerc                << ", ";
-    ss << Parameters::params.BelGrazProb 				<< ", ";
-    ss << Parameters::params.BelGrazPerc 				<< ", ";
-    ss << Parameters::params.BelGrazThreshold           << ", ";
-    ss << Parameters::params.BelGrazAlpha				<< ", ";
-    ss << Parameters::params.BelGrazWindow              << ", ";
-    ss << Parameters::params.DisturbanceMortality       << ", ";
-    ss << Parameters::params.DisturbanceWeek            << ", ";
-    ss << Parameters::params.SeedLongevity              << ", ";
-    ss << Parameters::params.SeedRainType               << ", ";
-    ss << Parameters::params.SeedInput						   ;
+    ss << Parameters::parameters.meanARes 					<< ", ";
+    ss << Parameters::parameters.meanBRes 					<< ", ";
+    ss << Parameters::parameters.AbvGrazProb 				<< ", ";
+    ss << Parameters::parameters.AbvGrazPerc                << ", ";
+    ss << Parameters::parameters.BelGrazProb 				<< ", ";
+    ss << Parameters::parameters.BelGrazPerc 				<< ", ";
+    ss << Parameters::parameters.BelGrazThreshold           << ", ";
+    ss << Parameters::parameters.BelGrazAlpha				<< ", ";
+    ss << Parameters::parameters.BelGrazWindow              << ", ";
+    ss << Parameters::parameters.DisturbanceMortality       << ", ";
+    ss << Parameters::parameters.DisturbanceWeek            << ", ";
+    ss << Parameters::parameters.SeedLongevity              << ", ";
+    ss << Parameters::parameters.SeedRainType               << ", ";
+    ss << Parameters::parameters.SeedInput						   ;
 
-    print_row(ss, param_stream);
+    print_row(ss, parameter_stream);
 }
 
 void Output::print_trait()
@@ -250,7 +250,7 @@ void Output::print_trait()
     {
         std::ostringstream ss;
 
-        ss << Parameters::params.getSimID()	<< ", ";
+        ss << Parameters::parameters.getSimID()	<< ", ";
         ss << it.first 						<< ", ";
         ss << it.second->LMR 				<< ", ";
         ss << it.second->m0 				<< ", ";
@@ -296,48 +296,48 @@ map<string, Output::PFT_struct> Output::buildPFT_map(const std::vector< std::sha
     return PFT_map;
 }
 
-void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & PlantList)
+void Output::print_populationSurvival_and_population(const std::vector< std::shared_ptr<Plant> > & PlantList)
 {
 
     // Create the data structure necessary to aggregate individuals
     auto PFT_map = buildPFT_map(PlantList);
 
     // If any PFT went extinct, record it in "srv" stream
-    if (Parameters::params.srv_out != 0)
+    if (Parameters::parameters.populationSurvival_out != 0)
     {
         for (auto it : PFT_map)
         {
             if ((Environment::PftSurvTime[it.first] == 0 && it.second.Pop == 0) ||
-                    (Environment::PftSurvTime[it.first] == 0 && Environment::year == Parameters::params.Tmax))
+                    (Environment::PftSurvTime[it.first] == 0 && Environment::year == Parameters::parameters.Tmax))
             {
                 Environment::PftSurvTime[it.first] = Environment::year;
 
                 std::ostringstream s_ss;
 
-                s_ss << Parameters::params.getSimID()	<< ", ";
+                s_ss << Parameters::parameters.getSimID()	<< ", ";
                 s_ss << it.first 						<< ", "; // PFT name
                 s_ss << Environment::year				<< ", ";
                 s_ss << it.second.Pop 					<< ", ";
                 s_ss << it.second.Shootmass 			<< ", ";
                 s_ss << it.second.Rootmass 					   ;
 
-                print_row(s_ss, srv_stream);
+                print_row(s_ss, populationSurvival_stream);
             }
         }
     }
 
     // If one should print PFTs, do so.
-    if (Parameters::params.PFT_out != 0 && (Environment::year == 49 ||
-                                            Environment::year == 51 ||
-                                            Environment::year == 55 ||
-                                            Environment::year == 75 ||
-                                            Environment::year == 100))
+    if (Parameters::parameters.population_out != 0 && (Environment::year == 99 ||
+                                                       Environment::year == 101 ||
+                                                       Environment::year == 105 ||
+                                                       Environment::year == 125 ||
+                                                       Environment::year == 150))
 //    if (Parameters::params.PFT_out != 0)
     {
         // print each PFT
         for (auto it : PFT_map)
         {
-            if (Parameters::params.PFT_out == 1 &&
+            if (Parameters::parameters.population_out == 1 &&
                     it.second.Pop == 0 &&
                     Environment::PftSurvTime[it.first] != Environment::year)
             {
@@ -346,7 +346,7 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & Pla
 
             std::ostringstream p_ss;
 
-            p_ss << Parameters::params.getSimID()	<< ", ";
+            p_ss << Parameters::parameters.getSimID()	<< ", ";
             p_ss << it.first 						<< ", "; // PFT name
             p_ss << Environment::year 				<< ", ";
             p_ss << Environment::week 				<< ", ";
@@ -355,7 +355,7 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & Pla
             p_ss << it.second.Rootmass 				<< ", ";
             p_ss << it.second.Repro 					   ;
 
-            print_row(p_ss, PFT_stream);
+            print_row(p_ss, population_stream);
         }
     }
 
@@ -363,7 +363,7 @@ void Output::print_srv_and_PFT(const std::vector< std::shared_ptr<Plant> > & Pla
     PFT_map.clear();
 }
 
-void Output::print_ind(const std::vector< std::shared_ptr<Plant> > & PlantList)
+void Output::print_individual(const std::vector< std::shared_ptr<Plant> > & PlantList)
 {
     for (auto const& p : PlantList)
     {
@@ -371,7 +371,7 @@ void Output::print_ind(const std::vector< std::shared_ptr<Plant> > & PlantList)
 
         std::ostringstream ss;
 
-        ss << Parameters::params.getSimID()	<< ", ";
+        ss << Parameters::parameters.getSimID()	<< ", ";
         ss << p->plantID 					<< ", ";
         ss << p->pft() 						<< ", ";
         ss << Environment::year 			<< ", ";
@@ -400,11 +400,11 @@ void Output::print_ind(const std::vector< std::shared_ptr<Plant> > & PlantList)
         ss << p->lifetimeFecundity 			<< ", ";
         ss << p->isStressed						   ;
 
-        print_row(ss, ind_stream);
+        print_row(ss, individual_stream);
     }
 }
 
-void Output::print_aggregated(const std::vector< std::shared_ptr<Plant> > & PlantList)
+void Output::print_community(const std::vector< std::shared_ptr<Plant> > & PlantList)
 {
 
     auto PFT_map = buildPFT_map(PlantList);
@@ -413,7 +413,7 @@ void Output::print_aggregated(const std::vector< std::shared_ptr<Plant> > & Plan
 
     std::ostringstream ss;
 
-    ss << Parameters::params.getSimID() 											<< ", ";
+    ss << Parameters::parameters.getSimID() 										<< ", ";
     ss << Environment::year															<< ", ";
     ss << Environment::week 														<< ", ";
     ss << BlwgrdGrazingPressure.back()                                              << ", ";
@@ -422,7 +422,7 @@ void Output::print_aggregated(const std::vector< std::shared_ptr<Plant> > & Plan
     ss << calculatePIE(PFT_map)                                                     << ", ";
     ss << calculateRichness(PFT_map)												<< ", ";
 
-    double brayCurtis = calculateBrayCurtis(PFT_map, Parameters::params.DisturbanceYear - 1);
+    double brayCurtis = calculateBrayCurtis(PFT_map, Parameters::parameters.DisturbanceYear - 1);
     if (!Environment::AreSame(brayCurtis, -1))
     {
         ss << brayCurtis 															<< ", ";
@@ -443,7 +443,7 @@ void Output::print_aggregated(const std::vector< std::shared_ptr<Plant> > & Plan
     ss << meanTraits["Gmax"] 														<< ", ";
     ss << meanTraits["SLA"] 													           ;
 
-    print_row(ss, aggregated_stream);
+    print_row(ss, community_stream);
 
 }
 

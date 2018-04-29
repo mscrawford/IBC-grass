@@ -107,7 +107,7 @@ void Traits::varyTraits()
 {
 
     assert(myTraitType == Traits::species);
-    assert(Parameters::params.ITV == on);
+    assert(Parameters::parameters.ITV == on);
 
     myTraitType = Traits::individualized;
     double dev;
@@ -115,7 +115,7 @@ void Traits::varyTraits()
     double LMR_;
     do
     {
-        dev = Environment::rng.getGaussian(0, Parameters::params.ITVsd);
+        dev = Environment::rng.getGaussian(0, Parameters::parameters.ITVsd);
         LMR_ = LMR + (LMR * dev);
     } while (dev < -1.0 || dev > 1.0 || LMR_ < 0 || LMR_ > 1);
     LMR = LMR_;
@@ -123,7 +123,7 @@ void Traits::varyTraits()
     double m0_, MaxMass_, SeedMass_, Dist_;
     do
     {
-        dev = Environment::rng.getGaussian(0, Parameters::params.ITVsd);
+        dev = Environment::rng.getGaussian(0, Parameters::parameters.ITVsd);
         m0_ = m0 + (m0 * dev);
         MaxMass_ = maxMass + (maxMass * dev);
         SeedMass_ = seedMass + (seedMass * dev);
@@ -138,7 +138,7 @@ void Traits::varyTraits()
     int memory_;
     do
     {
-        dev = Environment::rng.getGaussian(0, Parameters::params.ITVsd);
+        dev = Environment::rng.getGaussian(0, Parameters::parameters.ITVsd);
         Gmax_ = Gmax + (Gmax * dev);
         memory_ = memory - (memory * dev);
     } while (dev < -1.0 || dev > 1.0 || Gmax_ < 0 || memory_ < 1);
@@ -148,7 +148,7 @@ void Traits::varyTraits()
     double palat_, SLA_;
     do
     {
-        dev = Environment::rng.getGaussian(0, Parameters::params.ITVsd);
+        dev = Environment::rng.getGaussian(0, Parameters::parameters.ITVsd);
         palat_ = palat + (palat * dev);
         SLA_ = SLA + (SLA * dev);
     } while (dev < -1.0 || dev > 1.0 || palat_ < 0 || SLA_ < 0);
@@ -158,7 +158,7 @@ void Traits::varyTraits()
     double meanSpacerlength_, sdSpacerlength_;
     do
     {
-        dev = Environment::rng.getGaussian(0, Parameters::params.ITVsd);
+        dev = Environment::rng.getGaussian(0, Parameters::parameters.ITVsd);
         meanSpacerlength_ = meanSpacerlength + (meanSpacerlength * dev);
         sdSpacerlength_ = sdSpacerlength + (sdSpacerlength * dev);
     } while (dev < -1.0 || dev > 1.0 || meanSpacerlength_ < 0 || sdSpacerlength_ < 0);

@@ -25,7 +25,7 @@ class Parameters
 {
 
 public:
-    static Parameters params;			// Static scenario parameters structure
+    static Parameters parameters;			// Static scenario parameters structure
 
     // Input Files
     static std::string NamePftFile;   	// Filename of PftTrait-File
@@ -33,11 +33,11 @@ public:
     static std::string outputPrefix;	// Prefix for the output file, empty is single core, something user-supplied if multi-core
 
     int weekly;
-    int ind_out;
-    int PFT_out;
-    int srv_out;
+    int individual_out;
+    int population_out;
+    int populationSurvival_out;
     int trait_out;
-    int aggregated_out;
+    int community_out;
 
     // Competition mode
     CompMode AboveCompMode; // 0 = symmetric; 1 = partial asymmetry; 2 = total asymmetry

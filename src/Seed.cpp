@@ -19,7 +19,7 @@ Seed::Seed(const shared_ptr<Plant> & plant, Cell* _cell) :
 {
 	traits = Traits::createTraitSetFromPftType(plant->traits->PFT_ID);
 
-	if (Parameters::params.ITV == on) {
+	if (Parameters::parameters.ITV == on) {
 		traits->varyTraits();
 	}
 
@@ -41,7 +41,7 @@ Seed::Seed(std::string PFT_ID, Cell*_cell, double new_estab) :
 {
 	traits = Traits::createTraitSetFromPftType(PFT_ID);
 
-	if (Parameters::params.ITV == on) {
+	if (Parameters::parameters.ITV == on) {
 		traits->varyTraits();
 	}
 

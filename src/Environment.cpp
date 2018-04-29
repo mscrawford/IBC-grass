@@ -26,7 +26,7 @@ std::map<std::string, int> Environment::PftSurvTime;	// how long each PFT lives
 Environment::Environment()
 {
     Environment::rng = RandomGenerator();
-    Parameters::params = Parameters();
+    Parameters::parameters = Parameters();
 
     year = 1;
     week = 1;
@@ -65,28 +65,28 @@ void Environment::GetSim(string data)
         >> ComNr 											// Community number
         >> IC_version 										// Stabilizing mechanisms
         >> mode												// (0) Community assembly (normal), (1) invasion criterion, (2) catastrophic disturbance
-        >> Parameters::params.ITVsd 						// Standard deviation of intraspecific variation
-        >> Parameters::params.Tmax 							// End of run year
-        >> Parameters::params.meanARes 						// Aboveground resources
-        >> Parameters::params.meanBRes 	 					// Belowground resources
-        >> Parameters::params.AbvGrazProb 					// Aboveground grazing: probability per time step
-        >> Parameters::params.AbvGrazPerc 				// Aboveground grazing: proportion of biomass removed
-        >> Parameters::params.BelGrazProb 					// Belowground grazing: probability per time step
-        >> Parameters::params.BelGrazPerc 					// Belowground grazing: proportion of biomass removed
-        >> Parameters::params.BelGrazThreshold              // Belowground grazing: Threshold value determining when functional response is triggered
-        >> Parameters::params.BelGrazAlpha					// Belowground grazing: For sensitivity analysis of Belowground Grazing algorithm
-        >> Parameters::params.BelGrazWindow			// Belowground grazing: For sensitivity analysis of Belowground Grazing algorithm
-        >> Parameters::params.DisturbanceMortality	// Catastrophic Disturbance: Percent of plant removal during Catastrophic Disturbance
-        >> Parameters::params.DisturbanceWeek			// Catastrophic Disturbance: Week of the disturbance
-        >> Parameters::params.SeedLongevity                // Seed Bank: Number of years a seed can persist in the seed bank
-        >> Parameters::params.SeedRainType                  // Seed Rain: Off/On/Type
-        >> Parameters::params.SeedInput						// Seed Rain: Number of seeds to input per SeedRain event
-        >> Parameters::params.weekly						// Output: Weekly output rather than yearly
-        >> Parameters::params.ind_out						// Output: Individual-level output
-        >> Parameters::params.PFT_out						// Output: PFT-level output
-        >> Parameters::params.srv_out						// Output: End-of-run survival output
-        >> Parameters::params.trait_out						// Output: Trait-level output
-        >> Parameters::params.aggregated_out				// Output: Meta-level output
+        >> Parameters::parameters.ITVsd 					// Standard deviation of intraspecific variation
+        >> Parameters::parameters.Tmax 						// End of run year
+        >> Parameters::parameters.meanARes 					// Aboveground resources
+        >> Parameters::parameters.meanBRes 	 				// Belowground resources
+        >> Parameters::parameters.AbvGrazProb 				// Aboveground grazing: probability per time step
+        >> Parameters::parameters.AbvGrazPerc 				// Aboveground grazing: proportion of biomass removed
+        >> Parameters::parameters.BelGrazProb 				// Belowground grazing: probability per time step
+        >> Parameters::parameters.BelGrazPerc 				// Belowground grazing: proportion of biomass removed
+        >> Parameters::parameters.BelGrazThreshold          // Belowground grazing: Threshold value determining when functional response is triggered
+        >> Parameters::parameters.BelGrazAlpha				// Belowground grazing: For sensitivity analysis of Belowground Grazing algorithm
+        >> Parameters::parameters.BelGrazWindow             // Belowground grazing: For sensitivity analysis of Belowground Grazing algorithm
+        >> Parameters::parameters.DisturbanceMortality      // Catastrophic Disturbance: Percent of plant removal during Catastrophic Disturbance
+        >> Parameters::parameters.DisturbanceWeek			// Catastrophic Disturbance: Week of the disturbance
+        >> Parameters::parameters.SeedLongevity             // Seed Bank: Number of years a seed can persist in the seed bank
+        >> Parameters::parameters.SeedRainType              // Seed Rain: Off/On/Type
+        >> Parameters::parameters.SeedInput					// Seed Rain: Number of seeds to input per SeedRain event
+        >> Parameters::parameters.weekly					// Output: Weekly output rather than yearly
+        >> Parameters::parameters.individual_out			// Output: Individual-level output
+        >> Parameters::parameters.population_out			// Output: PFT-level output
+        >> Parameters::parameters.populationSurvival_out	// Output: End-of-run survival output
+        >> Parameters::parameters.trait_out					// Output: Trait-level output
+        >> Parameters::parameters.community_out				// Output: Meta-level output
         >> Parameters::NamePftFile 							// Input: Name of input community (PFT intialization) file
         ;
 
@@ -94,13 +94,13 @@ void Environment::GetSim(string data)
     switch (IC_version)
     {
     case 0:
-        Parameters::params.stabilization = version1;
+        Parameters::parameters.stabilization = version1;
         break;
     case 1:
-        Parameters::params.stabilization = version2;
+        Parameters::parameters.stabilization = version2;
         break;
     case 2:
-        Parameters::params.stabilization = version3;
+        Parameters::parameters.stabilization = version3;
         break;
     default:
         break;
@@ -109,19 +109,19 @@ void Environment::GetSim(string data)
     switch (mode)
     {
     case 0:
-        Parameters::params.mode = communityAssembly;
+        Parameters::parameters.mode = communityAssembly;
         break;
     case 1:
-        Parameters::params.mode = invasionCriterion;
+        Parameters::parameters.mode = invasionCriterion;
         break;
     case 2:
-        if (Parameters::params.DisturbanceMortality > 0)
+        if (Parameters::parameters.DisturbanceMortality > 0)
         {
-            Parameters::params.mode = catastrophicDisturbance;
+            Parameters::parameters.mode = catastrophicDisturbance;
         }
         else
         {
-            Parameters::params.mode = communityAssembly;
+            Parameters::parameters.mode = communityAssembly;
         }
         break;
     default:
@@ -129,23 +129,23 @@ void Environment::GetSim(string data)
         exit(1);
     }
 
-    if (Parameters::params.mode == invasionCriterion)
+    if (Parameters::parameters.mode == invasionCriterion)
     {
-        Parameters::params.Tmax += Parameters::params.Tmax_monoculture;
+        Parameters::parameters.Tmax += Parameters::parameters.Tmax_monoculture;
     }
 
-    if (Parameters::params.ITVsd > 0)
+    if (Parameters::parameters.ITVsd > 0)
     {
-        Parameters::params.ITV = on;
+        Parameters::parameters.ITV = on;
     }
     else
     {
-        Parameters::params.ITV = off;
+        Parameters::parameters.ITV = off;
     }
 
-    if (Parameters::params.BelGrazPerc > 0)
+    if (Parameters::parameters.BelGrazPerc > 0)
     {
-        Parameters::params.BelGrazResidualPerc = exp(-1 * (Parameters::params.BelGrazPerc / Parameters::params.BelGrazThreshold));
+        Parameters::parameters.BelGrazResidualPerc = exp(-1 * (Parameters::parameters.BelGrazPerc / Parameters::parameters.BelGrazThreshold));
     }
 
     ////////////////////
@@ -156,15 +156,15 @@ void Environment::GetSim(string data)
     ////////////////////
     // Design output file names
     const string dir = "data/out/";
-    const string fid = Parameters::params.outputPrefix;
+    const string fid = Parameters::parameters.outputPrefix;
 
-    string param = 	dir + fid + "_param.csv";
+    string parameter = 	dir + fid + "_parameter.csv";
     string trait = 	dir + fid + "_trait.csv";
-    string srv = 	dir + fid + "_srv.csv";
-    string PFT = 	dir + fid + "_PFT.csv";
-    string ind = 	dir + fid + "_ind.csv";
-    string aggregated =   dir + fid + "_aggregated.csv";
+    string populationSurvival = 	dir + fid + "_populationSurvival.csv";
+    string population = 	dir + fid + "_population.csv";
+    string individual = 	dir + fid + "_individual.csv";
+    string community =   dir + fid + "_community.csv";
 
-    output.setupOutput(param, trait, srv, PFT, ind, aggregated);
+    output.setupOutput(parameter, trait, populationSurvival, population, individual, community);
 }
 

@@ -16,8 +16,8 @@ Cell::Cell(const unsigned int xx, const unsigned int yy) :
         aComp_weekly(0), bComp_weekly(0),
         occupied(false)
 {
-    AResConc = Parameters::params.meanARes;
-    BResConc = Parameters::params.meanBRes;
+    AResConc = Parameters::parameters.meanARes;
+    BResConc = Parameters::parameters.meanBRes;
 }
 
 //-----------------------------------------------------------------------------
@@ -96,7 +96,7 @@ void Cell::AboveComp()
     if (AbovePlantList.empty())
         return;
 
-    if (Parameters::params.AboveCompMode == asymtot)
+    if (Parameters::parameters.AboveCompMode == asymtot)
     {
         weak_ptr<Plant> p_ptr =
                 *std::max_element(AbovePlantList.begin(), AbovePlantList.end(),
@@ -118,7 +118,7 @@ void Cell::AboveComp()
     }
 
     int symm;
-    if (Parameters::params.AboveCompMode == asympart)
+    if (Parameters::parameters.AboveCompMode == asympart)
     {
         symm = 2;
     }
@@ -135,7 +135,7 @@ void Cell::AboveComp()
     {
         auto plant = plant_ptr.lock();
 
-        comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, Parameters::params.stabilization);
+        comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, Parameters::parameters.stabilization);
     }
 
     //2. distribute resources
@@ -144,7 +144,7 @@ void Cell::AboveComp()
         auto plant = plant_ptr.lock();
         assert(plant);
 
-        comp_c = plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, Parameters::params.stabilization);
+        comp_c = plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, Parameters::parameters.stabilization);
         plant->Auptake += AResConc * comp_c / comp_tot;
     }
 
@@ -155,13 +155,13 @@ void Cell::AboveComp()
 
 void Cell::BelowComp()
 {
-    assert(Parameters::params.BelowCompMode != asymtot);
+    assert(Parameters::parameters.BelowCompMode != asymtot);
 
     if (BelowPlantList.empty())
         return;
 
     int symm;
-    if (Parameters::params.BelowCompMode == asympart)
+    if (Parameters::parameters.BelowCompMode == asympart)
     {
         symm = 2;
     }
@@ -179,7 +179,7 @@ void Cell::BelowComp()
         auto plant = plant_ptr.lock();
         assert(plant);
 
-        comp_tot += plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, Parameters::params.stabilization);
+        comp_tot += plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, Parameters::parameters.stabilization);
     }
 
     //2. distribute resources
@@ -187,7 +187,7 @@ void Cell::BelowComp()
     {
         auto plant = plant_ptr.lock();
 
-        comp_c = plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, Parameters::params.stabilization);
+        comp_c = plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, Parameters::parameters.stabilization);
         plant->Buptake += BResConc * comp_c / comp_tot;
     }
 

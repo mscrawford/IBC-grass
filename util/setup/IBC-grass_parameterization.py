@@ -36,19 +36,19 @@ else:
 ### Hyperparameters
 
 # For computing clusters
-PARALLEL = False         # IF SERIES THIS -> FALSE
-N_SLOTS  = 100          # Number of cores to split between
+PARALLEL = True         # IF SERIES THIS -> FALSE
+N_SLOTS  = 300          # Number of cores to split between
 H_RT     = "80:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
 H_VMEM   = "1G"         # Memory for each simulation run
 
 # Frequency and type of output
 weekly    = 0 # Print output yearly (0) or weekly (1)?
 
-ind_out   = 0 # Print individual-level output?           (0) No; (1) Yes
-pft_out   = 2 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
-srv_out   = 0 # Print PFT-survival output:               (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
-trait_out = 0 # Print trait-level output:                (0) No; (1) Yes
-agg_out   = 1 # Print output about the environment, etc. (0) No; (1) Yes
+individual_out   = 0 # Print individual-level output?           (0) No; (1) Yes
+population_out   = 2 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
+populationSurvival_out   = 0 # Print PFT-survival output:       (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
+trait_out = 0 # Print trait-level output:                       (0) No; (1) Yes
+community_out   = 1 # Print output about the environment, etc.  (0) No; (1) Yes
 
 # Number of repetitions 
 N_REPS    = 1
@@ -64,7 +64,7 @@ IC_vers          = [1] # IBC-grass run mode -- Negative frequency dependence
 MODE             = [2] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
 N_PFTs           = [0] # UNUSED WITH PAIRWISE INVASION CRITERION
 ITVsd            = [0]
-Tmax             = [200]
+Tmax             = [300]
 
 # Custom environment time series --- PLEASE ONLY SINGLE VALUES
 ENV              = [0] # (0) Static environment; (1) IBC-grass uses custom environmental time series
@@ -72,7 +72,7 @@ SIGMA            = [0] # Variability with which the time series changes
 
 # Resource levels
 ARes             = [100]
-BRes             = [60, 90] # With belowground environmental variation, this MUST be NA
+BRes             = [60, 90] # With belowground environmental variation, t his MUST be NA
 
 # Aboveground grazing 
 AbvGrazProb      = [0.2]
@@ -134,11 +134,11 @@ BelGrazWindow    = [0, 10]
 # DisturbanceMortality   = [0, 0.75]
 # DisturbanceWeek        = [0, 20]
 
-DisturbanceMortality = [0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.46, 0.48, 0.5, 0.52, 0.54, 0.56, 0.58, 0.6, 0.62, 0.64, 0.66, 0.68, 0.7, 0.72, 0.74, 0.76, 0.78, 0.8, 0.82, 0.84, 0.86, 0.88, 0.9, 0.92, 0.94, 0.96, 0.98, 1]
+DisturbanceMortality = [0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1]
 DisturbanceWeek      = [0, 20, 21]
 
 # Seed bank
-SeedLongevity          = [3] # 1 is default
+SeedLongevity          = [1, 3] # Number of years a seed can theoretically persist within the seed bank
 
 # Seed introduction
 SeedRainType           = [1]
@@ -210,7 +210,7 @@ PFType_params = [[0.05], # AllocSeed
 #                 "BelGrazAlpha BelGrazWindow " + \
 #                 "DisturbanceMortality DisturbanceWeek " + \
 #                 "SeedLongevity SeedRainType SeedInput " + \
-#                 "weekly ind_out pft_out srv_out trait_out agg_out NameInitFile\n"
+#                 "weekly individual_out population_out populationSurvival_out trait_out community_out NameInitFile\n"
 
 SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
                 "SimID ComNr IC_vers Mode ITVsd Tmax " + \
@@ -220,7 +220,7 @@ SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
                 "BelGrazAlpha BelGrazWindow " + \
                 "DisturbanceMortality DisturbanceWeek " + \
                 "SeedLongevity SeedRainType SeedInput " + \
-                "weekly ind_out pft_out srv_out trait_out agg_out NameInitFile\n"
+                "weekly individual_out population_out populationSurvival_out trait_out community_out NameInitFile\n"
 
 PFT_HEADER = "Species AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat memo RAR " + \
                 "growth mThres clonal meanSpacerLength sdSpacerlength Resshare AllocSpacer mSpacer\n"
@@ -320,7 +320,7 @@ def buildPFTs():
 
                 SimNr += 1 # IBC-grass will barf if SimNr starts with 0.
                 SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), \
-                    str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), str(agg_out), Com_FN, "\n"]))
+                    str(weekly), str(individual_out), str(population_out), str(populationSurvival_out), str(trait_out), str(community_out), Com_FN, "\n"]))
 
                 # community's PFT file    
             with open(PATH + Com_FN, 'w') as w: 
@@ -374,7 +374,7 @@ def buildPairs():
             PFT_FN = "Pair_" + str(ComNr) + ".txt"
 
             SimFile.append(" ".join([str(SimNr), str(ComNr), base_param.toString(), \
-                str(weekly), str(ind_out), str(pft_out), str(srv_out), str(trait_out), str(agg_out), PFT_FN, "\n"]))
+                str(weekly), str(individual_out), str(population_out), str(populationSurvival_out), str(trait_out), str(community_out), PFT_FN, "\n"]))
 
 
         # PFT pair's PFT_file

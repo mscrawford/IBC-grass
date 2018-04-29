@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 			run->GetSim(data);
 			run->RunNr = i;
 
-			cout << Parameters::params.getSimID() << endl;
+			cout << Parameters::parameters.getSimID() << endl;
 			cout << "Run " << run->RunNr << " \n";
 
 			run->InitRun();

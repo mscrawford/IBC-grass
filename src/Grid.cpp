@@ -16,7 +16,7 @@ Grid::Grid()
 {
     CellsInit();
 
-    ZOIBase = vector<int>(Parameters::params.getGridArea(), 0);
+    ZOIBase = vector<int>(Parameters::parameters.getGridArea(), 0);
 
     for (unsigned int i = 0; i < ZOIBase.size(); i++)
     {
@@ -30,7 +30,7 @@ Grid::Grid()
 
 Grid::~Grid()
 {
-    for (int i = 0; i < Parameters::params.getGridArea(); ++i)
+    for (int i = 0; i < Parameters::parameters.getGridArea(); ++i)
     {
         Cell* cell = CellList[i];
         delete cell;
@@ -48,7 +48,7 @@ Grid::~Grid()
 void Grid::CellsInit()
 {
     int index;
-    int SideCells = Parameters::params.GridSize;
+    int SideCells = Parameters::parameters.GridSize;
     CellList = new Cell*[SideCells * SideCells];
 
     for (int x = 0; x < SideCells; x++)
@@ -68,7 +68,7 @@ void Grid::PlantLoop()
 {
     for (auto const& p : PlantList)
     {
-        if (Parameters::params.ITV == on)
+        if (Parameters::parameters.ITV == on)
             assert(p->traits->myTraitType == Traits::individualized);
 
         if (!p->isDead)
@@ -137,7 +137,7 @@ void Grid::DisperseSeeds(const std::shared_ptr<Plant> & plant)
 
         Torus(x, y); // recalculates position for torus
 
-        Cell* cell = CellList[x * Parameters::params.GridSize + y];
+        Cell* cell = CellList[x * Parameters::parameters.GridSize + y];
 
         cell->SeedBankList.push_back(make_unique<Seed>(plant, cell));
     }
@@ -189,15 +189,15 @@ void Grid::CoverCells()
         for (int a = 0; a < Amax; a++)
         {
             int x = plant->getCell()->x
-                    + ZOIBase[a] / Parameters::params.GridSize
-                    - Parameters::params.GridSize / 2;
+                    + ZOIBase[a] / Parameters::parameters.GridSize
+                    - Parameters::parameters.GridSize / 2;
             int y = plant->getCell()->y
-                    + ZOIBase[a] % Parameters::params.GridSize
-                    - Parameters::params.GridSize / 2;
+                    + ZOIBase[a] % Parameters::parameters.GridSize
+                    - Parameters::parameters.GridSize / 2;
 
             Torus(x, y);
 
-            Cell* cell = CellList[x * Parameters::params.GridSize + y];
+            Cell* cell = CellList[x * Parameters::parameters.GridSize + y];
 
             // Aboveground
             if (a < Ashoot)
@@ -227,7 +227,7 @@ void Grid::CoverCells()
  */
 void Grid::ResetWeeklyVariables()
 {
-    for (int i = 0; i < Parameters::params.getGridArea(); ++i)
+    for (int i = 0; i < Parameters::parameters.getGridArea(); ++i)
     {
         Cell* cell = CellList[i];
         cell->weeklyReset();
@@ -246,7 +246,7 @@ void Grid::ResetWeeklyVariables()
  */
 void Grid::DistributeResource()
 {
-    for (int i = 0; i < Parameters::params.getGridArea(); ++i)
+    for (int i = 0; i < Parameters::parameters.getGridArea(); ++i)
     {
         Cell* cell = CellList[i];
 
@@ -308,7 +308,7 @@ void Grid::EstablishmentLottery()
         return;
     }
 
-    for (int i = 0; i < Parameters::params.getGridArea(); ++i)
+    for (int i = 0; i < Parameters::parameters.getGridArea(); ++i)
     {
         Cell* cell = CellList[i];
 
@@ -369,11 +369,11 @@ void Grid::establishRamets(const std::shared_ptr<Plant> plant)
             continue;
         }
 
-        Cell* cell = CellList[spacer->x * Parameters::params.GridSize + spacer->y];
+        Cell* cell = CellList[spacer->x * Parameters::parameters.GridSize + spacer->y];
 
         if (!cell->occupied)
         {
-            if (Environment::rng.get01() < Parameters::params.rametEstab)
+            if (Environment::rng.get01() < Parameters::parameters.rametEstab)
             {
                 // This spacer successfully establishes into a ramet (CPlant) of a genet
                 auto Genet = spacer->getGenet().lock();
@@ -424,13 +424,13 @@ void Grid::establishRamets(const std::shared_ptr<Plant> plant)
 
 void Grid::SeedMortalityAge()
 {
-    for (int i = 0; i < Parameters::params.getGridArea(); ++i)
+    for (int i = 0; i < Parameters::parameters.getGridArea(); ++i)
     {
         Cell* cell = CellList[i];
 
         for (auto const& seed : cell->SeedBankList)
         {
-            if (seed->age >= Parameters::params.SeedLongevity)
+            if (seed->age >= Parameters::parameters.SeedLongevity)
             {
                 seed->toBeRemoved = true;
             }
@@ -445,27 +445,27 @@ void Grid::RunYearlyDisturbances()
 {
     Grid::below_biomass_history.push_back(GetTotalBelowMass());
 
-    if (Environment::rng.get01() < Parameters::params.AbvGrazProb) {
+    if (Environment::rng.get01() < Parameters::parameters.AbvGrazProb) {
         GrazingAbvGr();
     }
 
-    if (Environment::rng.get01() < Parameters::params.BelGrazProb) {
+    if (Environment::rng.get01() < Parameters::parameters.BelGrazProb) {
         GrazingBelGr();
     }
 
-    if (Parameters::params.NCut > 0) {
-        switch (Parameters::params.NCut) {
+    if (Parameters::parameters.NCut > 0) {
+        switch (Parameters::parameters.NCut) {
         case 1:
             if (Environment::week == 22)
-                Cutting(Parameters::params.CutHeight);
+                Cutting(Parameters::parameters.CutHeight);
             break;
         case 2:
             if (Environment::week == 22 || Environment::week == 10)
-                Cutting(Parameters::params.CutHeight);
+                Cutting(Parameters::parameters.CutHeight);
             break;
         case 3:
             if (Environment::week == 22 || Environment::week == 10 || Environment::week == 16)
-                Cutting(Parameters::params.CutHeight);
+                Cutting(Parameters::parameters.CutHeight);
             break;
         default:
             cerr << "CGrid::Disturb() - wrong input";
@@ -483,7 +483,7 @@ void Grid::RunSingletonDisturbance()
         if (p->isDead)
             continue;
 
-        if (Environment::rng.get01() < Parameters::params.DisturbanceMortality)
+        if (Environment::rng.get01() < Parameters::parameters.DisturbanceMortality)
         {
             p->isDead = true;
         }
@@ -502,11 +502,11 @@ void Grid::RunSingletonDisturbance()
  */
 void Grid::GrazingAbvGr()
 {
-    double ResidualMass = Parameters::params.MassUngrazable * Parameters::params.getGridArea() * 0.0001;
+    double ResidualMass = Parameters::parameters.MassUngrazable * Parameters::parameters.getGridArea() * 0.0001;
 
     double TotalAboveMass = GetTotalAboveMass();
 
-    double MaxMassRemove = min(TotalAboveMass - ResidualMass, TotalAboveMass * Parameters::params.AbvGrazPerc);
+    double MaxMassRemove = min(TotalAboveMass - ResidualMass, TotalAboveMass * Parameters::parameters.AbvGrazPerc);
     double MassRemoved = 0;
 
     while (MassRemoved < MaxMassRemove)
@@ -578,10 +578,10 @@ void Grid::GrazingBelGr()
                         return s;
                     });
 
-    const double alpha = Parameters::params.BelGrazAlpha;
+    const double alpha = Parameters::parameters.BelGrazAlpha;
 
     std::vector<double> rolling_mean;
-    vector<double>::size_type historySize = Parameters::params.BelGrazWindow; // in Weeks
+    vector<double>::size_type historySize = Parameters::parameters.BelGrazWindow; // in Weeks
     if (Grid::below_biomass_history.size() > historySize)
     {
         rolling_mean = std::vector<double>(Grid::below_biomass_history.end() - historySize, Grid::below_biomass_history.end());
@@ -591,12 +591,12 @@ void Grid::GrazingBelGr()
         rolling_mean = std::vector<double>(Grid::below_biomass_history.begin(), Grid::below_biomass_history.end());
     }
 
-    double fn_o = Parameters::params.BelGrazPerc * ( accumulate(rolling_mean.begin(), rolling_mean.end(), 0) / rolling_mean.size() );
+    double fn_o = Parameters::parameters.BelGrazPerc * ( accumulate(rolling_mean.begin(), rolling_mean.end(), 0) / rolling_mean.size() );
 
     // Functional response
-    if (bt - fn_o < bt * Parameters::params.BelGrazResidualPerc)
+    if (bt - fn_o < bt * Parameters::parameters.BelGrazResidualPerc)
     {
-        fn_o = bt - bt * Parameters::params.BelGrazResidualPerc;
+        fn_o = bt - bt * Parameters::parameters.BelGrazResidualPerc;
     }
 
     Environment::output.BlwgrdGrazingPressure.push_back(fn_o);
@@ -714,12 +714,12 @@ void Grid::Winter()
 
 void Grid::SeedMortalityWinter()
 {
-    for (int i = 0; i < Parameters::params.getGridArea(); ++i)
+    for (int i = 0; i < Parameters::parameters.getGridArea(); ++i)
     {
         Cell* cell = CellList[i];
         for (auto const& seed : cell->SeedBankList)
         {
-            if (Environment::rng.get01() < Parameters::params.seedMortality)
+            if (Environment::rng.get01() < Parameters::parameters.seedMortality)
             {
                 seed->toBeRemoved = true;
             }
@@ -741,10 +741,10 @@ void Grid::InitSeeds(string PFT_ID, const int n, const double estab)
 {
     for (int i = 0; i < n; ++i)
     {
-        int x = Environment::rng.getUniformInt(Parameters::params.GridSize);
-        int y = Environment::rng.getUniformInt(Parameters::params.GridSize);
+        int x = Environment::rng.getUniformInt(Parameters::parameters.GridSize);
+        int y = Environment::rng.getUniformInt(Parameters::parameters.GridSize);
 
-        Cell* cell = CellList[x * Parameters::params.GridSize + y];
+        Cell* cell = CellList[x * Parameters::parameters.GridSize + y];
 
         cell->SeedBankList.push_back(make_unique<Seed>(PFT_ID, cell, estab));
     }
@@ -759,21 +759,21 @@ void Grid::SetCellResources()
 {
     int gweek = Environment::week;
 
-    for (int i = 0; i < Parameters::params.getGridArea(); ++i) {
+    for (int i = 0; i < Parameters::parameters.getGridArea(); ++i) {
         Cell* cell = CellList[i];
         cell->SetResource(
                 max(0.0,
-                        (-1.0) * Parameters::params.Aampl
+                        (-1.0) * Parameters::parameters.Aampl
                                 * cos(
                                         2.0 * Pi * gweek
                                                 / double(Environment::WeeksPerYear))
-                                + Parameters::params.meanARes),
+                                + Parameters::parameters.meanARes),
                 max(0.0,
-                        Parameters::params.Bampl
+                        Parameters::parameters.Bampl
                                 * sin(
                                         2.0 * Pi * gweek
                                                 / double(Environment::WeeksPerYear))
-                                + Parameters::params.meanBRes));
+                                + Parameters::parameters.meanBRes));
     }
 }
 
@@ -788,7 +788,7 @@ double Distance(const double xx, const double yy, const double x, const double y
 
 bool CompareIndexRel(const int i1, const int i2)
 {
-    const int n = Parameters::params.GridSize;
+    const int n = Parameters::parameters.GridSize;
 
     return Distance(i1 / n, i1 % n, n / 2, n / 2) < Distance(i2 / n, i2 % n, n / 2, n / 2);
 }
@@ -799,16 +799,16 @@ bool CompareIndexRel(const int i1, const int i2)
  */
 void Torus(int& xx, int& yy)
 {
-    xx %= Parameters::params.GridSize;
+    xx %= Parameters::parameters.GridSize;
     if (xx < 0)
     {
-        xx += Parameters::params.GridSize;
+        xx += Parameters::parameters.GridSize;
     }
 
-    yy %= Parameters::params.GridSize;
+    yy %= Parameters::parameters.GridSize;
     if (yy < 0)
     {
-        yy += Parameters::params.GridSize;
+        yy += Parameters::parameters.GridSize;
     }
 }
 
@@ -849,7 +849,7 @@ double Grid::GetTotalBelowMass()
 double Grid::GetTotalAboveComp()
 {
     double above_comp = 0;
-    for (int i = 0; i < Parameters::params.getGridArea(); i++)
+    for (int i = 0; i < Parameters::parameters.getGridArea(); i++)
     {
         Cell* cell = CellList[i];
         above_comp += cell->aComp_weekly;
@@ -861,7 +861,7 @@ double Grid::GetTotalAboveComp()
 double Grid::GetTotalBelowComp()
 {
     double below_comp = 0;
-    for (int i = 0; i < Parameters::params.getGridArea(); i++)
+    for (int i = 0; i < Parameters::parameters.getGridArea(); i++)
     {
         Cell* cell = CellList[i];
         below_comp += cell->bComp_weekly;
@@ -918,7 +918,7 @@ int Grid::GetNPlants() //count non-clonal plants
 int Grid::GetNSeeds()
 {
     int seedCount = 0;
-    for (int i = 0; i < Parameters::params.getGridArea(); ++i)
+    for (int i = 0; i < Parameters::parameters.getGridArea(); ++i)
     {
         Cell* cell = CellList[i];
         seedCount = seedCount + int(cell->SeedBankList.size());
