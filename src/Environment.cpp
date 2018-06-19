@@ -102,6 +102,8 @@ void Environment::GetSim(string data)
     case 2:
         Parameters::parameters.stabilization = version3;
         break;
+    case 3:
+        Parameters::parameters.stabilization = version4;
     default:
         break;
     }

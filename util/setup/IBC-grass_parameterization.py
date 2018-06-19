@@ -36,7 +36,7 @@ else:
 ### Hyperparameters
 
 # For computing clusters
-PARALLEL = True         # IF SERIES THIS -> FALSE
+PARALLEL = False         # IF SERIES THIS -> FALSE
 N_SLOTS  = 300          # Number of cores to split between
 H_RT     = "80:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
 H_VMEM   = "1G"         # Memory for each simulation run
@@ -45,8 +45,8 @@ H_VMEM   = "1G"         # Memory for each simulation run
 weekly    = 0 # Print output yearly (0) or weekly (1)?
 
 individual_out   = 0 # Print individual-level output?           (0) No; (1) Yes
-population_out   = 2 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
-populationSurvival_out   = 0 # Print PFT-survival output:       (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
+population_out   = 0 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
+populationSurvival_out   = 1 # Print PFT-survival output:       (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
 trait_out = 0 # Print trait-level output:                       (0) No; (1) Yes
 community_out   = 1 # Print output about the environment, etc.  (0) No; (1) Yes
 
@@ -54,17 +54,17 @@ community_out   = 1 # Print output about the environment, etc.  (0) No; (1) Yes
 N_REPS    = 1
 
 # Number of communities and what kind of PFTs to use
-N_COMS    = 100           # UNUSED WITH PAIRWISE INVASION CRITERION
-PFT_type  = "EMPIRICAL"   # "THEORETICAL" or "EMPIRICAL"
+N_COMS    = 25               # UNUSED WITH PAIRWISE INVASION CRITERION
+PFT_type  = "THEORETICAL"   # "THEORETICAL" or "EMPIRICAL"
 
 ##########################################
 ### Environmental parameters
 
-IC_vers          = [1] # IBC-grass run mode -- Negative frequency dependence
-MODE             = [2] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
-N_PFTs           = [0] # UNUSED WITH PAIRWISE INVASION CRITERION
-ITVsd            = [0]
-Tmax             = [300]
+IC_vers          = [3] # IBC-grass run mode -- Negative frequency dependence
+MODE             = [0] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
+N_PFTs           = [16] # UNUSED WITH PAIRWISE INVASION CRITERION
+ITVsd            = [0, 0.25]
+Tmax             = [100]
 
 # Custom environment time series --- PLEASE ONLY SINGLE VALUES
 ENV              = [0] # (0) Static environment; (1) IBC-grass uses custom environmental time series
@@ -72,77 +72,29 @@ SIGMA            = [0] # Variability with which the time series changes
 
 # Resource levels
 ARes             = [100]
-BRes             = [60, 90] # With belowground environmental variation, t his MUST be NA
+BRes             = [90] # With belowground environmental variation, this MUST be NA
 
 # Aboveground grazing 
 AbvGrazProb      = [0.2]
 AbvGrazPerc      = [0.5]
 
 # Belowground grazing
-######################## DONE
-BelGrazProb      = [0, 1]
-BelGrazPerc      = [0, 0.2]
-BelGrazThreshold = [0, 0.0667616]
-BelGrazAlpha     = [0, 1, 1.25]
-BelGrazWindow    = [0, 10]
-######################## DONE
-
-# Sensitivities
-
-######################## DONE
-# BelGrazProb          = [0, 1, 0.90, 0.80, 0.70, 0.60, 0.50]
-# BelGrazPerc          = [0, 0.2]
-# BelGrazThreshold     = [0, 0.0667616]
-# BelGrazAlpha         = [0, 1, 1.25]
-# BelGrazWindow        = [0, 10]
-######################## DONE
-
-######################## DONE
-# BelGrazProb          = [0, 1]
-# BelGrazPerc          = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.30, 0.35, 0.40]
-# BelGrazThreshold     = [0, 0.0667616]
-# BelGrazAlpha         = [0, 1, 1.25]
-# BelGrazWindow        = [0, 10]
-######################## DONE
-
-######################## DONE
-# BelGrazProb          = [0, 1]
-# BelGrazPerc          = [0, 0.2]
-# BelGrazThreshold     = [0, 0.0667616]
-# BelGrazAlpha         = [0, 1, 1.125, 1.25, 1.50, 2, 3]
-# BelGrazWindow        = [0, 10]
-######################## DONE
-
-######################## DONE
-# BelGrazProb          = [0, 1]
-# BelGrazPerc          = [0, 0.2]
-# BelGrazThreshold     = [0, 0.0667616]
-# BelGrazAlpha         = [0, 1, 1.25]
-# BelGrazWindow        = [0, 1, 5, 10, 20, 30, 60]
-######################## DONE
-
-######################## DONE
-# BelGrazProb          = [0, 1]
-# BelGrazPerc          = [0, 0.2]
-# BelGrazThreshold     = [0, 0.04673312, 0.05340928, 0.06008544, 0.06676160, 0.07343776, 0.08011392, 0.08679008]
-# BelGrazAlpha         = [0, 1, 1.25]
-# BelGrazWindow        = [0, 30]
-######################## DONE
+BelGrazProb      = [0]
+BelGrazPerc      = [0]
+BelGrazThreshold = [0]
+BelGrazAlpha     = [0]
+BelGrazWindow    = [0]
 
 # Catastrophic disturbance
 
-# DisturbanceMortality   = [0, 0.75]
-# DisturbanceWeek        = [0, 20]
+DisturbanceMortality   = [0]
+DisturbanceWeek        = [0]
 
-DisturbanceMortality = [0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1]
-DisturbanceWeek      = [0, 20, 21]
-
-# Seed bank
-SeedLongevity          = [1, 3] # Number of years a seed can theoretically persist within the seed bank
+SeedLongevity          = [1] # Number of years a seed can theoretically persist within the seed bank
 
 # Seed introduction
-SeedRainType           = [1]
-SeedInput              = [20]
+SeedRainType           = [0]
+SeedInput              = [0]
 
 ##########################################
 ### Permutable list...
@@ -231,6 +183,9 @@ PFT_HEADER = "Species AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat 
 ####################################################################
 
 def buildBatchScripts(SimFile):
+
+    print("Number of simulations: " + str(len(SimFile)))
+
     sims_per_core = int( math.ceil( len(SimFile)/float(N_SLOTS) ) )
     sim_files = []
     for core in xrange(1, N_SLOTS+1): # one new SimFile for each core

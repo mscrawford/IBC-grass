@@ -54,7 +54,7 @@ public:
     void BelowComp();
 
     //portion cell resources the plant is gaining
-    double prop_res(const std::string type, const int layer, const int version) const;
+    double prop_res(const std::weak_ptr<Plant> & p, const int layer, const int version) const;
 
 };
 

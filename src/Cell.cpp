@@ -135,7 +135,7 @@ void Cell::AboveComp()
     {
         auto plant = plant_ptr.lock();
 
-        comp_tot += plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, Parameters::parameters.stabilization);
+        comp_tot += plant->comp_coef(1, symm) * prop_res(plant, 1, Parameters::parameters.stabilization);
     }
 
     //2. distribute resources
@@ -144,7 +144,7 @@ void Cell::AboveComp()
         auto plant = plant_ptr.lock();
         assert(plant);
 
-        comp_c = plant->comp_coef(1, symm) * prop_res(plant->pft(), 1, Parameters::parameters.stabilization);
+        comp_c = plant->comp_coef(1, symm) * prop_res(plant, 1, Parameters::parameters.stabilization);
         plant->Auptake += AResConc * comp_c / comp_tot;
     }
 
@@ -179,7 +179,7 @@ void Cell::BelowComp()
         auto plant = plant_ptr.lock();
         assert(plant);
 
-        comp_tot += plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, Parameters::parameters.stabilization);
+        comp_tot += plant->comp_coef(2, symm) * prop_res(plant, 2, Parameters::parameters.stabilization);
     }
 
     //2. distribute resources
@@ -187,7 +187,7 @@ void Cell::BelowComp()
     {
         auto plant = plant_ptr.lock();
 
-        comp_c = plant->comp_coef(2, symm) * prop_res(plant->pft(), 2, Parameters::parameters.stabilization);
+        comp_c = plant->comp_coef(2, symm) * prop_res(plant, 2, Parameters::parameters.stabilization);
         plant->Buptake += BResConc * comp_c / comp_tot;
     }
 
@@ -196,8 +196,11 @@ void Cell::BelowComp()
 
 //---------------------------------------------------------------------------
 
-double Cell::prop_res(const string type, const int layer, const int version) const
+double Cell::prop_res(const std::weak_ptr<Plant> & focal_plant_ptr, const int layer, const int version) const
 {
+    auto const& focal_plant = focal_plant_ptr.lock();
+    const string type = focal_plant->pft();
+
     switch (version)
     {
     case 0:
@@ -230,6 +233,92 @@ double Cell::prop_res(const string type, const int layer, const int version) con
         {
             return PftNIndB.size() / (1.0 + PftNIndB.size());
         }
+        break;
+    case 3:
+        if (layer == 1)
+        {
+            double density = 1;
+
+            for (auto const& plant_ptr : AbovePlantList)
+            {
+                auto p = plant_ptr.lock();
+
+                if (p->plantID == focal_plant->plantID) continue;
+
+                double f_LMR_scaled = focal_plant->traits->LMR;
+                double p_LMR_scaled = p->traits->LMR;
+
+                double f_maxMass_scaled = focal_plant->traits->maxMass / 10000;
+                double p_maxMass_scaled = p->traits->maxMass / 10000;
+
+                double f_Gmax_scaled = focal_plant->traits->Gmax / 120;
+                double p_Gmax_scaled = p->traits->Gmax / 120;
+
+                double f_SLA_scaled = focal_plant->traits->SLA / 2;
+                double p_SLA_scaled = p->traits->SLA / 2;
+
+                double LMR_dist = f_LMR_scaled - p_LMR_scaled;
+                double maxMass_dist = f_maxMass_scaled - p_maxMass_scaled;
+                double Gmax_dist = f_Gmax_scaled - p_Gmax_scaled;
+                double SLA_dist = f_SLA_scaled - p_SLA_scaled;
+
+                double euclidean_distance = std::sqrt( pow(LMR_dist, 2) + pow(maxMass_dist, 2) + pow(Gmax_dist, 2) + pow(SLA_dist, 2) );
+                if (euclidean_distance > 0)
+                {
+                    density += 1 / euclidean_distance;
+                }
+                else
+                {
+                    density += 1;
+                }
+            }
+
+//            return 1 / std::sqrt(density);
+            return 1 / pow(density, 1/10);
+        }
+        else if (layer == 2)
+        {
+            double density = 1;
+
+            for (auto const& plant_ptr : BelowPlantList)
+            {
+                auto p = plant_ptr.lock();
+
+                if (p->plantID == focal_plant->plantID) continue;
+
+                double f_LMR_scaled = focal_plant->traits->LMR;
+                double p_LMR_scaled = p->traits->LMR;
+
+                double f_maxMass_scaled = focal_plant->traits->maxMass / 10000;
+                double p_maxMass_scaled = p->traits->maxMass / 10000;
+
+                double f_Gmax_scaled = focal_plant->traits->Gmax / 120;
+                double p_Gmax_scaled = p->traits->Gmax / 120;
+
+                double f_SLA_scaled = focal_plant->traits->SLA / 2;
+                double p_SLA_scaled = p->traits->SLA / 2;
+
+                double LMR_dist = f_LMR_scaled - p_LMR_scaled;
+                double maxMass_dist = f_maxMass_scaled - p_maxMass_scaled;
+                double Gmax_dist = f_Gmax_scaled - p_Gmax_scaled;
+                double SLA_dist = f_SLA_scaled - p_SLA_scaled;
+
+                double euclidean_distance = std::sqrt( pow(LMR_dist, 2) + pow(maxMass_dist, 2) + pow(Gmax_dist, 2) + pow(SLA_dist, 2) );
+                if (euclidean_distance > 0)
+                {
+                    density += 1 / euclidean_distance;
+                }
+                else
+                {
+                    density += 1;
+                }
+
+            }
+
+//            return 1 / std::sqrt(density);
+            return 1 / pow(density, 1/10);
+        }
+
         break;
     default:
         cerr << "CCell::prop_res() - wrong input";

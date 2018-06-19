@@ -13,7 +13,7 @@ enum CompMode { sym, asympart, asymtot };
  * version2: higher effects of intraspecific competition
  * version3: lower resource availability for intraspecific competition
  */
-enum stabilizationMode { version1, version2, version3 };
+enum stabilizationMode { version1, version2, version3, version4 };
 
 enum ITV_mode { off, on };
 
@@ -47,6 +47,7 @@ public:
      * 0 = no difference between intra- and interspecific competition
      * 1 = higher effects of intraspecific competition
      * 2 = lower resource availability for intraspecific competition
+     * 3 = trait-dependent negative density dependence
      */
     stabilizationMode stabilization;
 
