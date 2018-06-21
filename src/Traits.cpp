@@ -151,7 +151,7 @@ void Traits::varyTraits()
         dev = Environment::rng.getGaussian(0, Parameters::parameters.ITVsd);
         palat_ = palat + (palat * dev);
         SLA_ = SLA + (SLA * dev);
-    } while (dev < -1.0 || dev > 1.0 || palat_ < 0 || SLA_ < 0);
+    } while (dev < -1.0 || dev > 1.0 || palat_ < 0 || SLA_ < 0 || palat_ > 1 || SLA_ > 1);
     palat = palat_;
     SLA = SLA_;
 

@@ -36,9 +36,9 @@ else:
 ### Hyperparameters
 
 # For computing clusters
-PARALLEL = False         # IF SERIES THIS -> FALSE
+PARALLEL = True         # IF SERIES THIS -> FALSE
 N_SLOTS  = 300          # Number of cores to split between
-H_RT     = "80:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
+H_RT     = "30:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
 H_VMEM   = "1G"         # Memory for each simulation run
 
 # Frequency and type of output
@@ -51,19 +51,19 @@ trait_out = 0 # Print trait-level output:                       (0) No; (1) Yes
 community_out   = 1 # Print output about the environment, etc.  (0) No; (1) Yes
 
 # Number of repetitions 
-N_REPS    = 1
+N_REPS    = 50
 
 # Number of communities and what kind of PFTs to use
-N_COMS    = 25               # UNUSED WITH PAIRWISE INVASION CRITERION
+N_COMS    = 250               # UNUSED WITH PAIRWISE INVASION CRITERION
 PFT_type  = "THEORETICAL"   # "THEORETICAL" or "EMPIRICAL"
 
 ##########################################
 ### Environmental parameters
 
-IC_vers          = [3] # IBC-grass run mode -- Negative frequency dependence
+IC_vers          = [1, 3] # IBC-grass run mode -- Negative frequency dependence
 MODE             = [0] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
 N_PFTs           = [16] # UNUSED WITH PAIRWISE INVASION CRITERION
-ITVsd            = [0, 0.25]
+ITVsd            = [0, 0.1, 0.2, 0.3, 0.4, 0.5]
 Tmax             = [100]
 
 # Custom environment time series --- PLEASE ONLY SINGLE VALUES
