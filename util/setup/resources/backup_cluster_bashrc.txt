@@ -1,0 +1,75 @@
+# .bashrc (login shells via .bash_profile and interactive shells)
+
+# -----------------------------------------------------------------------------
+# defaults
+# -----------------------------------------------------------------------------
+
+[[ -f /etc/bashrc ]] && source /etc/bashrc
+
+# -----------------------------------------------------------------------------
+# aliases
+# -----------------------------------------------------------------------------
+
+if [[ $- == *i* ]] ; then
+  alias cp='cp -i'
+  alias mv='mv -i'
+  alias rm='rm -i --one-file-system'
+
+  alias ..='cd ..'
+  alias ...='cd ../..'
+
+  alias diff='colordiff -uBw'
+  alias grep='grep -I --color=auto --exclude-dir=.git --exclude-dir=.svn'
+  alias ls='ls --color=auto'
+  alias ll='ls -lh'
+  alias la='ll -a'
+  alias tree='tree -C'
+fi
+
+# -----------------------------------------------------------------------------
+# history
+# -----------------------------------------------------------------------------
+
+[[ $- == *i* ]] && shopt -s histappend
+
+function cleanup () {
+
+	rm -rf /work/crawford/*
+	rm -rf /home/crawford/*
+	echo "cleanup done"
+
+}
+
+function setup () {
+
+	module load gcc/4.9.2-2
+	unzip ~/IBC-grass.zip -d ~
+	mv ~/IBC-grass/* ~
+	rm -rf IBC-grass
+	rm -rf IBC-grass.zip
+	cd ~/Default
+	make clean
+	make
+	cd ~/data/in
+	chmod u+x ./queue.sh
+	cd ~
+	echo "setup done"
+
+}
+
+function run () {
+
+	module load gcc/4.9.2-2
+	cd ~/data/in
+	./queue.sh
+
+}	
+
+function pack () {
+
+	cd ~
+	tar -cvf data.tar *
+	gzip --fast data.tar
+	echo "packed"
+
+}

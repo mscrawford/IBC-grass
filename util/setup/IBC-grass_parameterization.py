@@ -37,8 +37,8 @@ else:
 
 # For computing clusters
 PARALLEL = True         # IF SERIES THIS -> FALSE
-N_SLOTS  = 300          # Number of cores to split between
-H_RT     = "80:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
+N_SLOTS  = 200          # Number of cores to split between
+H_RT     = "15:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
 H_VMEM   = "1G"         # Memory for each simulation run
 
 # Frequency and type of output
@@ -80,11 +80,11 @@ AbvGrazPerc      = [0.5]
 
 # Belowground grazing
 ######################## DONE
-BelGrazProb      = [0, 1]
-BelGrazPerc      = [0, 0.2]
-BelGrazThreshold = [0, 0.0667616]
-BelGrazAlpha     = [0, 1, 1.25]
-BelGrazWindow    = [0, 10]
+# BelGrazProb      = [0, 1]
+# BelGrazPerc      = [0, 0.2]
+# BelGrazThreshold = [0, 0.0667616]
+# BelGrazAlpha     = [0, 1, 1.25]
+# BelGrazWindow    = [0, 10]
 ######################## DONE
 
 # Sensitivities
@@ -106,6 +106,14 @@ BelGrazWindow    = [0, 10]
 ######################## DONE
 
 ######################## DONE
+BelGrazProb          = [0, 1]
+BelGrazPerc          = [0, 0.2]
+BelGrazThreshold     = [0, 0.04673312, 0.05340928, 0.06008544, 0.06676160, 0.07343776, 0.08011392, 0.08679008]
+BelGrazAlpha         = [0, 1, 1.25]
+BelGrazWindow        = [0, 30]
+######################## DONE
+
+######################## DONE
 # BelGrazProb          = [0, 1]
 # BelGrazPerc          = [0, 0.2]
 # BelGrazThreshold     = [0, 0.0667616]
@@ -121,24 +129,18 @@ BelGrazWindow    = [0, 10]
 # BelGrazWindow        = [0, 1, 5, 10, 20, 30, 60]
 ######################## DONE
 
-######################## DONE
-# BelGrazProb          = [0, 1]
-# BelGrazPerc          = [0, 0.2]
-# BelGrazThreshold     = [0, 0.04673312, 0.05340928, 0.06008544, 0.06676160, 0.07343776, 0.08011392, 0.08679008]
-# BelGrazAlpha         = [0, 1, 1.25]
-# BelGrazWindow        = [0, 30]
-######################## DONE
-
 # Catastrophic disturbance
 
-# DisturbanceMortality   = [0, 0.75]
-# DisturbanceWeek        = [0, 20]
+DisturbanceMortality   = [0, 0.75]
+DisturbanceWeek        = [0, 20]
 
-DisturbanceMortality = [0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1]
-DisturbanceWeek      = [0, 20, 21]
+# DisturbanceMortality = [0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1]
+# DisturbanceWeek      = [0, 20, 21]
 
 # Seed bank
-SeedLongevity          = [1, 3] # Number of years a seed can theoretically persist within the seed bank
+# SeedLongevity          = [1, 3] # Number of years a seed can theoretically persist within the seed bank
+
+SeedLongevity          = [1] # Number of years a seed can theoretically persist within the seed bank
 
 # Seed introduction
 SeedRainType           = [1]
@@ -232,6 +234,10 @@ PFT_HEADER = "Species AllocSeed LMR m0 MaxMass mSeed Dist pEstab Gmax SLA palat 
 
 def buildBatchScripts(SimFile):
     sims_per_core = int( math.ceil( len(SimFile)/float(N_SLOTS) ) )
+    
+    print("SimFile length: " + str(len(SimFile)))
+    print("sims_per_core:  " + str(sims_per_core))
+
     sim_files = []
     for core in xrange(1, N_SLOTS+1): # one new SimFile for each core
         i = 0
