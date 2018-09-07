@@ -36,7 +36,7 @@ else:
 ### Hyperparameters
 
 # For computing clusters
-PARALLEL = True         # IF SERIES THIS -> FALSE
+PARALLEL = False         # IF SERIES THIS -> FALSE
 N_SLOTS  = 200          # Number of cores to split between
 H_RT     = "15:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
 H_VMEM   = "1G"         # Memory for each simulation run
@@ -54,14 +54,14 @@ community_out   = 1 # Print output about the environment, etc.  (0) No; (1) Yes
 N_REPS    = 1
 
 # Number of communities and what kind of PFTs to use
-N_COMS    = 100           # UNUSED WITH PAIRWISE INVASION CRITERION
+N_COMS    = 1           # UNUSED WITH PAIRWISE INVASION CRITERION
 PFT_type  = "EMPIRICAL"   # "THEORETICAL" or "EMPIRICAL"
 
 ##########################################
 ### Environmental parameters
 
 IC_vers          = [1] # IBC-grass run mode -- Negative frequency dependence
-MODE             = [2] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance
+MODE             = [2] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance; (3) Eutrophication scenario
 N_PFTs           = [0] # UNUSED WITH PAIRWISE INVASION CRITERION
 ITVsd            = [0]
 Tmax             = [300]
@@ -72,7 +72,7 @@ SIGMA            = [0] # Variability with which the time series changes
 
 # Resource levels
 ARes             = [100]
-BRes             = [60, 90] # With belowground environmental variation, t his MUST be NA
+BRes             = [60] # With belowground environmental variation, t his MUST be NA
 
 # Aboveground grazing 
 AbvGrazProb      = [0.2]
@@ -80,11 +80,11 @@ AbvGrazPerc      = [0.5]
 
 # Belowground grazing
 ######################## DONE
-# BelGrazProb      = [0, 1]
-# BelGrazPerc      = [0, 0.2]
-# BelGrazThreshold = [0, 0.0667616]
-# BelGrazAlpha     = [0, 1, 1.25]
-# BelGrazWindow    = [0, 10]
+BelGrazProb      = [0, 1]
+BelGrazPerc      = [0, 0.2]
+BelGrazThreshold = [0, 0.0667616]
+BelGrazAlpha     = [0, 1, 1.25]
+BelGrazWindow    = [0, 10]
 ######################## DONE
 
 # Sensitivities
@@ -106,11 +106,11 @@ AbvGrazPerc      = [0.5]
 ######################## DONE
 
 ######################## DONE
-BelGrazProb          = [0, 1]
-BelGrazPerc          = [0, 0.2]
-BelGrazThreshold     = [0, 0.04673312, 0.05340928, 0.06008544, 0.06676160, 0.07343776, 0.08011392, 0.08679008]
-BelGrazAlpha         = [0, 1, 1.25]
-BelGrazWindow        = [0, 30]
+# BelGrazProb          = [0, 1]
+# BelGrazPerc          = [0, 0.2]
+# BelGrazThreshold     = [0, 0.04673312, 0.05340928, 0.06008544, 0.06676160, 0.07343776, 0.08011392, 0.08679008]
+# BelGrazAlpha         = [0, 1, 1.25]
+# BelGrazWindow        = [0, 30]
 ######################## DONE
 
 ######################## DONE
@@ -131,8 +131,11 @@ BelGrazWindow        = [0, 30]
 
 # Catastrophic disturbance
 
-DisturbanceMortality   = [0, 0.75]
-DisturbanceWeek        = [0, 20]
+DisturbanceMortality   = [0]
+DisturbanceWeek        = [0]
+
+EutrophicationIntensity = [0, 20, 40]
+EutrophicationDuration = [0, 1, 5, 10]
 
 # DisturbanceMortality = [0, 0.04, 0.08, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.36, 0.4, 0.44, 0.48, 0.52, 0.56, 0.6, 0.64, 0.68, 0.72, 0.76, 0.8, 0.84, 0.88, 0.92, 0.96, 1]
 # DisturbanceWeek      = [0, 20, 21]
@@ -166,6 +169,8 @@ base_params =  [IC_vers,
                 BelGrazWindow,
                 DisturbanceMortality,
                 DisturbanceWeek,
+                EutrophicationIntensity,
+                EutrophicationDuration,
                 SeedLongevity,
                 SeedRainType,
                 SeedInput]
@@ -221,6 +226,7 @@ SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
                 "BelGrazProb BelGrazPerc BelGrazThreshold " + \
                 "BelGrazAlpha BelGrazWindow " + \
                 "DisturbanceMortality DisturbanceWeek " + \
+                "EutrophicationIntensity EutrophicationDuration " + \
                 "SeedLongevity SeedRainType SeedInput " + \
                 "weekly individual_out population_out populationSurvival_out trait_out community_out NameInitFile\n"
 

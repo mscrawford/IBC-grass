@@ -102,6 +102,22 @@ void GridEnvir::OneWeek()
 {
 
     ResetWeeklyVariables(); // Clear ZOI data
+
+    if (Parameters::parameters.mode == eutrophication)
+    {
+
+        if (year == 100)
+        {
+            Parameters::parameters.meanBRes += Parameters::parameters.EutrophicationIntensity;
+            assert(Parameters::parameters.meanBRes < 100);
+        }
+        else if (year == year + Parameters::parameters.EutrophicationDuration)
+        {
+            Parameters::parameters.meanBRes -= Parameters::parameters.EutrophicationIntensity;
+        }
+
+    }
+
     SetCellResources();     // Restore/modulate cell resources
 
     CoverCells();          	// Calculate zone of influences (ZOIs)

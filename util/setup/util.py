@@ -8,6 +8,7 @@ class Base_Parameter():
         BelGrazProb, BelGrazPerc, BelGrazThreshold,
         BelGrazAlpha, BelGrazWindow,
         DisturbanceMortality, DisturbanceWeek,
+        EutrophicationIntensity, EutrophicationDuration, 
         SeedLongevity, 
         SeedRainType, SeedInput):
 
@@ -28,6 +29,8 @@ class Base_Parameter():
         self.BelGrazWindow = BelGrazWindow
         self.DisturbanceMortality = DisturbanceMortality
         self.DisturbanceWeek = DisturbanceWeek
+        self.EutrophicationIntensity = EutrophicationIntensity
+        self.EutrophicationDuration = EutrophicationDuration
         self.SeedLongevity = SeedLongevity
         self.SeedRainType = SeedRainType
         self.SeedInput = SeedInput
@@ -75,6 +78,13 @@ class Base_Parameter():
             raise Exception("Nonsensical or redundant parameterization")
 
 
+        if (self.EutrophicationIntensity > 0 and self.EutrophicationDuration == 0):
+            raise Exception("Nonsensical or redundant parameterization")
+
+        if (self.EutrophicationIntensity == 0 and self.EutrophicationDuration > 0):
+            raise Exception("Nonsensical or redundant parameterization")
+
+
     def toString(self):
         return " ".join(map(str, [self.IC_version, self.Mode, self.ITVsd, 
             self.Tmax, 
@@ -83,6 +93,7 @@ class Base_Parameter():
             self.AbvGrazProb, self.AbvGrazPerc, 
             self.BelGrazProb, self.BelGrazPerc, self.BelGrazThreshold, self.BelGrazAlpha, self.BelGrazWindow,
             self.DisturbanceMortality, self.DisturbanceWeek,
+            self.EutrophicationIntensity, self.EutrophicationDuration,
             self.SeedLongevity, self.SeedRainType, self.SeedInput]))
 
 

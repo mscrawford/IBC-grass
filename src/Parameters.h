@@ -17,7 +17,7 @@ enum stabilizationMode { version1, version2, version3 };
 
 enum ITV_mode { off, on };
 
-enum experimentType { communityAssembly, invasionCriterion, catastrophicDisturbance };
+enum experimentType { communityAssembly, invasionCriterion, catastrophicDisturbance, eutrophication };
 
 //---------------------------------------------------------------------------
 
@@ -101,6 +101,9 @@ public:
     int DisturbanceYear;
     int DisturbanceWeek;
     double DisturbanceMortality;
+
+    int EutrophicationIntensity;
+    int EutrophicationDuration;
 
     // Resource variation
     double Aampl;   // within year above-ground resource amplitude

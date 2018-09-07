@@ -26,6 +26,7 @@ Parameters::Parameters() :
         BelGrazProb(0), BelGrazPerc(0), BelGrazResidualPerc(0), BelGrazThreshold(0.0667616), BelGrazAlpha(1), BelGrazWindow(10),
         CutHeight(0), NCut(0),
         DisturbanceYear(100), DisturbanceWeek(20), DisturbanceMortality(0),
+        EutrophicationIntensity(0), EutrophicationDuration(0),
         Aampl(0), Bampl(0),
         SeedInput(0), SeedRainType(0)
 {

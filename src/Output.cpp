@@ -18,6 +18,7 @@ const vector<string> Output::parameter_header
          "AbvGrazProb", "AbvGrazPerc",
          "BelGrazProb", "BelGrazPerc", "BelGrazThreshold", "BelGrazAlpha", "BelGrazWindow",
          "DisturbanceMortality", "DisturbanceWeek",
+         "EutrophicationIntensity", "EutrophicationDuration",
          "SeedLongevity",
          "SeedRainType", "SeedInput"
     });
@@ -236,6 +237,8 @@ void Output::print_parameter()
     ss << Parameters::parameters.BelGrazWindow              << ", ";
     ss << Parameters::parameters.DisturbanceMortality       << ", ";
     ss << Parameters::parameters.DisturbanceWeek            << ", ";
+    ss << Parameters::parameters.EutrophicationIntensity       << ", ";
+    ss << Parameters::parameters.EutrophicationDuration            << ", ";
     ss << Parameters::parameters.SeedLongevity              << ", ";
     ss << Parameters::parameters.SeedRainType               << ", ";
     ss << Parameters::parameters.SeedInput						   ;

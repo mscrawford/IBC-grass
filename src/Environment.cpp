@@ -78,6 +78,8 @@ void Environment::GetSim(string data)
         >> Parameters::parameters.BelGrazWindow             // Belowground grazing: For sensitivity analysis of Belowground Grazing algorithm
         >> Parameters::parameters.DisturbanceMortality      // Catastrophic Disturbance: Percent of plant removal during Catastrophic Disturbance
         >> Parameters::parameters.DisturbanceWeek			// Catastrophic Disturbance: Week of the disturbance
+        >> Parameters::parameters.EutrophicationIntensity
+        >> Parameters::parameters.EutrophicationDuration
         >> Parameters::parameters.SeedLongevity             // Seed Bank: Number of years a seed can persist in the seed bank
         >> Parameters::parameters.SeedRainType              // Seed Rain: Off/On/Type
         >> Parameters::parameters.SeedInput					// Seed Rain: Number of seeds to input per SeedRain event
@@ -123,6 +125,9 @@ void Environment::GetSim(string data)
         {
             Parameters::parameters.mode = communityAssembly;
         }
+        break;
+    case 3:
+        Parameters::parameters.mode = eutrophication;
         break;
     default:
         cerr << "Invalid mode parameterization" << endl;
