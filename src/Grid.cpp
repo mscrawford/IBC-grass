@@ -16,11 +16,13 @@ Grid::Grid()
 {
     CellsInit();
 
-    ZOIBase = vector<int>(Parameters::parameters.getGridArea(), 0);
+    ZOIBase = vector<int>(
+                static_cast< vector<int>::size_type >(Parameters::parameters.getGridArea()),
+                0);
 
-    for (unsigned int i = 0; i < ZOIBase.size(); i++)
+    for (vector<int>::size_type i = 0; i < ZOIBase.size(); i++)
     {
-        ZOIBase[i] = i;
+        ZOIBase[i] = static_cast<int>(i);
     }
 
     sort(ZOIBase.begin(), ZOIBase.end(), CompareIndexRel);
@@ -581,7 +583,7 @@ void Grid::GrazingBelGr()
     const double alpha = Parameters::parameters.BelGrazAlpha;
 
     std::vector<double> rolling_mean;
-    vector<double>::size_type historySize = Parameters::parameters.BelGrazWindow; // in Weeks
+    vector<double>::size_type historySize = static_cast<vector<double>::size_type>( Parameters::parameters.BelGrazWindow ); // in Weeks
     if (Grid::below_biomass_history.size() > historySize)
     {
         rolling_mean = std::vector<double>(Grid::below_biomass_history.end() - historySize, Grid::below_biomass_history.end());
@@ -591,7 +593,7 @@ void Grid::GrazingBelGr()
         rolling_mean = std::vector<double>(Grid::below_biomass_history.begin(), Grid::below_biomass_history.end());
     }
 
-    double fn_o = Parameters::parameters.BelGrazPerc * ( accumulate(rolling_mean.begin(), rolling_mean.end(), 0) / rolling_mean.size() );
+    double fn_o = Parameters::parameters.BelGrazPerc * ( std::accumulate(rolling_mean.begin(), rolling_mean.end(), 0) / static_cast<int>( rolling_mean.size() ) );
 
     // Functional response
     if (bt - fn_o < bt * Parameters::parameters.BelGrazResidualPerc)

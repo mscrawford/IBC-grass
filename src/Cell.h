@@ -11,8 +11,8 @@ class Cell
 {
 
 public:
-    int x;
-    int y;
+    const int x;
+    const int y;
 
     double AResConc;  // above-ground resource availability
     double BResConc;  // below-ground resource availability
@@ -31,8 +31,7 @@ public:
     std::map<std::string, int> PftNIndA; // Plants covering the cell aboveground
     std::map<std::string, int> PftNIndB; // Plants covering the cell belowground
 
-    Cell(const unsigned int xx,
-         const unsigned int yy);
+    Cell(const int xx, const int yy);
 
     ~Cell();
 

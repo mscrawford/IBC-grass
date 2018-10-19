@@ -10,7 +10,7 @@ using namespace std;
 
 //-----------------------------------------------------------------------------
 
-Cell::Cell(const unsigned int xx, const unsigned int yy) :
+Cell::Cell(const int xx, const int yy) :
         x(xx), y(yy),
         AResConc(0), BResConc(0),
         aComp_weekly(0), bComp_weekly(0),

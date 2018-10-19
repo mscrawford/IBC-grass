@@ -26,9 +26,7 @@ class Seed
 
        Cell* getCell() { return cell; }
 
-       inline static bool GetSeedRemove(const std::unique_ptr<Seed> & s) {
-           return s->toBeRemoved;
-       };
+       inline static bool GetSeedRemove(const std::unique_ptr<Seed> & s) { return s->toBeRemoved; }
 };
 
 #endif

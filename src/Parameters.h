@@ -102,6 +102,8 @@ public:
     int DisturbanceWeek;
     double DisturbanceMortality;
 
+    int EutrophicationYear;
+    int EutrophicationWeek;
     int EutrophicationIntensity;
     int EutrophicationDuration;
 

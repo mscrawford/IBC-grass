@@ -58,11 +58,11 @@ public:
     void setupOutput(std::string parameter_fn, std::string trait_fn, std::string populationSurvival_fn, std::string population_fn, std::string individual_fn, std::string agg_fn);
     void cleanup();
 
-    void print_parameter(); // prints general parameterization data
-    void print_trait(); // prints the traits of each PFT
+    void print_parameter();                                                                                 // prints general parameterization data
+    void print_trait();                                                                                     // prints the traits of each PFT
     void print_populationSurvival_and_population(const std::vector< std::shared_ptr<Plant> > & PlantList); 	// prints PFT data
-    void print_individual(const std::vector< std::shared_ptr<Plant> > & PlantList); 			// prints individual data
-    void print_community(const std::vector< std::shared_ptr<Plant> > & PlantList);		// prints longitudinal data that's not just each PFT
+    void print_individual(const std::vector< std::shared_ptr<Plant> > & PlantList);                     	// prints individual data
+    void print_community(const std::vector< std::shared_ptr<Plant> > & PlantList);                          // prints longitudinal data that's not just each PFT
 
     std::map<std::string, Output::PFT_struct> buildPFT_map(const std::vector< std::shared_ptr<Plant> > & PlantList);
     double calculateShannon(const std::map<std::string, Output::PFT_struct> & _PFT_map);

@@ -52,7 +52,7 @@ Plant::Plant(const unique_ptr<Seed> & seed) :
  * Genet is the same as for plant
  */
 Plant::Plant(double _x, double _y, const std::shared_ptr<Plant> & plant) :
-        cell(NULL), mReproRamets(0), genet(plant->genet),
+        cell(nullptr), mReproRamets(0), genet(plant->genet),
         plantID(++staticID), x(_x), y(_y),
         age(0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
         isStressed(0), isDead(false), toBeRemoved(false),

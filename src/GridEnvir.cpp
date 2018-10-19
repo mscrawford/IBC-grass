@@ -26,7 +26,15 @@ void GridEnvir::InitInds()
     const int no_init_seeds = 10;
     const double estab = 1.0;
 
-    if (Parameters::parameters.mode == communityAssembly || Parameters::parameters.mode == catastrophicDisturbance)
+    if (Parameters::parameters.mode == invasionCriterion)
+    {
+        assert(Traits::pftTraitTemplates.size() == 2);
+
+        string resident = Traits::pftInsertionOrder[1];
+        InitSeeds(resident, no_init_seeds, estab);
+        PftSurvTime[resident] = 0;
+    }
+    else
     {
         // PFT Traits are read in GetSim()
         for (auto const& it : Traits::pftTraitTemplates)
@@ -35,14 +43,7 @@ void GridEnvir::InitInds()
             PftSurvTime[it.first] = 0;
         }
     }
-    else if (Parameters::parameters.mode == invasionCriterion)
-    {
-        assert(Traits::pftTraitTemplates.size() == 2);
 
-        string resident = Traits::pftInsertionOrder[1];
-        InitSeeds(resident, no_init_seeds, estab);
-        PftSurvTime[resident] = 0;
-    }
 }
 
 //-----------------------------------------------------------------------------
@@ -103,19 +104,17 @@ void GridEnvir::OneWeek()
 
     ResetWeeklyVariables(); // Clear ZOI data
 
-    if (Parameters::parameters.mode == eutrophication)
+    if (Parameters::parameters.mode == eutrophication && week == Parameters::parameters.EutrophicationWeek)
     {
 
-        if (year == 100)
+        if (year == Parameters::parameters.EutrophicationYear)
         {
             Parameters::parameters.meanBRes += Parameters::parameters.EutrophicationIntensity;
-            assert(Parameters::parameters.meanBRes < 100);
         }
-        else if (year == year + Parameters::parameters.EutrophicationDuration)
+        else if (year == Parameters::parameters.EutrophicationYear + Parameters::parameters.EutrophicationDuration)
         {
             Parameters::parameters.meanBRes -= Parameters::parameters.EutrophicationIntensity;
         }
-
     }
 
     SetCellResources();     // Restore/modulate cell resources
@@ -212,7 +211,7 @@ void GridEnvir::SeedRain()
     for (auto const& it : Traits::pftTraitTemplates)
     {
         auto pft_name = it.first;
-        double n;
+        int n;
 
         switch (Parameters::parameters.SeedRainType)
         {

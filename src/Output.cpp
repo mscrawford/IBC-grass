@@ -71,19 +71,17 @@ const vector<string> Output::individual_header
 
 struct Output::PFT_struct
 {
-        double Shootmass;
-        double Rootmass;
-        double Repro;
-        int Pop;
+    double Shootmass;
+    double Rootmass;
+    double Repro;
+    int Pop;
 
-        PFT_struct() {
-            Shootmass = 0;
-            Rootmass = 0;
-            Repro = 0;
-            Pop = 0;
-        }
-
-        ~PFT_struct(){}
+    PFT_struct() {
+        Shootmass = 0;
+        Rootmass = 0;
+        Repro = 0;
+        Pop = 0;
+    }
 };
 
 Output::Output() :
@@ -205,9 +203,9 @@ void Output::print_parameter()
     std::ostringstream ss;
 
     ss << Parameters::parameters.getSimID()					<< ", ";
-    ss << Environment::ComNr 							<< ", ";
-    ss << Environment::RunNr 							<< ", ";
-    ss << Traits::pftTraitTemplates.size()				<< ", ";
+    ss << Environment::ComNr                                << ", ";
+    ss << Environment::RunNr                                << ", ";
+    ss << Traits::pftTraitTemplates.size()                  << ", ";
     ss << Parameters::parameters.stabilization 				<< ", ";
     ss << Parameters::parameters.ITVsd 						<< ", ";
     ss << Parameters::parameters.Tmax 						<< ", ";
@@ -217,13 +215,13 @@ void Output::print_parameter()
         std::string invader 	= Traits::pftInsertionOrder[0];
         std::string resident 	= Traits::pftInsertionOrder[1];
 
-        ss << invader 									<< ", ";
-        ss << resident 									<< ", ";
+        ss << invader                                       << ", ";
+        ss << resident                                  	<< ", ";
     }
     else
     {
-        ss << "NA"	 									<< ", ";
-        ss << "NA"	 									<< ", ";
+        ss << "NA"                                      	<< ", ";
+        ss << "NA"                                      	<< ", ";
     }
 
     ss << Parameters::parameters.meanARes 					<< ", ";
@@ -237,8 +235,8 @@ void Output::print_parameter()
     ss << Parameters::parameters.BelGrazWindow              << ", ";
     ss << Parameters::parameters.DisturbanceMortality       << ", ";
     ss << Parameters::parameters.DisturbanceWeek            << ", ";
-    ss << Parameters::parameters.EutrophicationIntensity       << ", ";
-    ss << Parameters::parameters.EutrophicationDuration            << ", ";
+    ss << Parameters::parameters.EutrophicationIntensity    << ", ";
+    ss << Parameters::parameters.EutrophicationDuration     << ", ";
     ss << Parameters::parameters.SeedLongevity              << ", ";
     ss << Parameters::parameters.SeedRainType               << ", ";
     ss << Parameters::parameters.SeedInput						   ;
@@ -254,19 +252,19 @@ void Output::print_trait()
         std::ostringstream ss;
 
         ss << Parameters::parameters.getSimID()	<< ", ";
-        ss << it.first 						<< ", ";
-        ss << it.second->LMR 				<< ", ";
-        ss << it.second->m0 				<< ", ";
-        ss << it.second->maxMass 			<< ", ";
-        ss << it.second->seedMass 			<< ", ";
-        ss << it.second->dispersalDist 		<< ", ";
-        ss << it.second->SLA 				<< ", ";
-        ss << it.second->palat 				<< ", ";
-        ss << it.second->Gmax 				<< ", ";
-        ss << it.second->memory 			<< ", ";
-        ss << it.second->clonal 			<< ", ";
-        ss << it.second->meanSpacerlength 	<< ", ";
-        ss << it.second->sdSpacerlength 	       ;
+        ss << it.first                          << ", ";
+        ss << it.second->LMR                    << ", ";
+        ss << it.second->m0                     << ", ";
+        ss << it.second->maxMass                << ", ";
+        ss << it.second->seedMass               << ", ";
+        ss << it.second->dispersalDist          << ", ";
+        ss << it.second->SLA                    << ", ";
+        ss << it.second->palat                  << ", ";
+        ss << it.second->Gmax                   << ", ";
+        ss << it.second->memory                 << ", ";
+        ss << it.second->clonal                 << ", ";
+        ss << it.second->meanSpacerlength   	<< ", ";
+        ss << it.second->sdSpacerlength                ;
 
         print_row(ss, trait_stream);
     }
@@ -318,11 +316,11 @@ void Output::print_populationSurvival_and_population(const std::vector< std::sha
                 std::ostringstream s_ss;
 
                 s_ss << Parameters::parameters.getSimID()	<< ", ";
-                s_ss << it.first 						<< ", "; // PFT name
-                s_ss << Environment::year				<< ", ";
-                s_ss << it.second.Pop 					<< ", ";
-                s_ss << it.second.Shootmass 			<< ", ";
-                s_ss << it.second.Rootmass 					   ;
+                s_ss << it.first                        	<< ", "; // PFT name
+                s_ss << Environment::year               	<< ", ";
+                s_ss << it.second.Pop                   	<< ", ";
+                s_ss << it.second.Shootmass             	<< ", ";
+                s_ss << it.second.Rootmass              		   ;
 
                 print_row(s_ss, populationSurvival_stream);
             }
@@ -332,9 +330,10 @@ void Output::print_populationSurvival_and_population(const std::vector< std::sha
     // If one should print PFTs, do so.
     if (Parameters::parameters.population_out != 0 && (Environment::year == 99 ||
                                                        Environment::year == 101 ||
-                                                       Environment::year == 105 ||
-                                                       Environment::year == 125 ||
-                                                       Environment::year == 150))
+                                                       Environment::year == Environment::year + Parameters::parameters.EutrophicationDuration ||
+                                                       Environment::year == Environment::year + Parameters::parameters.EutrophicationDuration + 5 ||
+                                                       Environment::year == Environment::year + Parameters::parameters.EutrophicationDuration + 25 ||
+                                                       Environment::year == Environment::year + Parameters::parameters.EutrophicationDuration + 50))
 //    if (Parameters::params.PFT_out != 0)
     {
         // print each PFT
@@ -489,7 +488,7 @@ double Output::calculateShannon(const std::map<std::string, Output::PFT_struct> 
     {
         if (pft.second.Pop > 0)
         {
-            double propPFT = pft.second.Pop / (double) totalPop;
+            double propPFT = pft.second.Pop / static_cast<double>(totalPop);
             pi_map[pft.first] = propPFT * log(propPFT);
         }
     }
@@ -523,12 +522,12 @@ double Output::calculatePIE(const std::map<std::string, Output::PFT_struct> & _P
     {
         if (pft.second.Pop > 0)
         {
-            double propPFT = pft.second.Pop / (double) totalPop;
+            double propPFT = pft.second.Pop / static_cast<double>(totalPop);
             pi_map[pft.first] = pow(propPFT, 2.0);
         }
     }
 
-    double PIE_term_1 = totalPop / (double) (totalPop - 1);
+    double PIE_term_1 = totalPop / static_cast<double>(totalPop - 1);
 
     double PIE_term_2 = 1 - std::accumulate(pi_map.begin(), pi_map.end(), 0.0,
                                  [] (double s, const std::map<string, double>::value_type& p)
@@ -610,7 +609,7 @@ double Output::calculateBrayCurtis(const std::map<std::string, Output::PFT_struc
 
     int BC_abundance_sum = present_totalAbundance + past_totalAbundance;
 
-    return BC_distance_sum / (double) BC_abundance_sum;
+    return BC_distance_sum / static_cast<double>(BC_abundance_sum);
 }
 
 std::map<std::string, double> Output::calculateMeanTraits(const std::vector< std::shared_ptr<Plant> > & PlantList)
