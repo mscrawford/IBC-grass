@@ -8,7 +8,8 @@ class Base_Parameter():
         BelGrazProb, BelGrazPerc, BelGrazThreshold,
         BelGrazAlpha, BelGrazWindow,
         DisturbanceMortality, DisturbanceWeek,
-        EutrophicationIntensity, EutrophicationDuration, 
+        ExperimentDuration, EutrophicationIntensity,
+        AbvHerbExclusion, BelHerbExclusion,
         SeedLongevity, 
         SeedRainType, SeedInput):
 
@@ -29,60 +30,72 @@ class Base_Parameter():
         self.BelGrazWindow = BelGrazWindow
         self.DisturbanceMortality = DisturbanceMortality
         self.DisturbanceWeek = DisturbanceWeek
+        self.ExperimentDuration = ExperimentDuration
         self.EutrophicationIntensity = EutrophicationIntensity
-        self.EutrophicationDuration = EutrophicationDuration
+        self.AbvHerbExclusion = AbvHerbExclusion
+        self.BelHerbExclusion = BelHerbExclusion
         self.SeedLongevity = SeedLongevity
         self.SeedRainType = SeedRainType
         self.SeedInput = SeedInput
 
         if (self.Mode != 2 and (self.DisturbanceWeek > 0 or self.DisturbanceMortality > 0)):
-            raise Exception("Nonsensical or redundant parameterization")
+            raise Exception("Nonsensical parameterization")
 
 
         # Seed Senescence
         if (self.SeedLongevity == 0):
-            raise Exception("Nonsensical or redundant parameterization")
+            raise Exception("Nonsensical parameterization")
 
 
         # Seed Rain
         if (self.SeedRainType == 0 and self.SeedInput > 0):
-            raise Exception("Nonsensical or redundant parameterization")
+            raise Exception("Nonsensical parameterization")
 
         if(self.SeedRainType > 0 and self.SeedInput == 0):
-            raise Exception("Nonsensical or redundant parameterization")
+            raise Exception("Nonsensical parameterization")
 
 
         # Grazing aboveground
         if (self.AbvGrazProb == 0 and self.AbvGrazPerc > 0):
-            raise Exception("Nonsensical or redundant parameterization")
+            raise Exception("Nonsensical parameterization")
 
         if (self.AbvGrazProb > 0 and self.AbvGrazPerc == 0):
-            raise Exception("Nonsensical or redundant parameterization")
+            raise Exception("Nonsensical parameterization")
 
 
         # Grazing belowground
         if (self.BelGrazProb == 0 and \
                 (self.BelGrazPerc > 0 or self.BelGrazAlpha > 0 or self.BelGrazWindow > 0 or self.BelGrazThreshold > 0)):
-            raise Exception("Nonsensical or redundant parameterization")
+            raise Exception("Nonsensical parameterization")
 
         if (self.BelGrazProb > 0 and \
                 (self.BelGrazPerc == 0 or self.BelGrazAlpha == 0 or self.BelGrazWindow == 0 or self.BelGrazThreshold == 0)):
-            raise Exception("Nonsensical or redundant parameterization")
+            raise Exception("Nonsensical parameterization")
 
 
         # Catastrophic disturbance
         if (self.DisturbanceMortality > 0 and self.DisturbanceWeek == 0):
-            raise Exception("Nonsensical or redundant parameterization")
+            raise Exception("Nonsensical parameterization")
 
         if (self.DisturbanceMortality == 0 and self.DisturbanceWeek > 0):
-            raise Exception("Nonsensical or redundant parameterization")
+            raise Exception("Nonsensical parameterization")
 
 
-        if (self.EutrophicationIntensity > 0 and self.EutrophicationDuration == 0):
-            raise Exception("Nonsensical or redundant parameterization")
+        # Borstroem experiment
+        if (self.ExperimentDuration == 0 and self.EutrophicationIntensity > 0):
+            raise Exception("Nonsensical parameterization")
 
-        if (self.EutrophicationIntensity == 0 and self.EutrophicationDuration > 0):
-            raise Exception("Nonsensical or redundant parameterization")
+        if (self.ExperimentDuration == 0 and self.AbvHerbExclusion > 0):
+            raise Exception("Nonsensical parameterization")
+
+        if (self.AbvGrazProb == 0 and self.AbvHerbExclusion > 0):
+            raise Exception("Nonsensical parameterization")
+
+        if (self.ExperimentDuration == 0 and self.BelHerbExclusion > 0):
+            raise Exception("Nonsensical parameterization")
+
+        if (self.BelGrazProb == 0 and self.BelHerbExclusion > 0):
+            raise Exception("Nonsensical parameterization")
 
 
     def toString(self):
@@ -93,7 +106,9 @@ class Base_Parameter():
             self.AbvGrazProb, self.AbvGrazPerc, 
             self.BelGrazProb, self.BelGrazPerc, self.BelGrazThreshold, self.BelGrazAlpha, self.BelGrazWindow,
             self.DisturbanceMortality, self.DisturbanceWeek,
-            self.EutrophicationIntensity, self.EutrophicationDuration,
+            self.ExperimentDuration, 
+            self.EutrophicationIntensity, 
+            self.AbvHerbExclusion, self.BelHerbExclusion,
             self.SeedLongevity, self.SeedRainType, self.SeedInput]))
 
 

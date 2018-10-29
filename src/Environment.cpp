@@ -78,8 +78,10 @@ void Environment::GetSim(string data)
         >> Parameters::parameters.BelGrazWindow             // Belowground grazing: For sensitivity analysis of Belowground Grazing algorithm
         >> Parameters::parameters.DisturbanceMortality      // Catastrophic Disturbance: Percent of plant removal during Catastrophic Disturbance
         >> Parameters::parameters.DisturbanceWeek			// Catastrophic Disturbance: Week of the disturbance
+        >> Parameters::parameters.ExperimentDuration        // EutrophicationDuration: Number of years during which there is a higher BRes
         >> Parameters::parameters.EutrophicationIntensity   // EutrophicationIntensity: Number of belowground resource units added per week
-        >> Parameters::parameters.EutrophicationDuration    // EutrophicationDuration: Number of years during which there is a higher BRes
+        >> Parameters::parameters.AbvHerbExclusion
+        >> Parameters::parameters.BelHerbExclusion
         >> Parameters::parameters.SeedLongevity             // Seed Bank: Number of years a seed can persist in the seed bank
         >> Parameters::parameters.SeedRainType              // Seed Rain: Off/On/Type
         >> Parameters::parameters.SeedInput					// Seed Rain: Number of seeds to input per SeedRain event

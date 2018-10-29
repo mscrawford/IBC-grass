@@ -7,9 +7,9 @@
 #include <string>
 #include <memory>
 
-#include "Genet.h"
-#include "Parameters.h"
 #include "Traits.h"
+#include "Parameters.h"
+#include "Genet.h"
 
 static const double Pi = std::atan(1) * 4;
 

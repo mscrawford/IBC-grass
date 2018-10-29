@@ -4,7 +4,6 @@
 
 #include "Plant.h"
 #include "Environment.h"
-#include "Traits.h"
 
 using namespace std;
 
@@ -19,7 +18,7 @@ using namespace std;
 int Plant::staticID = 0;
 
 Plant::Plant(const unique_ptr<Seed> & seed) :
-        cell(NULL), mReproRamets(0), genet(),
+        cell(nullptr), mReproRamets(0), genet(),
         plantID(++staticID), x(0), y(0),
         age(0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
         isStressed(0), isDead(false), toBeRemoved(false),

@@ -18,7 +18,8 @@ const vector<string> Output::parameter_header
          "AbvGrazProb", "AbvGrazPerc",
          "BelGrazProb", "BelGrazPerc", "BelGrazThreshold", "BelGrazAlpha", "BelGrazWindow",
          "DisturbanceMortality", "DisturbanceWeek",
-         "EutrophicationIntensity", "EutrophicationDuration",
+         "ExperimentDuration", "EutrophicationIntensity",
+         "AbvHerbExclusion", "BelHerbExclusion",
          "SeedLongevity",
          "SeedRainType", "SeedInput"
     });
@@ -235,8 +236,10 @@ void Output::print_parameter()
     ss << Parameters::parameters.BelGrazWindow              << ", ";
     ss << Parameters::parameters.DisturbanceMortality       << ", ";
     ss << Parameters::parameters.DisturbanceWeek            << ", ";
+    ss << Parameters::parameters.ExperimentDuration         << ", ";
     ss << Parameters::parameters.EutrophicationIntensity    << ", ";
-    ss << Parameters::parameters.EutrophicationDuration     << ", ";
+    ss << Parameters::parameters.AbvHerbExclusion           << ", ";
+    ss << Parameters::parameters.BelHerbExclusion           << ", ";
     ss << Parameters::parameters.SeedLongevity              << ", ";
     ss << Parameters::parameters.SeedRainType               << ", ";
     ss << Parameters::parameters.SeedInput						   ;
@@ -329,11 +332,7 @@ void Output::print_populationSurvival_and_population(const std::vector< std::sha
 
     // If one should print PFTs, do so.
     if (Parameters::parameters.population_out != 0 && (Environment::year == 99 ||
-                                                       Environment::year == 101 ||
-                                                       Environment::year == Environment::year + Parameters::parameters.EutrophicationDuration ||
-                                                       Environment::year == Environment::year + Parameters::parameters.EutrophicationDuration + 5 ||
-                                                       Environment::year == Environment::year + Parameters::parameters.EutrophicationDuration + 25 ||
-                                                       Environment::year == Environment::year + Parameters::parameters.EutrophicationDuration + 50))
+                                                       Environment::year == Parameters::parameters.ExperimentStartYear + Parameters::parameters.ExperimentDuration - 1))
 //    if (Parameters::params.PFT_out != 0)
     {
         // print each PFT

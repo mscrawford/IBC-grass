@@ -4,8 +4,6 @@
 
 #include <vector>
 
-#include "Plant.h"
-
 class Plant;
 
 /*

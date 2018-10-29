@@ -104,14 +104,13 @@ void GridEnvir::OneWeek()
 
     ResetWeeklyVariables(); // Clear ZOI data
 
-    if (Parameters::parameters.mode == eutrophication && week == Parameters::parameters.EutrophicationWeek)
+    if (Parameters::parameters.mode == eutrophication && week == Parameters::parameters.ExperimentStartWeek)
     {
-
-        if (year == Parameters::parameters.EutrophicationYear)
+        if (year == Parameters::parameters.ExperimentStartYear)
         {
             Parameters::parameters.meanBRes += Parameters::parameters.EutrophicationIntensity;
         }
-        else if (year == Parameters::parameters.EutrophicationYear + Parameters::parameters.EutrophicationDuration)
+        else if (year == Parameters::parameters.ExperimentStartYear + Parameters::parameters.ExperimentDuration)
         {
             Parameters::parameters.meanBRes -= Parameters::parameters.EutrophicationIntensity;
         }

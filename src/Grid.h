@@ -35,7 +35,7 @@ protected:
     void ResetWeeklyVariables(); 		// Clears list of plants that cover each cell
     void SeedMortalityAge();			// Kills seeds that are too old
     void SeedMortalityWinter();			// Kills seeds that die over winter
-    void RunYearlyDisturbances();						// Calls grazing (Above- and Belowground), trampling, and other disturbances
+    void RunYearlyDisturbances();		// Calls grazing (Above- and Belowground), trampling, and other disturbances
     void RunSingletonDisturbance(); 	// Removes some percentage of total plants and seeds
     void GrazingAbvGr(); 				// Aboveground grazing
     void GrazingBelGr();				// Belowground grazing
@@ -46,7 +46,7 @@ protected:
 public:
     Cell** CellList;    								// array of pointers to CCell
     std::vector< std::shared_ptr<Plant> > PlantList;    // plant individuals
-    std::vector<int> below_biomass_history;
+    std::vector<double> below_biomass_history;
 
     Grid();
     ~Grid();
@@ -62,6 +62,7 @@ public:
     int GetNPlants();         	// number of living non-clonal plants
     int GetNSeeds();			// number of seeds
 
+    bool isDuringExperimentalWindow();
 };
 
 // vector of cell indices increasing in distance to grid center

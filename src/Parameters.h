@@ -102,10 +102,14 @@ public:
     int DisturbanceWeek;
     double DisturbanceMortality;
 
-    int EutrophicationYear;
-    int EutrophicationWeek;
+    int ExperimentStartYear;
+    int ExperimentStartWeek;
+    int ExperimentDuration;
+
     int EutrophicationIntensity;
-    int EutrophicationDuration;
+
+    bool AbvHerbExclusion;
+    bool BelHerbExclusion;
 
     // Resource variation
     double Aampl;   // within year above-ground resource amplitude
