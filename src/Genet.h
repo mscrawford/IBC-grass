@@ -3,6 +3,7 @@
 #define SRC_GENET_H_
 
 #include <vector>
+#include <memory>
 
 class Plant;
 

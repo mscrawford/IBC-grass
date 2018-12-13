@@ -62,7 +62,7 @@ public:
     int GetNPlants();         	// number of living non-clonal plants
     int GetNSeeds();			// number of seeds
 
-    bool isDuringExperimentalWindow();
+    bool isDuringOrAfterExperimentalWindow();
 };
 
 // vector of cell indices increasing in distance to grid center

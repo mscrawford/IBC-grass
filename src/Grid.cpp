@@ -448,12 +448,12 @@ void Grid::RunYearlyDisturbances()
     Grid::below_biomass_history.push_back(GetTotalBelowMass());
 
     if (Environment::rng.get01() < Parameters::parameters.AbvGrazProb &&
-            !(isDuringExperimentalWindow() && Parameters::parameters.AbvHerbExclusion)) {
+            !(isDuringOrAfterExperimentalWindow() && Parameters::parameters.AbvHerbExclusion)) {
         GrazingAbvGr();
     }
 
     if (Environment::rng.get01() < Parameters::parameters.BelGrazProb &&
-            !(isDuringExperimentalWindow() && Parameters::parameters.BelHerbExclusion)) {
+            !(isDuringOrAfterExperimentalWindow() && Parameters::parameters.BelHerbExclusion)) {
         GrazingBelGr();
     }
 
@@ -932,13 +932,13 @@ int Grid::GetNSeeds()
 }
 
 
-bool Grid::isDuringExperimentalWindow()
+bool Grid::isDuringOrAfterExperimentalWindow()
 {
 
     if (Parameters::parameters.mode == eutrophication)
     {
         if (Environment::year >= Parameters::parameters.ExperimentStartYear &&
-                Environment::year < Parameters::parameters.ExperimentStartYear + Parameters::parameters.ExperimentDuration) {
+                Environment::year < Parameters::parameters.ExperimentStartYear) {
             return true;
         }
     }

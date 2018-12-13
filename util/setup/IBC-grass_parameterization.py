@@ -36,26 +36,25 @@ else:
 ### Hyperparameters
 
 # For computing clusters
-PARALLEL = False         # IF SERIES THIS -> FALSE
+PARALLEL = True         # IF SERIES THIS -> FALSE
 N_SLOTS  = 400          # Number of cores to split between
-H_RT     = "48:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
+H_RT     = "20:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
 H_VMEM   = "1G"         # Memory for each simulation run
 
 # Frequency and type of output
 weekly    = 0 # Print output yearly (0) or weekly (1)?
 
 individual_out   = 0 # Print individual-level output?           (0) No; (1) Yes
-population_out   = 0 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
+population_out   = 1 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
 populationSurvival_out   = 0 # Print PFT-survival output:       (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
-trait_out = 0       # Print trait-level output:                       (0) No; (1) Yes
+trait_out = 1       # Print trait-level output:                 (0) No; (1) Yes
 community_out   = 1 # Print output about the environment, etc.  (0) No; (1) Yes
 
 # Number of repetitions 
 N_REPS    = 1
 
 # Number of communities and what kind of PFTs to use
-# N_COMS    = 20            # UNUSED WITH PAIRWISE INVASION CRITERION
-N_COMS    = 1            # UNUSED WITH PAIRWISE INVASION CRITERION
+N_COMS    = 20            # UNUSED WITH PAIRWISE INVASION CRITERION
 PFT_type  = "EMPIRICAL"   # "THEORETICAL" or "EMPIRICAL"
 
 ##########################################
@@ -65,7 +64,7 @@ IC_vers          = [1] # IBC-grass run mode -- Negative frequency dependence
 MODE             = [3] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance; (3) Eutrophication scenario
 N_PFTs           = [0] # UNUSED WITH PAIRWISE INVASION CRITERION
 ITVsd            = [0]
-Tmax             = [300]
+Tmax             = [500]
 
 # Custom environment time series --- PLEASE ONLY SINGLE VALUES
 ENV              = [0] # (0) Static environment; (1) IBC-grass uses custom environmental time series
@@ -73,7 +72,6 @@ SIGMA            = [0] # Variability with which the time series changes
 
 # Resource levels
 ARes             = [100]
-# BRes             = [60, 90] # With belowground environmental variation, this MUST be NA
 BRes             = [60] # With belowground environmental variation, this MUST be NA
 
 # Aboveground grazing 
@@ -84,31 +82,26 @@ AbvGrazPerc      = [0.5]
 BelGrazProb      = [1]
 BelGrazPerc      = [0.2]
 BelGrazThreshold = [0.0667616]
-
-    # BelGrazAlpha     = [1, 1.25]
-BelGrazAlpha     = [1]
+BelGrazAlpha     = [1, 1.25, 2]
 BelGrazWindow    = [10]
 
 # Seed bank
 SeedLongevity          = [1] # Number of years a seed can theoretically persist within the seed bank
 
 # Seed introduction
-SeedRainType           = [0]
-SeedInput              = [0]
-
-# SeedRainType           = [0, 1]
-# SeedInput              = [0, 2, 20]
+SeedRainType           = [1]
+SeedInput              = [20]
 
 # Experiment parameters
-ExperimentDuration  = [100]
+ExperimentDuration  = [200]
 
 # Catastrophic disturbance
 DisturbanceMortality   = [0]
 DisturbanceWeek        = [0]
 
 # Eutrophication
-# EutrophicationIntensity = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40]
-EutrophicationIntensity = [0, 40]
+# EutrophicationIntensity = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+EutrophicationIntensity = [0, 10, 20, 30]
 
 # Insecticide treatments
 AbvHerbExclusion = [0, 1]

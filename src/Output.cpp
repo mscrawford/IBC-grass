@@ -331,9 +331,9 @@ void Output::print_populationSurvival_and_population(const std::vector< std::sha
     }
 
     // If one should print PFTs, do so.
-    if (Parameters::parameters.population_out != 0 && (Environment::year == 99 ||
-                                                       Environment::year == Parameters::parameters.ExperimentStartYear + Parameters::parameters.ExperimentDuration - 1))
-//    if (Parameters::params.PFT_out != 0)
+    if (Parameters::parameters.population_out != 0 &&
+            (Environment::year == Parameters::parameters.ExperimentStartYear - 1 ||
+             Environment::year == Parameters::parameters.ExperimentStartYear + Parameters::parameters.ExperimentDuration - 1))
     {
         // print each PFT
         for (auto it : PFT_map)

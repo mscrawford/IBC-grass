@@ -128,8 +128,8 @@ void GridEnvir::OneWeek()
         RunYearlyDisturbances();  		// Grazing and disturbances
     }
 
-    if (Parameters::parameters.mode == catastrophicDisturbance 						// Catastrophic disturbance is on
-            && Environment::year == Parameters::parameters.DisturbanceYear 	// It is the disturbance year
+    if (Parameters::parameters.mode == catastrophicDisturbance 					// Catastrophic disturbance is on
+            && Environment::year == Parameters::parameters.DisturbanceYear      // It is the disturbance year
             && Environment::week == Parameters::parameters.DisturbanceWeek) 	// It is the disturbance week
     {
         RunSingletonDisturbance();
@@ -137,7 +137,11 @@ void GridEnvir::OneWeek()
 
     RemovePlants();    		// Remove decomposed plants and remove them from their genets
 
-    if (Parameters::parameters.SeedRainType > 0 && week == 21)
+    if (Parameters::parameters.SeedRainType > 0 &&
+            week == 21 &&
+            !(Parameters::parameters.mode == eutrophication &&
+              year >= Parameters::parameters.ExperimentStartYear &&
+              year < Parameters::parameters.ExperimentStartYear + Parameters::parameters.ExperimentDuration))
     {
         SeedRain();
     }
