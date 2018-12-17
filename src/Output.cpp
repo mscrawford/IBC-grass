@@ -333,6 +333,7 @@ void Output::print_populationSurvival_and_population(const std::vector< std::sha
     // If one should print PFTs, do so.
     if (Parameters::parameters.population_out != 0 &&
             (Environment::year == Parameters::parameters.ExperimentStartYear - 1 ||
+             Environment::year == Parameters::parameters.ExperimentStartYear + 5 ||
              Environment::year == Parameters::parameters.ExperimentStartYear + Parameters::parameters.ExperimentDuration - 1))
     {
         // print each PFT
@@ -366,6 +367,13 @@ void Output::print_populationSurvival_and_population(const std::vector< std::sha
 
 void Output::print_individual(const std::vector< std::shared_ptr<Plant> > & PlantList)
 {
+    if (!(Environment::year == Parameters::parameters.ExperimentStartYear - 1 ||
+            Environment::year == Parameters::parameters.ExperimentStartYear + 5 ||
+            Environment::year == Parameters::parameters.ExperimentStartYear + Parameters::parameters.ExperimentDuration - 1))
+    {
+        return;
+    }
+
     for (auto const& p : PlantList)
     {
         if (p->isDead) continue;

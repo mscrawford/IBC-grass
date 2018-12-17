@@ -140,7 +140,6 @@ void GridEnvir::OneWeek()
     if (Parameters::parameters.SeedRainType > 0 &&
             week == 21 &&
             !(Parameters::parameters.mode == eutrophication &&
-              year >= Parameters::parameters.ExperimentStartYear &&
               year < Parameters::parameters.ExperimentStartYear + Parameters::parameters.ExperimentDuration))
     {
         SeedRain();

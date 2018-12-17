@@ -448,12 +448,12 @@ void Grid::RunYearlyDisturbances()
     Grid::below_biomass_history.push_back(GetTotalBelowMass());
 
     if (Environment::rng.get01() < Parameters::parameters.AbvGrazProb &&
-            !(isDuringOrAfterExperimentalWindow() && Parameters::parameters.AbvHerbExclusion)) {
+            !(isDuringExperimentalWindow() && Parameters::parameters.AbvHerbExclusion)) {
         GrazingAbvGr();
     }
 
     if (Environment::rng.get01() < Parameters::parameters.BelGrazProb &&
-            !(isDuringOrAfterExperimentalWindow() && Parameters::parameters.BelHerbExclusion)) {
+            !(isDuringExperimentalWindow() && Parameters::parameters.BelHerbExclusion)) {
         GrazingBelGr();
     }
 
@@ -768,15 +768,11 @@ void Grid::SetCellResources()
         cell->SetResource(
                 max(0.0,
                         (-1.0) * Parameters::parameters.Aampl
-                                * cos(
-                                        2.0 * Pi * gweek
-                                                / double(Environment::WeeksPerYear))
+                                * cos(2.0 * Pi * gweek / double(Environment::WeeksPerYear))
                                 + Parameters::parameters.meanARes),
                 max(0.0,
                         Parameters::parameters.Bampl
-                                * sin(
-                                        2.0 * Pi * gweek
-                                                / double(Environment::WeeksPerYear))
+                                * sin(2.0 * Pi * gweek / double(Environment::WeeksPerYear))
                                 + Parameters::parameters.meanBRes));
     }
 }
@@ -932,13 +928,13 @@ int Grid::GetNSeeds()
 }
 
 
-bool Grid::isDuringOrAfterExperimentalWindow()
+bool Grid::isDuringExperimentalWindow()
 {
 
     if (Parameters::parameters.mode == eutrophication)
     {
         if (Environment::year >= Parameters::parameters.ExperimentStartYear &&
-                Environment::year < Parameters::parameters.ExperimentStartYear) {
+                Environment::year < Parameters::parameters.ExperimentStartYear + Parameters::parameters.ExperimentDuration) {
             return true;
         }
     }
