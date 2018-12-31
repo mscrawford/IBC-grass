@@ -82,7 +82,7 @@ AbvGrazPerc      = [0.5]
 BelGrazProb      = [1]
 BelGrazPerc      = [0.1]
 BelGrazThreshold = [0.0667616]
-BelGrazAlpha     = [1, 1.25, 1.5, 2, 3, 4]
+BelGrazAlpha     = [1, 1.25, 1.5, 1.75, 2]
 BelGrazWindow    = [10]
 
 # Seed bank

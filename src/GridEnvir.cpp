@@ -137,10 +137,7 @@ void GridEnvir::OneWeek()
 
     RemovePlants();    		// Remove decomposed plants and remove them from their genets
 
-    if (Parameters::parameters.SeedRainType > 0 &&
-            week == 21 &&
-            !(Parameters::parameters.mode == eutrophication &&
-              year < Parameters::parameters.ExperimentStartYear + Parameters::parameters.ExperimentDuration))
+    if (Parameters::parameters.SeedRainType > 0 && week == 21)
     {
         SeedRain();
     }

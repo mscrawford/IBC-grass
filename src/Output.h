@@ -72,8 +72,6 @@ public:
     std::map<std::string, double> calculateMeanTraits(const std::vector< std::shared_ptr<Plant> > & PlantList);
 
     // aggregated output
-    std::vector<double> BlwgrdGrazingPressure;
-    std::vector<double> ContemporaneousRootmassHistory;
     std::vector<double> TotalShootmass;
     std::vector<double> TotalRootmass;
     std::vector<double> TotalNonClonalPlants;

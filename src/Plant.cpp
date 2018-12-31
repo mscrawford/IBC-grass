@@ -20,11 +20,13 @@ int Plant::staticID = 0;
 Plant::Plant(const unique_ptr<Seed> & seed) :
         cell(nullptr), mReproRamets(0), genet(),
         plantID(++staticID), x(0), y(0),
-        age(0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
+        age(0), mRepro(0),
+        startingShootmass(0), startingRootmass(0), startingRepro(0),
+        startingRadiusShoot(0), startingRadiusRoot(0),
+        Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
         isStressed(0), isDead(false), toBeRemoved(false),
         spacerLengthToGrow(0)
 {
-
     traits = Traits::copyTraitSet(seed->traits);
 
     if (Parameters::parameters.ITV == on) {
@@ -53,7 +55,10 @@ Plant::Plant(const unique_ptr<Seed> & seed) :
 Plant::Plant(double _x, double _y, const std::shared_ptr<Plant> & plant) :
         cell(nullptr), mReproRamets(0), genet(plant->genet),
         plantID(++staticID), x(_x), y(_y),
-        age(0), mRepro(0), Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
+        age(0), mRepro(0),
+        startingShootmass(0), startingRootmass(0), startingRepro(0),
+        startingRadiusShoot(0), startingRadiusRoot(0),
+        Ash_disc(0), Art_disc(0), Auptake(0), Buptake(0),
         isStressed(0), isDead(false), toBeRemoved(false),
         spacerLengthToGrow(0)
 {
@@ -83,6 +88,13 @@ void Plant::weeklyReset()
     Buptake = 0;
     Ash_disc = 0;
     Art_disc = 0;
+
+    startingShootmass = mShoot;
+    startingRootmass = mRoot;
+    startingRepro = mRepro;
+
+    startingRadiusShoot = Radius_shoot();
+    startingRadiusRoot = Radius_root();
 }
 
 //-----------------------------------------------------------------------------

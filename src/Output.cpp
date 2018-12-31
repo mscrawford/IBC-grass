@@ -47,7 +47,6 @@ const vector<string> Output::population_header
 const vector<string> Output::community_header
     ({
          "SimID", "Year", "Week",
-         "FeedingPressure", "ContemporaneousRootmass",
          "Shannon", "PIE", "Richness", "BrayCurtisDissimilarity",
          "TotalAboveComp", "TotalBelowComp",
          "TotalShootmass", "TotalRootmass",
@@ -65,8 +64,12 @@ const vector<string> Output::individual_header
          "i_Gmax", "i_memory",
          "i_clonal", "i_meanSpacerlength", "i_sdSpacerlength",
          "i_genetID", "i_Age",
-         "i_mShoot", "i_mRoot", "i_rShoot", "i_rRoot",
-         "i_mRepro", "i_lifetimeFecundity",
+         "i_mShoot", "i_mRoot", "i_mRepro",
+         "i_mStartingShoot", "i_mStartingRoot", "i_mStartingRepro",
+         "i_rShoot", "i_rRoot",
+         "i_rStartingShoot", "i_rStartingRoot",
+         "i_uptakeRoot", "i_uptakeShoot",
+         "i_lifetimeFecundity",
          "i_stress"
     });
 
@@ -93,8 +96,6 @@ Output::Output() :
         individual_fn("data/out/individual.txt"),
         community_fn("data/out/community.txt")
 {
-    BlwgrdGrazingPressure = { 0 };
-    ContemporaneousRootmassHistory = { 0 };
     TotalShootmass = { 0 };
     TotalRootmass = { 0 };
     TotalAboveComp = { 0 };
@@ -403,14 +404,22 @@ void Output::print_individual(const std::vector< std::shared_ptr<Plant> > & Plan
         ss << p->age 						<< ", ";
         ss << p->mShoot						<< ", ";
         ss << p->mRoot 						<< ", ";
+        ss << p->mRepro 					<< ", ";
+        ss << p->startingShootmass          << ", ";
+        ss << p->startingRootmass           << ", ";
+        ss << p->startingRepro              << ", ";
         ss << p->Radius_shoot() 			<< ", ";
         ss << p->Radius_root() 				<< ", ";
-        ss << p->mRepro 					<< ", ";
+        ss << p->startingRadiusShoot        << ", ";
+        ss << p->startingRadiusRoot         << ", ";
+        ss << p->Buptake                    << ", ";
+        ss << p->Auptake                    << ", ";
         ss << p->lifetimeFecundity 			<< ", ";
         ss << p->isStressed						   ;
 
         print_row(ss, individual_stream);
     }
+
 }
 
 void Output::print_community(const std::vector< std::shared_ptr<Plant> > & PlantList)
@@ -425,8 +434,6 @@ void Output::print_community(const std::vector< std::shared_ptr<Plant> > & Plant
     ss << Parameters::parameters.getSimID() 										<< ", ";
     ss << Environment::year															<< ", ";
     ss << Environment::week 														<< ", ";
-    ss << BlwgrdGrazingPressure.back()                                              << ", ";
-    ss << ContemporaneousRootmassHistory.back()                                 	<< ", ";
     ss << calculateShannon(PFT_map) 												<< ", ";
     ss << calculatePIE(PFT_map)                                                     << ", ";
     ss << calculateRichness(PFT_map)												<< ", ";

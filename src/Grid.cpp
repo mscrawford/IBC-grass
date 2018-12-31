@@ -292,7 +292,7 @@ void Grid::EstablishmentLottery()
      * than a reference to a shared_ptr, thus avoiding invalidation of the reference
      */
 
-    std::vector< shared_ptr<Plant>>::size_type original_size = PlantList.size();
+    std::vector< shared_ptr<Plant> >::size_type original_size = PlantList.size();
     for (std::vector< shared_ptr<Plant> >::size_type i = 0; i < original_size; ++i)
     {
         auto const& plant = PlantList[i];
@@ -602,9 +602,6 @@ void Grid::GrazingBelGr()
     {
         fn_o = bt - bt * Parameters::parameters.BelGrazResidualPerc;
     }
-
-    Environment::output.BlwgrdGrazingPressure.push_back(fn_o);
-    Environment::output.ContemporaneousRootmassHistory.push_back(bt);
 
     double fn = fn_o;
     double t_br = 0; // total biomass removed

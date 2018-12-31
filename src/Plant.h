@@ -44,6 +44,13 @@ public:
     double mRepro;    			// reproductive mass (converted to a discrete number of seeds)
     int lifetimeFecundity = 0; 	// The total accumulation of seeds
 
+    double startingShootmass;
+    double startingRootmass;
+    double startingRepro;
+
+    double startingRadiusShoot;
+    double startingRadiusRoot;
+
     int Ash_disc; 				// discrete above-ground ZOI area
     int Art_disc; 				// discrete below-ground ZOI area
 
