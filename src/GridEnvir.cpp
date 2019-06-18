@@ -23,7 +23,7 @@ void GridEnvir::InitRun()
 
 void GridEnvir::InitInds()
 {
-    const int no_init_seeds = 10;
+    const int no_init_seeds = 190;
     const double estab = 1.0;
 
     if (Parameters::parameters.mode == invasionCriterion)
@@ -137,7 +137,10 @@ void GridEnvir::OneWeek()
 
     RemovePlants();    		// Remove decomposed plants and remove them from their genets
 
-    if (Parameters::parameters.SeedRainType > 0 && week == 21)
+    if (Parameters::parameters.SeedRainType > 0 &&
+            week == 21 &&
+            !(Parameters::parameters.mode == SimNet &&
+              year > Parameters::parameters.ExperimentStartYear))
     {
         SeedRain();
     }

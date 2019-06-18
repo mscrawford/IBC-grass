@@ -131,6 +131,9 @@ void Environment::GetSim(string data)
     case 3:
         Parameters::parameters.mode = eutrophication;
         break;
+    case 4:
+        Parameters::parameters.mode = SimNet;
+        break;
     default:
         cerr << "Invalid mode parameterization" << endl;
         exit(1);

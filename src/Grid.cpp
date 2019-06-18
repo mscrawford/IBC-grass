@@ -305,7 +305,6 @@ void Grid::EstablishmentLottery()
 
     int w = Environment::week;
     if ( !( (w >= 1 && w < 5) || (w > 21 && w <= 25) ) ) // establishment is only between weeks 1-4 and 21-25
-//	if ( !( (w >= 1 && w < 5) || (w >= 21 && w < 25) ) ) // establishment is only between weeks 1-4 and 21-25
     {
         return;
     }

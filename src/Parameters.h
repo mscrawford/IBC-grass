@@ -17,7 +17,7 @@ enum stabilizationMode { version1, version2, version3 };
 
 enum ITV_mode { off, on };
 
-enum experimentType { communityAssembly, invasionCriterion, catastrophicDisturbance, eutrophication };
+enum experimentType { communityAssembly, invasionCriterion, catastrophicDisturbance, eutrophication, SimNet };
 
 //---------------------------------------------------------------------------
 

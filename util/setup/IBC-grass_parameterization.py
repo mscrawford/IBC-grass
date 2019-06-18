@@ -36,35 +36,35 @@ else:
 ### Hyperparameters
 
 # For computing clusters
-PARALLEL = True         # IF SERIES THIS -> FALSE
+PARALLEL = False         # IF SERIES THIS -> FALSE
 N_SLOTS  = 400          # Number of cores to split between
-H_RT     = "5:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
+H_RT     = "24:00:00"   # Maximum runtime for cluster simulations (08:00:00 = 8 hours)
 H_VMEM   = "1G"         # Memory for each simulation run
 
 # Frequency and type of output
 weekly    = 0 # Print output yearly (0) or weekly (1)?
 
-individual_out   = 1 # Print individual-level output?           (0) No; (1) Yes
+individual_out   = 0 # Print individual-level output?           (0) No; (1) Yes
 population_out   = 1 # Print PFT-level output:                  (0) No; (1) Yes, without repeating dead PFTs; (2) Yes, repeating dead PFTs
 populationSurvival_out   = 0 # Print PFT-survival output:       (0) No; (1) Yes !!!-> NOT COMPATIBLE WITH SEED ADDITION
 trait_out = 1       # Print trait-level output:                 (0) No; (1) Yes
 community_out   = 1 # Print output about the environment, etc.  (0) No; (1) Yes
 
 # Number of repetitions 
-N_REPS    = 1
+N_REPS    = 0
 
 # Number of communities and what kind of PFTs to use
-N_COMS    = 50            # UNUSED WITH PAIRWISE INVASION CRITERION
-PFT_type  = "EMPIRICAL"   # "THEORETICAL" or "EMPIRICAL"
+N_COMS    = 64          # UNUSED WITH PAIRWISE INVASION CRITERION
+PFT_type  = "SIM_NET"   # "THEORETICAL" or "EMPIRICAL" or "SIM_NET"
 
 ##########################################
 ### Environmental parameters
 
-IC_vers          = [1] # IBC-grass run mode -- Negative frequency dependence
-MODE             = [3] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance; (3) Eutrophication scenario
-N_PFTs           = [0] # UNUSED WITH PAIRWISE INVASION CRITERION
+IC_vers          = [0] # IBC-grass run mode -- Negative frequency dependence
+MODE             = [4] # (0) Community Assembly; (1) Invasion criterion; (2) Catastrophic disturbance; (3) Eutrophication scenario; (4) SimNet
+N_PFTs           = [1] # UNUSED WITH PAIRWISE INVASION CRITERION
 ITVsd            = [0]
-Tmax             = [300]
+Tmax             = [200]
 
 # Custom environment time series --- PLEASE ONLY SINGLE VALUES
 ENV              = [0] # (0) Static environment; (1) IBC-grass uses custom environmental time series
@@ -75,68 +75,36 @@ ARes             = [100]
 BRes             = [60] # With belowground environmental variation, this MUST be NA
 
 # Aboveground grazing 
-AbvGrazProb      = [0.2]
-AbvGrazPerc      = [0.5]
+AbvGrazProb      = [1]
+AbvGrazPerc      = [0.1]
 
 # Belowground grazing
-BelGrazProb      = [1]
-BelGrazPerc      = [0.1]
-BelGrazThreshold = [0.0667616]
-BelGrazAlpha     = [1, 1.25, 1.5, 1.75, 2]
-BelGrazWindow    = [10]
+BelGrazProb      = [0]
+BelGrazPerc      = [0]
+BelGrazThreshold = [0]
+BelGrazAlpha     = [0]
+BelGrazWindow    = [0]
 
 # Seed bank
 SeedLongevity          = [1] # Number of years a seed can theoretically persist within the seed bank
 
 # Seed introduction
 SeedRainType           = [1]
-SeedInput              = [20]
+SeedInput              = [10]
 
 # Experiment parameters
-ExperimentDuration  = [100]
+ExperimentDuration  = [0]
 
 # Catastrophic disturbance
 DisturbanceMortality   = [0]
 DisturbanceWeek        = [0]
 
 # Eutrophication
-EutrophicationIntensity = [0, 30]
+EutrophicationIntensity = [0]
 
 # Insecticide treatments
-AbvHerbExclusion = [0, 1]
-BelHerbExclusion = [0, 1]
-
-# Sensitivity analyses
-
-# BelGrazProb          = [0, 1, 0.90, 0.80, 0.70, 0.60, 0.50]
-# BelGrazPerc          = [0, 0.2]
-# BelGrazThreshold     = [0, 0.0667616]
-# BelGrazAlpha         = [0, 1, 1.25]
-# BelGrazWindow        = [0, 10]
-
-# BelGrazProb          = [0, 1]
-# BelGrazPerc          = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.30, 0.35, 0.40]
-# BelGrazThreshold     = [0, 0.0667616]
-# BelGrazAlpha         = [0, 1, 1.25]
-# BelGrazWindow        = [0, 10]
-
-# BelGrazProb          = [0, 1]
-# BelGrazPerc          = [0, 0.2]
-# BelGrazThreshold     = [0, 0.04673312, 0.05340928, 0.06008544, 0.06676160, 0.07343776, 0.08011392, 0.08679008]
-# BelGrazAlpha         = [0, 1, 1.25]
-# BelGrazWindow        = [0, 30]
-
-# BelGrazProb          = [0, 1]
-# BelGrazPerc          = [0, 0.2]
-# BelGrazThreshold     = [0, 0.0667616]
-# BelGrazAlpha         = [0, 1, 1.125, 1.25, 1.50, 2, 3]
-# BelGrazWindow        = [0, 10]
-
-# BelGrazProb          = [0, 1]
-# BelGrazPerc          = [0, 0.2]
-# BelGrazThreshold     = [0, 0.0667616]
-# BelGrazAlpha         = [0, 1, 1.25]
-# BelGrazWindow        = [0, 1, 5, 10, 20, 30, 60]
+AbvHerbExclusion = [0]
+BelHerbExclusion = [0]
 
 ##########################################
 ### Permutable list...
@@ -198,17 +166,6 @@ PFType_params = [[0.05], # AllocSeed
 ####################################################################
 #### Header strings
 ####################################################################
-
-# SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
-#                 "SimID ComNr IC_vers Mode ITVsd Tmax " + \
-#                 "Env Sigma " + \
-#                 "ARes BRes " + \
-#                 "AbvGrazProb AbvGrazPerc " + \
-#                 "BelGrazProb BelGrazPerc BelGrazThreshold " + \
-#                 "BelGrazAlpha BelGrazWindow " + \
-#                 "DisturbanceMortality DisturbanceWeek " + \
-#                 "SeedLongevity SeedRainType SeedInput " + \
-#                 "weekly individual_out population_out populationSurvival_out trait_out community_out NameInitFile\n"
 
 SIM_HEADER = "NRep " + str(N_REPS) + "\n" + \
                 "SimID ComNr IC_vers Mode ITVsd Tmax " + \
@@ -287,6 +244,7 @@ def buildPFTs():
 
     # Compose the superset of PFTs
     PFTs = []
+
     if (PFT_type == "THEORETICAL"):
         counter = 0
         for pft in itertools.product(*PFType_params):
@@ -302,16 +260,26 @@ def buildPFTs():
             [pft.pop(1) for pft in PFTs]
             PFTs = [" ".join(pft) for pft in PFTs]
 
+    elif (PFT_type == "SIM_NET"):
+        with open("./resources/SimNetCommunity.txt", "r") as r:
+            PFTs = r.read().splitlines()
+            PFTs.pop(0)
+            PFTs = [pft.split(' ') for pft in PFTs]
+            [pft.pop(1) for pft in PFTs]
+            PFTs = [" ".join(pft) for pft in PFTs]
+
     else:
         raise Exception("Wrong PFT type.")
 
     SimFile = [] # All the simulations go into one 'SimFile.' This is a list of strings.
-    ComNr = 0 
     SimNr = random.randint(0, 2147483647) # Used to join datasets
+    
+    for N_PFT in N_PFTs:
+        
+        ComNr = 0 
 
-    for s in xrange(1, N_COMS+1): # one SimNr per sample of PFTypes. 
-        for n in N_PFTs:
-            community = random.sample(PFTs, len(PFTs) if n == 0 else n)
+        for s in xrange(1, N_COMS+1): # one SimNr per sample of PFTypes. 
+            community = random.sample(PFTs, len(PFTs) if N_PFT == 0 else N_PFT)
             ComNr += 1
             Com_FN = "COM_" + str(ComNr) + ".txt"
 
@@ -335,11 +303,13 @@ def buildPFTs():
                     counter += 1
 
                     # This is critical. There can be no trailing newline on the end of the PFT file.
-                    if (community.index(p) != len(community)-1): 
+                    if (community.index(p) != len(community) - 1): 
                         w.write("\n")
 
-    return (SimFile)
+            if (PFT_type == "SIM_NET" and N_PFT == 64):
+                break
 
+    return (SimFile)
 
 ####################################################################
 #### Pairwise setup
@@ -389,7 +359,6 @@ def buildPairs():
 
     return (SimFile)
 
-
 ####################################################################
 #### MAIN
 ####################################################################
@@ -397,7 +366,8 @@ def buildPairs():
 if __name__ == "__main__":
     
     SimFile = []
-    if (MODE == 1):
+
+    if (MODE[0] == 1):
         SimFile = buildPairs()
     else:
         SimFile = buildPFTs()

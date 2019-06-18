@@ -17,7 +17,7 @@ Parameters::Parameters() :
         AboveCompMode(asympart), BelowCompMode(sym), stabilization(version1), mode(communityAssembly),
         Tmax_monoculture(10),
         ITV(off), ITVsd(0),
-        GridSize(141),
+        GridSize(350),
         Tmax(100),
         seedMortality(0.5), SeedLongevity(1), winterDieback(0.5), backgroundMortality(0.007), litterDecomp(0.5),
         meanARes(100), meanBRes(100),
